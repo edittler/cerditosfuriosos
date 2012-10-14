@@ -4,7 +4,7 @@
 #ifndef MUTEX_H_
 #define MUTEX_H_
 
-// POSIX Thread Library Includes
+// POSIX Threads Library Includes
 #include <pthread.h>
 
 class Mutex {
@@ -43,11 +43,11 @@ private:
 	/*******************************
 	 * PRIVATE METHODS MUTEX CLASS *
 	 *******************************/
-	/* Constructor copia privado de la clase Mutex */
+	/* Constructor copia privado. */
 	Mutex(const Mutex& m);
 
-	/* Operador de asignacion privado de la clase Mutex. */
+	/* Operador de asignacion privado. */
 	Mutex& operator=(const Mutex& otherInstance);
 };
 
-#endif /* MUTEX_H_ */
+#endif  /* MUTEX_H_ */
