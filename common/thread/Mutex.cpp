@@ -3,7 +3,7 @@
  */
 
 // Project Includes
-#include "../include/Mutex.h"
+#include "Mutex.h"
 
 Mutex::Mutex() {
 	// Inicializa el mutex POSIX Thread que encapsula.

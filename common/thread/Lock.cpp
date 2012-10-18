@@ -3,7 +3,7 @@
  */
 
 // Project Includes
-#include "../include/Lock.h"
+#include "Lock.h"
 
 Lock::Lock(Mutex& mutex):m(mutex) {
 	this->m.lock();
