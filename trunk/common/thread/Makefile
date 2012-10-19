@@ -1,4 +1,4 @@
-# Makefile de las dependencias de parseo
+# Makefile de las dependencias de Threads
 
 # CONFIGURACION
 ################
@@ -6,7 +6,7 @@
 CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
 
 # Flags para compilar con POSIX Threads
-#CXXFLAGS += -pthread -lpthread
+CXXFLAGS += -pthread -lpthread
 
 # Si la compilacion se ejecuta en modo DEBUG, agrego los flags correspondientes
 ifdef DEBUG
@@ -32,7 +32,6 @@ bin = $(archivos:.cpp=.o)
 
 # Archivos a limpiar
 robjs = $(wildcard *.o main test)
-
 
 # Descomentar para ver los mensajes del compilador
 #verbose = si

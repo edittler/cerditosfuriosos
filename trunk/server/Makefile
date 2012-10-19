@@ -1,33 +1,43 @@
-# Makefile
+# Makefile del Servidor
 
+# CONFIGURACION
+################
+# Instruccion make con flag para ocultar el salto a otros directorios.
 MAKE = make --no-print-directory
 
-CXXFLAGS = -pthread -lpthread
+# Nombre del ejecutable principal.
+main_target = main
 
+# Flags para el compilador C/C++ en modo ansi.
+CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
+
+# Flags para compilar con POSIX Threads
+CXXFLAGS += -pthread -lpthread
+
+# Si la compilacion se ejecuta en modo DEBUG, agrego los flags correspondientes
 ifdef DEBUG
 CXXFLAGS += -g -O0
 else
 CXXFLAS += -O3
 endif
 
-# EN ESTA VARIABLE VAN TODOS LOS DIRECTORIOS QUE QUIERAN COMPILAR PARA
-# USAR EN LA COMPILACION DEL MAIN
-SUBDIRS = ../common/parser
+# Subdirectorio de dependencias externas a compilar
+SUBDIRS = ../common/parser ../common/thread
 
-EXTERNOBJS = $(addsuffix .o, $(basename  $(wildcard */*.cpp)))
+# Declaracion de objetos externos
+EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))
 
-EXTERNOBJS += $(addsuffix .o, $(basename  $(wildcard ../comun/*.cpp)))
+# Compilador C++ a usar
+CXX = g++
 
-DOCDIRS = servidor MotorDeConsultas
-
-CC = g++
-
+# Inclusion de las cabeceras de los subdirectorios
 I-SUBDIRS = $(addprefix -I, $(SUBDIRS))
 
+# Binarios a generar
 bin = $(archivos:.cpp=.o)
 
-robjs = $(wildcard *.o main test)
-
+# Archivos a limpiar
+robjs = $(wildcard *.o $(main_target) test)
 
 # Descomentar para ver los mensajes del compilador
 #verbose = si
@@ -39,34 +49,35 @@ old := $(LD)
 ifdef verbose
 RM := $(RM) -v
 else
-CC =  @echo "  Compilando  $@"; $(occ)
-CXX = @echo "  CXX $@"; $(ocxx)
-RM =  @echo "  CLEAN"; $(orm)
-LD =  @echo "  LD  $@"; $(old)
+CC =       @echo "  Compilando  $@"; $(occ)
+CXX =      @echo "  Compilando  $@"; $(ocxx)
+CCDEPEND = @echo "  Compilando dependencias externas"
+RM =       @echo "  Limpiando"; $(orm)
+LD =       @echo "  LD  $@"; $(old)
 endif
 
-COMP_DEPEND = @echo "Compilar dependencias externas..."
-LIMPIAR = @echo "Limpiando..."
 
-#########################################
-
+# REGLAS
+#########
 
 all: main
 
 subdirs:
-	$(COMP_DEPEND); for dir in $(SUBDIRS); do \
+	$(CCDEPEND)	
+	@for dir in $(SUBDIRS); do \
 		$(MAKE) -C $$dir; \
 	done
 	
 main: subdirs
-	$(CC) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp -o main
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp -o $(main_target)
 
 test: subdirs
-	$(CC) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test
 
-clean: $(SUBDIRS)
-	$(LIMPIAR); for dir in $(SUBDIRS); do \
+clean: 
+	@for dir in $(SUBDIRS); do \
 		$(MAKE) clean -C $$dir; \
 	done
+	$(RM); rm -f $(robjs)
 	
 .PHONY: all
