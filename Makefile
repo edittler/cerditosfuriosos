@@ -1,14 +1,20 @@
-MSJ_DISENADOR = @echo "::::::Instalando Diseñador::::::"
-MSJ_CLIENTE = @echo "::::::Instalando Cliente::::::"
-MSJ_SERV = @echo "::::::Instalando Servidor::::::"
+# Makefile del proyecto "Cerditos Furiosos"
+# Genera los ejecutables de las 3 aplicaciones
 
-MSJ_ESP = @echo "..."
+# MENSAJES
+##########
 
-MSJ_DESINS = @echo "Desinstalando "
+MSJ_DISENADOR = @echo "::::::  Instalando Diseñador ::::::"
+MSJ_CLIENTE =   @echo "::::::  Instalando Cliente   ::::::"
+MSJ_SERV =      @echo "::::::  Instalando Servidor  ::::::"
+MSJ_ESP =       @echo "..."
+MSJ_DESINS =    @echo "Desinstalando"
+MSJ_CLEAN =     @echo "Limpiando archivos de compilacion"
+MSJ_DOCS =      @echo "Generando documentación..."
 
-MSJ_DOCS = @echo "Generando documentación..."
 
-
+# REGLAS
+#########
 all: install
 
 install: uninstall install_designer install_client install_server
@@ -16,7 +22,7 @@ install: uninstall install_designer install_client install_server
 install_designer:
 	$(MSJ_DISENADOR);mkdir Diseñador 
 	$(MSJ_ESP);cd designer; make --no-print-directory -s 
-	$(MSJ_ESP);cp designer/main Diseñador 
+	$(MSJ_ESP);cp -f designer/main Diseñador 
 
 	
 install_client:
@@ -33,6 +39,7 @@ install_server:
 
 doc:
 	$(MSJ_DOCS); doxygen doxyConfig
+
 
 debug:
 	rm -r -f DEBUG_RELEASE
@@ -65,5 +72,10 @@ uninstall:
 	$(MSJ_ESP);rm -f -r Cliente
 	$(MSJ_ESP);rm -f -r DEBUG_RELEASE
 
+clean:
+	$(MSJ_CLEAN)
+	@cd designer; make clean --no-print-directory -s
+	@cd client; make clean --no-print-directory -s
+	@cd server; make clean --no-print-directory -s
 
-.PHONY: all install	install_designer install_client install_server	uninstall debug doc
+.PHONY: all install install_designer install_client install_server uninstall clean debug doc
