@@ -17,23 +17,19 @@ typedef TiXmlDocument XMLDocument;
 // Redefinición del nombre de la Declaración XML
 typedef TiXmlDeclaration XMLDeclaration;
 
-// Redefinición del nombre del Nodo XML
+// Redefinición del nombre del Elemento XML
 typedef TiXmlElement XMLNode;
 
 // Redefinición del nombre del Atributo de Nodo XML
 typedef TiXmlAttribute XMLAtributte;
 
-// Redefinición del nombre del Atributo de Nodo XML
-typedef TiXmlAttribute XMLAtributte;
+// Redefinición del nombre del Texto XML
+typedef TiXmlText XMLText;
 
 // Redefinición del nombre del Comentario XML
 typedef TiXmlComment XMLComment;
 
-// Redefinición del nombre del Texto XML
-typedef TiXmlText XMLText;
-
 class XMLSerializacionException: public std::exception {
 };
-
 
 #endif  /* XMLTYPES_H_ */
