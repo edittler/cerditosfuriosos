@@ -17,6 +17,7 @@
 */
 
 #include <Box2D/Box2D.h>
+#include "Escenario.h"
 
 #include <cstdio>
 using namespace std;
@@ -28,6 +29,7 @@ using namespace std;
 // with your rendering engine in your game engine.
 int main(int argc, char** argv)
 {
+	Escenario unEscenario;
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 
