@@ -13,7 +13,7 @@ CajaMadera::CajaMadera() {
 }
 
 CajaMadera::CajaMadera(b2Body* body) {
-	this->body = body;
+	this->cuerpo = body;
 }
 
 CajaMadera::~CajaMadera() {

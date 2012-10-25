@@ -10,13 +10,14 @@
 
 #include "Box2D/Box2D.h"
 
-class Posicionable {
+class CuerpoAbstracto {
 protected:
-	b2Body* body;  // Cuerpo de Box2D que se encapsula
+	b2Body* cuerpo;  // Cuerpo de Box2D que se encapsula
+	unsigned int vida;  // Vida del cuerpo
 
 public:
-	Posicionable();
-	virtual ~Posicionable();
+	CuerpoAbstracto();
+	virtual ~CuerpoAbstracto();
 };
 
 #endif /* POSICIONABLE_H_ */
