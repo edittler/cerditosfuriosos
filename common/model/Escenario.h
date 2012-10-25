@@ -14,7 +14,7 @@
 // Project Includes
 #include "Serializable.h"
 #include "Box2D/Box2D.h"
-#include "Posicionable.h"
+#include "CuerpoAbstracto.h"
 
 /* Clase escenario. Contiene los objetos de la escena y ejecuta la simulacion.
  * Permite ser serializado e hidratado a partir de un nodo XML.
@@ -22,7 +22,7 @@
 class Escenario: public Serializable {
 private:
 	b2World* escenario;
-	std::list<Posicionable*> objetos;
+	std::list<CuerpoAbstracto*> objetos;
 
 public:
 	Escenario();

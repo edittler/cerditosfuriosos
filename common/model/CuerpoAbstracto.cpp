@@ -5,14 +5,14 @@
  *      Author: ezequiel
  */
 
-#include "Posicionable.h"
+#include "CuerpoAbstracto.h"
 
-Posicionable::Posicionable() {
+CuerpoAbstracto::CuerpoAbstracto() {
 	// TODO Auto-generated constructor stub
 
 }
 
-Posicionable::~Posicionable() {
+CuerpoAbstracto::~CuerpoAbstracto() {
 	// TODO Auto-generated destructor stub
 }
 

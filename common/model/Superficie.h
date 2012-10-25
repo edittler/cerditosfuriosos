@@ -8,9 +8,9 @@
 #ifndef SUPERFICIE_H_
 #define SUPERFICIE_H_
 
-#include "Posicionable.h"
+#include "CuerpoAbstracto.h"
 
-class Superficie: public Posicionable {
+class Superficie: public CuerpoAbstracto {
 public:
 	Superficie();
 	virtual ~Superficie();
