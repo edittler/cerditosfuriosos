@@ -16,3 +16,6 @@ CuerpoAbstracto::~CuerpoAbstracto() {
 	// TODO Auto-generated destructor stub
 }
 
+float CuerpoAbstracto::getVida() const {
+		return this->vida;
+}
