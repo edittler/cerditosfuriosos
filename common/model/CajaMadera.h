@@ -9,7 +9,6 @@
 #define CAJAMADERA_H_
 
 #include "Superficie.h"
-#include "Box2D/Box2D.h"
 
 class CajaMadera: public Superficie {
 public:

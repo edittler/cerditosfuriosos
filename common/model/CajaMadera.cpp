@@ -5,6 +5,8 @@
  *      Author: ezequiel
  */
 
+#include "CajaMadera.h"
+
 CajaMadera::CajaMadera() {
 	// TODO Auto-generated constructor stub
 

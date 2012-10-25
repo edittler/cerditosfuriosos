@@ -8,7 +8,7 @@
 #ifndef POSICIONABLE_H_
 #define POSICIONABLE_H_
 
-#include "CajaMadera.h"
+#include "Box2D/Box2D.h"
 
 class Posicionable {
 protected:

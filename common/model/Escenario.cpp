@@ -37,5 +37,6 @@ void Escenario::agregarCajaMadera(const unsigned int posX,
 	bodyDef.type = b2_staticBody;  // Indico que el objeto va a ser estatico.
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
-	Posicionable cajaMadera = new CajaMadera(body);
+	Posicionable* cajaMadera = new CajaMadera(body);
+	delete cajaMadera;
 }
