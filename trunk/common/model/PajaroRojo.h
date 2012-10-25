@@ -1,19 +1,19 @@
 /*
- * CajaMadera.h
+ * PajaroRojo.h
  *
- *  Created on: 24/10/2012
+ *  Created on: 25/10/2012
  *      Author: ezequiel
  */
 
-#ifndef CAJAMADERA_H_
-#define CAJAMADERA_H_
+#ifndef PAJAROROJO_H_
+#define PAJAROROJO_H_
 
-#include "Superficie.h"
+#include "Pajaro.h"
 
-class CajaMadera: public Superficie {
+class PajaroRojo: public Pajaro {
 public:
-	explicit CajaMadera(b2Body* body);
-	virtual ~CajaMadera();
+	explicit PajaroRojo(b2Body* body);
+	virtual ~PajaroRojo();
 
 	/**************************
 	 * DOUBLE DISPATCH METODS *
@@ -24,4 +24,4 @@ public:
 	void chocarCon(const PajaroRojo* pajaro);
 };
 
-#endif /* CAJAMADERA_H_ */
+#endif /* PAJAROROJO_H_ */
