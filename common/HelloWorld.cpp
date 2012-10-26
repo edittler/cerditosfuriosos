@@ -17,7 +17,6 @@
 */
 
 #include <Box2D/Box2D.h>
-#include "Escenario.h"
 
 #include <cstdio>
 using namespace std;
@@ -27,9 +26,8 @@ using namespace std;
 // box.
 // There are no graphics for this example. Box2D is meant to be used
 // with your rendering engine in your game engine.
-int main(int argc, char** argv)
+int maind(int argc, char** argv)
 {
-	Escenario unEscenario;
 	B2_NOT_USED(argc);
 	B2_NOT_USED(argv);
 

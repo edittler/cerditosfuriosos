@@ -8,11 +8,15 @@
 // Project Includes
 #include "Escenario.h"
 
+
 // Superficies Includes.
 #include "CajaMadera.h"
 
 // Pajaros Include.
 #include "PajaroRojo.h"
+
+// Disparos Include.
+#include "HuevoBlanco.h"
 
 Escenario::Escenario() {
 	// Defino el tiempo de duracion de 1 tick
@@ -57,18 +61,10 @@ void Escenario::hydrate(const XMLNode& nodo) {
 
 void Escenario::correrTick() {
 	this->escenario->Step(this->tiempoTick, 10, 8);
-}
-
-void Escenario::lanzarPajaroRojo(int posX, int posY, int velocidad,
-		int angulo) {
-	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((float32) posX, (float32) posY);
-	b2Body* body = this->escenario->CreateBody(&bodyDef);
-	// Creo el objeto CajaMadera y le paso el cuerpo de Box2D
-	CuerpoAbstracto* pajaroRojo = new PajaroRojo(body);
-	this->objetos.push_back(pajaroRojo);
+	std::list<CuerpoAbstracto*>::iterator it;
+	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
+		(*it)->printPosition();
+	}
 }
 
 void Escenario::agregarCajaMadera(const int posX, 	const int posY) {
@@ -82,11 +78,35 @@ void Escenario::agregarCajaMadera(const int posX, 	const int posY) {
 	this->objetos.push_back(cajaMadera);
 }
 
-void Escenario::limpiarCuerposMuertos() {
-	/* TODO Reimplementar usando la lista que contiene el escenario.
-	 * Hacer que la clase Escenario sea amiga de la clase CuerpoAbstracto
-	 * para que pueda acceder al body.
+void Escenario::lanzarPajaroRojo(int posX, int posY, int velX, int velY) {
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
 	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set((float32) posX, (float32) posY);
+	bodyDef.linearVelocity.Set(velX, velY);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+	// Creo el objeto PajaroRojo y le paso el cuerpo de Box2D
+	CuerpoAbstracto* pajaroRojo = new PajaroRojo(body);
+	this->objetos.push_back(pajaroRojo);
+}
+
+void Escenario::lanzarHuevoBlanco(int posX, int posY, int velX, int velY) {
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
+	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set((float32) posX, (float32) posY);
+	bodyDef.linearVelocity.Set(velX, velY);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
+	CuerpoAbstracto* huevoBlanco = new HuevoBlanco(body);
+	this->objetos.push_back(huevoBlanco);
+}
+
+void Escenario::limpiarCuerposMuertos() {
 	b2Body* node = this->escenario->GetBodyList();
 	while (node) {
 		b2Body* b = node;
@@ -96,4 +116,5 @@ void Escenario::limpiarCuerposMuertos() {
 			this->escenario->DestroyBody(b);
 		}
 	}
+	// TODO hay q limpiar en la lista de objetos del escenario tambien.
 }

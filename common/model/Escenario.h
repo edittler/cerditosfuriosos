@@ -43,16 +43,27 @@ public:
 
 	void correrTick();
 
-	/* Agrega un Pajaro Rojo al mundo y lo lanza.
+	/* Agrega una Caja de Madera al escenario.
+	 * @param posX posición del centro de masa en el eje X.
+	 * @param posY posición del centro de masa en el eje Y.
+	 */
+	void agregarCajaMadera(const int posX, const int posY);
+
+	/* Agrega un Pajaro Rojo al escenario y lo lanza.
 	 * @param posX posición inicial en el eje X.
 	 * @param posY posición inicial en el eje Y.
 	 * @param velocidad a la cual se va a realizar el lanzamiento.
 	 * @param angulo al cual se va a realizar el lanzamiento.
 	 */
-	void lanzarPajaroRojo(int posX, int posY, int velocidad, int angulo);
+	void lanzarPajaroRojo(int posX, int posY, int velX, int velY);
 
-	// Metodos para agregar superdicies
-	void agregarCajaMadera(const int posX, const int posY);
+	/* Agrega un Huevo Blanco al escenario y lo lanza.
+	 * @param posX posición inicial en el eje X.
+	 * @param posY posición inicial en el eje Y.
+	 * @param velocidad a la cual se va a realizar el lanzamiento.
+	 * @param angulo al cual se va a realizar el lanzamiento.
+	 */
+	void lanzarHuevoBlanco(int posX, int posY, int velX, int velY);
 
 private:
 	void limpiarCuerposMuertos();
