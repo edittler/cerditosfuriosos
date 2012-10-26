@@ -15,10 +15,23 @@
 #include "HuevoBlanco.h"
 
 PajaroRojo::PajaroRojo(b2Body* body) {
-	this->vida = 0.5;
+	// Defino los atributos de clase
 	this->cuerpo = body;
+	this->vida = 0.5;
+	this->danioCerdito = 1;
+	this->danioSuperficie = 0.5;
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
+	// Defino la forma del cuerpo
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(1.0f, 1.0f);
+	// Defino las propiedades del cuerpo
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+	fixtureDef.density = 0.8f;
+	fixtureDef.friction = 0.3f;
+	fixtureDef.restitution = 0.33f;
+	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
 PajaroRojo::~PajaroRojo() {

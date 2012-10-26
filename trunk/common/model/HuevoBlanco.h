@@ -12,7 +12,7 @@
 
 class HuevoBlanco: public Disparo {
 public:
-	HuevoBlanco();
+	explicit HuevoBlanco(b2Body* body);
 	virtual ~HuevoBlanco();
 
 	/**************************

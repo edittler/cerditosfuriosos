@@ -44,6 +44,8 @@ public:
 	 * @return true si el cuerpo esta vivo, false si esta muerto
 	 */
 	bool estaVivo() const;
+
+	void printPosition() const; // TODO PROVISORIO, BORRAR
 };
 
 #endif /* POSICIONABLE_H_ */
