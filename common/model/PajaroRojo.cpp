@@ -7,6 +7,7 @@
 
 // Header Include.
 #include "PajaroRojo.h"
+#include "Constantes.h"
 
 // Double Dispatch Includes.
 // SUPERFICIES
@@ -23,14 +24,14 @@ PajaroRojo::PajaroRojo(b2Body* body) {
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
+	b2CircleShape dynamicBox;
+	dynamicBox.m_radius = RADIO_PAJARO_ROJO;
 	// Defino las propiedades del cuerpo
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.8f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 0.33f;
+	fixtureDef.restitution = RESTITUCION_PAJARO_ROJO;
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
