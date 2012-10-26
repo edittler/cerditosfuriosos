@@ -4,7 +4,7 @@
  *  Created on: 24/10/2012
  *      Author: ezequiel
  */
-
+// Header Include.
 #include "CuerpoAbstracto.h"
 
 CuerpoAbstracto::CuerpoAbstracto() {
@@ -16,6 +16,8 @@ CuerpoAbstracto::~CuerpoAbstracto() {
 	// TODO Auto-generated destructor stub
 }
 
-float CuerpoAbstracto::getVida() const {
-		return this->vida;
+bool CuerpoAbstracto::estaVivo() const {
+	if (this->vida <= 0)
+		return false;
+	return true;
 }

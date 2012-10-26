@@ -11,16 +11,18 @@
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
 
-// Double dispatch Includes.
-// Superficies
-#include "CajaMadera.h"
-// Pajaros
-#include "PajaroRojo.h"
+// Double Dispatch Classes Forward Declaration
+// SUPERFICIES
+class CajaMadera;
+// PAJAROS
+class PajaroRojo;
+// DISPAROS
+class HuevoBlanco;
 
 class CuerpoAbstracto {
 protected:
-	b2Body* cuerpo;  // Cuerpo de Box2D que se encapsula
-	float vida;  // Vida del cuerpo
+	b2Body* cuerpo;  // Cuerpo de Box2D que se encapsula.
+	float vida;  // Vida del cuerpo.
 
 public:
 	CuerpoAbstracto();
@@ -35,7 +37,13 @@ public:
 	// PAJAROS
 	virtual void chocarCon(const PajaroRojo* pajaro) = 0;
 
-	float getVida() const;
+	// DISPAROS
+	virtual void chocarCon(const HuevoBlanco* huevo) = 0;
+
+	/* Retorna el estado del cuerpo
+	 * @return true si el cuerpo esta vivo, false si esta muerto
+	 */
+	bool estaVivo() const;
 };
 
 #endif /* POSICIONABLE_H_ */

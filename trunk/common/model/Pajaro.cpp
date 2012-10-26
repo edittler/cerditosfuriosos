@@ -12,6 +12,10 @@ Pajaro::Pajaro() {
 
 }
 
+Pajaro::~Pajaro() {
+	// TODO Auto-generated destructor stub
+}
+
 float Pajaro::getDanioCerdito() const {
 	return danioCerdito;
 }
@@ -19,8 +23,3 @@ float Pajaro::getDanioCerdito() const {
 float Pajaro::getDanioSuperficie() const {
 	return danioSuperficie;
 }
-
-Pajaro::~Pajaro() {
-	// TODO Auto-generated destructor stub
-}
-
