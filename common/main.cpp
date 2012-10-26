@@ -21,6 +21,9 @@ int main(int argc, char *argv[]) {
 	escena.lanzarPajaroRojo(5, 3, 20, 30);
 	escena.lanzarPajaroRojo(9, 3, -20, 30);
 
+	// restitucion - se calcula
+//	escena.lanzarPajaroRojo(5, 2, 0, -20);
+//	escena.lanzarPajaroRojo(10, 0.5, 0, 0);
 
 	for(int i = 0; i < 200; i++) {
 		escena.correrTick();
