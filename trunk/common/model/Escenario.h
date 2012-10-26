@@ -65,6 +65,8 @@ public:
 	 */
 	void lanzarHuevoBlanco(int posX, int posY, int velX, int velY);
 
+	void registrarContactListener(b2ContactListener* listener);
+
 private:
 	void limpiarCuerposMuertos();
 };

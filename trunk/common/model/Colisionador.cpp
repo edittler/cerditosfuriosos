@@ -7,6 +7,8 @@
 // Header Include.
 #include "Colisionador.h"
 
+#include <iostream> // FIXME borrar
+
 Colisionador::Colisionador() {
 	// TODO Auto-generated constructor stub
 
@@ -19,6 +21,7 @@ Colisionador::~Colisionador() {
 void Colisionador::BeginContact(b2Contact* contact) {
 	/* TODO estudiar funcionamiento e implementar en caso de que sea necesario
 	 */
+	std::cout << " *** CHOCARON ***" << std::endl;
 }
 
 void Colisionador::EndContact(b2Contact* contact) {

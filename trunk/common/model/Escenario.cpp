@@ -18,6 +18,9 @@
 // Disparos Include.
 #include "HuevoBlanco.h"
 
+
+#include "cmath" // FIXME borrar
+
 Escenario::Escenario() {
 	// Defino el tiempo de duracion de 1 tick
 	this->tiempoTick = 1.0f / 50.0f;  // 20 milisegundos
@@ -62,6 +65,7 @@ void Escenario::hydrate(const XMLNode& nodo) {
 void Escenario::correrTick() {
 	this->escenario->Step(this->tiempoTick, 10, 8);
 	std::list<CuerpoAbstracto*>::iterator it;
+	it = objetos.begin();
 	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
 		(*it)->printPosition();
 	}
@@ -104,6 +108,10 @@ void Escenario::lanzarHuevoBlanco(int posX, int posY, int velX, int velY) {
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
 	CuerpoAbstracto* huevoBlanco = new HuevoBlanco(body);
 	this->objetos.push_back(huevoBlanco);
+}
+
+void Escenario::registrarContactListener(b2ContactListener* listener) {
+	escenario->SetContactListener(listener);
 }
 
 void Escenario::limpiarCuerposMuertos() {

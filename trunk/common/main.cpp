@@ -6,16 +6,25 @@
  */
 #include <iostream>
 #include "model/Escenario.h"
+#include "model/Colisionador.h"
 
 int main(int argc, char *argv[]) {
 	Escenario escena;
-	escena.agregarCajaMadera(1,1);
-	escena.lanzarPajaroRojo(1, 2, 20, 0);
-	escena.lanzarHuevoBlanco(4, 2, -20, -2);
-	char c;
+	escena.registrarContactListener(new Colisionador());
+//	escena.agregarCajaMadera(1,1);
+
+	// choque en y de pajaro y huevo (en 4ta iteracion)
+	escena.lanzarPajaroRojo(10, 15, 0, -20);
+	escena.lanzarHuevoBlanco(10, 10, 0, 20);
+
+	// choque de dos pajaros (en 4ta iteracion)
+//	escena.lanzarPajaroRojo(5, 3, 20, 30);
+//	escena.lanzarPajaroRojo(10, 3, -20, 30);
+
+
 	for(int i = 0; i < 200; i++) {
 		escena.correrTick();
-		std::cin >> c;
+		getchar();
 	}
 
 	return 0;
