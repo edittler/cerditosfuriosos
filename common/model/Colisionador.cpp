@@ -4,7 +4,7 @@
  *  Created on: 25/10/2012
  *      Author: ezequiel
  */
-
+// Header Include.
 #include "Colisionador.h"
 
 Colisionador::Colisionador() {

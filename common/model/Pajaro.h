@@ -8,6 +8,7 @@
 #ifndef PAJARO_H_
 #define PAJARO_H_
 
+// Hierarchy Include.
 #include "CuerpoAbstracto.h"
 
 class Pajaro: public CuerpoAbstracto {

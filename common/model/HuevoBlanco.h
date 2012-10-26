@@ -1,20 +1,19 @@
 /*
- * CajaMadera.h
+ * HuevoBlanco.h
  *
- *  Created on: 24/10/2012
+ *  Created on: 26/10/2012
  *      Author: ezequiel
  */
 
-#ifndef CAJAMADERA_H_
-#define CAJAMADERA_H_
+#ifndef HUEVOBLANCO_H_
+#define HUEVOBLANCO_H_
 
-// Hierarchy Include.
-#include "Superficie.h"
+#include "Disparo.h"
 
-class CajaMadera: public Superficie {
+class HuevoBlanco: public Disparo {
 public:
-	explicit CajaMadera(b2Body* body);
-	virtual ~CajaMadera();
+	HuevoBlanco();
+	virtual ~HuevoBlanco();
 
 	/**************************
 	 * DOUBLE DISPATCH METODS *
@@ -29,4 +28,4 @@ public:
 	void chocarCon(const HuevoBlanco* huevo);
 };
 
-#endif /* CAJAMADERA_H_ */
+#endif /* HUEVOBLANCO_H_ */

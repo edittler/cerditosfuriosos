@@ -5,6 +5,7 @@
  *      Author: ezequiel
  */
 
+// Header Include.
 #include "Superficie.h"
 
 Superficie::Superficie() {
@@ -16,3 +17,6 @@ Superficie::~Superficie() {
 	// TODO Auto-generated destructor stub
 }
 
+int Superficie::getPuntosDestruccion() const {
+	return puntosDestruccion;
+}
