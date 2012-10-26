@@ -14,17 +14,17 @@ int main(int argc, char *argv[]) {
 //	escena.agregarCajaMadera(1,1);
 
 	// choque en y de pajaro y huevo (en 4ta iteracion)
-	escena.lanzarPajaroRojo(10, 15, 0, -20);
-	escena.lanzarHuevoBlanco(10, 10, 0, 20);
+//	escena.lanzarPajaroRojo(10, 15, 0, -20);
+//	escena.lanzarHuevoBlanco(10, 10, 0, 20);
 
-	// choque de dos pajaros (en 4ta iteracion)
-//	escena.lanzarPajaroRojo(5, 3, 20, 30);
-//	escena.lanzarPajaroRojo(10, 3, -20, 30);
+	// choque de dos pajaros (en 5ta iteracion)
+	escena.lanzarPajaroRojo(5, 3, 20, 30);
+	escena.lanzarPajaroRojo(9, 3, -20, 30);
 
 
 	for(int i = 0; i < 200; i++) {
 		escena.correrTick();
-		getchar();
+		getchar();  // tecla para continuar.
 	}
 
 	return 0;
