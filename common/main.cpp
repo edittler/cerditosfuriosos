@@ -10,8 +10,10 @@
 
 int main(int argc, char *argv[]) {
 	Escenario escena;
-
+	// Choque caja madera con pajaro y/o huevo
 //	escena.agregarCajaMadera(1,1);
+//	escena.lanzarPajaroRojo(1,3,0,-10);
+//	escena.lanzarHuevoBlanco(1,3,0,-10);
 
 	// choque en y de pajaro y huevo (en 4ta iteracion)
 	escena.lanzarPajaroRojo(10, 15, 0, -20);

@@ -19,6 +19,7 @@ public:
 	Superficie();
 	virtual ~Superficie();
 
+	void daniar(float danio);
 	int getPuntosDestruccion() const;
 };
 

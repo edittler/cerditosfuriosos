@@ -5,19 +5,11 @@
  *      Author: ezequiel
  */
 
-#ifndef POSICIONABLE_H_
-#define POSICIONABLE_H_
+#ifndef CUERPOABSTRACTO_H_
+#define CUERPOABSTRACTO_H_
 
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
-
-// Double Dispatch Classes Forward Declaration
-// SUPERFICIES
-class CajaMadera;
-// PAJAROS
-class PajaroRojo;
-// DISPAROS
-class HuevoBlanco;
 
 class CuerpoAbstracto {
 protected:
@@ -28,18 +20,6 @@ public:
 	CuerpoAbstracto();
 	virtual ~CuerpoAbstracto();
 
-	/**************************
-	 * DOUBLE DISPATCH METODS *
-	 **************************/
-	// SUPERFICIES
-	virtual void chocarCon(const CajaMadera* caja) = 0;
-
-	// PAJAROS
-	virtual void chocarCon(const PajaroRojo* pajaro) = 0;
-
-	// DISPAROS
-	virtual void chocarCon(const HuevoBlanco* huevo) = 0;
-
 	/* Retorna el estado del cuerpo
 	 * @return true si el cuerpo esta vivo, false si esta muerto
 	 */
@@ -48,4 +28,4 @@ public:
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 };
 
-#endif /* POSICIONABLE_H_ */
+#endif /* CUERPOABSTRACTO_H_ */
