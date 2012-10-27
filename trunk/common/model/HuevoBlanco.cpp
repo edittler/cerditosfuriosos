@@ -7,25 +7,24 @@
 
 // Header Include.
 #include "HuevoBlanco.h"
-#include "Constantes.h"
 
-// Double Dispatch Includes.
-// SUPERFICIES
-#include "CajaMadera.h"
-// PAJAROS
-#include "PajaroRojo.h"
+// Project Includes.
+#include "Constantes.h"
 
 HuevoBlanco::HuevoBlanco(b2Body* body) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
+	/* La vida de un huevo es irrelevante porque se destruye al chocar, pero
+	 * asigno un valor positivo distinto de 0 para considerarse un cuerpo vivo.
+	 */
 	this->vida = 1;
-	this->danioPajaro = 1;
-	this->danioSuperficie = 0.5;
+	this->danioPajaro = HB_DANIO_PAJARO;
+	this->danioSuperficie = HB_DANIO_SUPERFICIE;
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
 	b2CircleShape dynamicBox;
-	dynamicBox.m_radius = RADIO_HUEVO_BLANCO;
+	dynamicBox.m_radius = HB_RADIO;
 	// Defino las propiedades del cuerpo
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
@@ -39,25 +38,4 @@ HuevoBlanco::HuevoBlanco(b2Body* body) {
 
 HuevoBlanco::~HuevoBlanco() {
 	// TODO Auto-generated destructor stub
-}
-
-void HuevoBlanco::chocarCon(const CajaMadera* caja) {
-	/* Al chocar con superficies, el Huevo Blanco explota, provocando un daño
-	 * de 0.5 (cuyo calculo lo realiza la caja).
-	 */
-	this->vida = 0;
-	// TODO Implementar explosion en la vista y que luego desaparezca.
-}
-
-void HuevoBlanco::chocarCon(const PajaroRojo* pajaro) {
-	/* Al chocar con pajaros, genera un daño (cuyo calculo lo realiza el pajaro)
-	 * y se destruye.
-	 */
-	this->vida = 0;
-}
-
-void HuevoBlanco::chocarCon(const HuevoBlanco* huevo) {
-	/* Los huevos no se chocan entre si, pudiendo superponerse, por lo que no
-	 * realizo nada.
-	 */
 }

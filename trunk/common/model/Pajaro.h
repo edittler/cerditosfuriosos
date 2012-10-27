@@ -11,6 +11,9 @@
 // Hierarchy Include.
 #include "CuerpoAbstracto.h"
 
+// Forward Class Declaration
+class Superficie;
+
 class Pajaro: public CuerpoAbstracto {
 protected:
 	float danioCerdito;
@@ -19,6 +22,9 @@ protected:
 public:
 	Pajaro();
 	virtual ~Pajaro();
+
+	// Metodos de colisiones
+	void chocarCon(Superficie* superficie);
 
 	float getDanioCerdito() const;
 	float getDanioSuperficie() const;

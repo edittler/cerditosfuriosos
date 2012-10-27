@@ -14,18 +14,6 @@ class HuevoBlanco: public Disparo {
 public:
 	explicit HuevoBlanco(b2Body* body);
 	virtual ~HuevoBlanco();
-
-	/**************************
-	 * DOUBLE DISPATCH METODS *
-	 **************************/
-	// SUPERFICIES
-	void chocarCon(const CajaMadera* caja);
-
-	// PAJAROS
-	void chocarCon(const PajaroRojo* pajaro);
-
-	// DISPAROS
-	void chocarCon(const HuevoBlanco* huevo);
 };
 
 #endif /* HUEVOBLANCO_H_ */

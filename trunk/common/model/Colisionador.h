@@ -11,6 +11,9 @@
 // Box2D Library Includes.
 #include "Box2D/Dynamics/b2WorldCallbacks.h"
 
+// Project Includes.
+#include "CuerpoAbstracto.h"
+
 class Colisionador: public b2ContactListener {
 public:
 	Colisionador();
@@ -48,6 +51,9 @@ public:
 	 * sólido y despierto.
 	 */
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
+
+private:
+	void chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
 };
 
 #endif /* COLISIONADOR_H_ */

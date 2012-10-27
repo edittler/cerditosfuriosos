@@ -18,20 +18,20 @@
 PajaroRojo::PajaroRojo(b2Body* body) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
-	this->vida = 0.5;
-	this->danioCerdito = 1;
-	this->danioSuperficie = 0.5;
+	this->vida = PR_VIDA;
+	this->danioCerdito = PR_DANIO_CERDITO;
+	this->danioSuperficie = PR_DANIO_SUPERFICIE;
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
 	b2CircleShape dynamicBox;
-	dynamicBox.m_radius = RADIO_PAJARO_ROJO;
+	dynamicBox.m_radius = PR_RADIO;
 	// Defino las propiedades del cuerpo
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.8f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = RESTITUCION_PAJARO_ROJO;
+	fixtureDef.restitution = PR_RESTITUCION;
 	fixtureDef.filter.groupIndex = GROUP_PAJARO;
 	fixtureDef.filter.categoryBits = CATEGORY_PAJARO;
 	fixtureDef.filter.maskBits = MASK_PAJARO;
@@ -40,28 +40,4 @@ PajaroRojo::PajaroRojo(b2Body* body) {
 
 PajaroRojo::~PajaroRojo() {
 	// TODO Auto-generated destructor stub
-}
-
-void PajaroRojo::chocarCon(const CajaMadera* caja) {
-	/* Al chocar con la caja de madera, el pajaro no cambia su estado
-	 * salvo rebotar. El rebote sera manejado por Box2D.
-	 * El daño que le causa a la caja es calculado por ésta.
-	 */
-}
-
-void PajaroRojo::chocarCon(const PajaroRojo* pajaro) {
-	/* Los pajaros pueden superponerse normalmente, por lo que no realiza nada.
-	 */
-}
-
-void PajaroRojo::chocarCon(const HuevoBlanco* huevo) {
-	/* El huevo le genera un daño al pajaro, por lo que le resto la cantidad
-	 * de daño en la vida.
-	 */
-	this->vida -= huevo->getDanioPajaro();
-	/* Si la vida es menor o igual a 0, debo avisarle a la visa que lo elimine
-	 */
-	if (this->vida <= 0) {
-		// TODO Implementar que la vista elimine el objeto
-	}
 }
