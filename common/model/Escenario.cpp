@@ -76,39 +76,39 @@ void Escenario::correrTick() {
 	}
 }
 
-void Escenario::agregarCajaMadera(float posX, float posY) {
+void Escenario::agregarCajaMadera(Punto2D p) {
 	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
-	bodyDef.position.Set((float32) posX, (float32) posY);
+	bodyDef.position.Set(p.x, p.y);
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto CajaMadera y le paso el cuerpo de Box2D
 	CuerpoAbstracto* cajaMadera = new CajaMadera(body);
 	this->objetos.push_back(cajaMadera);
 }
 
-void Escenario::lanzarPajaroRojo(float posX, float posY, float velX, float velY) {
+void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((float32) posX, (float32) posY);
-	bodyDef.linearVelocity.Set(velX, velY);
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto PajaroRojo y le paso el cuerpo de Box2D
 	CuerpoAbstracto* pajaroRojo = new PajaroRojo(body);
 	this->objetos.push_back(pajaroRojo);
 }
 
-void Escenario::lanzarHuevoBlanco(float posX, float posY, float velX, float velY) {
+void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((float32) posX, (float32) posY);
-	bodyDef.linearVelocity.Set(velX, velY);
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
 	CuerpoAbstracto* huevoBlanco = new HuevoBlanco(body);

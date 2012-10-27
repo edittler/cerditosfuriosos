@@ -48,7 +48,7 @@
 #define HB_DANIO_PAJARO 1.0f
 #define HB_DANIO_SUPERFICIE 0.5f
 // HUEVO CODORNIZ
-#define HC_RADIO 0.1f
+#define HC_RADIO 0.1f		// Minimo radio para evitar efecto tunneling
 #define HC_DANIO_PAJARO 0.5f
 #define HC_DANIO_SUPERFICIE 0.25f
 // HUEVO POCHE
@@ -65,5 +65,14 @@
 #define C_VIDA 5.0f
 #define C_RADIO 0.3f
 #define M_VIDA 10.0f
+
+// CONSTANTES FRUTAS
+#define F_RADIO 0.1f		// Minimo radio para evitar efecto tunneling
+// MANZANA
+#define FM_PUNTOS 10
+// BANANA
+#define FB_PUNTOS 15
+// CEREZA
+#define FC_PUNTOS 20
 
 #endif /* CONSTANTES_H_ */

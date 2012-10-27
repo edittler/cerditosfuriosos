@@ -17,6 +17,8 @@
 // Project Includes
 #include "Serializable.h"
 #include "CuerpoAbstracto.h"
+#include "Punto2D.h"
+#include "Velocidad2D.h"
 
 /* Clase escenario. Contiene los objetos de la escena y ejecuta la simulacion.
  * Permite ser serializado e hidratado a partir de un nodo XML.
@@ -48,7 +50,7 @@ public:
 	 * @param posX posición del centro de masa en el eje X.
 	 * @param posY posición del centro de masa en el eje Y.
 	 */
-	void agregarCajaMadera(float posX, float posY);
+	void agregarCajaMadera(Punto2D p);
 
 	/* @brief Agrega un Pajaro Rojo al escenario y lo lanza.
 	 * @param posX posición inicial en el eje X.
@@ -56,7 +58,7 @@ public:
 	 * @param velocidad a la cual se va a realizar el lanzamiento.
 	 * @param angulo al cual se va a realizar el lanzamiento.
 	 */
-	void lanzarPajaroRojo(float posX, float posY, float velX, float velY);
+	void lanzarPajaroRojo(Punto2D p, Velocidad2D v);
 
 	/* @brief Agrega un Huevo Blanco al escenario y lo lanza.
 	 * @param posX posición inicial en el eje X.
@@ -64,7 +66,7 @@ public:
 	 * @param velocidad a la cual se va a realizar el lanzamiento.
 	 * @param angulo al cual se va a realizar el lanzamiento.
 	 */
-	void lanzarHuevoBlanco(float posX, float posY, float velX, float velY);
+	void lanzarHuevoBlanco(Punto2D p, Velocidad2D v);
 
 private:
 	void limpiarCuerposMuertos();
