@@ -1,5 +1,8 @@
 /* ATENCION: El RADIO de los cuerpos tienen que tener como minimo un valor de
- * 			0.1f para evitar el efecto tunneling.
+ * 			 0.1f para evitar el efecto tunneling.
+ *
+ * ATENCION: Si los huevos adquieren mucha velocidad activar propiedad 'bullet'
+ *           para evitar tunneling.
  */
 
 #ifndef CONSTANTES_H_
