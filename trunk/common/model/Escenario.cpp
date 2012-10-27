@@ -71,7 +71,7 @@ void Escenario::correrTick() {
 	}
 }
 
-void Escenario::agregarCajaMadera(const int posX, 	const int posY) {
+void Escenario::agregarCajaMadera(float posX, float posY) {
 	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
@@ -82,7 +82,7 @@ void Escenario::agregarCajaMadera(const int posX, 	const int posY) {
 	this->objetos.push_back(cajaMadera);
 }
 
-void Escenario::lanzarPajaroRojo(int posX, int posY, int velX, int velY) {
+void Escenario::lanzarPajaroRojo(float posX, float posY, float velX, float velY) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -96,7 +96,7 @@ void Escenario::lanzarPajaroRojo(int posX, int posY, int velX, int velY) {
 	this->objetos.push_back(pajaroRojo);
 }
 
-void Escenario::lanzarHuevoBlanco(int posX, int posY, int velX, int velY) {
+void Escenario::lanzarHuevoBlanco(float posX, float posY, float velX, float velY) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -117,12 +117,11 @@ void Escenario::registrarContactListener(b2ContactListener* listener) {
 void Escenario::limpiarCuerposMuertos() {
 	b2Body* node = this->escenario->GetBodyList();
 	while (node) {
-		b2Body* b = node;
-		node = node->GetNext();
-		CuerpoAbstracto* cuerpo = (CuerpoAbstracto*)b->GetUserData();
+		CuerpoAbstracto* cuerpo = (CuerpoAbstracto*)node->GetUserData();
+		objetos.remove(cuerpo);
 		if (!cuerpo->estaVivo()) {
-			this->escenario->DestroyBody(b);
+			this->escenario->DestroyBody(node);
 		}
+		node = node->GetNext();
 	}
-	// TODO hay q limpiar en la lista de objetos del escenario tambien.
 }
