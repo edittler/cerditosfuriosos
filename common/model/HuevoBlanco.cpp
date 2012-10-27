@@ -18,7 +18,7 @@
 HuevoBlanco::HuevoBlanco(b2Body* body) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
-	this->vida = 0.5;
+	this->vida = 1;
 	this->danioPajaro = 1;
 	this->danioSuperficie = 0.5;
 	// Paso una referencia de este objeto al body de Box2D
@@ -31,7 +31,7 @@ HuevoBlanco::HuevoBlanco(b2Body* body) {
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.8f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.restitution = 0.33f;
+	fixtureDef.filter.groupIndex = GRUPO_FILTRO_DISPARO;
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 

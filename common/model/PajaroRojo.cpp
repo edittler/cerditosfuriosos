@@ -32,6 +32,7 @@ PajaroRojo::PajaroRojo(b2Body* body) {
 	fixtureDef.density = 0.8f;
 	fixtureDef.friction = 0.3f;
 	fixtureDef.restitution = RESTITUCION_PAJARO_ROJO;
+	fixtureDef.filter.groupIndex = GRUPO_FILTRO_PAJARO;
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
