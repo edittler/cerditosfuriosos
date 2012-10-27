@@ -24,6 +24,7 @@
 class Escenario: public Serializable {
 private:
 	b2World* escenario;
+	b2ContactListener* colisionador;
 	float tiempoTick;
 	std::list<CuerpoAbstracto*> objetos;
 
@@ -64,8 +65,6 @@ public:
 	 * @param angulo al cual se va a realizar el lanzamiento.
 	 */
 	void lanzarHuevoBlanco(float posX, float posY, float velX, float velY);
-
-	void registrarContactListener(b2ContactListener* listener);
 
 private:
 	void limpiarCuerposMuertos();
