@@ -21,7 +21,7 @@ Colisionador::~Colisionador() {
 void Colisionador::BeginContact(b2Contact* contact) {
 	/* TODO estudiar funcionamiento e implementar en caso de que sea necesario
 	 */
-	std::cout << " *** CHOCARON ***" << std::endl;
+	std::cout << "\t*** SE PRODUJO UN CHOQUE ***" << std::endl;
 }
 
 void Colisionador::EndContact(b2Contact* contact) {

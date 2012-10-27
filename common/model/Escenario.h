@@ -31,39 +31,39 @@ public:
 	Escenario();
 	virtual ~Escenario();
 
-	/* Serializa el escenario y retorna un nodo XML
+	/* @brief Serializa el escenario y retorna un nodo XML
 	 * @return Devuelve el nodo XML serializado
 	 */
 	XMLNode serialize();
 
-	/* A partir de un nodo XML se establece el escenario
+	/* @brief A partir de un nodo XML se establece el escenario
 	 * @param recibe el nodo XML que contiene los datos del escenario
 	 */
 	void hydrate(const XMLNode& nodo);
 
 	void correrTick();
 
-	/* Agrega una Caja de Madera al escenario.
+	/* @brief Agrega una Caja de Madera al escenario.
 	 * @param posX posición del centro de masa en el eje X.
 	 * @param posY posición del centro de masa en el eje Y.
 	 */
-	void agregarCajaMadera(const int posX, const int posY);
+	void agregarCajaMadera(float posX, float posY);
 
-	/* Agrega un Pajaro Rojo al escenario y lo lanza.
+	/* @brief Agrega un Pajaro Rojo al escenario y lo lanza.
 	 * @param posX posición inicial en el eje X.
 	 * @param posY posición inicial en el eje Y.
 	 * @param velocidad a la cual se va a realizar el lanzamiento.
 	 * @param angulo al cual se va a realizar el lanzamiento.
 	 */
-	void lanzarPajaroRojo(int posX, int posY, int velX, int velY);
+	void lanzarPajaroRojo(float posX, float posY, float velX, float velY);
 
-	/* Agrega un Huevo Blanco al escenario y lo lanza.
+	/* @brief Agrega un Huevo Blanco al escenario y lo lanza.
 	 * @param posX posición inicial en el eje X.
 	 * @param posY posición inicial en el eje Y.
 	 * @param velocidad a la cual se va a realizar el lanzamiento.
 	 * @param angulo al cual se va a realizar el lanzamiento.
 	 */
-	void lanzarHuevoBlanco(int posX, int posY, int velX, int velY);
+	void lanzarHuevoBlanco(float posX, float posY, float velX, float velY);
 
 	void registrarContactListener(b2ContactListener* listener);
 
