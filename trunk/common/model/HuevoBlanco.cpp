@@ -31,7 +31,9 @@ HuevoBlanco::HuevoBlanco(b2Body* body) {
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 0.8f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.filter.groupIndex = GRUPO_FILTRO_DISPARO;
+	fixtureDef.filter.groupIndex = GROUP_DISPARO;
+	fixtureDef.filter.categoryBits = CATEGORY_DISPARO;
+	fixtureDef.filter.maskBits = MASK_DISPARO;
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
