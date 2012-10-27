@@ -7,7 +7,7 @@
 
 // Project Includes
 #include "Escenario.h"
-
+#include "Colisionador.h"
 
 // Superficies Includes.
 #include "CajaMadera.h"
@@ -19,7 +19,7 @@
 #include "HuevoBlanco.h"
 
 
-#include "cmath" // FIXME borrar
+//#include "cmath" // FIXME borrar
 
 Escenario::Escenario() {
 	// Defino el tiempo de duracion de 1 tick
@@ -34,16 +34,21 @@ Escenario::Escenario() {
 	groundBodyDef.position.Set(0.0f, -10.0f);
 	// Creo el cuerpo del suelo.
 	b2Body* groundBody = this->escenario->CreateBody(&groundBodyDef);
-	// Defino la forma del suelo.
+	// Defino la forma del suelo y lo agrego al body
 	b2PolygonShape groundBox;
 	groundBox.SetAsBox(50.0f, 10.0f);
-	// Agrego las propiedades del suelo al cuerpo.
 	groundBody->CreateFixture(&groundBox, 0.0f);
+
+	// Agrego el ContactListener
+	this->colisionador = new Colisionador();
+	this->escenario->SetContactListener(this->colisionador);
 }
 
 Escenario::~Escenario() {
 	// Libero la memoria del escenario de Box2D
 	delete this->escenario;
+	// Libero la memoria del colisionador
+	delete this->colisionador;
 	// Libero la memoria de los objetos
 	std::list<CuerpoAbstracto*>::iterator it;
 	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
@@ -108,10 +113,6 @@ void Escenario::lanzarHuevoBlanco(float posX, float posY, float velX, float velY
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
 	CuerpoAbstracto* huevoBlanco = new HuevoBlanco(body);
 	this->objetos.push_back(huevoBlanco);
-}
-
-void Escenario::registrarContactListener(b2ContactListener* listener) {
-	escenario->SetContactListener(listener);
 }
 
 void Escenario::limpiarCuerposMuertos() {
