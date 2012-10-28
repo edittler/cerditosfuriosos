@@ -7,27 +7,14 @@
 // Header Include.
 #include "Pajaro.h"
 
-// Project Includes.
-#include "Superficie.h"
+Pajaro::Pajaro() { }
 
-Pajaro::Pajaro() {
-	// TODO Auto-generated constructor stub
+Pajaro::~Pajaro() { }
 
-}
-
-Pajaro::~Pajaro() {
-	// TODO Auto-generated destructor stub
+void Pajaro::daniar(float danio) {
+	this->vida -= danio;
 }
 
 void Pajaro::chocarCon(Superficie* superficie) {
 	superficie->daniar(this->danioSuperficie);
-
-}
-
-float Pajaro::getDanioCerdito() const {
-	return danioCerdito;
-}
-
-float Pajaro::getDanioSuperficie() const {
-	return danioSuperficie;
 }

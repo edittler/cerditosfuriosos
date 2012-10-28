@@ -1,10 +1,3 @@
-/*
- * Escenario.cpp
- *
- *  Created on: 24/10/2012
- *      Author: ezequiel
- */
-
 // Project Includes
 #include "Escenario.h"
 #include "Colisionador.h"
@@ -19,11 +12,13 @@
 #include "HuevoBlanco.h"
 
 
-//#include "cmath" // FIXME borrar
-
 Escenario::Escenario() {
 	// Defino el tiempo de duracion de 1 tick
 	this->tiempoTick = 1.0f / 50.0f;  // 20 milisegundos
+	// Defino que la simulacion no comenzo
+	this->comenzoSimulacion = false;
+	// Establezco el monticulo como NULL
+//	this->monticulo = NULL;
 
 	// Creo el mundo
 	b2Vec2 gravity(0.0f, -10.0f);  // Vector que indica la gravedad
@@ -49,10 +44,15 @@ Escenario::~Escenario() {
 	delete this->escenario;
 	// Libero la memoria del colisionador
 	delete this->colisionador;
+	// Libero la memoria de los jugadores
+	std::list<Jugador*>::iterator itJ;
+	for(itJ = this->jugadores.begin(); itJ != this->jugadores.end(); ++itJ) {
+		delete (*itJ);
+	}
 	// Libero la memoria de los objetos
 	std::list<CuerpoAbstracto*>::iterator it;
 	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
-		delete *it;
+		delete (*it);
 	}
 }
 
@@ -60,20 +60,8 @@ XMLNode Escenario::serialize() {
 	return 0;
 }
 
-/* A partir de un nodo XML se establece el escenario
- * @param recibe el nodo XML que contiene los datos del escenario
- */
 void Escenario::hydrate(const XMLNode& nodo) {
 
-}
-
-void Escenario::correrTick() {
-	this->escenario->Step(this->tiempoTick, 10, 8);
-	std::list<CuerpoAbstracto*>::iterator it;
-	it = objetos.begin();
-	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
-		(*it)->printPosition();
-	}
 }
 
 void Escenario::agregarCajaMadera(Punto2D p) {
@@ -85,6 +73,15 @@ void Escenario::agregarCajaMadera(Punto2D p) {
 	// Creo el objeto CajaMadera y le paso el cuerpo de Box2D
 	CuerpoAbstracto* cajaMadera = new CajaMadera(body);
 	this->objetos.push_back(cajaMadera);
+}
+
+void Escenario::correrTick() {
+	this->escenario->Step(this->tiempoTick, 10, 8);
+	std::list<CuerpoAbstracto*>::iterator it;
+	it = objetos.begin();
+	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
+		(*it)->printPosition();
+	}
 }
 
 void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {

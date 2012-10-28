@@ -1,4 +1,4 @@
-/* CONsTANTES DE CATEGORIAS Y MASCARAS DE LOS OBJETOS DE LA ESCENA
+/* CONSTANTES DE CATEGORIAS Y MASCARAS DE LOS OBJETOS DE LA ESCENA
  * Para aplicar filtros en las colisiones.
  *
  * Manipular con EXTREMO CUIDADO!!
@@ -14,7 +14,7 @@
 
 // CATEGORIAS
 /* La categoria 0x0001 es la que se asigna por default, que en nuestro caso
- * será la del suelo.
+ * será la del suelo y catapulta.
  */
 #define CATEGORY_SUPERFICIE		0x0002	// Binario 0000000000000010
 #define CATEGORY_PAJARO			0X0004	// Binario 0000000000000100
@@ -24,6 +24,7 @@
 #define CATEGORY_FRUTA			0x0040	// Binario 0000000001000000
 
 // SUMA DE CATEGORIAS
+#define DEFAULT_AND_DISPARO		0x0009	// Binario 0000000000001001
 #define SUPERFICIE_AND_PAJARO	0x0006	// Binario 0000000000000110
 #define SUPERFICIE_AND_DISPARO	0x000A	// Binario 0000000000001010
 #define PAJARO_AND_DISPARO		0x000C	// Binario 0000000000001100

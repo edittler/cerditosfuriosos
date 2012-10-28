@@ -1,33 +1,38 @@
-/*
- * Pajaro.h
- *
- *  Created on: 25/10/2012
- *      Author: ezequiel
- */
-
 #ifndef PAJARO_H_
 #define PAJARO_H_
 
 // Hierarchy Include.
 #include "CuerpoAbstracto.h"
 
-// Forward Class Declaration
-class Superficie;
+// Project Includes.
+#include "Superficie.h"
 
+/* Clase base Párajo, una abstraccion generica de los pájaros que son lanzados
+ * en el juego Cerditos Furiosos.
+ * Contienen información como el daño que le realiza a las superficies y a los
+ * cerditos.
+ */
 class Pajaro: public CuerpoAbstracto {
-protected:
-	float danioCerdito;
-	float danioSuperficie;
-
 public:
 	Pajaro();
 	virtual ~Pajaro();
 
-	// Metodos de colisiones
+	/* Daña al Pájaro en una cierta cantidad especificada
+	 * @param Cantidad de daño a realizar
+	 */
+	void daniar(float danio);
+
+	/* Choca el Pájaro con una Superficie, aplicandole un daño.
+	 * @param Superficie a la que se quiere chocar.
+	 */
 	void chocarCon(Superficie* superficie);
 
-	float getDanioCerdito() const;
-	float getDanioSuperficie() const;
+protected:
+	// Daño que le realiza a los Cerditos al chocarlos.
+	float danioCerdito;
+
+	// Daño que le realiza a las Superficies al chocarlas.
+	float danioSuperficie;
 };
 
 #endif /* PAJARO_H_ */
