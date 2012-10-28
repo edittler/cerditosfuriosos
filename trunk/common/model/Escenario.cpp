@@ -1,6 +1,7 @@
 // Project Includes
 #include "Escenario.h"
 #include "Colisionador.h"
+#include "Jugador.h"
 
 // Superficies Includes.
 #include "CajaMadera.h"
@@ -11,12 +12,20 @@
 // Disparos Include.
 #include "HuevoBlanco.h"
 
+// Other Objects Includes.
+#include "Catapulta.h"
+#include "Cerdito.h"
+
+// Exceptions Includes.
+#include "exceptions/AgregarObjetoException.h"
+#include "exceptions/SimulacionException.h"
+#include "exceptions/NoExisteJugadorException.h"
 
 Escenario::Escenario() {
 	// Defino el tiempo de duracion de 1 tick
 	this->tiempoTick = 1.0f / 50.0f;  // 20 milisegundos
 	// Defino que la simulacion no comenzo
-	this->comenzoSimulacion = false;
+	this->simulacionHabilitada = false;
 	// Establezco el monticulo como NULL
 //	this->monticulo = NULL;
 
@@ -31,7 +40,7 @@ Escenario::Escenario() {
 	b2Body* groundBody = this->escenario->CreateBody(&groundBodyDef);
 	// Defino la forma del suelo y lo agrego al body
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(50.0f, 10.0f);
+	groundBox.SetAsBox(100.0f, 10.0f);
 	groundBody->CreateFixture(&groundBox, 0.0f);
 
 	// Agrego el ContactListener
@@ -64,7 +73,47 @@ void Escenario::hydrate(const XMLNode& nodo) {
 
 }
 
+void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
+	/* Solo puedo agregar un cerdito y su catapulta si la simulación no ha
+	 * comenzado. Si la simulacion ya comenzo, lanzo una excepcion
+	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Cerdito.");
+	}
+	/* El cerdito tiene asociado una catapulta. Creo la catapulta primero para
+	 * luego añadirla al cerdito.
+	 */
+	// Defino el cuerpo de la catapulta, seteo el tipo y la posicion y la creo.
+	b2BodyDef bodyCatapultaDef;
+	bodyCatapultaDef.type = b2_staticBody;
+	bodyCatapultaDef.position.Set(posCatapulta.x, posCatapulta.y);
+	b2Body* bodyCatapulta = this->escenario->CreateBody(&bodyCatapultaDef);
+	// Creo el objeto Catapulta y le paso el cuerpo de Box2D
+	Catapulta* catapulta = new Catapulta(bodyCatapulta);
+	// Defino el cuerpo del cerdito, seteo el tipo y la posicion y lo creo.
+	b2BodyDef bodyCerditoDef;
+	bodyCerditoDef.type = b2_staticBody;
+	bodyCerditoDef.position.Set(posCerdito.x, posCerdito.y);
+	b2Body* bodyCerdito = this->escenario->CreateBody(&bodyCerditoDef);
+	// Creo el objeto Cerdito y le paso el cuerpo de Box2D y la catapulta
+	Cerdito* cerdito = new Cerdito(bodyCerdito, catapulta);
+	/* El cerdito está asociado a un jugador. Creo dicho jugador y le paso el
+	 * cerdito.
+	 */
+	Jugador* jugador = new Jugador(cerdito);
+	// Agrego el jugador en la lista de jugadores.
+	this->jugadores.push_back(jugador);
+}
+
 void Escenario::agregarCajaMadera(Punto2D p) {
+	/* Solo puedo agregar una Caja de Madera si la simulación no ha comenzado.
+	 * Si la simulacion ya comenzo, lanzo una excepcion
+	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Caja de Madera.");
+	}
 	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
@@ -75,7 +124,27 @@ void Escenario::agregarCajaMadera(Punto2D p) {
 	this->objetos.push_back(cajaMadera);
 }
 
+void Escenario::habilitarSimulacion() {
+	/* Verifico si hay al menos un jugador. Es decir, si la lista de jugadores
+	 * no está vacia. Si no, lanzo una excepción.
+	 */
+	if (this->jugadores.empty()) {
+		throw SimulacionException("No hay jugadores/cerditos en la escena,"
+				"no se puede habilitar la simulación.");
+	}
+	/* TODO Verifico si la escena contiene el unico monticulo de huevos.
+	 * Si no, lanzo una excepción.
+	 */
+	this->simulacionHabilitada = true;
+}
+
 void Escenario::correrTick() {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada.");
+	}
 	this->escenario->Step(this->tiempoTick, 10, 8);
 	std::list<CuerpoAbstracto*>::iterator it;
 	it = objetos.begin();
@@ -85,6 +154,13 @@ void Escenario::correrTick() {
 }
 
 void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar un Pajaro Rojo.");
+	}
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -98,7 +174,19 @@ void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
 	this->objetos.push_back(pajaroRojo);
 }
 
-void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v) {
+void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo Blanco.");
+	}
+	Jugador* jugador = this->getJugador(j);
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -108,8 +196,33 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v) {
 	bodyDef.linearVelocity.Set(v.x, v.y);
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
-	CuerpoAbstracto* huevoBlanco = new HuevoBlanco(body);
+	CuerpoAbstracto* huevoBlanco = new HuevoBlanco(body, jugador);
 	this->objetos.push_back(huevoBlanco);
+}
+
+Jugador* Escenario::getJugador(unsigned int indice) {
+	// El indice comienza a partir del valor 1. Si el indice es 0, retorno NULL.
+	if (indice == 0) {
+		return NULL;
+	} else {
+		// Si el indice es 1, retorno el primer elemento de la lista.
+		if (indice == 1) {
+			return this->jugadores.front();
+		} else {
+			// Busco el jugador y lo retorno
+			Jugador* jugador = NULL;
+			unsigned int i = 1;
+			std::list<Jugador*>::iterator it = this->jugadores.begin();
+			while ((i <= indice) && (it != this->jugadores.end())) {
+				if (i == indice) {
+					jugador = (*it);
+				}
+				i++;
+				it++;
+			}
+			return jugador;
+		}  // Fin else indice == 1.
+	}  // Fin else indice == 0.
 }
 
 void Escenario::limpiarCuerposMuertos() {

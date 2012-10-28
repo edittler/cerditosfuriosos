@@ -5,7 +5,9 @@ Jugador::Jugador(Cerdito* cerdito) {
 	this->cerdito = cerdito;
 }
 
-Jugador::~Jugador() { }
+Jugador::~Jugador() {
+	delete this->cerdito;
+}
 
 void Jugador::sumarPuntos(int puntos) {
 	this->puntaje.sumarPuntos(puntos);

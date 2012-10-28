@@ -24,7 +24,9 @@ Cerdito::Cerdito(b2Body* body, Catapulta* catapulta) {
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
-Cerdito::~Cerdito() { }
+Cerdito::~Cerdito() {
+	delete this->catapulta;
+}
 
 void Cerdito::daniar(float danio) {
 	this->vida -= danio;

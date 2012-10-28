@@ -15,7 +15,8 @@
 #include "Jugador.h"
 //#include "MonticuloHuevos.h"
 
-/* Clase escenario. Contiene los objetos de la escena y ejecuta la simulacion.
+/* @class Escenario.
+ * Contiene los objetos de la escena y ejecuta la simulacion.
  * Permite ser serializado e hidratado a partir de un nodo XML.
  */
 class Escenario: public Serializable {
@@ -33,27 +34,27 @@ public:
 	 */
 	void hydrate(const XMLNode& nodo);
 
-	/* Agrega al Cerdito con su respectiva Catapulta.
+	/* @brief Agrega al Cerdito con su respectiva Catapulta.
 	 * @param Punto2D especificando la posición del Cerdito.
 	 * @param Punto2D especificando la posición de la Catapulta.
 	 */
-	int agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta);
+	void agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta);
 
 	/* @brief Agrega una Caja de Madera al escenario.
 	 * @param Punto2D especificando la posición de la Caja de Madera.
 	 */
 	void agregarCajaMadera(Punto2D posicion);
 
-	/* Habilita el escenario para iniciar la simulacion.
-	 * Una vez iniciada la simulacion no se puede añadir más elementos estáticos
-	 * como cajas, frutas, cerditos, catapultas y monticulo de huevos.
+	/* @brief Habilita el escenario para iniciar la simulacion.
+	 * Una vez habilitada la simulacion no se puede añadir más elementos
+	 * estáticos como cajas, cerditos, catapultas y monticulo de huevos.
 	 * Habilitar la simulacion permite lanzar pajaros y disparos.
 	 * Lanza excepcion si el escenario no posee al menos un Cerdito (único
 	 * jugador) o no posee el montículo de huevos.
 	 */
-	void comenzarSimulacion();
+	void habilitarSimulacion();
 
-	/* Corre un tick, generalmente 20 milisegundos.
+	/* @brief Corre un tick, generalmente 20 milisegundos.
 	 */
 	void correrTick();
 
@@ -66,10 +67,15 @@ public:
 	/* @brief Agrega un Huevo Blanco al escenario y lo lanza.
 	 * @param Punto2D especificando la posición inicial del lanzamiento.
 	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
+	 * @param Jugador que va a lanzar el disparo. Tiene que ser un valor mayor
+	 * 			que 0.
 	 */
-	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial);
+	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int jugador = 1);
 
 private:
+	Jugador* getJugador(unsigned int indice);
+
 	void limpiarCuerposMuertos();
 
 	/**************
@@ -91,12 +97,13 @@ private:
 	// Lista de objetos que contiene el World de Box2D
 	std::list<CuerpoAbstracto*> objetos;
 
-	/* Flag para indicar si comenzo la simulacion.
-	 * Si la simulacion no comenzo, no se pueden lanzar pájaros ni disparos.
-	 * Una vez comenzada la simulacion, no se puede añadir elementos estáticos
-	 * como las cajas, frutas, cerditos, catapultas.
+	/* Flag para indicar si la simulacion está habilitada.
+	 * Si la simulacion no está habilitada, no se pueden lanzar pájaros
+	 * ni disparos.
+	 * Una vez habilitada la simulacion, no se puede añadir elementos estáticos
+	 * como las cajas, frutas, cerditos, catapultas y monticulo de huevos.
 	 */
-	bool comenzoSimulacion;
+	bool simulacionHabilitada;
 
 	// Tiempo de tick (generalmente del orden de los 20 milisegundos)
 	float tiempoTick;
