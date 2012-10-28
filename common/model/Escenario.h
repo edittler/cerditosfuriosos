@@ -1,10 +1,3 @@
-/*
- * Escenario.h
- *
- *  Created on: 24/10/2012
- *      Author: ezequiel
- */
-
 #ifndef ESCENARIO_H_
 #define ESCENARIO_H_
 
@@ -19,17 +12,13 @@
 #include "CuerpoAbstracto.h"
 #include "Punto2D.h"
 #include "Velocidad2D.h"
+#include "Jugador.h"
+//#include "MonticuloHuevos.h"
 
 /* Clase escenario. Contiene los objetos de la escena y ejecuta la simulacion.
  * Permite ser serializado e hidratado a partir de un nodo XML.
  */
 class Escenario: public Serializable {
-private:
-	b2World* escenario;
-	b2ContactListener* colisionador;
-	float tiempoTick;
-	std::list<CuerpoAbstracto*> objetos;
-
 public:
 	Escenario();
 	virtual ~Escenario();
@@ -44,32 +33,73 @@ public:
 	 */
 	void hydrate(const XMLNode& nodo);
 
-	void correrTick();
+	/* Agrega al Cerdito con su respectiva Catapulta.
+	 * @param Punto2D especificando la posición del Cerdito.
+	 * @param Punto2D especificando la posición de la Catapulta.
+	 */
+	int agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta);
 
 	/* @brief Agrega una Caja de Madera al escenario.
-	 * @param posX posición del centro de masa en el eje X.
-	 * @param posY posición del centro de masa en el eje Y.
+	 * @param Punto2D especificando la posición de la Caja de Madera.
 	 */
-	void agregarCajaMadera(Punto2D p);
+	void agregarCajaMadera(Punto2D posicion);
+
+	/* Habilita el escenario para iniciar la simulacion.
+	 * Una vez iniciada la simulacion no se puede añadir más elementos estáticos
+	 * como cajas, frutas, cerditos, catapultas y monticulo de huevos.
+	 * Habilitar la simulacion permite lanzar pajaros y disparos.
+	 * Lanza excepcion si el escenario no posee al menos un Cerdito (único
+	 * jugador) o no posee el montículo de huevos.
+	 */
+	void comenzarSimulacion();
+
+	/* Corre un tick, generalmente 20 milisegundos.
+	 */
+	void correrTick();
 
 	/* @brief Agrega un Pajaro Rojo al escenario y lo lanza.
-	 * @param posX posición inicial en el eje X.
-	 * @param posY posición inicial en el eje Y.
-	 * @param velocidad a la cual se va a realizar el lanzamiento.
-	 * @param angulo al cual se va a realizar el lanzamiento.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
 	 */
-	void lanzarPajaroRojo(Punto2D p, Velocidad2D v);
+	void lanzarPajaroRojo(Punto2D posInicial, Velocidad2D velInicial);
 
 	/* @brief Agrega un Huevo Blanco al escenario y lo lanza.
-	 * @param posX posición inicial en el eje X.
-	 * @param posY posición inicial en el eje Y.
-	 * @param velocidad a la cual se va a realizar el lanzamiento.
-	 * @param angulo al cual se va a realizar el lanzamiento.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
 	 */
-	void lanzarHuevoBlanco(Punto2D p, Velocidad2D v);
+	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial);
 
 private:
 	void limpiarCuerposMuertos();
+
+	/**************
+	 * ATTRIBUTES *
+	 **************/
+
+	// Escenario de Box2D
+	b2World* escenario;
+
+	// Administrador de colisiones
+	b2ContactListener* colisionador;
+
+	// Lista de jugadores
+	std::list<Jugador*> jugadores;
+
+	// Monticulo de huevos
+//	MonticuloHuevos* monticulo;
+
+	// Lista de objetos que contiene el World de Box2D
+	std::list<CuerpoAbstracto*> objetos;
+
+	/* Flag para indicar si comenzo la simulacion.
+	 * Si la simulacion no comenzo, no se pueden lanzar pájaros ni disparos.
+	 * Una vez comenzada la simulacion, no se puede añadir elementos estáticos
+	 * como las cajas, frutas, cerditos, catapultas.
+	 */
+	bool comenzoSimulacion;
+
+	// Tiempo de tick (generalmente del orden de los 20 milisegundos)
+	float tiempoTick;
 };
 
 #endif /* ESCENARIO_H_ */

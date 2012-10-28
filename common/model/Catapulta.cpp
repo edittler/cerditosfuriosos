@@ -1,27 +1,27 @@
 // Header Include.
-#include "CajaMadera.h"
+#include "Catapulta.h"
 
-// Project Includes
+// Projet Includes.
 #include "Constantes.h"
 
-CajaMadera::CajaMadera(b2Body* body) {
+Catapulta::Catapulta(b2Body* body) {
 	// Defino los atributos de clase
-	this->vida = CMA_VIDA;
-	this->puntosDestruccion = CMA_PUNTOS;  // Seteo los punto que entrega al destruirse.
 	this->cuerpo = body;
+	/* La vida de la catapulta es irrelevante porque no se destruye nunca, pero
+	 * asigno un valor positivo distinto de 0 para considerarse un cuerpo vivo.
+	 */
+	this->vida = 1;
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
 	b2PolygonShape staticBox;
-	staticBox.SetAsBox(CAJA_MEDIO_ANCHO, CAJA_MEDIO_ANCHO);
+	staticBox.SetAsBox(CAT_MEDIO_ANCHO, CAT_MEDIO_ANCHO);
 	// Defino las propiedades del cuerpo
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &staticBox;
-	fixtureDef.density = 0.8f;
+	fixtureDef.density = 10.0f;
 	fixtureDef.friction = 0.3f;
-	fixtureDef.filter.categoryBits = CATEGORY_SUPERFICIE;
-	fixtureDef.filter.maskBits = MASK_SUPERFICIE;
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
-CajaMadera::~CajaMadera() { }
+Catapulta::~Catapulta() { }
