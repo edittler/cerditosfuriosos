@@ -1,23 +1,17 @@
-/*
- * HuevoBlanco.cpp
- *
- *  Created on: 26/10/2012
- *      Author: ezequiel
- */
-
 // Header Include.
 #include "HuevoBlanco.h"
 
 // Project Includes.
 #include "Constantes.h"
 
-HuevoBlanco::HuevoBlanco(b2Body* body) {
+HuevoBlanco::HuevoBlanco(b2Body* body, Jugador* jugador) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
 	/* La vida de un huevo es irrelevante porque se destruye al chocar, pero
 	 * asigno un valor positivo distinto de 0 para considerarse un cuerpo vivo.
 	 */
 	this->vida = 1;
+	this->jugador = jugador;
 	this->danioPajaro = HB_DANIO_PAJARO;
 	this->danioSuperficie = HB_DANIO_SUPERFICIE;
 	// Paso una referencia de este objeto al body de Box2D
@@ -36,6 +30,4 @@ HuevoBlanco::HuevoBlanco(b2Body* body) {
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
-HuevoBlanco::~HuevoBlanco() {
-	// TODO Auto-generated destructor stub
-}
+HuevoBlanco::~HuevoBlanco() { }
