@@ -25,6 +25,11 @@ public:
 	 */
 	bool estaVivo() const;
 
+	/*
+	 * @brief cambia el estado del objeto a "muerto".
+	 */
+	void matar();
+
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 };
 
