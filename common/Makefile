@@ -8,8 +8,14 @@ MAKE = make --no-print-directory
 # Nombre del ejecutable principal.
 main_target = main
 
+# Nombre del ejecutable de las pruebas.
+test_target = test
+
 # Flags para el compilador C/C++ en modo ansi.
 CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
+
+# Flag para incluir la libreria cppunit
+CPPUNITFLAG = -lcppunit
 
 # Flags para compilar con POSIX Threads
 #CXXFLAGS += -pthread -lpthread
@@ -28,7 +34,7 @@ endif
 SUBDIRS = model parser
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = model parser Box2D/include
+SUBDIRSINCLUDE = model model/tests parser Box2D/include
 
 # Declaracion de objetos externos
 EXTERNOBJS =$(foreach path, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(path)/*.cpp))))
@@ -81,10 +87,10 @@ subdirs:
 	done
 
 main: subdirs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) *.cpp $(GTKFLAGS) $(BOX2DFLAG) -o $(main_target)
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp $(GTKFLAGS) $(BOX2DFLAG) -o $(main_target)
 
-test: make_subs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test
+test: subdirs
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp $(CPPUNITFLAG) $(BOX2DFLAG) -o $(test_target)
 
 clean:
 	@for dir in $(SUBDIRS); do \
