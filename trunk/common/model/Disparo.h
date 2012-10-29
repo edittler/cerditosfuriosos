@@ -26,18 +26,18 @@ public:
 	 * puntos al jugador en caso de que fue destruida.
 	 * @param Superficie a chocar.
 	 */
-	void chocarCon(Superficie* superficie);
+	virtual void chocarCon(Superficie* superficie) = 0;
 
 	/* Choca el disparo con un pájaro aplicandole un daño y asignando
 	 * puntos al jugador en caso de que fue matado.
 	 * @param Pájaro a chocar.
 	 */
-	void chocarCon(Pajaro* pajaro);
+	virtual void chocarCon(Pajaro* pajaro) = 0;
 
 	/* Choca el disparo con un cerdito aplicandole un daño.
 	 * @param Cerdito a chocar.
 	 */
-	void chocarCon(Cerdito* cerdito);
+	virtual void chocarCon(Cerdito* cerdito) = 0;
 
 protected:
 	// Jugador que realiza el disparo.
