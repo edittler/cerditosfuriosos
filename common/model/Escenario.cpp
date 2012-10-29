@@ -2,6 +2,8 @@
 #include "Escenario.h"
 #include "Colisionador.h"
 #include "Jugador.h"
+#include "Constantes.h"
+#include "Suelo.h"
 
 // Superficies Includes.
 #include "CajaMadera.h"
@@ -33,15 +35,10 @@ Escenario::Escenario() {
 	b2Vec2 gravity(0.0f, -10.0f);  // Vector que indica la gravedad
 	this->escenario = new b2World(gravity);
 
-	// Defino el cuerpo del suelo.
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
-	// Creo el cuerpo del suelo.
-	b2Body* groundBody = this->escenario->CreateBody(&groundBodyDef);
-	// Defino la forma del suelo y lo agrego al body
-	b2PolygonShape groundBox;
-	groundBox.SetAsBox(100.0f, 10.0f);
-	groundBody->CreateFixture(&groundBox, 0.0f);
+	// FIXME por ahora se crea un suelo por defecto aqui, mas adelante deberia llamarse al metodo
+	// directamente desde el disenador
+	std::list<Punto2D*> p;
+	agregarSuelo(p);
 
 	// Agrego el ContactListener
 	this->colisionador = new Colisionador();
@@ -71,6 +68,20 @@ XMLNode Escenario::serialize() {
 
 void Escenario::hydrate(const XMLNode& nodo) {
 
+}
+
+void Escenario::agregarSuelo(std::list<Punto2D*>& puntos) {
+	// TODO implementar, el codigo siguiente no utilza @puntos para
+	// hacer la interpolacion de puntos. Solo crea un suelo rectangular
+
+	// Defino el cuerpo del suelo.
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0.0f, -10.0f);
+	// Creo el cuerpo del suelo.
+	b2Body* groundBody = this->escenario->CreateBody(&groundBodyDef);
+
+	CuerpoAbstracto* suelo = new Suelo(groundBody);
+	this->objetos.push_back(suelo);
 }
 
 void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
@@ -145,12 +156,15 @@ void Escenario::correrTick() {
 	if (!this->simulacionHabilitada) {
 		throw SimulacionException("La simulación no está habilitada.");
 	}
-	this->escenario->Step(this->tiempoTick, 10, 8);
+	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES, POSICION_ITERACIONES);
 	std::list<CuerpoAbstracto*>::iterator it;
 	it = objetos.begin();
 	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
 		(*it)->printPosition();
 	}
+
+	// Elimino objetos "muertos"
+	limpiarCuerposMuertos();
 }
 
 void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
@@ -227,10 +241,12 @@ Jugador* Escenario::getJugador(unsigned int indice) {
 
 void Escenario::limpiarCuerposMuertos() {
 	b2Body* node = this->escenario->GetBodyList();
-	while (node) {
+	while (node != NULL) {
 		CuerpoAbstracto* cuerpo = (CuerpoAbstracto*)node->GetUserData();
-		objetos.remove(cuerpo);
 		if (!cuerpo->estaVivo()) {
+			std::cout << "\nElimino objeto muerto: ";  // FIXME borrar
+			cuerpo->printPosition();  // FIXME borrar
+			objetos.remove(cuerpo);
 			this->escenario->DestroyBody(node);
 		}
 		node = node->GetNext();

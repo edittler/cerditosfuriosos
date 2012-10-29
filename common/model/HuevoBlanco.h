@@ -10,6 +10,10 @@ class HuevoBlanco: public Disparo {
 public:
 	explicit HuevoBlanco(b2Body* body, Jugador* jugador);
 	virtual ~HuevoBlanco();
+
+	virtual void chocarCon(Superficie* superficie);
+	virtual void chocarCon(Pajaro* pajaro);
+	virtual void chocarCon(Cerdito* cerdito);
 };
 
 #endif /* HUEVOBLANCO_H_ */

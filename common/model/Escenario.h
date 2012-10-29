@@ -34,7 +34,14 @@ public:
 	 */
 	void hydrate(const XMLNode& nodo);
 
-	/* @brief Agrega al Cerdito con su respectiva Catapulta.
+	/*
+	 * @brief Agrega la figura del suelo interpolando @param
+	 * @param Lista de puntos para realizar la interpolacion
+	 */
+	void agregarSuelo(std::list<Punto2D*>& puntos);
+
+	/* @brief Agrega al Cerdito con su respectiva Catapulta. Crea un jugador
+	 * lo agrega a la lista de jugadores.
 	 * @param Punto2D especificando la posición del Cerdito.
 	 * @param Punto2D especificando la posición de la Catapulta.
 	 */

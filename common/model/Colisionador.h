@@ -54,6 +54,8 @@ public:
 
 private:
 	void chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
+
+	void chocarDisparoConPajaro(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
 };
 
 #endif /* COLISIONADOR_H_ */

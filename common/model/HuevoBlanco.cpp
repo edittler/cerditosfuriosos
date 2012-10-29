@@ -31,3 +31,21 @@ HuevoBlanco::HuevoBlanco(b2Body* body, Jugador* jugador) {
 }
 
 HuevoBlanco::~HuevoBlanco() { }
+
+void HuevoBlanco::chocarCon(Superficie* superficie) {
+	superficie->daniar(danioSuperficie);
+	if (!superficie->estaVivo())
+		jugador->sumarPuntos(superficie->getPuntosDestruccion());
+
+	matar();  // se considera al objeto como "muerto", se elimina del b2World en proxima iteracion.
+}
+
+void HuevoBlanco::chocarCon(Pajaro* pajaro) {
+	pajaro->daniar(danioPajaro);
+	matar();  // se considera al objeto como "muerto", se elimina del b2World en proxima iteracion.
+}
+
+void HuevoBlanco::chocarCon(Cerdito* cerdito) {
+	// TODO implementar
+	matar();  // se considera al objeto como "muerto", se elimina del b2World en proxima iteracion.
+}

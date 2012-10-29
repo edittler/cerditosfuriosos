@@ -14,6 +14,7 @@
 #include "ConstantesColisiones.h"
 #include "Superficie.h"
 #include "Pajaro.h"
+#include "Disparo.h"
 
 #include <iostream> // FIXME borrar
 
@@ -49,6 +50,7 @@ void Colisionador::BeginContact(b2Contact* contact) {
 				break;
 			case PAJARO_AND_DISPARO:
 				std::cout << "\t*** CHOCO PAJARO Y DISPARO ***" << std::endl;
+				this->chocarDisparoConPajaro(cuerpoA, cuerpoB);
 				break;
 			case CERDITO_AND_PAJARO:
 				std::cout << "\t*** CHOCO PAJARO Y CERDITO ***" << std::endl;
@@ -101,4 +103,16 @@ void Colisionador::chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbs
 		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
 	}
 	pajaro->chocarCon(superficie);
+}
+
+void Colisionador::chocarDisparoConPajaro(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
+	Pajaro* pajaro;
+	if (!disparo) {
+		disparo = dynamic_cast<Disparo*>(cuerpoB);
+		pajaro = dynamic_cast<Pajaro*>(cuerpoA);
+	} else {
+		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
+	}
+	disparo->chocarCon(pajaro);
 }
