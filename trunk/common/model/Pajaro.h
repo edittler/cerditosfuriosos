@@ -17,11 +17,6 @@ public:
 	Pajaro();
 	virtual ~Pajaro();
 
-	/* Daña al Pájaro en una cierta cantidad especificada
-	 * @param Cantidad de daño a realizar
-	 */
-	void daniar(float danio);
-
 	/* Choca el Pájaro con una Superficie, aplicandole un daño.
 	 * @param Superficie a la que se quiere chocar.
 	 */

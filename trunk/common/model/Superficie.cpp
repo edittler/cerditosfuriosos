@@ -17,10 +17,6 @@ Superficie::~Superficie() {
 	// TODO Auto-generated destructor stub
 }
 
-void Superficie::daniar(float danio) {
-	this->vida -= danio;
-}
-
 int Superficie::getPuntosDestruccion() const {
 	return puntosDestruccion;
 }
