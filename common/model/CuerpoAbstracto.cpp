@@ -1,9 +1,3 @@
-/*
- * Posicionable.cpp
- *
- *  Created on: 24/10/2012
- *      Author: ezequiel
- */
 // Header Include.
 #include "CuerpoAbstracto.h"
 
@@ -22,6 +16,10 @@ bool CuerpoAbstracto::estaVivo() const {
 	if (this->vida <= 0)
 		return false;
 	return true;
+}
+
+void CuerpoAbstracto::daniar(float danio) {
+	this->vida -= danio;
 }
 
 void CuerpoAbstracto::matar() {

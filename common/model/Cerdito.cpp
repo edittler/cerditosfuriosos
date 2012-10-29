@@ -27,7 +27,3 @@ Cerdito::Cerdito(b2Body* body, Catapulta* catapulta) {
 Cerdito::~Cerdito() {
 	delete this->catapulta;
 }
-
-void Cerdito::daniar(float danio) {
-	this->vida -= danio;
-}

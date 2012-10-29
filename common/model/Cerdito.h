@@ -20,11 +20,6 @@ public:
 	// Destructor
 	virtual ~Cerdito();
 
-	/* Daña al Cerdito en una cierta cantidad especificada
-	 * @param Cantidad de daño a realizar
-	 */
-	void daniar(float danio);
-
 private:
 	// Catapulta del cerdito
 	Catapulta* catapulta;
