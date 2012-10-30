@@ -1,10 +1,3 @@
-/*
- * PajaroRojo.cpp
- *
- *  Created on: 25/10/2012
- *      Author: ezequiel
- */
-
 // Header Include.
 #include "PajaroRojo.h"
 #include "Constantes.h"

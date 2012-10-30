@@ -1,10 +1,3 @@
-/*
- * PajaroRojo.h
- *
- *  Created on: 25/10/2012
- *      Author: ezequiel
- */
-
 #ifndef PAJAROROJO_H_
 #define PAJAROROJO_H_
 

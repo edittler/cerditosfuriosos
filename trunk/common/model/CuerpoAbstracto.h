@@ -20,7 +20,8 @@ public:
 	void daniar(float danio);
 
 	/*
-	 * @brief cambia el estado del objeto a "muerto".
+	 * @brief cambia el estado del objeto a "muerto". Es eliminado del
+	 * b2World en el proxime step.
 	 */
 	void matar();
 

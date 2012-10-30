@@ -6,6 +6,8 @@
 
 // Project Includes.
 #include "Superficie.h"
+#include "Cerdito.h"
+#include "Fruta.h"
 
 /* Clase base Párajo, una abstraccion generica de los pájaros que son lanzados
  * en el juego Cerditos Furiosos.
@@ -17,10 +19,29 @@ public:
 	Pajaro();
 	virtual ~Pajaro();
 
-	/* Choca el Pájaro con una Superficie, aplicandole un daño.
+	/*
+	 * @brief Choca el Pájaro con una Superficie, aplicandole un daño.
 	 * @param Superficie a la que se quiere chocar.
 	 */
 	void chocarCon(Superficie* superficie);
+
+	/*
+	 * @brief Choca Pajaro con Cerdito, aplicandole un daño
+	 * @param Cerdito al que se quiere chocar.
+	 */
+	void chocarCon(Cerdito* cerdito);
+
+	/*
+	 * @brief Choca Pajaro con Fruta, elimandola del juego.
+	 * @param Fruta a la que se quiere chocar.
+	 */
+	void chocarCon(Fruta* fruta);
+
+	/*
+	 * @brief Choca Pajaro con Monticulo, elimandola del juego.
+	 * @param Monticulo a la que se quiere chocar.
+	 */
+//	void chocarCon(Monticulo* monticulo); // TODO agregar monticulo
 
 protected:
 	// Daño que le realiza a los Cerditos al chocarlos.

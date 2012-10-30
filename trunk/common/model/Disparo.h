@@ -22,13 +22,13 @@ public:
 	// Destructor.
 	virtual ~Disparo();
 
-	/* Choca el disparo con una superficie aplicandole un daño y asignando
+	/* @brief Choca el disparo con una superficie aplicandole un daño y asignando
 	 * puntos al jugador en caso de que fue destruida.
 	 * @param Superficie a chocar.
 	 */
 	virtual void chocarCon(Superficie* superficie) = 0;
 
-	/* Choca el disparo con un pájaro aplicandole un daño y asignando
+	/* @brief Choca el disparo con un pájaro aplicandole un daño y asignando
 	 * puntos al jugador en caso de que fue matado.
 	 * @param Pájaro a chocar.
 	 */
@@ -38,6 +38,16 @@ public:
 	 * @param Cerdito a chocar.
 	 */
 	virtual void chocarCon(Cerdito* cerdito) = 0;
+
+	/* @brief Choca el disparo con el monticulo.
+	 * @param monticulo a chocar.
+	 */
+//	virtual void chocarCon(Monticulo* monticulo) = 0; // TODO agregar monticulo
+
+	/* @brief Choca el disparo con una fruta obteniendo los puntos.
+	 * @param Fruta a chocar.
+	 */
+	virtual void chocarCon(Fruta* fruta);
 
 protected:
 	// Jugador que realiza el disparo.
