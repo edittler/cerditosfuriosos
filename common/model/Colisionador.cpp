@@ -45,24 +45,37 @@ void Colisionador::BeginContact(b2Contact* contact) {
 				std::cout << "\t*** CHOCO PAJARO Y SUPERFICIE ***" << std::endl;
 				this->chocarPajaroConSuperficie(cuerpoA, cuerpoB);
 				break;
-			case SUPERFICIE_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y SUPERFICIE ***" << std::endl;
-				break;
-			case PAJARO_AND_DISPARO:
-				std::cout << "\t*** CHOCO PAJARO Y DISPARO ***" << std::endl;
-				this->chocarDisparoConPajaro(cuerpoA, cuerpoB);
-				break;
 			case CERDITO_AND_PAJARO:
 				std::cout << "\t*** CHOCO PAJARO Y CERDITO ***" << std::endl;
-				break;
-			case CERDITO_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y CERDITO ***" << std::endl;
+				this->chocarPajaroConCerdito(cuerpoA, cuerpoB);
 				break;
 			case MONTICULO_AND_PAJARO:
 				std::cout << "\t*** CHOCO PAJARO Y MONTICULO ***" << std::endl;
+//				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB);  // TODO agregar monticulo
+				break;
+			case FRUTA_AND_PAJARO:
+				std::cout << "\t*** CHOCO PAJARO Y FRUTA ***" << std::endl;
+				this->chocarPajaroConFruta(cuerpoA, cuerpoB);
+				break;
+			case SUPERFICIE_AND_DISPARO:
+				std::cout << "\t*** CHOCO DISPARO Y SUPERFICIE ***" << std::endl;
+				this->chocarDisparoConSuperficie(cuerpoA, cuerpoB);
+				break;
+			case PAJARO_AND_DISPARO:
+				std::cout << "\t*** CHOCO DISPARO Y PAJARO ***" << std::endl;
+				this->chocarDisparoConPajaro(cuerpoA, cuerpoB);
+				break;
+			case CERDITO_AND_DISPARO:
+				std::cout << "\t*** CHOCO DISPARO Y CERDITO ***" << std::endl;
+				this->chocarDisparoConCerdito(cuerpoA, cuerpoB);
 				break;
 			case MONTICULO_AND_DISPARO:
 				std::cout << "\t*** CHOCO DISPARO Y MONTICULO ***" << std::endl;
+//				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB); // TODO agregar monticulo
+				break;
+			case FRUTA_AND_DISPARO:
+				std::cout << "\t*** CHOCO DISPARO Y FRUTA ***" << std::endl;
+				this->chocarDisparoConFruta(cuerpoA, cuerpoB);
 				break;
 			default:
 				std::cout << "\t*** SE PRODUJO UN CHOQUE NO IDENTIFICADO ***" << std::endl;
@@ -96,7 +109,7 @@ void Colisionador::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse
 void Colisionador::chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
 	Superficie* superficie = dynamic_cast<Superficie*>(cuerpoA);
 	Pajaro* pajaro;
-	if (!superficie) {
+	if (superficie == NULL) {
 		superficie = dynamic_cast<Superficie*>(cuerpoB);
 		pajaro = dynamic_cast<Pajaro*>(cuerpoA);
 	} else {
@@ -105,14 +118,100 @@ void Colisionador::chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbs
 	pajaro->chocarCon(superficie);
 }
 
+void Colisionador::chocarPajaroConCerdito(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Pajaro* pajaro = dynamic_cast<Pajaro*>(cuerpoA);
+	Cerdito* cerdito;
+	if (pajaro == NULL) {
+		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
+		cerdito = dynamic_cast<Cerdito*>(cuerpoA);
+	} else {
+		cerdito = dynamic_cast<Cerdito*>(cuerpoB);
+	}
+	pajaro->chocarCon(cerdito);
+}
+
+void Colisionador::chocarPajaroConFruta(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Pajaro* pajaro = dynamic_cast<Pajaro*>(cuerpoA);
+	Fruta* fruta;
+	if (pajaro == NULL) {
+		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
+		fruta = dynamic_cast<Fruta*>(cuerpoA);
+	} else {
+		fruta = dynamic_cast<Fruta*>(cuerpoB);
+	}
+	pajaro->chocarCon(fruta);
+}
+
+// TODO implementar monticulo
+//void chocarPajaroConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+//	Pajaro* pajaro = dynamic_cast<Disparo*>(cuerpoA);
+//	Monticulo* monticulo;
+//	if (pajaro == NULL) {
+//		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
+//		monticulo = dynamic_cast<Monticulo*>(cuerpoA);
+//	} else {
+//		monticulo = dynamic_cast<Monticulo*>(cuerpoB);
+//	}
+//	pajaro->chocarCon(monticulo);
+//}
+
+void Colisionador::chocarDisparoConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
+	Superficie* superficie;
+	if (disparo == NULL) {
+		disparo = dynamic_cast<Disparo*>(cuerpoB);
+		superficie = dynamic_cast<Superficie*>(cuerpoA);
+	} else {
+		superficie = dynamic_cast<Superficie*>(cuerpoB);
+	}
+	disparo->chocarCon(superficie);
+}
+
 void Colisionador::chocarDisparoConPajaro(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
 	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
 	Pajaro* pajaro;
-	if (!disparo) {
+	if (disparo == NULL) {
 		disparo = dynamic_cast<Disparo*>(cuerpoB);
 		pajaro = dynamic_cast<Pajaro*>(cuerpoA);
 	} else {
 		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
 	}
 	disparo->chocarCon(pajaro);
+}
+
+void Colisionador::chocarDisparoConCerdito(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
+	Cerdito* cerdito;
+	if (disparo == NULL) {
+		disparo = dynamic_cast<Disparo*>(cuerpoB);
+		cerdito = dynamic_cast<Cerdito*>(cuerpoA);
+	} else {
+		cerdito = dynamic_cast<Cerdito*>(cuerpoB);
+	}
+	disparo->chocarCon(cerdito);
+}
+
+// TODO implementar monticulo
+//void Colisionador::chocarDisparoConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+//	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
+//	Monticulo* monticulo;
+//	if (disparo == NULL) {
+//		disparo = dynamic_cast<Disparo*>(cuerpoB);
+//		monticulo = dynamic_cast<Monticulo*>(cuerpoA);
+//	} else {
+//		monticulo = dynamic_cast<Monticulo*>(cuerpoB);
+//	}
+//	disparo->chocarCon(monticulo);
+//}
+
+void Colisionador::chocarDisparoConFruta(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
+	Fruta* fruta;
+	if (disparo == NULL) {
+		disparo = dynamic_cast<Disparo*>(cuerpoB);
+		fruta = dynamic_cast<Fruta*>(cuerpoA);
+	} else {
+		fruta = dynamic_cast<Fruta*>(cuerpoB);
+	}
+	disparo->chocarCon(fruta);
 }

@@ -109,9 +109,9 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	b2Body* bodyCerdito = this->escenario->CreateBody(&bodyCerditoDef);
 	// Creo el objeto Cerdito y le paso el cuerpo de Box2D y la catapulta
 	Cerdito* cerdito = new Cerdito(bodyCerdito, catapulta);
-	/* El cerdito está asociado a un jugador. Creo dicho jugador y le paso el
-	 * cerdito.
-	 */
+	this->objetos.push_back(cerdito);
+
+	// El cerdito está asociado a un jugador. Creo dicho jugador y le paso el cerdito.
 	Jugador* jugador = new Jugador(cerdito);
 	// Agrego el jugador en la lista de jugadores.
 	this->jugadores.push_back(jugador);
