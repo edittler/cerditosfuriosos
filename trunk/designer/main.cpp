@@ -1,14 +1,10 @@
-/* Aplicación del diseñador
- *
- */
-
-// Standard C++ Library Includes
-#include <iostream>
+#include "ventana_diseniador.h"
+#include <gtkmm/main.h>
 
 int main(int argc, char *argv[]) {
-	std::cout << "Soy el Diseñador!!" << std::endl;
+  Gtk::Main kit(argc, argv);
 
-	return 0;
+  VentanaDiseniador ventana;
+  Gtk::Main::run(ventana);
+  return 0;
 }
-
-
