@@ -1,10 +1,3 @@
-/*
- * CajaMadera.h
- *
- *  Created on: 24/10/2012
- *      Author: ezequiel
- */
-
 #ifndef CAJAMADERA_H_
 #define CAJAMADERA_H_
 

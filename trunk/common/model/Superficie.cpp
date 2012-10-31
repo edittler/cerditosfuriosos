@@ -1,10 +1,3 @@
-/*
- * Superficie.cpp
- *
- *  Created on: 24/10/2012
- *      Author: ezequiel
- */
-
 // Header Include.
 #include "Superficie.h"
 
