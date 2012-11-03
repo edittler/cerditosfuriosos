@@ -4,7 +4,15 @@
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
 
-class CuerpoAbstracto {
+// Project Includes.
+#include "CuerpoObservable.h"
+
+/* @class CuerpoAbstracto
+ * Interfaz que define un cuerpo con una vida. Implementa el CuerpoObservable,
+ * dado que los cuerpos que hereden de CuerpoAbstracto pueden ser vistos por
+ * otros objetos mediante el patrón observador, por ejemplo, para la vista.
+ */
+class CuerpoAbstracto: public CuerpoObservable {
 public:
 	CuerpoAbstracto();
 	virtual ~CuerpoAbstracto();
@@ -19,11 +27,13 @@ public:
 	 */
 	void daniar(float danio);
 
-	/*
-	 * @brief cambia el estado del objeto a "muerto". Es eliminado del
-	 * b2World en el proxime step.
+	/* @brief Cambia el estado del objeto a "muerto".
 	 */
 	void matar();
+
+	/* @brief Notifica la posicion del cuerpo al observador.
+	 */
+	void notificarPosicionAObservador();
 
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 

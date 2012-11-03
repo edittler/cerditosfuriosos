@@ -27,3 +27,7 @@ Cerdito::Cerdito(b2Body* body, Catapulta* catapulta) {
 Cerdito::~Cerdito() {
 	delete this->catapulta;
 }
+
+Catapulta* Cerdito::getCatapulta() {
+	return this->catapulta;
+}

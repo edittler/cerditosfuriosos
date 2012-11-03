@@ -12,13 +12,18 @@
  */
 class Cerdito: public CuerpoAbstracto {
 public:
-	/* Constructor con b2Body especificado para darle atributos correspondientes
+	/* @brief Constructor con b2Body especificado para darle atributos
+	 * correspondientes.
 	 * @param b2Body asociado al World de la libreria Box2D.
 	 */
 	explicit Cerdito(b2Body* body, Catapulta* catapulta);
 
 	// Destructor
 	virtual ~Cerdito();
+
+	/* @brief Retorna la catapulta asociada al cerdito.
+	 */
+	Catapulta* getCatapulta();
 
 private:
 	// Catapulta del cerdito

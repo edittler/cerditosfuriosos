@@ -24,7 +24,7 @@ struct Punto2D {
 	void operator -= (const Punto2D& p) { x -= p.x; y -= p.y; }
 
 	// Multiplica el punto por un escalar.
-	void operator *= (float32 a) { x *= a; y *= a; }
+	void operator *= (float a) { x *= a; y *= a; }
 
 	// Coordenada X.
 	float x;
