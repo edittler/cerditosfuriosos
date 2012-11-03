@@ -20,7 +20,7 @@ bool CuerpoAbstracto::estaVivo() const {
 void CuerpoAbstracto::daniar(float danio) {
 	this->vida -= danio;
 	// Si la vida resulta negativa, aviso al observador que el cuerpo se murio.
-	if (this->observador != 0) {
+	if ((!this->estaVivo()) && (this->observador != 0)) {
 		this->observador->seMurio();
 	}
 }
