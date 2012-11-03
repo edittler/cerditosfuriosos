@@ -1,4 +1,4 @@
-#include "ventana_diseniador.h"
+#include "VentanaDiseniador.h"
 #include <gtkmm/main.h>
 
 int main(int argc, char *argv[]) {

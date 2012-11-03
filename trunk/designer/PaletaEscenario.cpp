@@ -1,4 +1,4 @@
-#include "paleta_escenario.h"
+#include "PaletaEscenario.h"
 
 PaletaEscenario::PaletaEscenario():
 	itemsJugador("ITEMS JUGADOR"),
@@ -8,7 +8,6 @@ PaletaEscenario::PaletaEscenario():
 	cajaItemsVarios(false, 0)
 {
 	set_border_width(6);
-	
 	itemCerdo.signal_drag_data_get().connect(sigc::mem_fun(*this,
 								&PaletaEscenario::boton_cerdo_arrastrado));
 	itemHuevos.signal_drag_data_get().connect(sigc::mem_fun(*this,
@@ -17,6 +16,8 @@ PaletaEscenario::PaletaEscenario():
 								&PaletaEscenario::boton_caja_madera_arrastrado));
 	itemCajaMetal.signal_drag_data_get().connect(sigc::mem_fun(*this,
 								&PaletaEscenario::boton_caja_metal_arrastrado));
+	itemCajaVidrio.signal_drag_data_get().connect(sigc::mem_fun(*this,
+								&PaletaEscenario::boton_caja_vidrio_arrastrado));
 	
 	// Agrego los grupos y los items
 	agregarItems();
@@ -54,25 +55,30 @@ void PaletaEscenario::boton_caja_metal_arrastrado(
 								guint time) {
 	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CAJA_METAL", 10);
 }
-								
+
+void PaletaEscenario::boton_caja_vidrio_arrastrado(
+								const Glib::RefPtr<Gdk::DragContext>& context,
+								Gtk::SelectionData& selection_data,
+								guint info,
+								guint time) {
+	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CAJA_VIDRIO", 11);
+}
 
 void PaletaEscenario::agregarItems() {
 	itemsJugador.add(cajaItemsJugador);
 	cajaItemsJugador.pack_start(itemCerdo, Gtk::PACK_EXPAND_PADDING, 10);
 	cajaItemsJugador.pack_start(itemHuevos, Gtk::PACK_EXPAND_PADDING, 10);
-	
 	itemsVarios.add(cajaItemsVarios);
 	cajaItemsVarios.pack_start(itemCajaMadera, Gtk::PACK_EXPAND_PADDING, 10);
 	cajaItemsVarios.pack_start(itemCajaMetal, Gtk::PACK_EXPAND_PADDING, 10);
-	
+	cajaItemsVarios.pack_start(itemCajaVidrio, Gtk::PACK_EXPAND_PADDING, 10);
 	cajaGrupos.pack_start(itemsJugador, Gtk::PACK_SHRINK, 10);
 	cajaGrupos.pack_start(itemsVarios, Gtk::PACK_SHRINK, 10);
-	
 	itemCerdo.add_pixlabel(RUTA_ITEM_CERDO, "Cerdo");
-	itemHuevos.add_pixlabel(RUTA_ITEM_HUEVOS, "Monticulo");
+	itemHuevos.add_pixlabel(RUTA_ITEM_HUEVOS, "Huevos");
 	itemCajaMadera.add_pixlabel(RUTA_ITEM_CAJA_MADERA, "Caja de madera");
 	itemCajaMetal.add_pixlabel(RUTA_ITEM_CAJA_METAL, "Caja de metal");
-	
+	itemCajaVidrio.add_pixlabel(RUTA_ITEM_CAJA_VIDRIO, "Caja de vidrio");
 	add(cajaGrupos);
 }
 

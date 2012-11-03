@@ -1,4 +1,4 @@
-#include "ventana_diseniador.h"
+#include "VentanaDiseniador.h"
 #include <gdkmm/color.h>
 
 VentanaDiseniador::VentanaDiseniador() {
@@ -15,6 +15,7 @@ VentanaDiseniador::VentanaDiseniador() {
 	paletaEscenario.itemHuevos.drag_source_set(listaObjetivos);
 	paletaEscenario.itemCajaMadera.drag_source_set(listaObjetivos);
 	paletaEscenario.itemCajaMetal.drag_source_set(listaObjetivos);
+	paletaEscenario.itemCajaVidrio.drag_source_set(listaObjetivos);
 	
 	caja.pack_start(paletaEscenario);
 	caja.pack_start(lienzo);
