@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 	escena.agregarCajaMadera(Punto2D(1,1));
 	escena.agregarCerdito(Punto2D(10, 5), Punto2D(15, 5));
 	escena.habilitarSimulacion();
-	escena.lanzarPajaroRojo(Punto2D(1,3),Velocidad2D(0,-10));
+//	escena.lanzarPajaroRojo(Punto2D(1,3),Velocidad2D(0,-10));
 	escena.lanzarHuevoBlanco(Punto2D(1,3),Velocidad2D(0,-10));
 
 	// choque en y de pajaro y huevo (en 4ta iteracion)

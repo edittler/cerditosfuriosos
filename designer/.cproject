@@ -121,27 +121,6 @@
 									<listOptionValue builtIn="false" value="fontconfig"/>
 									<listOptionValue builtIn="false" value="gobject-2.0"/>
 									<listOptionValue builtIn="false" value="glib-2.0"/>
-									<listOptionValue builtIn="false" value="gtkmm-2.4"/>
-									<listOptionValue builtIn="false" value="atkmm-1.6"/>
-									<listOptionValue builtIn="false" value="gdkmm-2.4"/>
-									<listOptionValue builtIn="false" value="giomm-2.4"/>
-									<listOptionValue builtIn="false" value="pangomm-1.4"/>
-									<listOptionValue builtIn="false" value="gtk-x11-2.0"/>
-									<listOptionValue builtIn="false" value="glibmm-2.4"/>
-									<listOptionValue builtIn="false" value="cairomm-1.0"/>
-									<listOptionValue builtIn="false" value="sigc-2.0"/>
-									<listOptionValue builtIn="false" value="gdk-x11-2.0"/>
-									<listOptionValue builtIn="false" value="atk-1.0"/>
-									<listOptionValue builtIn="false" value="gio-2.0"/>
-									<listOptionValue builtIn="false" value="pangoft2-1.0"/>
-									<listOptionValue builtIn="false" value="pangocairo-1.0"/>
-									<listOptionValue builtIn="false" value="gdk_pixbuf-2.0"/>
-									<listOptionValue builtIn="false" value="cairo"/>
-									<listOptionValue builtIn="false" value="pango-1.0"/>
-									<listOptionValue builtIn="false" value="freetype"/>
-									<listOptionValue builtIn="false" value="fontconfig"/>
-									<listOptionValue builtIn="false" value="gobject-2.0"/>
-									<listOptionValue builtIn="false" value="glib-2.0"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1747560512" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -270,6 +249,7 @@
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.618701548" name="Pedantic (-pedantic)" superClass="gnu.cpp.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.warnings.pedantic.error.1485447410" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.cpp.compiler.option.warnings.pedantic.error" value="true" valueType="boolean"/>
 								<option id="gnu.cpp.compiler.option.warnings.extrawarn.2048539329" name="Extra warnings (-Wextra)" superClass="gnu.cpp.compiler.option.warnings.extrawarn" value="false" valueType="boolean"/>
+								<option id="gnu.cpp.compiler.option.warnings.nowarn.1440774892" name="Inhibit all warnings (-w)" superClass="gnu.cpp.compiler.option.warnings.nowarn" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1863802494" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.792724951" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
@@ -307,32 +287,12 @@
 								</option>
 								<option id="gnu.c.compiler.option.warnings.pedantic.1284657307" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.warnings.pedantic.error.1093833598" name="Pedantic warnings as errors (-pedantic-errors)" superClass="gnu.c.compiler.option.warnings.pedantic.error" value="true" valueType="boolean"/>
+								<option id="gnu.c.compiler.option.warnings.nowarn.340190104" name="Inhibit all warnings (-w)" superClass="gnu.c.compiler.option.warnings.nowarn" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1897351107" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.release.1177681638" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.release.2101423995" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.release">
 								<option id="gnu.cpp.link.option.libs.569722768" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" value="gtkmm-2.4"/>
-									<listOptionValue builtIn="false" value="atkmm-1.6"/>
-									<listOptionValue builtIn="false" value="gdkmm-2.4"/>
-									<listOptionValue builtIn="false" value="giomm-2.4"/>
-									<listOptionValue builtIn="false" value="pangomm-1.4"/>
-									<listOptionValue builtIn="false" value="gtk-x11-2.0"/>
-									<listOptionValue builtIn="false" value="glibmm-2.4"/>
-									<listOptionValue builtIn="false" value="cairomm-1.0"/>
-									<listOptionValue builtIn="false" value="sigc-2.0"/>
-									<listOptionValue builtIn="false" value="gdk-x11-2.0"/>
-									<listOptionValue builtIn="false" value="atk-1.0"/>
-									<listOptionValue builtIn="false" value="gio-2.0"/>
-									<listOptionValue builtIn="false" value="pangoft2-1.0"/>
-									<listOptionValue builtIn="false" value="pangocairo-1.0"/>
-									<listOptionValue builtIn="false" value="gdk_pixbuf-2.0"/>
-									<listOptionValue builtIn="false" value="cairo"/>
-									<listOptionValue builtIn="false" value="pango-1.0"/>
-									<listOptionValue builtIn="false" value="freetype"/>
-									<listOptionValue builtIn="false" value="fontconfig"/>
-									<listOptionValue builtIn="false" value="gobject-2.0"/>
-									<listOptionValue builtIn="false" value="glib-2.0"/>
 									<listOptionValue builtIn="false" value="gtkmm-2.4"/>
 									<listOptionValue builtIn="false" value="atkmm-1.6"/>
 									<listOptionValue builtIn="false" value="gdkmm-2.4"/>

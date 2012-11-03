@@ -72,7 +72,7 @@ subdirs:
 	done
 	
 main: subdirs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp $(GTKFLAGS) -o $(main_target)
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) *.cpp $(GTKFLAGS) -o $(main_target)
 
 test: subdirs
 	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test
