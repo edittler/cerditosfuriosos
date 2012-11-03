@@ -15,8 +15,9 @@
 #include "HuevoBlanco.h"
 
 // Other Objects Includes.
-#include "Catapulta.h"
 #include "Cerdito.h"
+#include "Catapulta.h"
+//#include "MonticuloHuevos.h"
 
 // Exceptions Includes.
 #include "exceptions/AgregarObjetoException.h"
@@ -35,8 +36,9 @@ Escenario::Escenario() {
 	b2Vec2 gravity(0.0f, -10.0f);  // Vector que indica la gravedad
 	this->escenario = new b2World(gravity);
 
-	// FIXME por ahora se crea un suelo por defecto aqui, mas adelante deberia llamarse al metodo
-	// directamente desde el disenador
+	/* FIXME por ahora se crea un suelo por defecto aqui, mas adelante deberia
+	 * llamarse al metodo directamente desde el disenador.
+	 */
 	std::list<Punto2D*> p;
 	agregarSuelo(p);
 

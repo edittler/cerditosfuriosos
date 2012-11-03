@@ -24,7 +24,7 @@ struct Velocidad2D {
 	void operator -= (const Velocidad2D& v) { x -= v.x; y -= v.y; }
 
 	// Multiplica el vector de velocidad por un escalar.
-	void operator *= (float32 a) { x *= a; y *= a; }
+	void operator *= (float a) { x *= a; y *= a; }
 
 	// Velocidad en eje X.
 	float x;

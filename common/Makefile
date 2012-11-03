@@ -34,7 +34,7 @@ endif
 SUBDIRS = model parser
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = model model/tests parser Box2D/include
+SUBDIRSINCLUDE = model parser Box2D/include
 
 # Declaracion de objetos externos
 EXTERNOBJS =$(foreach path, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(path)/*.cpp))))
