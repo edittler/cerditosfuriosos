@@ -1,8 +1,7 @@
 #ifndef _VENTANA_DISENIADOR_H_
 #define _VENTANA_DISENIADOR_H_
-//#include <gtkmm/window.h>
-#include "paleta_escenario.h"
-#include "lienzo.h"
+#include "PaletaEscenario.h"
+#include "Lienzo.h"
 
 #include <gtkmm.h>
 

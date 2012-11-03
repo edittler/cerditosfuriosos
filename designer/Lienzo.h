@@ -2,14 +2,16 @@
 #define _LIENZO_H_
 #include <string>
 #include <gtkmm/fixed.h>
+#include <gtkmm/eventbox.h>
 #include <list>
-#include "imagen_posicionable.h"
+#include "ImagenCajaMadera.h"
+#include "ImagenCajaMetal.h"
+#include "ImagenCajaVidrio.h"
+#include "ImagenCerdo.h"
+#include "ImagenHuevos.h"
 
-// Rutas de archivos con las imagenes de los objetos que integran el escenario
-#define RUTA_CERDO "cerdo.png"
-#define RUTA_HUEVOS "huevos.png"
-#define RUTA_CAJA_MADERA "cajaMadera.png"
-#define RUTA_CAJA_METAL "cajaMetal.png"
+
+using std::list;
 
 /**
  * Las instancias de esta clase representan a un contenedor vacio, sobre el cual
@@ -18,13 +20,23 @@
 class Lienzo : public Gtk::Fixed {
 	public:
 	
+		/**
+		 * Constructor.
+		 */
 		Lienzo();
 	
+		/**
+		 * Destructor.
+		 */
 		virtual ~Lienzo();
 	
 	protected:
 	
-		void on_label_drop_drag_data_received(
+		/**
+		 * Recibe informacion de un drag and drop e instancia una imagen
+		 * posicionable en funcion de esta.
+		 */
+		void recibirInformacion(
 								const Glib::RefPtr<Gdk::DragContext>& context,
 								int x,
 								int y,
@@ -34,7 +46,7 @@ class Lienzo : public Gtk::Fixed {
 								
 	private:
 	
-		//std::list<ImagenPosicionable*> posicionables;
+		list<ImagenPosicionable*> posicionables;
 };
 
 #endif
