@@ -35,6 +35,8 @@ public:
 	 */
 	void notificarPosicionAObservador();
 
+	Punto2D getPosicion();
+
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 
 protected:

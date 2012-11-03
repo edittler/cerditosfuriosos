@@ -77,5 +77,6 @@ clean:
 	@cd designer; make clean --no-print-directory -s
 	@cd client; make clean --no-print-directory -s
 	@cd server; make clean --no-print-directory -s
+	@cd common; make clean --no-print-directory -s
 
 .PHONY: all install install_designer install_client install_server uninstall clean debug doc

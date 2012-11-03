@@ -36,12 +36,16 @@ void CuerpoAbstracto::matar() {
 void CuerpoAbstracto::notificarPosicionAObservador() {
 	// Si el observador en no nulo, le envio la posicion.
 	if (this->observador != 0) {
-		b2Vec2 vec = this->cuerpo->GetPosition();
-		Punto2D p;
-		p.x = vec.x;
-		p.y = vec.y;
-		this->observador->actualizarPosicion(p);
+		this->observador->actualizarPosicion(this->getPosicion());
 	}
+}
+
+Punto2D CuerpoAbstracto::getPosicion() {
+	b2Vec2 vec = this->cuerpo->GetPosition();
+	Punto2D p;
+	p.x = vec.x;
+	p.y = vec.y;
+	return p;
 }
 
 void CuerpoAbstracto::printPosition() const {

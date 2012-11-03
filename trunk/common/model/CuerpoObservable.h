@@ -6,7 +6,7 @@
 
 /* @class CuerpoObservable
  * Interfaz que define que un cuerpo puede ser observado, según el patrón
- * observador.
+ * observador. Permite tener un solo observador.
  */
 class CuerpoObservable {
 public:

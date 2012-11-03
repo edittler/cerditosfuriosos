@@ -1,14 +1,17 @@
 #ifndef ESCENARIO_H_
 #define ESCENARIO_H_
 
-// C++ Library Includes
+// C++ Library Includes.
 #include <list>
 
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
 
-// Project Includes
+// Hierarchy Includes.
+#include "EscenarioObservable.h"
 #include "Serializable.h"
+
+// Project Includes.
 #include "CuerpoAbstracto.h"
 #include "Punto2D.h"
 #include "Velocidad2D.h"
@@ -18,7 +21,7 @@
  * Contiene los objetos de la escena y ejecuta la simulacion.
  * Permite ser serializado e hidratado a partir de un nodo XML.
  */
-class Escenario: public Serializable {
+class Escenario: public EscenarioObservable, public Serializable {
 public:
 	Escenario();
 	virtual ~Escenario();

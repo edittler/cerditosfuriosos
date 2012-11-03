@@ -111,12 +111,13 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	b2Body* bodyCerdito = this->escenario->CreateBody(&bodyCerditoDef);
 	// Creo el objeto Cerdito y le paso el cuerpo de Box2D y la catapulta
 	Cerdito* cerdito = new Cerdito(bodyCerdito, catapulta);
-	this->objetos.push_back(cerdito);
-
 	// El cerdito está asociado a un jugador. Creo dicho jugador y le paso el cerdito.
 	Jugador* jugador = new Jugador(cerdito);
 	// Agrego el jugador en la lista de jugadores.
 	this->jugadores.push_back(jugador);
+	/* No agrego al cerdito en la lista de objetos porque lo administra y
+	 * liberará su memoria el jugador asociado
+	 */
 }
 
 void Escenario::agregarCajaMadera(Punto2D p) {
@@ -249,6 +250,7 @@ void Escenario::limpiarCuerposMuertos() {
 			std::cout << "\nElimino objeto muerto: ";  // FIXME borrar
 			cuerpo->printPosition();  // FIXME borrar
 			objetos.remove(cuerpo);
+			delete cuerpo;
 			this->escenario->DestroyBody(node);
 		}
 		node = node->GetNext();
