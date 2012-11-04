@@ -42,7 +42,7 @@ public:
 	/* @brief Choca el disparo con el monticulo.
 	 * @param monticulo a chocar.
 	 */
-//	virtual void chocarCon(Monticulo* monticulo); // TODO agregar monticulo
+	virtual void chocarCon(Monticulo* monticulo);
 
 	/* @brief Choca el disparo con una fruta obteniendo los puntos.
 	 * @param Fruta a chocar.
