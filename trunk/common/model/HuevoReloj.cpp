@@ -27,9 +27,19 @@ HuevoReloj::HuevoReloj(b2Body* body) {
 	fixtureDef.filter.categoryBits = CATEGORY_DISPARO;
 	fixtureDef.filter.maskBits = MASK_DISPARO;
 	this->cuerpo->CreateFixture(&fixtureDef);
+
+	// TODO completar tiempo
+	tiempoExplosion = 6.0f;
 }
 
 HuevoReloj::~HuevoReloj() {
 	// TODO Auto-generated destructor stub
 }
 
+bool HuevoReloj::explotar() {
+	if (this->tiempoExplosion > 0) {
+		return false;
+	}
+
+	return true;
+}
