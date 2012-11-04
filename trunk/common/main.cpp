@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
 //	escena.lanzarHuevoBlanco(Punto2D(5, 3), Velocidad2D(0, 10));
 //	escena.lanzarPajaroRojo(Punto2D(5.1, 5), Velocidad2D(0, -10));
 
-	for(int i = 0; i < 200; i++) {
+	for(int i = 0; i < 50; i++) {
 		escena.correrTick();
 		getchar();  // tecla para continuar.
 	}

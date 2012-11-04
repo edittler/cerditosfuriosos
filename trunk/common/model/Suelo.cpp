@@ -2,7 +2,7 @@
 
 Suelo::Suelo(b2Body* body) {
 	// TODO Auto-generated constructor stub
-	this->vida = 1;
+	this->vida = 100000000;
 	this->cuerpo = body;
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del suelo y lo agrego al body
