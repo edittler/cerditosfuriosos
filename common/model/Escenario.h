@@ -12,11 +12,16 @@
 #include "Serializable.h"
 
 // Project Includes.
-#include "CuerpoAbstracto.h"
+#include "CuerpoAbstracto.h" // FIXME Borrar luego de refactorizar
 #include "Punto2D.h"
 #include "Velocidad2D.h"
+#include "Suelo.h"
 #include "Jugador.h"
 #include "Monticulo.h"
+#include "Superficie.h"
+#include "Fruta.h"
+#include "Pajaro.h"
+#include "Disparo.h"
 
 /* @class Escenario.
  * Contiene los objetos de la escena y ejecuta la simulacion.
@@ -38,15 +43,12 @@ public:
 	void hydrate(const XMLNode& nodo);
 
 	/*
-	 * @brief Agrega la figura del suelo interpolando @param
+	 * @brief Agrega la figura del suelo interpolando @param.
+	 * El escenario solo puede contener un unico suelo. Al intentar agregar más,
+	 * se lanzará excepcion.
 	 * @param Lista de puntos para realizar la interpolacion
 	 */
 	void agregarSuelo(std::list<Punto2D*>& puntos);
-
-	/* @brief Agrega el monticulo.
-	 * @param Punto2D especificando la posición del monticulo.
-	 */
-	void agregarMonticulo(Punto2D posMonticulo);
 
 	/* @brief Agrega al Cerdito con su respectiva Catapulta. Crea un jugador
 	 * lo agrega a la lista de jugadores.
@@ -55,10 +57,42 @@ public:
 	 */
 	void agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta);
 
+	/* @brief Agrega el monticulo.
+	 * El escenario puede contener un único monticulo de huevos. Al intentar
+	 * agregar más, se lanzará excepciones.
+	 * @param Punto2D especificando la posición del monticulo.
+	 */
+	void agregarMonticulo(Punto2D posMonticulo);
+
+	/* @brief Agrega una Caja de Vidrio al escenario.
+	 * @param Punto2D especificando la posición de la Caja de Vidrio.
+	 */
+	void agregarCajaVidrio(Punto2D posicion);
+
 	/* @brief Agrega una Caja de Madera al escenario.
 	 * @param Punto2D especificando la posición de la Caja de Madera.
 	 */
 	void agregarCajaMadera(Punto2D posicion);
+
+	/* @brief Agrega una Caja de Metal al escenario.
+	 * @param Punto2D especificando la posición de la Caja de Metal Vidrio.
+	 */
+	void agregarCajaMetal(Punto2D posicion);
+
+	/* @brief Agrega una Manzana al escenario.
+	 * @param Punto2D especificando la posición de la Manzana.
+	 */
+	void agregarManzana(Punto2D posicion);
+
+	/* @brief Agrega una Banana al escenario.
+	 * @param Punto2D especificando la posición de la Banana.
+	 */
+	void agregarBanana(Punto2D posicion);
+
+	/* @brief Agrega una Cereza al escenario.
+	 * @param Punto2D especificando la posición de la Cereza.
+	 */
+	void agregarCereza(Punto2D posicion);
 
 	/* @brief Habilita el escenario para iniciar la simulacion.
 	 * Una vez habilitada la simulacion no se puede añadir más elementos
@@ -79,6 +113,18 @@ public:
 	 */
 	void lanzarPajaroRojo(Punto2D posInicial, Velocidad2D velInicial);
 
+	/* @brief Agrega un Pajaro Verde al escenario y lo lanza.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
+	 */
+	void lanzarPajaroVerde(Punto2D posInicial, Velocidad2D velInicial);
+
+	/* @brief Agrega un Pajaro Azul al escenario y lo lanza.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
+	 */
+	void lanzarPajaroAzul(Punto2D posInicial, Velocidad2D velInicial);
+
 	/* @brief Agrega un Huevo Blanco al escenario y lo lanza.
 	 * @param Punto2D especificando la posición inicial del lanzamiento.
 	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
@@ -88,10 +134,43 @@ public:
 	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
 			unsigned int jugador = 1);
 
+	/* @brief Agrega unos Huevos de Codorniz al escenario y lo lanza.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
+	 * @param Jugador que va a lanzar el disparo. Tiene que ser un valor mayor
+	 * 			que 0.
+	 */
+	void lanzarHuevosCodorniz(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int jugador = 1);
+
+	/* @brief Agrega un Huevo Poche al escenario y lo lanza.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
+	 * @param Jugador que va a lanzar el disparo. Tiene que ser un valor mayor
+	 * 			que 0.
+	 */
+	void lanzarHuevoPoche(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int jugador = 1);
+
+	/* @brief Agrega un Huevo Reloj al escenario y lo lanza.
+	 * @param Punto2D especificando la posición inicial del lanzamiento.
+	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
+	 * @param Jugador que va a lanzar el disparo. Tiene que ser un valor mayor
+	 * 			que 0.
+	 */
+	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int jugador = 1);
+
 private:
 	Jugador* getJugador(unsigned int indice);
 
 	void limpiarCuerposMuertos();
+
+	void limpiarEnListas(CuerpoAbstracto* cuerpo);
+
+	void notificarPosicionesAObservadores();
+
+	void imprimirPosiciones();  // TODO, provisorio
 
 	/**************
 	 * ATTRIBUTES *
@@ -99,6 +178,9 @@ private:
 
 	// Escenario de Box2D
 	b2World* escenario;
+
+	// Suelo del escenario
+	Suelo* suelo;
 
 	// Administrador de colisiones
 	b2ContactListener* colisionador;
@@ -109,8 +191,13 @@ private:
 	// Monticulo de huevos
 	Monticulo* monticulo;
 
-	// Lista de objetos que contiene el World de Box2D
-	std::list<CuerpoAbstracto*> objetos;
+	/* Lista de superficies, frutas, pajaros y disparos que contiene el
+	 * escenario.
+	 */
+	std::list<Superficie*> superficies;
+	std::list<Fruta*> frutas;
+	std::list<Pajaro*> pajaros;
+	std::list<Disparo*> disparos;
 
 	/* Flag para indicar si la simulacion está habilitada.
 	 * Si la simulacion no está habilitada, no se pueden lanzar pájaros

@@ -28,7 +28,7 @@
 // Other Objects Includes.
 #include "Cerdito.h"
 #include "Catapulta.h"
-//#include "MonticuloHuevos.h"
+#include "Monticulo.h"
 
 /* @class ObservadorEscenario
  * Interfaz de observador del escenario que recibe notificaciones del escenario
@@ -46,7 +46,7 @@ public:
 
 	virtual void seAgregoCatapulta(Catapulta* catapulta) = 0;
 
-//	virtual void seAgregoMonticulo(Monticulo* monticulo) = 0;
+	virtual void seAgregoMonticulo(Monticulo* monticulo) = 0;
 
 	virtual void seAgregoCajaVidrio(CajaVidrio* caja) = 0;
 
