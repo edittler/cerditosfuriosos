@@ -35,6 +35,9 @@ Escenario::Escenario() {
 	b2Vec2 gravity(0.0f, -10.0f);  // Vector que indica la gravedad
 	this->escenario = new b2World(gravity);
 
+	// Para poder chequear si se asigno
+	this->monticulo = NULL;
+
 	/* FIXME por ahora se crea un suelo por defecto aqui, mas adelante deberia
 	 * llamarse al metodo directamente desde el disenador.
 	 */
@@ -168,9 +171,12 @@ void Escenario::habilitarSimulacion() {
 		throw SimulacionException("No hay jugadores/cerditos en la escena,"
 				"no se puede habilitar la simulación.");
 	}
-	/* TODO Verifico si la escena contiene el unico monticulo de huevos.
-	 * Si no, lanzo una excepción.
-	 */
+
+	if (this->monticulo == NULL) {
+		throw SimulacionException("No hay monticulo en la escena,"
+						"no se puede habilitar la simulación.");
+	}
+
 	this->simulacionHabilitada = true;
 }
 
