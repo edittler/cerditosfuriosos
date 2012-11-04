@@ -89,4 +89,10 @@
 // CEREZA
 #define FC_PUNTOS 20
 
+//CONSTANTES PARA EL SIMULADOR
+#define NO_PAJARO    0
+#define PAJARO_AZUL  1
+#define PAJARO_ROJO  2
+#define PAJARO_VERDE 3
+
 #endif /* CONSTANTES_H_ */
