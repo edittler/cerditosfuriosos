@@ -9,6 +9,7 @@
 #include "Superficie.h"
 #include "Pajaro.h"
 #include "Cerdito.h"
+#include "Monticulo.h"
 
 /* @class Disparo
  * Daña otros cuerpos de la escena como superficies y aplica puntos al jugador
