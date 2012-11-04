@@ -22,6 +22,11 @@ void Disparo::chocarCon(Cerdito* cerdito) {
 	matar();
 }
 
+void Disparo::chocarCon(Monticulo* monticulo) {
+	// TODO tomo el monticulo como una superficie, no estoy seguro...
+	monticulo->daniar(danioSuperficie);
+}
+
 void Disparo::chocarCon(Fruta* fruta) {
 	jugador->sumarPuntos(fruta->getPuntosAdquisicion());
 	fruta->matar();
