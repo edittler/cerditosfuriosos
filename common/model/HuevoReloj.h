@@ -7,6 +7,9 @@
 class HuevoReloj: public Disparo {
 private:
 	float danioCerdito;
+	float tiempoExplosion;
+
+	bool explotar();
 public:
 	HuevoReloj(b2Body* body);
 	virtual ~HuevoReloj();
