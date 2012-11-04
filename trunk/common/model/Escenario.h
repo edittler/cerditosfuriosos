@@ -16,6 +16,7 @@
 #include "Punto2D.h"
 #include "Velocidad2D.h"
 #include "Jugador.h"
+#include "Monticulo.h"
 
 /* @class Escenario.
  * Contiene los objetos de la escena y ejecuta la simulacion.
@@ -41,6 +42,11 @@ public:
 	 * @param Lista de puntos para realizar la interpolacion
 	 */
 	void agregarSuelo(std::list<Punto2D*>& puntos);
+
+	/* @brief Agrega el monticulo.
+	 * @param Punto2D especificando la posición del monticulo.
+	 */
+	void agregarMonticulo(Punto2D posMonticulo);
 
 	/* @brief Agrega al Cerdito con su respectiva Catapulta. Crea un jugador
 	 * lo agrega a la lista de jugadores.
@@ -101,7 +107,7 @@ private:
 	std::list<Jugador*> jugadores;
 
 	// Monticulo de huevos
-//	MonticuloHuevos* monticulo;
+	Monticulo* monticulo;
 
 	// Lista de objetos que contiene el World de Box2D
 	std::list<CuerpoAbstracto*> objetos;
