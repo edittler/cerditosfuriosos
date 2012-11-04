@@ -17,7 +17,6 @@
 // Other Objects Includes.
 #include "Cerdito.h"
 #include "Catapulta.h"
-//#include "MonticuloHuevos.h"
 
 // Exceptions Includes.
 #include "exceptions/AgregarObjetoException.h"
@@ -62,6 +61,9 @@ Escenario::~Escenario() {
 	for(it = this->objetos.begin(); it != this->objetos.end(); ++it) {
 		delete (*it);
 	}
+
+	//Libero la memoria del objeto
+	delete monticulo;
 }
 
 XMLNode Escenario::serialize() {
@@ -84,6 +86,26 @@ void Escenario::agregarSuelo(std::list<Punto2D*>& puntos) {
 
 	CuerpoAbstracto* suelo = new Suelo(groundBody);
 	this->objetos.push_back(suelo);
+}
+
+void Escenario::agregarMonticulo(Punto2D posMonticulo) {
+	/* Solo puedo agregar un monticulo si la simulación no ha
+	 * comenzado. Si la simulacion ya comenzo, lanzo una excepcion
+	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar monticulo.");
+	}
+
+	// Defino el cuerpo del monticulo, seteo el tipo y la posicion y lo creo.
+	b2BodyDef bodyMonticuloDef;
+	bodyMonticuloDef.type = b2_staticBody;
+	bodyMonticuloDef.position.Set(posMonticulo.x, posMonticulo.y);
+	b2Body* bodyMonticulo = this->escenario->CreateBody(&bodyMonticuloDef);
+
+	// Creo el objeto Catapulta y le paso el cuerpo de Box2D
+	Monticulo* monticulo = new Monticulo(bodyMonticulo);
+	this->monticulo = monticulo;
 }
 
 void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
