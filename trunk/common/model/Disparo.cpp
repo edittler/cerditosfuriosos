@@ -23,7 +23,7 @@ void Disparo::chocarCon(Cerdito* cerdito) {
 }
 
 void Disparo::chocarCon(Monticulo* monticulo) {
-	// TODO tomo el monticulo como una superficie, no estoy seguro...
+	// FIXME tomo el monticulo como una superficie, no estoy seguro...
 	monticulo->daniar(danioSuperficie);
 }
 

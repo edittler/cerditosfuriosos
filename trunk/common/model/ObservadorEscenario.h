@@ -23,7 +23,7 @@
 #include "HuevoBlanco.h"
 #include "HuevoCodorniz.h"
 #include "HuevoPoche.h"
-//#include "HuevoReloj.h"
+#include "HuevoReloj.h"
 
 // Other Objects Includes.
 #include "Cerdito.h"
@@ -72,7 +72,7 @@ public:
 
 	virtual void seLanzoHuevoPoche(HuevoPoche* huevo) = 0;
 
-//	virtual void seLanzoHuevoReloj(HuevoReloj* huevo) = 0;
+	virtual void seLanzoHuevoReloj(HuevoReloj* huevo) = 0;
 
 	virtual void monticuloDestruido() = 0;
 

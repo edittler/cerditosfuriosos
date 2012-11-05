@@ -11,7 +11,7 @@ private:
 
 	bool explotar();
 public:
-	HuevoReloj(b2Body* body);
+	HuevoReloj(b2Body* body, Jugador* jugador);
 	virtual ~HuevoReloj();
 };
 

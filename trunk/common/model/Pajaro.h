@@ -8,6 +8,7 @@
 #include "Superficie.h"
 #include "Cerdito.h"
 #include "Fruta.h"
+#include "Monticulo.h"
 
 /* Clase base Párajo, una abstraccion generica de los pájaros que son lanzados
  * en el juego Cerditos Furiosos.
@@ -41,8 +42,7 @@ public:
 	 * @brief Choca Pajaro con Monticulo, elimandola del juego.
 	 * @param Monticulo a la que se quiere chocar.
 	 */
-//	void chocarCon(Monticulo* monticulo); // TODO agregar monticulo
-
+	void chocarCon(Monticulo* monticulo);
 protected:
 	// Daño que le realiza a los Cerditos al chocarlos.
 	float danioCerdito;

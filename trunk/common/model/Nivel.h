@@ -5,7 +5,7 @@
 #include "Simulador.h"
 
 class Nivel {
-private:
+protected:
 	Escenario* escenario;
 	Simulador* simulador;
 public:
