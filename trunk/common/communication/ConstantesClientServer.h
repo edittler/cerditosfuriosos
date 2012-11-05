@@ -1,0 +1,11 @@
+#ifndef CONSTANTESCLIENTSERVER_H_
+#define CONSTANTESCLIENTSERVER_H_
+
+// Server
+#define PUERTO_DEFAULT (unsigned short int) 5555
+#define MAX_CONEXION_ESPERA 10
+
+// Cliente
+#define SERVER_IP_DEFAULT "127.0.0.1"
+
+#endif /* CONSTANTESCLIENTSERVER_H_ */
