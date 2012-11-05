@@ -2,6 +2,7 @@
 #define SIMULADOR_H_
 
 class Simulador {
+protected:
 	// Probabilidad de que se genere un pajaro y su variedad
 	int probabilidadPajaroAzul;
 	int probabilidadPajaroRojo;

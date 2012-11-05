@@ -51,7 +51,7 @@ void Colisionador::BeginContact(b2Contact* contact) {
 				break;
 			case MONTICULO_AND_PAJARO:
 				std::cout << "\t*** CHOCO PAJARO Y MONTICULO ***" << std::endl;
-//				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB);  // TODO agregar monticulo
+				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB);
 				break;
 			case FRUTA_AND_PAJARO:
 				std::cout << "\t*** CHOCO PAJARO Y FRUTA ***" << std::endl;
@@ -71,7 +71,7 @@ void Colisionador::BeginContact(b2Contact* contact) {
 				break;
 			case MONTICULO_AND_DISPARO:
 				std::cout << "\t*** CHOCO DISPARO Y MONTICULO ***" << std::endl;
-//				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB); // TODO agregar monticulo
+				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB);
 				break;
 			case FRUTA_AND_DISPARO:
 				std::cout << "\t*** CHOCO DISPARO Y FRUTA ***" << std::endl;
@@ -142,18 +142,17 @@ void Colisionador::chocarPajaroConFruta(CuerpoAbstracto* cuerpoA, CuerpoAbstract
 	pajaro->chocarCon(fruta);
 }
 
-// TODO implementar monticulo
-//void chocarPajaroConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
-//	Pajaro* pajaro = dynamic_cast<Disparo*>(cuerpoA);
-//	Monticulo* monticulo;
-//	if (pajaro == NULL) {
-//		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
-//		monticulo = dynamic_cast<Monticulo*>(cuerpoA);
-//	} else {
-//		monticulo = dynamic_cast<Monticulo*>(cuerpoB);
-//	}
-//	pajaro->chocarCon(monticulo);
-//}
+void Colisionador::chocarPajaroConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Pajaro* pajaro = dynamic_cast<Pajaro*>(cuerpoA);
+	Monticulo* monticulo;
+	if (pajaro == NULL) {
+		pajaro = dynamic_cast<Pajaro*>(cuerpoB);
+		monticulo = dynamic_cast<Monticulo*>(cuerpoA);
+	} else {
+		monticulo = dynamic_cast<Monticulo*>(cuerpoB);
+	}
+	pajaro->chocarCon(monticulo);
+}
 
 void Colisionador::chocarDisparoConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
 	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
@@ -191,18 +190,17 @@ void Colisionador::chocarDisparoConCerdito(CuerpoAbstracto* cuerpoA, CuerpoAbstr
 	disparo->chocarCon(cerdito);
 }
 
-// TODO implementar monticulo
-//void Colisionador::chocarDisparoConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
-//	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
-//	Monticulo* monticulo;
-//	if (disparo == NULL) {
-//		disparo = dynamic_cast<Disparo*>(cuerpoB);
-//		monticulo = dynamic_cast<Monticulo*>(cuerpoA);
-//	} else {
-//		monticulo = dynamic_cast<Monticulo*>(cuerpoB);
-//	}
-//	disparo->chocarCon(monticulo);
-//}
+void Colisionador::chocarDisparoConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
+	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);
+	Monticulo* monticulo;
+	if (disparo == NULL) {
+		disparo = dynamic_cast<Disparo*>(cuerpoB);
+		monticulo = dynamic_cast<Monticulo*>(cuerpoA);
+	} else {
+		monticulo = dynamic_cast<Monticulo*>(cuerpoB);
+	}
+	disparo->chocarCon(monticulo);
+}
 
 void Colisionador::chocarDisparoConFruta(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB) {
 	Disparo* disparo = dynamic_cast<Disparo*>(cuerpoA);

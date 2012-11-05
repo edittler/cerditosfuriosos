@@ -185,9 +185,28 @@ void Escenario::agregarMonticulo(Punto2D posMonticulo) {
 }
 
 void Escenario::agregarCajaVidrio(Punto2D p) {
-	/* TODO Implementar de manera similar a CajaMadera
-	 *
+	/* Solo puedo agregar una Caja de vidrio si la simulación no ha comenzado.
+	 * Si la simulacion ya comenzo, lanzo una excepcion
 	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Caja de Vidrio.");
+	}
+
+	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(p.x, p.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto CajaVidrio y le paso el cuerpo de Box2D
+	CajaVidrio* cajaVidrio = new CajaVidrio(body);
+	this->superficies.push_back(cajaVidrio);
+
+	// Notifico al observador que se creo una caja de vidrio.
+	if (this->observador != NULL) {
+		this->observador->seAgregoCajaVidrio(cajaVidrio);
+	}
 }
 
 void Escenario::agregarCajaMadera(Punto2D p) {
@@ -212,27 +231,103 @@ void Escenario::agregarCajaMadera(Punto2D p) {
 }
 
 void Escenario::agregarCajaMetal(Punto2D p) {
-	/* TODO Implementar de manera similar a CajaMadera
-	 *
+	/* Solo puedo agregar una Caja de metal si la simulación no ha comenzado.
+	 * Si la simulacion ya comenzo, lanzo una excepcion
 	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Caja de Metal.");
+	}
+
+	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(p.x, p.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto CajaMetal y le paso el cuerpo de Box2D
+	CajaMetal* cajaMetal = new CajaMetal(body);
+	this->superficies.push_back(cajaMetal);
+
+	// Notifico al observador que se creo una caja de vidrio.
+	if (this->observador != NULL) {
+		this->observador->seAgregoCajaMetal(cajaMetal);
+	}
 }
 
 void Escenario::agregarManzana(Punto2D p) {
-	/* TODO Implementar de manera similar a cualquiera de las superficies
-	 *
+	/* Solo puedo agregar una Manzana si la simulación no ha comenzado.
+	 * Si la simulacion ya comenzo, lanzo una excepcion
 	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Manzana.");
+	}
+
+	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(p.x, p.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto Manzana y le paso el cuerpo de Box2D
+	Manzana* manzana = new Manzana(body);
+	this->frutas.push_back(manzana);
+
+	// Notifico al observador que se creo una caja de vidrio.
+	if (this->observador != NULL) {
+		this->observador->seAgregoManzana(manzana);
+	}
 }
 
 void Escenario::agregarBanana(Punto2D p) {
-	/* TODO Implementar de manera similar a cualquiera de las superficies
-	 *
+	/* Solo puedo agregar una Banana si la simulación no ha comenzado.
+	 * Si la simulacion ya comenzo, lanzo una excepcion
 	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Banana.");
+	}
+
+	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(p.x, p.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto Manzana y le paso el cuerpo de Box2D
+	Banana* banana = new Banana(body);
+	this->frutas.push_back(banana);
+
+	// Notifico al observador que se creo una caja de vidrio.
+	if (this->observador != NULL) {
+		this->observador->seAgregoBanana(banana);
+	}
 }
 
 void Escenario::agregarCereza(Punto2D p) {
-	/* TODO Implementar de manera similar a cualquiera de las superficies
-	 *
+	/* Solo puedo agregar una Cereza si la simulación no ha comenzado.
+	 * Si la simulacion ya comenzo, lanzo una excepcion
 	 */
+	if (this->simulacionHabilitada) {
+		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
+				" agregar Cereza.");
+	}
+
+	// Defino el cuerpo, seteo el tipo y la posicion y luego lo creo
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
+	bodyDef.position.Set(p.x, p.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto Manzana y le paso el cuerpo de Box2D
+	Cereza* cereza = new Cereza(body);
+	this->frutas.push_back(cereza);
+
+	// Notifico al observador que se creo una caja de vidrio.
+	if (this->observador != NULL) {
+		this->observador->seAgregoCereza(cereza);
+	}
 }
 
 void Escenario::habilitarSimulacion() {
@@ -244,6 +339,7 @@ void Escenario::habilitarSimulacion() {
 				"no se puede habilitar la simulación.");
 	}
 
+	/* Verifico que haya algun monticulo en la escena. Si no, lanzo una excepcion. */
 	if (this->monticulo == NULL) {
 		throw SimulacionException("No hay monticulo en la escena,"
 						"no se puede habilitar la simulación.");
@@ -293,15 +389,59 @@ void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
 }
 
 void Escenario::lanzarPajaroVerde(Punto2D p, Velocidad2D v) {
-	/* TODO Implementar de manera similar a PajaroRojo
-	 *
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
 	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar un Pajaro Verde.");
+	}
+
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
+	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto PajaroVerde y le paso el cuerpo de Box2D
+	PajaroVerde* pajaro = new PajaroVerde(body);
+	this->pajaros.push_back(pajaro);
+
+	// Notifico al observador que se lanzo un pajaro rojo
+	if (this->observador != NULL) {
+		this->observador->seLanzoPajaroVerde(pajaro);
+	}
 }
 
 void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
-	/* TODO Implementar de manera similar a PajaroRojo
-	 *
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
 	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar un Pajaro Azul.");
+	}
+
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
+	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto PajaroAzul y le paso el cuerpo de Box2D
+	PajaroAzul* pajaro = new PajaroAzul(body);
+	this->pajaros.push_back(pajaro);
+
+	// Notifico al observador que se lanzo un pajaro rojo
+	if (this->observador != NULL) {
+		this->observador->seLanzoPajaroAzul(pajaro);
+	}
 }
 
 void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
@@ -313,10 +453,12 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
 				"no se puede lanzar Huevo Blanco.");
 	}
 	Jugador* jugador = this->getJugador(j);
+
 	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
 	}
+
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -325,12 +467,15 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
 	HuevoBlanco* huevo = new HuevoBlanco(body, jugador);
 	this->disparos.push_back(huevo);
+
 	// Notifico al observador que se lanzo un huevo blanco
-	if (this->observador != NULL)
+	if (this->observador != NULL) {
 		this->observador->seLanzoHuevoBlanco(huevo);
+	}
 }
 
 void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
@@ -340,13 +485,71 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
 }
 
 void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, unsigned int j) {
-	/* TODO implementar de manera similar a HuevoBlanco
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
 	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo Poche.");
+	}
+
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(j);
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
+
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
+	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto HuevoPoche y le paso el cuerpo de Box2D
+	HuevoPoche* huevo = new HuevoPoche(body, jugador);
+	this->disparos.push_back(huevo);
+
+	// Notifico al observador que se lanzo un huevo poche
+	if (this->observador != NULL) {
+		this->observador->seLanzoHuevoPoche(huevo);
+	}
 }
 
 void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, unsigned int j) {
-	/* TODO implementar de manera similar a HuevoBlanco
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
 	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo Reloj.");
+	}
+
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(j);
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
+
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
+	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
+	b2Body* body = this->escenario->CreateBody(&bodyDef);
+
+	// Creo el objeto HuevoReloj y le paso el cuerpo de Box2D
+	HuevoReloj* huevo = new HuevoReloj(body, jugador);
+	this->disparos.push_back(huevo);
+
+	// Notifico al observador que se lanzo un huevo reloj
+	if (this->observador != NULL) {
+		this->observador->seLanzoHuevoReloj(huevo);
+	}
 }
 
 Jugador* Escenario::getJugador(unsigned int indice) {

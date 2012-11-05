@@ -18,8 +18,7 @@ void Pajaro::chocarCon(Fruta* fruta) {
 	fruta->matar();
 }
 
-// TODO agregar monticulo
-//void Pajaro::chocarCon(Monticulo* monticulo) {
-//	monticulo->restarHuevo();
-//  matar();
-//}
+void Pajaro::chocarCon(Monticulo* monticulo) {
+	monticulo->daniar(this->danioSuperficie);
+	matar();
+}

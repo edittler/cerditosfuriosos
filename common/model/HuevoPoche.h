@@ -6,7 +6,7 @@
 
 class HuevoPoche: public Disparo {
 public:
-	HuevoPoche(b2Body* body);
+	HuevoPoche(b2Body* body, Jugador* jugador);
 	virtual ~HuevoPoche();
 };
 

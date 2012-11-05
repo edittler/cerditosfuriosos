@@ -2,7 +2,7 @@
 #include "HuevoReloj.h"
 #include "Constantes.h"
 
-HuevoReloj::HuevoReloj(b2Body* body) {
+HuevoReloj::HuevoReloj(b2Body* body, Jugador* jugador) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
 	this->vida = 1;
@@ -28,7 +28,7 @@ HuevoReloj::HuevoReloj(b2Body* body) {
 	fixtureDef.filter.maskBits = MASK_DISPARO;
 	this->cuerpo->CreateFixture(&fixtureDef);
 
-	// TODO completar tiempo
+	// TODO completar el seteo del tiempo, falta el random
 	tiempoExplosion = 6.0f;
 }
 

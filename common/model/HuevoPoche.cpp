@@ -2,7 +2,7 @@
 #include "HuevoPoche.h"
 #include "Constantes.h"
 
-HuevoPoche::HuevoPoche(b2Body* body) {
+HuevoPoche::HuevoPoche(b2Body* body, Jugador* jugador) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
 	this->vida = 1;
