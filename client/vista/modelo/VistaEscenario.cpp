@@ -1,0 +1,105 @@
+// Header Include.
+#include "VistaEscenario.h"
+
+// Forward Includes.
+#include "VistaCuerpo.h"
+
+VistaEscenario::VistaEscenario() {
+
+}
+
+VistaEscenario::~VistaEscenario() {}
+
+void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
+
+}
+
+void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
+
+}
+
+void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
+
+}
+
+void VistaEscenario::seAgregoCatapulta(Catapulta* catapulta) {
+
+}
+
+void VistaEscenario::seAgregoMonticulo(Monticulo* monticulo) {
+
+}
+
+void VistaEscenario::seAgregoCajaVidrio(CajaVidrio* caja) {
+
+}
+
+void VistaEscenario::seAgregoCajaMadera(CajaMadera* caja) {
+
+}
+
+void VistaEscenario::seAgregoCajaMetal(CajaMetal* caja) {
+
+}
+
+void VistaEscenario::seAgregoManzana(Manzana* manzana) {
+
+}
+
+void VistaEscenario::seAgregoBanana(Banana* banana) {
+
+}
+
+void VistaEscenario::seAgregoCereza(Cereza* cereza) {
+
+}
+
+void VistaEscenario::seLanzoPajaroRojo(PajaroRojo* pajaro) {
+
+}
+
+void VistaEscenario::seLanzoPajaroVerde(PajaroVerde* pajaro) {
+
+}
+
+void VistaEscenario::seLanzoPajaroAzul(PajaroAzul* pajaro) {
+
+}
+
+void VistaEscenario::seLanzoHuevoBlanco(HuevoBlanco* huevo) {
+
+}
+
+void VistaEscenario::seLanzoHuevoCodorniz(HuevoCodorniz* huevo) {
+
+}
+
+void VistaEscenario::seLanzoHuevoPoche(HuevoPoche* huevo) {
+
+}
+
+void VistaEscenario::seLanzoHuevoReloj(HuevoReloj* huevo) {
+
+}
+
+void VistaEscenario::monticuloDestruido() {
+
+}
+
+/* Metodo que será usado en el caso de que el escenario tenga un único cerdito.
+ */
+void VistaEscenario::cerditoMatado() {
+
+}
+
+/* Método que será usado en el caso multijugador, donde el escenario tiene
+ * varios cerditos.
+ * El parámetro es el nombre del jugador al que corresponde el cerdito matado.
+ */
+void VistaEscenario::cerditoMatado(std::string nombreJugador) {
+
+}
+
+void VistaEscenario::partidaGanada() {
+
+}
