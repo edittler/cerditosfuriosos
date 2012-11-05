@@ -161,20 +161,39 @@ public:
 	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
 			unsigned int jugador = 1);
 
+	/***********************
+	 * GETTERS AND SETTERS *
+	 ***********************/
+	unsigned int getAlto() const;
+	void setAlto(unsigned int alto);
+
+	unsigned int getAncho() const;
+	void setAncho(unsigned int ancho);
+
+	std::string getRutaImagenFondo() const;
+	void setRutaImagenFondo(std::string rutaArchivo);
+
 private:
 	Jugador* getJugador(unsigned int indice);
-
 	void limpiarCuerposMuertos();
-
 	void limpiarEnListas(CuerpoAbstracto* cuerpo);
-
 	void notificarPosicionesAObservadores();
-
 	void imprimirPosiciones();  // TODO, provisorio
 
 	/**************
 	 * ATTRIBUTES *
 	 **************/
+	/* Aunque no afecta al modelo y el comportamiento de los cuerpos que se
+	 * incluyen en el escenario, se almacenan el ancho y alto del mismo
+	 * que es establecido para usos externos (por ejemplo, la vista)
+	 */
+	unsigned int ancho;
+	unsigned int alto;
+
+	/* Al igual que el ancho y alto, el escenario tiene una imagen de fondo
+	 * que se almacena para usos externos.
+	 */
+	std::string rutaImagenFondo;
 
 	// Escenario de Box2D
 	b2World* escenario;

@@ -552,6 +552,30 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, unsigned int j) {
 	}
 }
 
+unsigned int Escenario::getAlto() const {
+	return alto;
+}
+
+void Escenario::setAlto(unsigned int alto) {
+	this->alto = alto;
+}
+
+unsigned int Escenario::getAncho() const {
+	return ancho;
+}
+
+void Escenario::setAncho(unsigned int ancho) {
+	this->ancho = ancho;
+}
+
+std::string Escenario::getRutaImagenFondo() const {
+	return this->rutaImagenFondo;
+}
+
+void Escenario::setRutaImagenFondo(std::string rutaArchivo) {
+	this->rutaImagenFondo = rutaArchivo;
+}
+
 Jugador* Escenario::getJugador(unsigned int indice) {
 	// El indice comienza a partir del valor 1. Si el indice es 0, retorno NULL.
 	if (indice == 0) {
