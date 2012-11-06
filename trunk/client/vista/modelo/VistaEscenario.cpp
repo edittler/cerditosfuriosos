@@ -30,6 +30,7 @@ void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
 	VistaCerdito* vCerdito = manage(new VistaCerdito(this, cerdito));
 	vCerdito->show_all();
+	show_all();
 }
 
 void VistaEscenario::seAgregoCatapulta(Catapulta* catapulta) {
