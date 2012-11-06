@@ -7,6 +7,7 @@ PaletaEscenario::PaletaEscenario():
 	cajaItemsJugador(false, 0),
 	cajaItemsVarios(false, 0)
 {
+	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
 	set_border_width(6);
 	itemCerdo.signal_drag_data_get().connect(sigc::mem_fun(*this,
 								&PaletaEscenario::boton_cerdo_arrastrado));
@@ -18,7 +19,11 @@ PaletaEscenario::PaletaEscenario():
 								&PaletaEscenario::boton_caja_metal_arrastrado));
 	itemCajaVidrio.signal_drag_data_get().connect(sigc::mem_fun(*this,
 								&PaletaEscenario::boton_caja_vidrio_arrastrado));
-	
+	itemCerdo.drag_source_set(listaObjetivos);
+	itemHuevos.drag_source_set(listaObjetivos);
+	itemCajaMadera.drag_source_set(listaObjetivos);
+	itemCajaMetal.drag_source_set(listaObjetivos);
+	itemCajaVidrio.drag_source_set(listaObjetivos);
 	// Agrego los grupos y los items
 	agregarItems();
 	show_all_children();
@@ -80,6 +85,7 @@ void PaletaEscenario::agregarItems() {
 	itemCajaMetal.add_pixlabel(RUTA_ITEM_CAJA_METAL, "Caja de metal");
 	itemCajaVidrio.add_pixlabel(RUTA_ITEM_CAJA_VIDRIO, "Caja de vidrio");
 	add(cajaGrupos);
+	
 }
 
 PaletaEscenario::~PaletaEscenario() {}

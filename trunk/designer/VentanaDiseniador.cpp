@@ -6,23 +6,25 @@ VentanaDiseniador::VentanaDiseniador() {
 	set_border_width(10);
 	set_resizable(false);
 	
-	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
-	
-	lienzo.set_size_request(500, 300);
-	lienzo.drag_dest_set(listaObjetivos);
-	
-	paletaEscenario.itemCerdo.drag_source_set(listaObjetivos);
-	paletaEscenario.itemHuevos.drag_source_set(listaObjetivos);
-	paletaEscenario.itemCajaMadera.drag_source_set(listaObjetivos);
-	paletaEscenario.itemCajaMetal.drag_source_set(listaObjetivos);
-	paletaEscenario.itemCajaVidrio.drag_source_set(listaObjetivos);
-	
-	caja.pack_start(paletaEscenario);
-	caja.pack_start(lienzo);
-		
+	/* */
+	lienzo = new Lienzo(800, 600);
+	/* */
+	paletaEscenario = new PaletaEscenario();
+	cajaPaletaBorrar.pack_start(*paletaEscenario);
+	/* */
+	eliminador = new EliminadorPosicionables(lienzo);
+	cajaPaletaBorrar.pack_start(*eliminador);
+	/* */
+	caja.pack_start(cajaPaletaBorrar);
+	caja.pack_start(*lienzo);
+	/* */
 	add(caja);
 	show_all_children();
 }
 
-VentanaDiseniador::~VentanaDiseniador() {}
+VentanaDiseniador::~VentanaDiseniador() {
+	delete paletaEscenario;
+	delete lienzo;
+	delete eliminador;
+}
 

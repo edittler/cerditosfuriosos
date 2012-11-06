@@ -10,8 +10,8 @@
 #include "ImagenCerdo.h"
 #include "ImagenHuevos.h"
 
-
 using std::list;
+using std::string;
 
 /**
  * Las instancias de esta clase representan a un contenedor vacio, sobre el cual
@@ -23,12 +23,18 @@ class Lienzo : public Gtk::Fixed {
 		/**
 		 * Constructor.
 		 */
-		Lienzo();
+		Lienzo(int ancho, int alto);
 	
 		/**
 		 * Destructor.
 		 */
 		virtual ~Lienzo();
+		
+		/**
+		 * @param id identificador de la imagen contenida en este lienzo que se
+		 * quiere eliminar
+		 */
+		void eliminarImagen(string id);
 	
 	protected:
 	
@@ -46,7 +52,35 @@ class Lienzo : public Gtk::Fixed {
 								
 	private:
 	
+		list<Gtk::TargetEntry> listaObjetivos;
 		list<ImagenPosicionable*> posicionables;
+		
+		/**
+		 * Mueve el objeto identificado por el primer parametro hacia el punto,
+		 * siempre y cuando no vaya a ocupar la posicion de otro objeto ya
+		 * agregado ni a salirse de los limites.
+		 * @param x abscisa donde queremos agregar a la imagen
+		 * @param y ordenada donde queremos agregar a la imagen
+		 */
+		void moverObjeto(string id, int x, int y);
+		
+		/**
+		 * @param x abscisa de la esquina superior derecha del objeto a agregar
+		 * @param x ordenada de la esquina superior derecha del objeto a agregar
+		 * @param imagen objeto a agregar
+		 * @return true si el objeto a agregar coincidira espacialmente con
+		 * alguno ya agregado y false en el caso contrario
+		 */
+		bool coincidenciaOcupacional(int x, int y, ImagenPosicionable* imagen);
+		
+		/**
+		 * @param x abscisa de la esquina superior derecha del objeto a agregar
+		 * @param x ordenada de la esquina superior derecha del objeto a agregar
+		 * @param imagen objeto a agregar
+		 * @return true si el objeto a agregar esta espacialmente dentro del
+		 * escenario y false en el caso contrario
+		 */
+		bool dentroDeEscenario(int x, int y, ImagenPosicionable* imagen);
 };
 
 #endif

@@ -3,6 +3,8 @@
 #include "ImagenPosicionable.h"
 
 #define RUTA_HUEVOS "imagenes/huevos.png"
+#define ALTO_HUEVOS 60
+#define ANCHO_HUEVOS 60
 
 /**
  * Las instancias de esta clase representan a la vista de un monticulo de huevos

@@ -22,6 +22,30 @@ class ImagenPosicionable : public Gtk::EventBox {
 		 * Devuelve un string que identifica univocamente a esta instancia.
 		 */
 		std::string getId();
+		
+		/**
+		 * @return abscisa de la esquina superior derecha de la imagen
+		 */
+		int getX();
+		
+		/**
+		 * @return ordenada de la esquina superior derecha de la imagen
+		 */
+		int getY();
+		
+		/**
+		 * @param x abscisa de la esquina superior derecha de la imagen
+		 */
+		void setX(int x);
+		
+		/**
+		 * @param y ordenada de la esquina superior derecha de la imagen
+		 */
+		void setY(int y);
+		
+		// Dimensiones de la imagen en pixeles
+		int alto;
+		int ancho;
 	
 	protected:
 	
