@@ -16,7 +16,7 @@ public:
 	 * @param posicion punto de referencia del objeto en el escenario
 	 * @param ruta archivo que contiene a la imagen
 	 */
-	VistaCuerpo(VistaEscenario* escenario, Punto2D posicion, const char* ruta);
+	VistaCuerpo(VistaEscenario* escenario, const char* ruta);
 
 	/* Destructor.
 	 */

@@ -4,7 +4,8 @@
 // Hierarchy Include.
 #include "VistaCuerpo.h"
 
-#define RUTA_CERDITO "imagenes/CerditoFeliz.png"
+// Project Includes.
+#include "Cerdito.h"
 
 class VistaCerdito : public VistaCuerpo {
 public:
@@ -14,7 +15,7 @@ public:
 	 * @param posicion punto de referencia del cuerpo en el escenario
 	 * @param escenario puntero a la vista a la que le notificaremos cambios
 	 */
-	VistaCerdito(VistaEscenario* escenario, Punto2D posicion);
+	VistaCerdito(VistaEscenario* escenario, Cerdito* cerdito);
 
 	/**
 	 * Destructor.

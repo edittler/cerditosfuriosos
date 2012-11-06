@@ -4,13 +4,19 @@
 // Hierarchy Include.
 #include "ObservadorEscenario.h"
 
+// GTK+ Library Includes.
+#include <gtkmm/fixed.h>
+
+// Project Includes.
+#include "Escenario.h"
+
 // Forward Declarations.
 class VistaCuerpo;
 
-class VistaEscenario: public ObservadorEscenario {
+class VistaEscenario: public ObservadorEscenario, public Gtk::Fixed {
 public:
 
-	VistaEscenario();
+	explicit VistaEscenario(Escenario* escenario);
 
 	virtual ~VistaEscenario();
 
