@@ -15,8 +15,8 @@ Gtk::Image(ruta) {
 VistaCuerpo::~VistaCuerpo() { }
 
 void VistaCuerpo::actualizarPosicion(Punto2D posicion) {
-	x = ajustarValor(posicion.x);
-	y = ajustarValor(posicion.y);
+	x = ajustarValorX(posicion.x);
+	y = ajustarValorY(posicion.y);
 	escenario->mover(this, x, y);
 }
 
@@ -24,9 +24,15 @@ void VistaCuerpo::seMurio() {
 	escenario->eliminar(this);
 }
 
-
-int VistaCuerpo::ajustarValor(float valorFlotante) {
+int VistaCuerpo::ajustarValorX(float valorFlotante) {
 	valorFlotante *= 100;
 	int valor = (int) round(valorFlotante);
+	return valor;
+}
+
+int VistaCuerpo::ajustarValorY(float valorFlotante) {
+	valorFlotante *= 100;
+	int valor = (int) round(valorFlotante);
+	valor = this->escenario->getAlto() - valor;
 	return valor;
 }

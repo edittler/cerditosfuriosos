@@ -13,6 +13,7 @@
 #include "vista/modelo/VistaEscenario.h"
 #include "core/Client.h"
 #include "../../common/model/Escenario.h"
+#include "vista/modelo/SimuladorProvisorio.h"
 
 int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
@@ -27,10 +28,18 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "Soy el Cliente!!" << std::endl;
 
+	escenario->agregarCerdito(Punto2D(0.2, 1), Punto2D(10, 10));
+	escenario->agregarMonticulo(Punto2D(1,1));
+	escenario->habilitarSimulacion();
+	escenario->lanzarPajaroRojo(Punto2D(10,5), Velocidad2D(-10, 5));
+
+	SimuladorProvisorio sim(escenario);
+
+//	sim.start();
+
 	Gtk::Main::run(ventana);
 
-	escenario->agregarCerdito(Punto2D(3, 10), Punto2D(10, 10));
-
+	sim.join();
 	return 0;
 }
 

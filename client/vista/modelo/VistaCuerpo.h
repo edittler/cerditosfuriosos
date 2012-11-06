@@ -4,6 +4,9 @@
 // Hierarchy Include.
 #include "ObservadorCuerpo.h"
 
+// C++ Library Includes.
+#include <string>
+
 // GTK+ Library Include.
 #include <gtkmm/image.h>
 
@@ -34,7 +37,8 @@ protected:
 	 * discretizacion.
 	 * @param Valor flotante que se desea ajustar.
 	 */
-	static int ajustarValor(float valorFlotante);
+	int ajustarValorX(float valorFlotante);
+	int ajustarValorY(float valorFlotante);
 
 	/* Posiciones en pixeles del cuerpo
 	 */

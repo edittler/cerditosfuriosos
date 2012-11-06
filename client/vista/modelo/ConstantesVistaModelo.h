@@ -7,5 +7,9 @@
 // CERDITOS
 #define RUTA_CERDITO "imagenes/escena/CerditoAtacando.png"
 
+// PAJAROS
+#define RUTA_PAJARO_ROJO_IZQ "imagenes/escena/PajaroRojoI.png"
+#define RUTA_PAJARO_ROJO_DER "imagenes/escena/PajaroRojoD.png"
+
 
 #endif /* CONSTANTESVISTAMODELO_H_ */

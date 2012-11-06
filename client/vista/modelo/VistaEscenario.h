@@ -80,6 +80,14 @@ public:
 	void cerditoMatado(std::string nombreJugador);
 
 	void partidaGanada();
+
+	int getAncho() const;
+	int getAlto() const;
+
+private:
+	/* Dimensiones de la vista del escenario */
+	int ancho;
+	int alto;
 };
 
 #endif  /* _VISTA_ESCENARIO_H_ */

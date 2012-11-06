@@ -30,6 +30,7 @@
 								<option id="gnu.cpp.compiler.option.other.other.1916346935" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.include.paths.460849278" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/thread}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/parser}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/model}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/Box2D/include}&quot;"/>
@@ -72,6 +73,7 @@
 								<option id="gnu.c.compiler.option.warnings.pedantic.1340507588" name="Pedantic (-pedantic)" superClass="gnu.c.compiler.option.warnings.pedantic" value="true" valueType="boolean"/>
 								<option id="gnu.c.compiler.option.include.paths.2006347828" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/thread}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/include/gtkmm-2.4"/>
 									<listOptionValue builtIn="false" value="/usr/lib/x86_64-linux-gnu/gtkmm-2.4/include"/>
 									<listOptionValue builtIn="false" value="/usr/include/atkmm-1.6"/>
