@@ -31,11 +31,11 @@ int main(int argc, char *argv[]) {
 	escenario->agregarCerdito(Punto2D(0.2, 1), Punto2D(10, 10));
 	escenario->agregarMonticulo(Punto2D(1,1));
 	escenario->habilitarSimulacion();
-	escenario->lanzarPajaroRojo(Punto2D(10,5), Velocidad2D(-10, 5));
+	escenario->lanzarPajaroRojo(Punto2D(10,5), Velocidad2D(-10, -5));
 
 	SimuladorProvisorio sim(escenario);
 
-//	sim.start();
+	sim.start();
 
 	Gtk::Main::run(ventana);
 
