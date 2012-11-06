@@ -28,7 +28,7 @@ endif
 SUBDIRS = ../common/parser ../common/communication ../common/model core vista vista/modelo
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = ../common/parser ../common/communication ../common/model core vista vista/modelo
+SUBDIRSINCLUDE = ../common/parser ../common/communication ../common/model ../common/Box2D/include core vista vista/modelo
 
 # Declaracion de objetos externos
 EXTERNOBJS =$(foreach path, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(path)/*.cpp))))

@@ -7,11 +7,9 @@
 // Forward Includes.
 #include "VistaEscenario.h"
 
-VistaCuerpo::VistaCuerpo(VistaEscenario* escenario, Punto2D posicion,
-		const char* ruta) : Gtk::Image(ruta) {
+VistaCuerpo::VistaCuerpo(VistaEscenario* escenario, const char* ruta) :
+Gtk::Image(ruta) {
 	this->escenario = escenario;
-	this->x = ajustarValor(posicion.x);
-	this->y = ajustarValor(posicion.y);
 }
 
 VistaCuerpo::~VistaCuerpo() { }
@@ -28,7 +26,7 @@ void VistaCuerpo::seMurio() {
 
 
 int VistaCuerpo::ajustarValor(float valorFlotante) {
-	valorFlotante *= 20;
+	valorFlotante *= 100;
 	int valor = (int) round(valorFlotante);
 	return valor;
 }

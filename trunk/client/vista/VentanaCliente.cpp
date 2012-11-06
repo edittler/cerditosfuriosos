@@ -1,10 +1,4 @@
-/*
- * VentanaCliente.cpp
- *
- *  Created on: 03/11/2012
- *      Author: ezequiel
- */
-
+// Header Include.
 #include "VentanaCliente.h"
 
 VentanaCliente::VentanaCliente() {
@@ -17,5 +11,10 @@ VentanaCliente::VentanaCliente() {
 
 VentanaCliente::~VentanaCliente() {
 	// TODO Auto-generated destructor stub
+}
+
+void VentanaCliente::agregarContenedor(Gtk::Container* conteiner) {
+	this->add(*conteiner);
+	show_all_children();
 }
 

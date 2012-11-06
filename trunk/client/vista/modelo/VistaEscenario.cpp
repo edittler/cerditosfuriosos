@@ -4,22 +4,32 @@
 // Forward Includes.
 #include "VistaCuerpo.h"
 
-VistaEscenario::VistaEscenario() {
+//Project Includes.
+#include "VistaCerdito.h"
 
+VistaEscenario::VistaEscenario(Escenario* escenario) {
+	// Ajusto las dimensiones del fixed al tamaño del escenario.
+	int ancho = escenario->getAncho();
+	int alto = escenario->getAlto();
+	this->set_size_request(ancho, alto);
+	// Registro la vista del escenario en el escenario del modelo.
+	escenario->registrarObservador(this);
+	// Agrego el fondo en el fixed. TODO Implementar
 }
 
 VistaEscenario::~VistaEscenario() {}
 
 void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
-
+	this->move(*cuerpo, x, y);
 }
 
 void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
-
+	this->remove(*cuerpo);
 }
 
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
-
+	VistaCerdito* vCerdito = manage(new VistaCerdito(this, cerdito));
+	vCerdito->show_all();
 }
 
 void VistaEscenario::seAgregoCatapulta(Catapulta* catapulta) {

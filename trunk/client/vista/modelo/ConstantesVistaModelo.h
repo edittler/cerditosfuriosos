@@ -5,7 +5,7 @@
 #define CONSTANTESVISTAMODELO_H_
 
 // CERDITOS
-#define RUTA_CERDITO "imagenes/CerditoFeliz.png"
+#define RUTA_CERDITO "imagenes/escena/CerditoAtacando.png"
 
 
 #endif /* CONSTANTESVISTAMODELO_H_ */
