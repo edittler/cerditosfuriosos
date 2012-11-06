@@ -8,11 +8,13 @@ class Nivel {
 protected:
 	Escenario* escenario;
 	Simulador* simulador;
+
+	int tiempoGeneracionMinimo;
 public:
 	Nivel();
 	virtual ~Nivel();
 
-	void generarPajaro();
+	virtual void tick(int milisegundos) = 0;
 };
 
 #endif

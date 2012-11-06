@@ -7,6 +7,9 @@ class NivelLocal: public Nivel {
 public:
 	NivelLocal();
 	virtual ~NivelLocal();
+
+	void tick(int milisegundos);
+	void generarPajaro();
 };
 
 #endif
