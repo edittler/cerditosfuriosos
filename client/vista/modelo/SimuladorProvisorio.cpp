@@ -1,5 +1,7 @@
 #include "SimuladorProvisorio.h"
-#include <iostream>
+#include "ConstantesVistaModelo.h"
+
+#include <iostream> // FIXME eliminar
 
 SimuladorProvisorio::SimuladorProvisorio(Escenario* escenario) {
 	this->escenario = escenario;
@@ -12,10 +14,10 @@ SimuladorProvisorio::~SimuladorProvisorio() {
 
 void* SimuladorProvisorio::run() {
 	/* Hago correr unos ticks.*/
-	for (int i=0; i < 100; i++) {
+	for (int i=0; i < 500; i++) {
 		this->escenario->correrTick();
-		std::cout << std::endl;
-		usleep(20000);
+		std::cout << "tick " << i << std::endl;
+		usleep(DELTA_LOOP);
 	}
 	return NULL;
 }

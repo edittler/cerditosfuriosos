@@ -1,5 +1,6 @@
 // Header Include.
 #include "VistaCuerpo.h"
+#include "ConstantesVistaModelo.h"
 
 // C++ Library Includes.
 #include <cmath>
@@ -25,13 +26,13 @@ void VistaCuerpo::seMurio() {
 }
 
 int VistaCuerpo::ajustarValorX(float valorFlotante) {
-	valorFlotante *= 100;
+	valorFlotante *= AJUSTE_ESCALA_VISTA;
 	int valor = (int) round(valorFlotante);
 	return valor;
 }
 
 int VistaCuerpo::ajustarValorY(float valorFlotante) {
-	valorFlotante *= 100;
+	valorFlotante *= AJUSTE_ESCALA_VISTA;
 	int valor = (int) round(valorFlotante);
 	valor = this->escenario->getAlto() - valor;
 	return valor;
