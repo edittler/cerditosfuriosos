@@ -2,7 +2,7 @@
 #include "VentanaCliente.h"
 
 VentanaCliente::VentanaCliente() {
-	set_title("Creador de niveles");
+	set_title("Cerditos Furiosos");
 	set_border_width(10);
 	set_resizable(false);
 

@@ -28,6 +28,9 @@ int main(int argc, char *argv[]) {
 	std::cout << "Soy el Cliente!!" << std::endl;
 
 	Gtk::Main::run(ventana);
+
+	escenario->agregarCerdito(Punto2D(3, 10), Punto2D(10, 10));
+
 	return 0;
 }
 
