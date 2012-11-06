@@ -7,11 +7,12 @@
 //Project Includes.
 #include "VistaCerdito.h"
 #include "VistaPajaroRojo.h"
+#include "ConstantesVistaModelo.h"
 
 VistaEscenario::VistaEscenario(Escenario* escenario) {
 	// Ajusto las dimensiones del fixed al tamaño del escenario.
-	this->ancho = escenario->getAncho();
-	this->alto = escenario->getAlto();
+	this->ancho = escenario->getAncho() * AJUSTE_ESCALA_VISTA;
+	this->alto = escenario->getAlto() * AJUSTE_ESCALA_VISTA;
 	this->set_size_request(ancho, alto);
 	// Registro la vista del escenario en el escenario del modelo.
 	escenario->registrarObservador(this);
