@@ -3,6 +3,7 @@
 #include <gtkmm/frame.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
+#include <gtkmm/eventbox.h>
 
 // Ruta de las imagenes que se colocaran en los botones
 #define RUTA_ITEM_CAJA_MADERA "imagenes/itemCajaMadera.png"
@@ -13,10 +14,7 @@
 
 class PaletaEscenario : public Gtk::Frame {
 	public:
-	
-		// Items contenidos en los grupos
-		Gtk::Button itemCajaMadera, itemCajaMetal, itemCajaVidrio, itemCerdo, itemHuevos;
-	
+			
 		/**
 		 * Constructor.
 		 */
@@ -61,6 +59,12 @@ class PaletaEscenario : public Gtk::Frame {
 								
 	private:
 	
+		std::list<Gtk::TargetEntry> listaObjetivos;
+
+		// Items contenidos en los grupos
+		Gtk::Button itemCajaMadera, itemCajaMetal, itemCajaVidrio, itemCerdo,
+					itemHuevos;
+		
 		// Grupos de items que se veran en la paleta
 		Gtk::Frame itemsJugador, itemsVarios;
 		

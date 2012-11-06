@@ -14,12 +14,9 @@ ImagenPosicionable::ImagenPosicionable(const char* ruta): Gtk::EventBox() {
 		}
 	}
 	++contadorInstancias;
-	
 	Gtk::Image* imagen = manage(new Gtk::Image(ruta));
 	add(*imagen);
-	
 	set_events(Gdk::ALL_EVENTS_MASK);
-	
 	std::list<Gtk::TargetEntry> listaObjetivos;
 	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
 	drag_source_set(listaObjetivos);
@@ -39,4 +36,20 @@ void ImagenPosicionable::imagen_arrastrada(
 								guint info,
 								guint time) {
 	selection_data.set(selection_data.get_target(), 8, (const guchar*)id.c_str(), id.length());
+}
+
+int ImagenPosicionable::getX() {
+	return x;
+}
+
+int ImagenPosicionable::getY() {
+	return y;
+}
+
+void ImagenPosicionable::setX(int x) {
+	this->x = x;
+}
+		
+void ImagenPosicionable::setY(int y) {
+	this->y = y;
 }

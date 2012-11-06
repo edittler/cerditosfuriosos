@@ -5,6 +5,8 @@ ImagenCajaMetal::ImagenCajaMetal(int x, int y) :
 {
 	this->x = x;
 	this->y = y;
+	this->alto = ALTO_CAJA_METAL;
+	this->ancho = ANCHO_CAJA_METAL;
 }
 
 ImagenCajaMetal::~ImagenCajaMetal() {}

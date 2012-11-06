@@ -5,6 +5,8 @@ ImagenHuevos::ImagenHuevos(int x, int y) :
 {
 	this->x = x;
 	this->y = y;
+	this->alto = ALTO_HUEVOS;
+	this->ancho = ANCHO_HUEVOS;
 }
 
 ImagenHuevos::~ImagenHuevos() {}

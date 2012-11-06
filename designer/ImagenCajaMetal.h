@@ -3,6 +3,8 @@
 #include "ImagenPosicionable.h"
 
 #define RUTA_CAJA_METAL "imagenes/cajaMetal.png"
+#define ANCHO_CAJA_METAL 60;
+#define ALTO_CAJA_METAL 60;
 
 /**
  * Las instancias de esta clase representan a la vista de una cada de metal

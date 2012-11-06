@@ -3,6 +3,8 @@
 #include "ImagenPosicionable.h"
 
 #define RUTA_CAJA_VIDRIO "imagenes/cajaVidrio.png"
+#define ALTO_CAJA_VIDRIO 60
+#define ANCHO_CAJA_VIDRIO 60
 
 /**
  * Las instancias de esta clase representan a la vista de una cada de vidrio
@@ -10,7 +12,7 @@
  */
 class ImagenCajaVidrio : public ImagenPosicionable {
 	public:
-	
+		
 		/**
 		 * Constructor.
 		 * @param x abscisa de la esquina superior derecha de la imagen

@@ -5,6 +5,8 @@ ImagenCerdo::ImagenCerdo(int x, int y) :
 {
 	this->x = x;
 	this->y = y;
+	this->alto = ALTO_CERDO;
+	this->ancho = ANCHO_CERDO;
 }
 
 ImagenCerdo::~ImagenCerdo() {}
