@@ -9,7 +9,7 @@
 
 // Hierarchy Includes.
 #include "EscenarioObservable.h"
-#include "Serializable.h"
+#include "../parser/Serializable.h"
 
 // Project Includes.
 #include "CuerpoAbstracto.h" // FIXME Borrar luego de refactorizar
@@ -187,8 +187,8 @@ private:
 	 * incluyen en el escenario, se almacenan el ancho y alto del mismo
 	 * que es establecido para usos externos (por ejemplo, la vista)
 	 */
-	unsigned int ancho;
-	unsigned int alto;
+	int ancho;
+	int alto;
 
 	/* Al igual que el ancho y alto, el escenario tiene una imagen de fondo
 	 * que se almacena para usos externos.

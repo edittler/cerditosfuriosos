@@ -6,6 +6,7 @@
 
 // Project Includes.
 #include "CuerpoObservable.h"
+#include "Velocidad2D.h"
 
 /* @class CuerpoAbstracto
  * Interfaz que define un cuerpo con una vida. Implementa el CuerpoObservable,
@@ -35,7 +36,9 @@ public:
 	 */
 	void notificarPosicionAObservador();
 
-	Punto2D getPosicion();
+	Punto2D getPosicion() const;
+
+	Velocidad2D getVelocidad() const;
 
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 

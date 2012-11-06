@@ -6,11 +6,12 @@
 
 //Project Includes.
 #include "VistaCerdito.h"
+#include "VistaPajaroRojo.h"
 
 VistaEscenario::VistaEscenario(Escenario* escenario) {
 	// Ajusto las dimensiones del fixed al tamaño del escenario.
-	int ancho = escenario->getAncho();
-	int alto = escenario->getAlto();
+	this->ancho = escenario->getAncho();
+	this->alto = escenario->getAlto();
 	this->set_size_request(ancho, alto);
 	// Registro la vista del escenario en el escenario del modelo.
 	escenario->registrarObservador(this);
@@ -28,8 +29,8 @@ void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
 }
 
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
-	VistaCerdito* vCerdito = manage(new VistaCerdito(this, cerdito));
-	vCerdito->show_all();
+	VistaCerdito* vCerdito = new VistaCerdito(this, cerdito);
+	cerdito->registrarObservador(vCerdito);
 	show_all();
 }
 
@@ -66,7 +67,9 @@ void VistaEscenario::seAgregoCereza(Cereza* cereza) {
 }
 
 void VistaEscenario::seLanzoPajaroRojo(PajaroRojo* pajaro) {
-
+	VistaPajaroRojo* vPajaro = new VistaPajaroRojo(this, pajaro);
+	pajaro->registrarObservador(vPajaro);
+	show_all();
 }
 
 void VistaEscenario::seLanzoPajaroVerde(PajaroVerde* pajaro) {
@@ -113,4 +116,11 @@ void VistaEscenario::cerditoMatado(std::string nombreJugador) {
 
 void VistaEscenario::partidaGanada() {
 
+}
+
+int VistaEscenario::getAncho() const {
+	return this->ancho;
+}
+int VistaEscenario::getAlto() const {
+	return this->alto;
 }

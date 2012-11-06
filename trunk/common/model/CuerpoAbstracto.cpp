@@ -40,12 +40,20 @@ void CuerpoAbstracto::notificarPosicionAObservador() {
 	}
 }
 
-Punto2D CuerpoAbstracto::getPosicion() {
+Punto2D CuerpoAbstracto::getPosicion() const{
 	b2Vec2 vec = this->cuerpo->GetPosition();
 	Punto2D p;
 	p.x = vec.x;
 	p.y = vec.y;
 	return p;
+}
+
+Velocidad2D CuerpoAbstracto::getVelocidad() const {
+	b2Vec2 vec = this->cuerpo->GetLinearVelocity();
+	Velocidad2D v;
+	v.x = vec.x;
+	v.y = vec.y;
+	return v;
 }
 
 void CuerpoAbstracto::printPosition() const {

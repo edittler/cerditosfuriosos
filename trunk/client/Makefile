@@ -25,7 +25,7 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = ../common/parser ../common/communication ../common/model core vista vista/modelo
+SUBDIRS = ../common/parser ../common/thread ../common/communication ../common/model core vista vista/modelo
 
 # Subdirectorio de inclusiones externas a agregar
 SUBDIRSINCLUDE = ../common/parser ../common/communication ../common/model ../common/Box2D/include core vista vista/modelo
