@@ -358,6 +358,14 @@ void Escenario::correrTick() {
 	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES, POSICION_ITERACIONES);
 	// Imprimo las posiciones de los objetos. TODO Provisorio.
 	this->imprimirPosiciones();
+	/* FIXME
+	 * Antes de limpiar cuerpos muertos, se debe verificar si el monticulo y
+	 * los cerditos tienen vida. Si alguno no tiene vida, es porque la partida
+	 * se perdió. Si la partida se perdió, no es necesario "limpiarCuerposMuertos"
+	 * porque se supone que se van a borrar las listas enteras.
+	 * Aún así, si algun cerdito o montículo no tiene vida, no correr el metodo
+	 * "LimpiarCuerposMuertos" porque va a haber un delete incorrecto.
+	 */
 	// Elimino objetos "muertos"
 	this->limpiarCuerposMuertos();
 	// Notifico al observador las nuevas posiciones de pajaros y disparos.

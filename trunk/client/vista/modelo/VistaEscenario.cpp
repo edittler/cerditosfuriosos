@@ -10,16 +10,24 @@
 #include "ConstantesVistaModelo.h"
 
 VistaEscenario::VistaEscenario(Escenario* escenario) {
+	// Almaceno el escenario
+	this->escenario = escenario;
+	// Registro la vista del escenario en el escenario del modelo.
+	this->escenario->registrarObservador(this);
 	// Ajusto las dimensiones del fixed al tamaño del escenario.
 	this->ancho = escenario->getAncho() * AJUSTE_ESCALA_VISTA;
 	this->alto = escenario->getAlto() * AJUSTE_ESCALA_VISTA;
 	this->set_size_request(ancho, alto);
-	// Registro la vista del escenario en el escenario del modelo.
-	escenario->registrarObservador(this);
 	// Agrego el fondo en el fixed. TODO Implementar
 }
 
-VistaEscenario::~VistaEscenario() {}
+VistaEscenario::~VistaEscenario() {
+	// Libero la memoria de las vistas
+	std::list<VistaCuerpo*>::iterator it;
+	for(it = this->vCuerpos.begin(); it != this->vCuerpos.end(); ++it) {
+		delete (*it);
+	}
+}
 
 void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
 	this->move(*cuerpo, x, y);
@@ -31,7 +39,7 @@ void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
 
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
 	VistaCerdito* vCerdito = new VistaCerdito(this, cerdito);
-	cerdito->registrarObservador(vCerdito);
+	this->vCuerpos.push_back(vCerdito);
 	show_all();
 }
 
@@ -69,7 +77,7 @@ void VistaEscenario::seAgregoCereza(Cereza* cereza) {
 
 void VistaEscenario::seLanzoPajaroRojo(PajaroRojo* pajaro) {
 	VistaPajaroRojo* vPajaro = new VistaPajaroRojo(this, pajaro);
-	pajaro->registrarObservador(vPajaro);
+	this->vCuerpos.push_back(vPajaro);
 	show_all();
 }
 

@@ -1,10 +1,25 @@
 // Header Include.
 #include "CuerpoAbstracto.h"
 
+// Exceptions Includes.
+#include "exceptions/ObservadorException.h"
+
 #include <cstdio>  // TODO PROVISORIO, BORRAR
 
 CuerpoAbstracto::CuerpoAbstracto() {
-	// TODO Auto-generated constructor stub
+	this->cuerpo = NULL;
+	this->vida = 0;
+	this->observador = NULL;
+}
+
+CuerpoAbstracto::CuerpoAbstracto(b2Body* cuerpo, float vida) {
+	// Almaceno el b2Body correspondiente a Box2D
+	this->cuerpo = cuerpo;
+	// Almaceno la vida que va a tener el cuerpo
+	this->vida = vida;
+	// Establezco el observador como nulo.
+	this->observador = NULL;
+
 }
 
 CuerpoAbstracto::~CuerpoAbstracto() {
@@ -33,9 +48,29 @@ void CuerpoAbstracto::matar() {
 	}
 }
 
+void CuerpoAbstracto::registrarObservador(ObservadorCuerpo* observador) {
+	/* Si el observador no es nulo, es porque ya hay uno registrado. Como no
+	 * puede haber más de un observador, lanzo una excepcion.
+	 */
+	if (this->observador != NULL) {
+		throw ObservadorException("El objeto ya tiene un observador.");
+	}
+	this->observador = observador;
+}
+
+void CuerpoAbstracto::eliminarObservador(ObservadorCuerpo* observador) {
+	/* Si el observador que se quiere eliminar no coincide con el que se
+	 * encuentra registrado, lanzo una excepcion.
+	 */
+	if (this->observador != observador) {
+		throw ObservadorException("El observador no se encuentra registrado.");
+	}
+	this->observador = NULL;
+}
+
 void CuerpoAbstracto::notificarPosicionAObservador() {
 	// Si el observador en no nulo, le envio la posicion.
-	if (this->observador != 0) {
+	if (this->observador != NULL) {
 		this->observador->actualizarPosicion(this->getPosicion());
 	}
 }

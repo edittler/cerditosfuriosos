@@ -13,11 +13,10 @@ Monticulo::Monticulo(b2Body* body) {
 	b2PolygonShape polygonShape;
 	int32 verticesTriangulo = 3;
 
-	// TODO Setear los valores correctos de los vertices
 	b2Vec2 vertices[3];
-	vertices[0].Set(0.0f, 0.0f);
-	vertices[1].Set(1.0f, 0.0f);
-	vertices[2].Set(0.0f, 1.0f);
+	vertices[0].Set(0.0f, 0.0f);		// Vertice inferior izquierdo.
+	vertices[1].Set(M_ANCHO, 0.0f);		// Vertice inferior derecho.
+	vertices[2].Set((M_ANCHO)/2, M_ALTO);		// Vertice superior.
 
 	polygonShape.Set(vertices, verticesTriangulo);
 

@@ -1,14 +1,9 @@
-/*
- * ComenzarSimulacionException.h
- *
- *  Created on: 28/10/2012
- *      Author: ezequiel
- */
-
 #ifndef SIMULACIONEXCEPTION_H_
 #define SIMULACIONEXCEPTION_H_
 
-class SimulacionException {
+#include <exception>
+
+class SimulacionException: public std::exception {
 public:
 	SimulacionException(const std::string mensaje) throw() {
 		this->msj = "Error en la simulación: ";

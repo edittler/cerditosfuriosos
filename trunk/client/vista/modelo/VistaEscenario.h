@@ -4,6 +4,9 @@
 // Hierarchy Include.
 #include "ObservadorEscenario.h"
 
+//C++ Library Includes.
+#include <list>
+
 // GTK+ Library Includes.
 #include <gtkmm/fixed.h>
 
@@ -85,9 +88,19 @@ public:
 	int getAlto() const;
 
 private:
+	/**************
+	 * ATTRIBUTES *
+	 **************/
+
+	/* Escenario del modelo */
+	Escenario* escenario;
+
 	/* Dimensiones de la vista del escenario */
 	int ancho;
 	int alto;
+
+	/* Lista de Vista de cuerpos */
+	std::list<VistaCuerpo*> vCuerpos;
 };
 
 #endif  /* _VISTA_ESCENARIO_H_ */
