@@ -6,7 +6,9 @@
 
 //Project Includes.
 #include "VistaCerdito.h"
+#include "VistaCajaMadera.h"
 #include "VistaPajaroRojo.h"
+#include "VistaHuevoBlanco.h"
 #include "ConstantesVistaModelo.h"
 
 VistaEscenario::VistaEscenario(Escenario* escenario) {
@@ -56,7 +58,11 @@ void VistaEscenario::seAgregoCajaVidrio(CajaVidrio* caja) {
 }
 
 void VistaEscenario::seAgregoCajaMadera(CajaMadera* caja) {
-
+	// FIXME usar manage para crear asi libera memoria automaticamente??
+	// idem con todos los metodos.
+	VistaCajaMadera* vCaja = new VistaCajaMadera(this, caja);
+	this->vCuerpos.push_back(vCaja);
+	show_all();
 }
 
 void VistaEscenario::seAgregoCajaMetal(CajaMetal* caja) {
@@ -90,7 +96,9 @@ void VistaEscenario::seLanzoPajaroAzul(PajaroAzul* pajaro) {
 }
 
 void VistaEscenario::seLanzoHuevoBlanco(HuevoBlanco* huevo) {
-
+	VistaHuevoBlanco* vHuevo = new VistaHuevoBlanco(this, huevo);
+	this->vCuerpos.push_back(vHuevo);
+	show_all();
 }
 
 void VistaEscenario::seLanzoHuevoCodorniz(HuevoCodorniz* huevo) {
