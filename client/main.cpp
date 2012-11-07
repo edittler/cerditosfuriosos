@@ -19,28 +19,28 @@ int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
 	VentanaCliente ventana;
 
-	Escenario* escenario = new Escenario();
+	Escenario escenario;
 	// FIXME el alto y ancho del escenario deberia setearse en metros (mundo Box2D)
 	// y dentro del constructor de VistaEscenario aplicarse el escalado realizando
 	// la multiplicacion por AJUSTE_ESCALA_VISTA
-	escenario->setAncho(20);
-	escenario->setAlto(12);
+	escenario.setAncho(20);
+	escenario.setAlto(12);
 
-	VistaEscenario* vEscenario = new VistaEscenario(escenario);
-	ventana.agregarContenedor(vEscenario);
+	VistaEscenario vEscenario(&escenario);
+	ventana.agregarContenedor(&vEscenario);
 
 	std::cout << "Soy el Cliente!!" << std::endl;
 
-	escenario->agregarCerdito(Punto2D(0.2, 1), Punto2D(10, 10));
-	escenario->agregarMonticulo(Punto2D(-1,-1));
-	escenario->habilitarSimulacion();
-	escenario->lanzarPajaroRojo(Punto2D(6*2,6), Velocidad2D(-5, 5));
-	escenario->lanzarPajaroRojo(Punto2D(8*2,6), Velocidad2D(-5, -5));
-	escenario->lanzarPajaroRojo(Punto2D(9*2,7), Velocidad2D(-10, 0));
-	escenario->lanzarPajaroRojo(Punto2D(7*2,4), Velocidad2D(-12, 1));
-	escenario->lanzarPajaroRojo(Punto2D(4*2,5), Velocidad2D(-2, 9));
+	escenario.agregarCerdito(Punto2D(0.4, 0.6), Punto2D(10, 10));
+	escenario.agregarMonticulo(Punto2D(-1,-1));
+	escenario.habilitarSimulacion();
+	escenario.lanzarPajaroRojo(Punto2D(6*2,6), Velocidad2D(-5, 5));
+	escenario.lanzarPajaroRojo(Punto2D(8*2,6), Velocidad2D(-5, -5));
+	escenario.lanzarPajaroRojo(Punto2D(9*2,7), Velocidad2D(-10, 0));
+	escenario.lanzarPajaroRojo(Punto2D(7*2,4), Velocidad2D(-12, 1));
+	escenario.lanzarPajaroRojo(Punto2D(4*2,5), Velocidad2D(-2, 9));
 
-	SimuladorProvisorio sim(escenario);
+	SimuladorProvisorio sim(&escenario);
 
 	sim.start();
 

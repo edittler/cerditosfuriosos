@@ -1,11 +1,13 @@
 #ifndef CUERPOABSTRACTO_H_
 #define CUERPOABSTRACTO_H_
 
+// Hierarchy Include.
+#include "CuerpoObservable.h"
+
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
 
 // Project Includes.
-#include "CuerpoObservable.h"
 #include "Velocidad2D.h"
 
 /* @class CuerpoAbstracto
@@ -15,7 +17,18 @@
  */
 class CuerpoAbstracto: public CuerpoObservable {
 public:
-	CuerpoAbstracto();
+	/* Constructor antiguo sin parametros.
+	 */
+	CuerpoAbstracto() __attribute__((deprecated));
+
+	/* @brief Constructor que inicializa los atributos.
+	 * @param cuerpo de Box2D.
+	 * @param vida que va a tener el cuerpo.
+	 */
+	CuerpoAbstracto(b2Body* cuerpo, float vida);
+
+	/* Destructor
+	 */
 	virtual ~CuerpoAbstracto();
 
 	/* @brief Retorna el estado del cuerpo
@@ -32,6 +45,16 @@ public:
 	 */
 	void matar();
 
+	/* @brief Registra un observador.
+	 * @param Observador a registrar.
+	 */
+	void registrarObservador(ObservadorCuerpo* observador);
+
+	/* @brief Elimina el observador. En caso de que no exista el observador
+	 * dado, no realiza nada.
+	 */
+	void eliminarObservador(ObservadorCuerpo* observador);
+
 	/* @brief Notifica la posicion del cuerpo al observador.
 	 */
 	void notificarPosicionAObservador();
@@ -43,8 +66,14 @@ public:
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 
 protected:
-	b2Body* cuerpo;  // Cuerpo de Box2D que se encapsula.
-	float vida;  // Vida del cuerpo.
+	// Cuerpo de Box2D que se encapsula.
+	b2Body* cuerpo;
+
+	// Vida del cuerpo.
+	float vida;
+
+	// Observador del cuerpo.
+	ObservadorCuerpo* observador;
 };
 
 #endif /* CUERPOABSTRACTO_H_ */

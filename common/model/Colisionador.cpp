@@ -71,7 +71,7 @@ void Colisionador::BeginContact(b2Contact* contact) {
 				break;
 			case MONTICULO_AND_DISPARO:
 				std::cout << "\t*** CHOCO DISPARO Y MONTICULO ***" << std::endl;
-				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB);
+				this->chocarDisparoConMonticulo(cuerpoA, cuerpoB);
 				break;
 			case FRUTA_AND_DISPARO:
 				std::cout << "\t*** CHOCO DISPARO Y FRUTA ***" << std::endl;

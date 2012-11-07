@@ -79,6 +79,8 @@
 
 // CONSTANTES DE MONTICULO
 #define M_VIDA 10.0f
+#define M_ANCHO 0.55f
+#define M_ALTO 0.58f
 
 // CONSTANTES FRUTAS
 #define F_RADIO 0.1f	// Minimo radio para evitar efecto tunneling
