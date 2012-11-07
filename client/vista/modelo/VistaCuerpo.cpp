@@ -14,6 +14,11 @@ VistaCuerpo::VistaCuerpo(VistaEscenario* escenario, CuerpoAbstracto* cuerpo,
 	this->escenario = escenario;
 	// Almaceno la referencia al CuerpoAbstracto asociado.
 	this->cuerpo = cuerpo;
+	// Obtengo la posicion del cuerpo y realizo el ajuste de valores.
+	Punto2D p = cuerpo->getPosicion();
+	this->x = this->ajustarValorX(p.x);
+	this->y = this->ajustarValorY(p.y);
+	this->escenario->put(*this, this->x, this->y);
 	// Obtengo las dimensiones de la imagen.
 	this->ancho = this->get_pixbuf()->get_width();
 	this->alto = this->get_pixbuf()->get_height();
