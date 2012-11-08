@@ -43,7 +43,12 @@ void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
 }
 
 void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
+	// Elimino el cuerpo del fixed
 	this->remove(*cuerpo);
+	// Elimino el cuerpo de la lista de vista de cuerpos
+	this->vCuerpos.remove(cuerpo);
+	// Elimino el cuerpo.
+	delete cuerpo;
 }
 
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
