@@ -15,10 +15,10 @@ public:
 	virtual ~Serializable();
 
 	/* Serializa el objeto y retorna un nodo XML */
-	virtual XMLNode serialize() = 0;
+	virtual XMLNode* serialize() = 0;
 
 	/* A partir de un nodo XML se establece el objeto */
-	virtual void hydrate(const XMLNode& nodo) = 0;
+	virtual void hydrate(const XMLNode* nodo) = 0;
 };
 
 #endif /* SERIALIZABLE_H_ */

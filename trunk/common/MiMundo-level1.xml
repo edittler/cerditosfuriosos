@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Nivel duracion="23">
+    <Escenario ancho="14.62857142" alto="9.14285714">
+        <Imagen>fondo_nivel1.jpg</Imagen>
+        <Jugadores>2</Jugadores>
+        <SegmentosSuelo>
+            <y>10</y>
+        </SegmentosSuelo>
+        <Cerditos>
+            <Cerdito>
+                <Punto2D x="2" y="10"></Punto2D>
+                <Catapulta>
+                    <Punto2D x="12" y="10"></Punto2D>
+                </Catapulta>
+            </Cerdito>
+            <Cerdito>
+                <Punto2D x="15" y="10"></Punto2D>
+                <Catapulta>
+                    <Punto2D x="25" y="10"></Punto2D>
+                </Catapulta>
+            </Cerdito>
+        </Cerditos>
+        <MonticuloHuevos>
+            <Punto2D x="30" y="10"></Punto2D>
+        </MonticuloHuevos>
+        <Superficies>
+            <CajaMadera>
+                <Punto2D x="600" y="20"></Punto2D>
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="800" y="25"></Punto2D>
+            </CajaMadera>
+        </Superficies>
+    </Escenario>
+    <LineaEntrada tiempoGeneracion="250" probabilidad="80">
+        <PuntoInicial x="1023" y="300"></PuntoInicial>
+        <PuntoFinal x="1023" y="300"></PuntoFinal>
+    </LineaEntrada>
+    <ProbabilidadesPajaros>
+        <PajaroRojo probabilidad="50"></PajaroRojo>
+        <PajaroVerde probabilidad="30"></PajaroVerde>
+        <PajaroAzul probabilidad="15"></PajaroAzul>
+    </ProbabilidadesPajaros>
+</Nivel>

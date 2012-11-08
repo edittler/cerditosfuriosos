@@ -1,7 +1,8 @@
 #include <iostream>
 #include "model/Escenario.h"
+#include "parser/XMLTypes.h"
 
-int main(int argc, char *argv[]) {
+void probarEscenario() {
 	Escenario escena;
 	// Choque caja madera con pajaro y/o huevo
 	escena.agregarCajaMadera(Punto2D(1,1));
@@ -32,6 +33,34 @@ int main(int argc, char *argv[]) {
 		escena.correrTick();
 		getchar();  // tecla para continuar.
 	}
+}
 
+void probarParseoEscenario() {
+	std::cout << " === PROBANDO LA CARGA DEL ESCENARIO A PARTIR DE UN ARCHIVO XML" << std::endl;
+	std::cout << std::endl;
+	// Declaro el escenario que donde voy a cargar el XML.
+	Escenario escena;
+	// Declaro y cargo el documento XML.
+	XMLDocument doc;
+	std::string fileName = "MiMundo-level1.xml";
+	bool cargoArchivo = doc.LoadFile(fileName);
+
+	// Si no se cargo, lanzo error.
+	if (cargoArchivo == false) {
+		std::cout << "Error al abrir el archivo XML." << std::endl;
+	} else {
+		// Obtengo el elemento raiz, que debe ser <Nivel>, pero no valido.
+		const XMLNode* nodo = doc.RootElement();
+		// Obtengo el primer elemento hijo que debe ser <Escenario>
+		nodo = nodo->FirstChildElement();
+		// Cargo el escenario a partir del nodo XML.
+		escena.hydrate(nodo);
+
+	}
+}
+
+int main(int argc, char *argv[]) {
+	probarEscenario();
+	probarParseoEscenario();
 	return 0;
 }
