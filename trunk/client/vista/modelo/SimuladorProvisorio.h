@@ -1,8 +1,11 @@
 #ifndef SIMULADORPROVISORIO_H_
 #define SIMULADORPROVISORIO_H_
 
+#include <unistd.h>
+
 #include <../../common/thread/Thread.h>
 #include <Escenario.h>
+#include <Nivel.h>
 
 class SimuladorProvisorio: public Thread {
 public:
@@ -11,7 +14,7 @@ public:
 
 	void* run();
 private:
-	Escenario* escenario;
+        Nivel* nivel;
 };
 
-#endif /* SIMULADORPROVISORIO_H_ */
+#endif
