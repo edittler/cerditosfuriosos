@@ -205,6 +205,8 @@ private:
 	b2ContactListener* colisionador;
 
 	// Lista de jugadores
+	// FIXME implementar con std::vector, modificar metodo getJugador(i)
+	// para que use jugadores.at, si hay exception out_of_range devolver NULL.
 	std::list<Jugador*> jugadores;
 
 	// Monticulo de huevos
