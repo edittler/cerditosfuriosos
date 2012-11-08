@@ -4,29 +4,32 @@
 #ifndef CONSTANTESVISTAMODELO_H_
 #define CONSTANTESVISTAMODELO_H_
 
+// GENERAL
+#define PATH_IMAGENES "../common/"
+
 // CERDITOS
-#define RUTA_CERDITO "imagenes/escena/CerditoAtacando.png"
+#define RUTA_CERDITO PATH_IMAGENES "images/scene/CerditoAtacando.png"
 
 // MONTICULO
-#define RUTA_MONTICULO_COMPLETO "imagenes/escena/Monticulo10.png"
+#define RUTA_MONTICULO_COMPLETO PATH_IMAGENES "images/scene/Monticulo10.png"
 
 // PAJAROS
-#define RUTA_PAJARO_ROJO_IZQ "imagenes/escena/PajaroRojoI.png"
-#define RUTA_PAJARO_ROJO_DER "imagenes/escena/PajaroRojoD.png"
-#define RUTA_PAJARO_VERDE_IZQ "imagenes/escena/PajaroVerdeI.png"
-#define RUTA_PAJARO_VERDE_DER "imagenes/escena/PajaroVerdeD.png"
-#define RUTA_PAJARO_AZUL_IZQ "imagenes/escena/PajaroAzulI.png"
-#define RUTA_PAJARO_AZUL_DER "imagenes/escena/PajaroAzulD.png"
+#define RUTA_PAJARO_ROJO_IZQ PATH_IMAGENES "images/scene/PajaroRojoI.png"
+#define RUTA_PAJARO_ROJO_DER PATH_IMAGENES "images/scene/PajaroRojoD.png"
+#define RUTA_PAJARO_VERDE_IZQ PATH_IMAGENES "images/scene/PajaroVerdeI.png"
+#define RUTA_PAJARO_VERDE_DER PATH_IMAGENES "images/scene/PajaroVerdeD.png"
+#define RUTA_PAJARO_AZUL_IZQ PATH_IMAGENES "images/scene/PajaroAzulI.png"
+#define RUTA_PAJARO_AZUL_DER PATH_IMAGENES "images/scene/PajaroAzulD.png"
 
 // SUPERFICIES
-#define RUTA_CAJA_MADERA "imagenes/escena/CajaMadera.png"
-#define RUTA_CAJA_VIDRIO "imagenes/escena/CajaVidrio.png"
-#define RUTA_CAJA_METAL "imagenes/escena/CajaMetal.png"
+#define RUTA_CAJA_MADERA PATH_IMAGENES "images/scene/CajaMadera.png"
+#define RUTA_CAJA_VIDRIO PATH_IMAGENES "images/scene/CajaVidrio.png"
+#define RUTA_CAJA_METAL PATH_IMAGENES "images/scene/CajaMetal.png"
 
 // DISPAROS
-#define RUTA_HUEVO_BLANCO "imagenes/escena/HuevoBlanco.png"
-#define RUTA_HUEVO_CODORNIZ "imagenes/escena/HuevoCodorniz.png"
-#define RUTA_HUEVO_RELOJ "imagenes/escena/HuevoReloj.png"
+#define RUTA_HUEVO_BLANCO PATH_IMAGENES "images/scene/HuevoBlanco.png"
+#define RUTA_HUEVO_CODORNIZ PATH_IMAGENES "images/scene/HuevoCodorniz.png"
+#define RUTA_HUEVO_RELOJ PATH_IMAGENES "images/scene/HuevoReloj.png"
 
 // VISTA
 // Las escalas hacen referencia a cuantos pixeles equivalen a 1 metro
