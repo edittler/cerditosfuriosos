@@ -23,10 +23,10 @@ int main(int argc, char *argv[]) {
 	// FIXME el alto y ancho del escenario deberia setearse en metros (mundo Box2D)
 	// y dentro del constructor de VistaEscenario aplicarse el escalado realizando
 	// la multiplicacion por AJUSTE_ESCALA_VISTA
-//	int ancho = 14, alto = 6; 	// setear AJUSTE_ESCALA_VISTA = 80
-//	int ancho = 16, alto = 8; 	// setear AJUSTE_ESCALA_VISTA = 70
+//	int ancho = 14, alto = 7; 	// setear AJUSTE_ESCALA_VISTA = 80
+	int ancho = 16, alto = 8; 	// setear AJUSTE_ESCALA_VISTA = 70
 //	int ancho = 18, alto = 10; 	// setear AJUSTE_ESCALA_VISTA = 60
-	int ancho = 20, alto = 12;  // setear AJUSTE_ESCALA_VISTA = 50
+//	int ancho = 20, alto = 12;  // setear AJUSTE_ESCALA_VISTA = 50
 	escenario.setAncho(ancho);
 	escenario.setAlto(alto);
 
@@ -38,6 +38,8 @@ int main(int argc, char *argv[]) {
 	escenario.agregarCerdito(Punto2D(0.4, 0.6), Punto2D(10, 10));
 	escenario.agregarMonticulo(Punto2D(-1,-1));
 	escenario.agregarCajaMadera(Punto2D(5,3));
+	escenario.agregarCajaVidrio(Punto2D(5,5));
+	escenario.agregarCajaMetal(Punto2D(3,4));
 	escenario.habilitarSimulacion();
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 2, alto - 4), Velocidad2D(-5, 5));
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 3, alto - 4), Velocidad2D(-5, -5));
@@ -45,6 +47,8 @@ int main(int argc, char *argv[]) {
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 1, alto - 4), Velocidad2D(-12, 1));
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 5, 2), Velocidad2D(-4, 9));
 	escenario.lanzarHuevoBlanco(Punto2D(1,1), Velocidad2D(5.5, 13));
+	escenario.lanzarHuevosCodorniz(Punto2D(2,1), Velocidad2D(7, 8));
+	escenario.lanzarHuevoReloj(Punto2D(3,1), Velocidad2D(3, 7));
 
 	SimuladorProvisorio sim(&escenario);
 

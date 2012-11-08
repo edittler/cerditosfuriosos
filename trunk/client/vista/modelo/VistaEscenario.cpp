@@ -6,9 +6,16 @@
 
 //Project Includes.
 #include "VistaCerdito.h"
+#include "VistaMonticulo.h"
 #include "VistaCajaMadera.h"
+#include "VistaCajaVidrio.h"
+#include "VistaCajaMetal.h"
 #include "VistaPajaroRojo.h"
+#include "VistaPajaroVerde.h"
+#include "VistaPajaroAzul.h"
 #include "VistaHuevoBlanco.h"
+#include "VistaHuevoCodorniz.h"
+#include "VistaHuevoReloj.h"
 #include "ConstantesVistaModelo.h"
 
 VistaEscenario::VistaEscenario(Escenario* escenario) {
@@ -50,11 +57,15 @@ void VistaEscenario::seAgregoCatapulta(Catapulta* catapulta) {
 }
 
 void VistaEscenario::seAgregoMonticulo(Monticulo* monticulo) {
-
+	VistaMonticulo* vMonticulo = new VistaMonticulo(this, monticulo);
+	this->vCuerpos.push_back(vMonticulo);
+	show_all();
 }
 
 void VistaEscenario::seAgregoCajaVidrio(CajaVidrio* caja) {
-
+	VistaCajaVidrio* vCaja = new VistaCajaVidrio(this, caja);
+	this->vCuerpos.push_back(vCaja);
+	show_all();
 }
 
 void VistaEscenario::seAgregoCajaMadera(CajaMadera* caja) {
@@ -66,7 +77,9 @@ void VistaEscenario::seAgregoCajaMadera(CajaMadera* caja) {
 }
 
 void VistaEscenario::seAgregoCajaMetal(CajaMetal* caja) {
-
+	VistaCajaMetal* vCaja = new VistaCajaMetal(this, caja);
+	this->vCuerpos.push_back(vCaja);
+	show_all();
 }
 
 void VistaEscenario::seAgregoManzana(Manzana* manzana) {
@@ -88,11 +101,15 @@ void VistaEscenario::seLanzoPajaroRojo(PajaroRojo* pajaro) {
 }
 
 void VistaEscenario::seLanzoPajaroVerde(PajaroVerde* pajaro) {
-
+	VistaPajaroVerde* vPajaro = new VistaPajaroVerde(this, pajaro);
+	this->vCuerpos.push_back(vPajaro);
+	show_all();
 }
 
 void VistaEscenario::seLanzoPajaroAzul(PajaroAzul* pajaro) {
-
+	VistaPajaroAzul* vPajaro = new VistaPajaroAzul(this, pajaro);
+	this->vCuerpos.push_back(vPajaro);
+	show_all();
 }
 
 void VistaEscenario::seLanzoHuevoBlanco(HuevoBlanco* huevo) {
@@ -102,7 +119,9 @@ void VistaEscenario::seLanzoHuevoBlanco(HuevoBlanco* huevo) {
 }
 
 void VistaEscenario::seLanzoHuevoCodorniz(HuevoCodorniz* huevo) {
-
+	VistaHuevoCodorniz* vHuevo = new VistaHuevoCodorniz(this, huevo);
+	this->vCuerpos.push_back(vHuevo);
+	show_all();
 }
 
 void VistaEscenario::seLanzoHuevoPoche(HuevoPoche* huevo) {
@@ -110,7 +129,9 @@ void VistaEscenario::seLanzoHuevoPoche(HuevoPoche* huevo) {
 }
 
 void VistaEscenario::seLanzoHuevoReloj(HuevoReloj* huevo) {
-
+	VistaHuevoReloj* vHuevo = new VistaHuevoReloj(this, huevo);
+	this->vCuerpos.push_back(vHuevo);
+	show_all();
 }
 
 void VistaEscenario::monticuloDestruido() {
