@@ -43,6 +43,12 @@ protected:
 	int ajustarValorX(float valorFlotante);
 	int ajustarValorY(float valorFlotante);
 
+	/*
+	 * @brief Inicializa imagen resizeando a valor correspondiente
+	 * segun tamanio de escenario.
+	 * Simultaneamente setea ancho y alto de escenarios.
+	 */
+	void iniciarImagen();
 
 	/**************
 	 * ATTRIBUTES *
