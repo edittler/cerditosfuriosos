@@ -6,7 +6,7 @@
 
 class HuevoCodorniz: public Disparo {
 public:
-	HuevoCodorniz(b2Body* body);
+	HuevoCodorniz(b2Body* body, Jugador* jugador);
 	virtual ~HuevoCodorniz();
 };
 

@@ -59,6 +59,8 @@
 #define HC_RADIO 0.1f	// Minimo radio para evitar efecto tunneling
 #define HC_DANIO_PAJARO 0.5f
 #define HC_DANIO_SUPERFICIE 0.25f
+#define HC_OFFSET_MIN 1.2f
+#define HC_OFFSET_MAX 0.8f
 // HUEVO POCHE
 #define HP_RADIO 0.18f
 #define HP_DANIO_PAJARO 1.0f

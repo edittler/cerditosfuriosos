@@ -2,7 +2,7 @@
 #include "HuevoCodorniz.h"
 #include "Constantes.h"
 
-HuevoCodorniz::HuevoCodorniz(b2Body* body) {
+HuevoCodorniz::HuevoCodorniz(b2Body* body, Jugador* jugador) {
 	// Defino los atributos de clase
 	this->cuerpo = body;
 	this->vida = 1;

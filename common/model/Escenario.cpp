@@ -487,9 +487,51 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
 }
 
 void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
-	/* TODO implementar de manera similar a HuevoBlanco, pero tener en cuenta
-	 * que se lanzan de a 3 Huevos de Codorniz
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
 	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo Blanco.");
+	}
+	Jugador* jugador = this->getJugador(j);
+
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
+
+	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
+	 * y luego lo creo.
+	 */
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(p.x, p.y);
+	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// Creo tres objeto HuevoCodorniz con distinta velocidad inicial
+	b2Body* body1 = this->escenario->CreateBody(&bodyDef);
+	HuevoCodorniz* huevo1 = new HuevoCodorniz(body1, jugador);
+
+	bodyDef.linearVelocity.Set(v.x * HC_OFFSET_MAX, v.y * HC_OFFSET_MAX);
+	b2Body* body2 = this->escenario->CreateBody(&bodyDef);
+	HuevoCodorniz* huevo2 = new HuevoCodorniz(body2, jugador);
+
+	bodyDef.linearVelocity.Set(v.x * HC_OFFSET_MIN, v.y * HC_OFFSET_MIN);
+	b2Body* body3 = this->escenario->CreateBody(&bodyDef);
+	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3, jugador);
+
+	// Agrego disparos
+	this->disparos.push_back(huevo1);
+	this->disparos.push_back(huevo2);
+	this->disparos.push_back(huevo3);
+
+	// Notifico al observador que se lanzo un huevo codorniz
+	if (this->observador != NULL) {
+		this->observador->seLanzoHuevoCodorniz(huevo1);
+		this->observador->seLanzoHuevoCodorniz(huevo2);
+		this->observador->seLanzoHuevoCodorniz(huevo3);
+	}
 }
 
 void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, unsigned int j) {
