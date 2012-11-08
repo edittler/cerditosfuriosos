@@ -1,6 +1,6 @@
 #include "NivelProxy.h"
 
-NivelProxy::NivelProxy() {
+NivelProxy::NivelProxy(Escenario* escenario) : Nivel(escenario) {
 	// TODO Auto-generated constructor stub
 }
 

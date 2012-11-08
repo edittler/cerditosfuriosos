@@ -1,19 +1,26 @@
 #include "NivelLocal.h"
 #include "Constantes.h"
 
-NivelLocal::NivelLocal() {
-	// TODO Auto-generated constructor stub
+NivelLocal::NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo) : Nivel(escenario) {
+    this->tiempoGeneracionMinimo = tiempoGeneracionMinimo;
+    this->tiempoAcumulado = 0;
+    
+    simulador = new Simulador(20, 50, 10);
 }
 
 NivelLocal::~NivelLocal() {
-	// TODO Auto-generated destructor stub
+    delete simulador;
 }
 
-
-void NivelLocal::tick(int milisegundos) {
-	// TODO hacer que la generacion de pajaros sea segun el tiempo seteado
-	this->generarPajaro();
-	escenario->correrTick();
+void NivelLocal::tick(int milisegundos) {	
+    tiempoAcumulado += milisegundos;
+    
+    if (tiempoAcumulado >= tiempoGeneracionMinimo) {
+        tiempoAcumulado -= tiempoGeneracionMinimo;
+        this->generarPajaro();        
+    }
+    
+    escenario->correrTick();
 }
 
 void NivelLocal::generarPajaro() {
@@ -22,13 +29,13 @@ void NivelLocal::generarPajaro() {
 	// TODO setear bien los valores, la posicion debe ser aleatoria
 	switch (res) {
 		case PAJARO_AZUL:
-			escenario->lanzarPajaroAzul(Punto2D(0,50), Velocidad2D(5,-5));
+			escenario->lanzarPajaroAzul(Punto2D(13, 6), Velocidad2D(-10, 0));
 			break;
 		case PAJARO_ROJO:
-			escenario->lanzarPajaroRojo(Punto2D(0,50), Velocidad2D(5,-5));
+			escenario->lanzarPajaroRojo(Punto2D(13, 6), Velocidad2D(-10, 0));
 			break;
 		case PAJARO_VERDE:
-			escenario->lanzarPajaroVerde(Punto2D(0,50), Velocidad2D(5,-5));
+			escenario->lanzarPajaroVerde(Punto2D(13, 6), Velocidad2D(-10, 0));
 			break;
 	}
 }

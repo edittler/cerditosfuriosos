@@ -2,10 +2,10 @@
 #include "ConstantesVistaModelo.h"
 
 #include <iostream> // FIXME eliminar
+#include "NivelLocal.h"
 
 SimuladorProvisorio::SimuladorProvisorio(Escenario* escenario) {
-	this->escenario = escenario;
-
+        this->nivel = new NivelLocal(escenario, 250);
 }
 
 SimuladorProvisorio::~SimuladorProvisorio() {
@@ -13,9 +13,8 @@ SimuladorProvisorio::~SimuladorProvisorio() {
 }
 
 void* SimuladorProvisorio::run() {
-	/* Hago correr unos ticks.*/
-	for (int i=0; i < 500; i++) {
-		this->escenario->correrTick();
+	for(int i = 0; ; i++) {
+		this->nivel->tick(20);
 		std::cout << "tick " << i << std::endl;
 		usleep(DELTA_LOOP);
 	}

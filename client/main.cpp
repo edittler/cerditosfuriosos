@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 	escenario.agregarCajaVidrio(Punto2D(5,5));
 	escenario.agregarCajaMetal(Punto2D(3,4));
 	escenario.habilitarSimulacion();
-	escenario.lanzarPajaroRojo(Punto2D(ancho - 2, alto - 4), Velocidad2D(-5, 5));
+	/*escenario.lanzarPajaroRojo(Punto2D(ancho - 2, alto - 4), Velocidad2D(-5, 5));
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 3, alto - 4), Velocidad2D(-5, -5));
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 3, alto - 2), Velocidad2D(-10, 0));
 	escenario.lanzarPajaroRojo(Punto2D(ancho - 1, alto - 4), Velocidad2D(-12, 1));
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
 	escenario.lanzarHuevoBlanco(Punto2D(1, 1), Velocidad2D(5.5, 13));
 	escenario.lanzarHuevosCodorniz(Punto2D(1, alto - 1), Velocidad2D(7, 2));
 	escenario.lanzarHuevoReloj(Punto2D(3, 1), Velocidad2D(3, 7));
-
+         */
 	SimuladorProvisorio sim(&escenario);
 
 	sim.start();

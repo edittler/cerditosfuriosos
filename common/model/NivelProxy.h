@@ -5,7 +5,7 @@
 
 class NivelProxy: public Nivel {
 public:
-	NivelProxy();
+	NivelProxy(Escenario* escenario);
 	virtual ~NivelProxy();
 };
 
