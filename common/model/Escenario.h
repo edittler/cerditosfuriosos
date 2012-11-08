@@ -29,18 +29,35 @@
  */
 class Escenario: public EscenarioObservable, public Serializable {
 public:
-	Escenario();
+	/* @brief Constructor con parametros.
+	 * @param Cantidad de jugadores que va a contener el escenario.
+	 * Por defecto posee el valor 1.
+	 */
+	Escenario(unsigned int cantidadJugadores = 1);
+
 	virtual ~Escenario();
 
 	/* @brief Serializa el escenario y retorna un nodo XML
 	 * @return Devuelve el nodo XML serializado
 	 */
-	XMLNode serialize();
+	XMLNode* serialize();
 
 	/* @brief A partir de un nodo XML se establece el escenario
 	 * @param recibe el nodo XML que contiene los datos del escenario
 	 */
-	void hydrate(const XMLNode& nodo);
+	void hydrate(const XMLNode* nodo);
+
+	/* @brief Registra un observador.
+	 * Solo permite registrar un único observador. En caso de querer agregar
+	 * más, lanza excepciones.
+	 * @param Observador a registrar.
+	 */
+	void registrarObservador(ObservadorEscenario* observador);
+
+	/* @brief Elimina el observador especificado.
+	 * En caso de que no exista el observador especificado lanza una excepcion.
+	 */
+	void eliminarObservador(ObservadorEscenario* observador);
 
 	/*
 	 * @brief Agrega la figura del suelo interpolando @param.
@@ -187,13 +204,30 @@ private:
 	 * incluyen en el escenario, se almacenan el ancho y alto del mismo
 	 * que es establecido para usos externos (por ejemplo, la vista)
 	 */
-	int ancho;
-	int alto;
+	float ancho;
+	float alto;
 
 	/* Al igual que el ancho y alto, el escenario tiene una imagen de fondo
 	 * que se almacena para usos externos.
 	 */
 	std::string rutaImagenFondo;
+
+	/* Cantidad de jugadores para el cual se va a diseñar el escenario.
+	 */
+	const unsigned int cantJugadores;
+
+	// Tiempo de tick (generalmente del orden de los 20 milisegundos)
+	float tiempoTick;
+
+	/* Flag para indicar si la simulacion está habilitada.
+	 * Si la simulacion no está habilitada, no se pueden lanzar pájaros
+	 * ni disparos.
+	 * Una vez habilitada la simulacion, no se puede añadir elementos estáticos
+	 * como las cajas, frutas, cerditos, catapultas y monticulo de huevos.
+	 */
+	bool simulacionHabilitada;
+
+	ObservadorEscenario* observador;
 
 	// Escenario de Box2D
 	b2World* escenario;
@@ -219,17 +253,6 @@ private:
 	std::list<Fruta*> frutas;
 	std::list<Pajaro*> pajaros;
 	std::list<Disparo*> disparos;
-
-	/* Flag para indicar si la simulacion está habilitada.
-	 * Si la simulacion no está habilitada, no se pueden lanzar pájaros
-	 * ni disparos.
-	 * Una vez habilitada la simulacion, no se puede añadir elementos estáticos
-	 * como las cajas, frutas, cerditos, catapultas y monticulo de huevos.
-	 */
-	bool simulacionHabilitada;
-
-	// Tiempo de tick (generalmente del orden de los 20 milisegundos)
-	float tiempoTick;
 };
 
 #endif /* ESCENARIO_H_ */

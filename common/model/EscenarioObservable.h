@@ -16,20 +16,15 @@ public:
 	// @brief Destructor
 	virtual ~EscenarioObservable();
 
-	/* @brief Registra un observador. Solo puede registrar un único observador,
-	 * en caso de querer agregar más, se lanzará excepciones.
+	/* @brief Registra un observador.
 	 * @param Observador a registrar.
 	 */
-	void registrarObservador(ObservadorEscenario* observador);
+	virtual void registrarObservador(ObservadorEscenario* observador) = 0;
 
-	/* @brief Elimina el observador. En caso de que no haya un observador
-	 * registrado, no realiza nada.
+	/* @brief Elimina el observador especificado.
+	 * En caso de que no exista el observador especificado lanza una excepcion.
 	 */
-	void eliminarObservador();
-
-protected:
-	// Observador registrado.
-	ObservadorEscenario* observador;
+	virtual void eliminarObservador(ObservadorEscenario* observador) = 0;
 };
 
 #endif /* ESCENARIOOBSERVABLE_H_ */

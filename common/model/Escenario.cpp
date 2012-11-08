@@ -1,3 +1,6 @@
+// C++ Library Includes.
+#include <cstdlib>  // Para usar la funcion 'atof'
+
 // Project Includes
 #include "Escenario.h"
 #include "Colisionador.h"
@@ -26,11 +29,17 @@
 #include "Catapulta.h"
 
 // Exceptions Includes.
+#include "exceptions/ParserException.h"
+#include "exceptions/ObservadorException.h"
 #include "exceptions/AgregarObjetoException.h"
 #include "exceptions/SimulacionException.h"
 #include "exceptions/NoExisteJugadorException.h"
 
-Escenario::Escenario() {
+Escenario::Escenario(unsigned int cantidadJugadores) :
+			cantJugadores(cantidadJugadores) {
+	// Inicializo los atributos de dimensiones.
+	this->ancho = 0;
+	this->alto = 0;
 	// Defino el tiempo de duracion de 1 tick
 	this->tiempoTick = 1.0f / 50.0f;  // 20 milisegundos
 	// Defino que la simulacion no comenzo
@@ -90,12 +99,65 @@ Escenario::~Escenario() {
 		delete this->suelo;
 }
 
-XMLNode Escenario::serialize() {
+XMLNode* Escenario::serialize() {
 	return 0;
 }
 
-void Escenario::hydrate(const XMLNode& nodo) {
+void Escenario::hydrate(const XMLNode* nodo) {
+	// Obtengo el nombre del nodo
+	std::string nombre = nodo->ValueStr();
+	/* Comparo el nombre obtenido con el que se requiere.
+	 * Si no es igual, lanzo una excepcion.
+	 */
+	if (nombre.compare("Escenario") != 0) {
+		throw ParserException("El nodo Escenario es incorrecto.");
+	}
+	// Verifico si contiene el atributo ancho, si no lo posee, lanzo excepcion.
+	if (nodo->Attribute("ancho") == 0) {
+		throw ParserException("El nodo Escenario no contiene el atributo "
+				"'ancho'.");
+	}
+	// Verifico si contiene el atributo alto, si no lo posee, lanzo excepcion.
+	if (nodo->Attribute("alto") == 0) {
+		throw ParserException("El nodo Escenario no contiene el atributo "
+				"'alto'.");
+	}
+	// Obtengo el atributo de ancho y alto
+	std::string atributoAncho = nodo->Attribute("ancho");
+	std::string atributoAlto = nodo->Attribute("alto");
+	this->ancho = std::atof(atributoAncho.c_str());
+	this->alto = std::atof(atributoAlto.c_str());
+	std::cout << "Ancho: " << ancho << "\tAlto: " << alto << std::endl;  // TODO Provisorio
 
+	// Obtengo el nodo que contiene la ruta de la imagen.
+	const XMLNode* imagen = nodo->FirstChildElement("Imagen");
+	// Si no existe el nodo Imagen, lanzo una excepcion
+	if (imagen == 0) {
+		throw ParserException("El nodo Escenario no contiene informacion sobre "
+						"la imagen de fondo.");
+	}
+	this->rutaImagenFondo = imagen->GetText();
+	std::cout << "Ruta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
+}
+
+void Escenario::registrarObservador(ObservadorEscenario* observador) {
+	/* Si el observador no es nulo, es porque ya hay uno registrado. Como no
+	 * puede haber más de un observador, lanzo una excepcion.
+	 */
+	if (this->observador != NULL) {
+		throw ObservadorException("El objeto ya tiene un observador.");
+	}
+	this->observador = observador;
+}
+
+void Escenario::eliminarObservador(ObservadorEscenario* observador) {
+	/* Si el observador que se quiere eliminar no coincide con el que se
+	 * encuentra registrado, lanzo una excepcion.
+	 */
+	if (this->observador != observador) {
+		throw ObservadorException("El observador no se encuentra registrado.");
+	}
+	this->observador = NULL;
 }
 
 void Escenario::agregarSuelo(std::list<Punto2D*>& puntos) {
@@ -123,6 +185,14 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	if (this->simulacionHabilitada) {
 		throw AgregarObjetoException("La simulación esta corriendo, no se puede"
 				" agregar Cerdito.");
+	}
+	/* Verifica si la cantidad de jugadores ya alcanza a la cantidad requerida
+	 * por el escenario. Si es igual a la cantidad requerida, no se puede
+	 * agregar el cerdito y lanza excepcion.
+	 */
+	if (this->jugadores.size() >= this->cantJugadores) {
+		throw AgregarObjetoException("El escenario ya posee la cantidad de "
+				"jugadores requeridos, no se puede agregar Cerdito.");
 	}
 	/* El cerdito tiene asociado una catapulta. Creo la catapulta primero para
 	 * luego añadirla al cerdito.
@@ -331,11 +401,12 @@ void Escenario::agregarCereza(Punto2D p) {
 }
 
 void Escenario::habilitarSimulacion() {
-	/* Verifico si hay al menos un jugador. Es decir, si la lista de jugadores
-	 * no está vacia. Si no, lanzo una excepción.
+	/* Verifico si el escenario cumple con la cantidad de jugadores que se
+	 * requieren.
 	 */
-	if (this->jugadores.empty()) {
-		throw SimulacionException("No hay jugadores/cerditos en la escena,"
+	if (this->jugadores.size() != this->cantJugadores) {
+		throw SimulacionException("El escenario no cumple con la cantidad de"
+				"cerditos/jugadores requeridos,"
 				"no se puede habilitar la simulación.");
 	}
 
