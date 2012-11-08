@@ -18,7 +18,11 @@
 #define RUTA_HUEVO_BLANCO "imagenes/escena/HuevoBlanco.png"
 
 // VISTA
+// Las escalas hacen referencia a cuantos pixeles equivalen a 1 metro
+// medida usada en modelo.
 #define AJUSTE_ESCALA_VISTA 50
+#define ESCALA_IMAGENES 100.0f
+#define AJUSTE_ESCALA_IMAGENES (ESCALA_IMAGENES / AJUSTE_ESCALA_VISTA)
 #define DELTA_LOOP 30000
 
 #endif /* CONSTANTESVISTAMODELO_H_ */

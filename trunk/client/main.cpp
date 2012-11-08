@@ -23,8 +23,12 @@ int main(int argc, char *argv[]) {
 	// FIXME el alto y ancho del escenario deberia setearse en metros (mundo Box2D)
 	// y dentro del constructor de VistaEscenario aplicarse el escalado realizando
 	// la multiplicacion por AJUSTE_ESCALA_VISTA
-	escenario.setAncho(20);
-	escenario.setAlto(12);
+//	int ancho = 14, alto = 6; 	// setear AJUSTE_ESCALA_VISTA = 80
+//	int ancho = 16, alto = 8; 	// setear AJUSTE_ESCALA_VISTA = 70
+//	int ancho = 18, alto = 10; 	// setear AJUSTE_ESCALA_VISTA = 60
+	int ancho = 20, alto = 12;  // setear AJUSTE_ESCALA_VISTA = 50
+	escenario.setAncho(ancho);
+	escenario.setAlto(alto);
 
 	VistaEscenario vEscenario(&escenario);
 	ventana.agregarContenedor(&vEscenario);
@@ -35,11 +39,11 @@ int main(int argc, char *argv[]) {
 	escenario.agregarMonticulo(Punto2D(-1,-1));
 	escenario.agregarCajaMadera(Punto2D(5,3));
 	escenario.habilitarSimulacion();
-	escenario.lanzarPajaroRojo(Punto2D(6*2,6), Velocidad2D(-5, 5));
-	escenario.lanzarPajaroRojo(Punto2D(8*2,6), Velocidad2D(-5, -5));
-	escenario.lanzarPajaroRojo(Punto2D(9*2,7), Velocidad2D(-10, 0));
-	escenario.lanzarPajaroRojo(Punto2D(7*2,4), Velocidad2D(-12, 1));
-	escenario.lanzarPajaroRojo(Punto2D(4*2,5), Velocidad2D(-2, 9));
+	escenario.lanzarPajaroRojo(Punto2D(ancho - 2, alto - 4), Velocidad2D(-5, 5));
+	escenario.lanzarPajaroRojo(Punto2D(ancho - 3, alto - 4), Velocidad2D(-5, -5));
+	escenario.lanzarPajaroRojo(Punto2D(ancho - 3, alto - 2), Velocidad2D(-10, 0));
+	escenario.lanzarPajaroRojo(Punto2D(ancho - 1, alto - 4), Velocidad2D(-12, 1));
+	escenario.lanzarPajaroRojo(Punto2D(ancho - 5, 2), Velocidad2D(-4, 9));
 	escenario.lanzarHuevoBlanco(Punto2D(1,1), Velocidad2D(5.5, 13));
 
 	SimuladorProvisorio sim(&escenario);
