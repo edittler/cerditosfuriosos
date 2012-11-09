@@ -95,3 +95,11 @@ void CuerpoAbstracto::printPosition() const {
 	b2Vec2 position = this->cuerpo->GetPosition();
 	printf("Cuerpo: x=%4.2f y=%4.2f  ", position.x, position.y);
 }
+
+b2Body* CuerpoAbstracto::getBody() {
+	return this->cuerpo;
+}
+
+void CuerpoAbstracto::eliminarBody() {
+	this->cuerpo = NULL;
+}

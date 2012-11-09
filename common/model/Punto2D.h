@@ -36,6 +36,9 @@ public:
 	// Multiplica el punto por un escalar.
 	void operator *= (float a);
 
+	// Compara dos Puntos2D.
+	bool operator == (const Punto2D& p);
+
 	// Coordenada X.
 	float x;
 

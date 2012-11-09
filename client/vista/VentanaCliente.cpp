@@ -27,5 +27,6 @@ void VentanaCliente::agregarContenedor(Gtk::Widget* widget) {
 }
 
 void VentanaCliente::setMouseListener(MouseListener* listener) {
+	// FIXME guardar referencia l listener para despues poder liberar memoria.
 	listener->cargarEventos(contenedor);
 }

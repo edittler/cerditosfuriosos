@@ -78,11 +78,13 @@ public:
 
 	/* @brief Será usado en el caso multijugador, donde el escenario tiene
 	 * varios cerditos.
-	 * @param El nombre del jugador al que corresponde el cerdito matado.
+	 * @param El id del jugador al que corresponde el cerdito matado.
 	 */
-	void cerditoMatado(std::string nombreJugador);
+	void cerditoMatado(unsigned int idJugador);
 
 	void partidaGanada();
+
+	void partidaPerdida();
 
 	int getAncho() const;
 	int getAlto() const;

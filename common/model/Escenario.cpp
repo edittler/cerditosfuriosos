@@ -1,5 +1,6 @@
 // C++ Library Includes.
 #include <cstdlib>  // Para usar la funcion 'atof'
+#include <stdexcept>
 
 // Project Includes
 #include "Escenario.h"
@@ -62,6 +63,8 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 	// Agrego el ContactListener
 	this->colisionador = new Colisionador();
 	this->escenario->SetContactListener(this->colisionador);
+
+	this->finalizo = false;
 }
 
 Escenario::~Escenario() {
@@ -70,7 +73,7 @@ Escenario::~Escenario() {
 	// Libero la memoria del colisionador
 	delete this->colisionador;
 	// Libero la memoria de los jugadores
-	std::list<Jugador*>::iterator itJ;
+	std::vector<Jugador*>::iterator itJ;
 	for(itJ = this->jugadores.begin(); itJ != this->jugadores.end(); ++itJ) {
 		delete (*itJ);
 	}
@@ -458,16 +461,27 @@ void Escenario::correrTick() {
 	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES, POSICION_ITERACIONES);
 	// Imprimo las posiciones de los objetos. TODO Provisorio.
 	this->imprimirPosiciones();
-	/* FIXME
-	 * Antes de limpiar cuerpos muertos, se debe verificar si el monticulo y
-	 * los cerditos tienen vida. Si alguno no tiene vida, es porque la partida
-	 * se perdió. Si la partida se perdió, no es necesario "limpiarCuerposMuertos"
-	 * porque se supone que se van a borrar las listas enteras.
-	 * Aún así, si algun cerdito o montículo no tiene vida, no correr el metodo
-	 * "LimpiarCuerposMuertos" porque va a haber un delete incorrecto.
-	 */
+
+	// NOTA: Si el monticulo es destruido o todos los cerditos han muerto
+	// se ha perdido la partida.
+	// Sin embargo si solo alguno de los cerditos ha muerto se continua jugando.
+
+	if (!monticulo->estaVivo()) {  // el monticulo fue destruido
+		if (this->observador != NULL) {
+			this->observador->monticuloDestruido();
+			this->observador->partidaPerdida();
+		}
+		this->finalizo = true;
+	}
+
+	if (!validarCerditosVivos()) {  // todos los cerditos estan muertos
+		if (this->observador != NULL)
+			this->observador->partidaPerdida();
+		this->finalizo = true;
+	}
+
 	// Elimino objetos "muertos"
-	this->limpiarCuerposMuertos();
+	this->limpiarCuerposInvalidos();
 	// Notifico al observador las nuevas posiciones de pajaros y disparos.
 	this->notificarPosicionesAObservadores();
 }
@@ -702,6 +716,10 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, unsigned int j) {
 	}
 }
 
+bool Escenario::finalizoPartida() {
+	return this->finalizo;
+}
+
 unsigned int Escenario::getAlto() const {
 	return alto;
 }
@@ -794,69 +812,83 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 }
 
 Jugador* Escenario::getJugador(unsigned int indice) {
-	// El indice comienza a partir del valor 1. Si el indice es 0, retorno NULL.
-	if (indice == 0) {
+	Jugador* jugador;
+	try {
+		jugador = this->jugadores.at(indice);
+	} catch (std::out_of_range& e) {  // indice incorrecto
 		return NULL;
-	} else {
-		// Si el indice es 1, retorno el primer elemento de la lista.
-		if (indice == 1) {
-			return this->jugadores.front();
-		} else {
-			// Busco el jugador y lo retorno
-			Jugador* jugador = NULL;
-			unsigned int i = 1;
-			std::list<Jugador*>::iterator it = this->jugadores.begin();
-			while ((i <= indice) && (it != this->jugadores.end())) {
-				if (i == indice) {
-					jugador = (*it);
-				}
-				i++;
-				it++;
-			}
-			return jugador;
-		}  // Fin else indice == 1.
-	}  // Fin else indice == 0.
+	}
+	return jugador;
 }
 
-void Escenario::limpiarCuerposMuertos() {
-	b2Body* node = this->escenario->GetBodyList();
-	while (node != NULL) {
-		CuerpoAbstracto* cuerpo = (CuerpoAbstracto*)node->GetUserData();
-		if (!cuerpo->estaVivo()) {
-			std::cout << "\nElimino objeto muerto: ";  // FIXME borrar
-			cuerpo->printPosition();  // FIXME borrar
-			this->escenario->DestroyBody(node);
-			this->limpiarEnListas(cuerpo);
+bool Escenario::validarCerditosVivos() {
+	bool resultado = false;
+
+	std::vector<Jugador*>::iterator it;
+	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+		if ((*it)->perdio()) {
+			Cerdito* c = (*it)->getCerdito();
+			if (c->getBody() != NULL) {  // valido que no se haya eliminado antes.
+				// elimina cerdito de mundo fisico (Box2D).
+				escenario->DestroyBody(c->getBody());
+				c->eliminarBody();
+			}
+		} else {  // hay cerdito vivo.
+			resultado = true;
 		}
-		node = node->GetNext();
 	}
+
+	return resultado;
 }
 
-void Escenario::limpiarEnListas(CuerpoAbstracto* cuerpo) {
-	// Casteo como Disparo (más frecuente de morir)
-	Disparo* dis = dynamic_cast<Disparo*>(cuerpo);
-	if (dis != NULL) {
-		this->disparos.remove(dis);
-	} else {
-		// Casteo como Pajaro (más frecuente después de disparo)
-		Pajaro* paj = dynamic_cast<Pajaro*>(cuerpo);
-		if (paj != NULL) {
-			this->pajaros.remove(paj);
+void Escenario::limpiarCuerposInvalidos() {
+	//NOTA: precaucion al eliminar cuando se itera.
+
+	std::list<Superficie*>::iterator itSu = superficies.begin();
+	while (itSu != superficies.end()) {
+		if (!(*itSu)->estaVivo()) {
+			escenario->DestroyBody((*itSu)->getBody());
+			delete (*itSu);
+			itSu = superficies.erase(itSu);
 		} else {
-			// Casteo como Fruta
-			Fruta* fru = dynamic_cast<Fruta*>(cuerpo);
-			if (fru != NULL) {
-				this->frutas.remove(fru);
-			} else {
-				// Casteo como Superficie (Menos frecuente)
-				Superficie* sup = dynamic_cast<Superficie*>(cuerpo);
-				if (sup != NULL) {
-					this->superficies.remove(sup);
-				}
-			}
+			++itSu;
 		}
 	}
-	delete cuerpo;
+
+
+	std::list<Fruta*>::iterator itFr = frutas.begin();
+	while (itFr != frutas.end()) {
+		if (!(*itFr)->estaVivo()) {
+			escenario->DestroyBody((*itFr)->getBody());
+			delete (*itFr);
+			itFr = frutas.erase(itFr);
+		} else {
+			++itFr;
+		}
+	}
+
+	std::list<Pajaro*>::iterator itPa = pajaros.begin();
+	while (itPa != pajaros.end()) {
+		if (!(*itPa)->estaVivo()) {
+			escenario->DestroyBody((*itPa)->getBody());
+			delete (*itPa);
+			itPa = pajaros.erase(itPa);
+		} else {
+			++itPa;
+		}
+	}
+
+	std::list<Disparo*>::iterator itDi = disparos.begin();
+	while (itDi != disparos.end()) {
+		if (!(*itDi)->estaVivo()) {
+			escenario->DestroyBody((*itDi)->getBody());
+			delete (*itPa);
+			itDi = disparos.erase(itDi);
+		} else {
+			++itDi;
+		}
+	}
+
 }
 
 void Escenario::notificarPosicionesAObservadores() {

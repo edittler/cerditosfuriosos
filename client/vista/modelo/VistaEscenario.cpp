@@ -153,11 +153,15 @@ void VistaEscenario::cerditoMatado() {
  * varios cerditos.
  * El parámetro es el nombre del jugador al que corresponde el cerdito matado.
  */
-void VistaEscenario::cerditoMatado(std::string nombreJugador) {
+void VistaEscenario::cerditoMatado(unsigned int idJugador) {
 
 }
 
 void VistaEscenario::partidaGanada() {
+
+}
+
+void VistaEscenario::partidaPerdida() {
 
 }
 
