@@ -25,10 +25,10 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = ../common/parser ../common/thread ../common/communication ../common/model core vista vista/modelo
+SUBDIRS = ../common/communication ../common/model ../common/parser ../common/thread controlador core vista vista/modelo
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = ../common/parser ../common/communication ../common/model ../common/Box2D/include core vista vista/modelo
+SUBDIRSINCLUDE = ../common/communication ../common/Box2D/include ../common/parser ../common/thread ../common/model controlador core vista vista/modelo
 
 # Declaracion de objetos externos
 EXTERNOBJS =$(foreach path, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(path)/*.cpp))))
