@@ -882,7 +882,7 @@ void Escenario::limpiarCuerposInvalidos() {
 	while (itDi != disparos.end()) {
 		if (!(*itDi)->estaVivo()) {
 			escenario->DestroyBody((*itDi)->getBody());
-			delete (*itPa);
+			delete (*itDi);
 			itDi = disparos.erase(itDi);
 		} else {
 			++itDi;
