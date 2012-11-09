@@ -150,7 +150,7 @@ public:
 	 * 			que 0.
 	 */
 	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int jugador = 1);
+			unsigned int jugador = 0);
 
 	/* @brief Agrega unos Huevos de Codorniz al escenario y lo lanza.
 	 * @param Punto2D especificando la posición inicial del lanzamiento.
@@ -159,7 +159,7 @@ public:
 	 * 			que 0.
 	 */
 	void lanzarHuevosCodorniz(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int jugador = 1);
+			unsigned int jugador = 0);
 
 	/* @brief Agrega un Huevo Poche al escenario y lo lanza.
 	 * @param Punto2D especificando la posición inicial del lanzamiento.
@@ -168,7 +168,7 @@ public:
 	 * 			que 0.
 	 */
 	void lanzarHuevoPoche(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int jugador = 1);
+			unsigned int jugador = 0);
 
 	/* @brief Agrega un Huevo Reloj al escenario y lo lanza.
 	 * @param Punto2D especificando la posición inicial del lanzamiento.
@@ -177,7 +177,7 @@ public:
 	 * 			que 0.
 	 */
 	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int jugador = 1);
+			unsigned int jugador = 0);
 
 	/*
 	 * @brief Chequea que si la partida ha finalizado.
