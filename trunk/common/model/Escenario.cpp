@@ -460,7 +460,7 @@ void Escenario::correrTick() {
 	}
 	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES, POSICION_ITERACIONES);
 	// Imprimo las posiciones de los objetos. TODO Provisorio.
-	this->imprimirPosiciones();
+//	this->imprimirPosiciones();
 
 	// NOTA: Si el monticulo es destruido o todos los cerditos han muerto
 	// se ha perdido la partida.
@@ -501,6 +501,11 @@ void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto PajaroRojo y le paso el cuerpo de Box2D
 	PajaroRojo* pajaro = new PajaroRojo(body);
@@ -526,6 +531,11 @@ void Escenario::lanzarPajaroVerde(Punto2D p, Velocidad2D v) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto PajaroVerde y le paso el cuerpo de Box2D
@@ -554,6 +564,11 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto PajaroAzul y le paso el cuerpo de Box2D
@@ -574,6 +589,7 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
 		throw SimulacionException("La simulación no está habilitada,"
 				"no se puede lanzar Huevo Blanco.");
 	}
+
 	Jugador* jugador = this->getJugador(j);
 
 	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
@@ -588,6 +604,11 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
@@ -623,9 +644,14 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
 
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	// Creo tres objeto HuevoCodorniz con distinta velocidad inicial
 	b2Body* body1 = this->escenario->CreateBody(&bodyDef);
 	HuevoCodorniz* huevo1 = new HuevoCodorniz(body1, jugador);
+
 
 	bodyDef.linearVelocity.Set(v.x * HC_OFFSET_MAX, v.y * HC_OFFSET_MAX);
 	b2Body* body2 = this->escenario->CreateBody(&bodyDef);
@@ -670,6 +696,11 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, unsigned int j) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoPoche y le paso el cuerpo de Box2D
@@ -704,6 +735,11 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, unsigned int j) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
+
+	// valido que b2World no este bloqueado haciendo el step()
+	if (escenario->IsLocked())
+		return;
+
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoReloj y le paso el cuerpo de Box2D
