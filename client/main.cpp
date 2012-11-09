@@ -14,6 +14,7 @@
 #include "core/Client.h"
 #include "../../common/model/Escenario.h"
 #include "vista/modelo/SimuladorProvisorio.h"
+#include "controlador/MouseListener.h"
 
 int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
@@ -32,6 +33,7 @@ int main(int argc, char *argv[]) {
 
 	VistaEscenario vEscenario(&escenario);
 	ventana.agregarContenedor(&vEscenario);
+	ventana.setMouseListener(new MouseListener(&escenario));
 
 	std::cout << "Soy el Cliente!!" << std::endl;
 
@@ -49,7 +51,7 @@ int main(int argc, char *argv[]) {
 	escenario.lanzarHuevoBlanco(Punto2D(1, 1), Velocidad2D(5.5, 13));
 	escenario.lanzarHuevosCodorniz(Punto2D(1, alto - 1), Velocidad2D(7, 2));
 	escenario.lanzarHuevoReloj(Punto2D(3, 1), Velocidad2D(3, 7));
-         */
+		*/
 	SimuladorProvisorio sim(&escenario);
 
 	sim.start();

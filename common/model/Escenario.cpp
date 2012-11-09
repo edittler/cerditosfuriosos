@@ -5,7 +5,6 @@
 #include "Escenario.h"
 #include "Colisionador.h"
 #include "Jugador.h"
-#include "Constantes.h"
 #include "Suelo.h"
 
 // Superficies Includes.
@@ -50,7 +49,7 @@ Escenario::Escenario(unsigned int cantidadJugadores) :
 	this->monticulo = NULL;
 
 	// Creo el mundo
-	b2Vec2 gravity(0.0f, -10.0f);  // Vector que indica la gravedad
+	b2Vec2 gravity(GRAVEDAD_X, GRAVEDAD_Y);  // Vector que indica la gravedad
 	this->escenario = new b2World(gravity);
 
 	/* FIXME por ahora se crea un suelo por defecto aqui, mas adelante deberia
