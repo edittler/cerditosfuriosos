@@ -2,7 +2,7 @@
 #define ESCENARIO_H_
 
 // C++ Library Includes.
-#include <list>
+#include <vector>
 
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
@@ -179,9 +179,17 @@ public:
 	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
 			unsigned int jugador = 1);
 
+	/*
+	 * @brief Chequea que si la partida ha finalizado.
+	 * @return true si la partida finalizo, false caso contrario.
+	 */
+	bool finalizoPartida();
+
 	/***********************
 	 * GETTERS AND SETTERS *
 	 ***********************/
+
+	// FIXME return unsigned int pero alto y ancho son float, arreglar??
 	unsigned int getAlto() const;
 	void setAlto(unsigned int alto);
 
@@ -208,8 +216,12 @@ private:
 	 * METODOS PRIVADOS DE OPERACIONES INTERNAS DE ESCENARIO *
 	 *********************************************************/
 	Jugador* getJugador(unsigned int indice);
-	void limpiarCuerposMuertos();
-	void limpiarEnListas(CuerpoAbstracto* cuerpo);
+	/*
+	 * @brief Valida que haya cerditos vivos, y elimina aquellos muertos.
+	 * @return true si existe algun cerdito vivo, false en caso contrario.
+	 */
+	bool validarCerditosVivos();
+	void limpiarCuerposInvalidos();
 	void notificarPosicionesAObservadores();
 	void imprimirPosiciones();  // TODO, provisorio
 
@@ -255,9 +267,7 @@ private:
 	b2ContactListener* colisionador;
 
 	// Lista de jugadores
-	// FIXME implementar con std::vector, modificar metodo getJugador(i)
-	// para que use jugadores.at, si hay exception out_of_range devolver NULL.
-	std::list<Jugador*> jugadores;
+	std::vector<Jugador*> jugadores;
 
 	// Monticulo de huevos
 	Monticulo* monticulo;
@@ -269,6 +279,9 @@ private:
 	std::list<Fruta*> frutas;
 	std::list<Pajaro*> pajaros;
 	std::list<Disparo*> disparos;
+
+	// flag que indica si la partida finalizo.
+	bool finalizo;
 };
 
 #endif /* ESCENARIO_H_ */

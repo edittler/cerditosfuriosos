@@ -26,6 +26,9 @@ struct Velocidad2D {
 	// Multiplica el vector de velocidad por un escalar.
 	void operator *= (float a) { x *= a; y *= a; }
 
+	// Compara dos velocidades.
+	bool operator == (const Velocidad2D& v) { return (x == v.x && y == v.y); }
+
 	// Velocidad en eje X.
 	float x;
 

@@ -21,6 +21,10 @@ public:
 	 */
 	void sumarPuntos(int puntos);
 
+	bool perdio();
+
+	Cerdito* getCerdito();
+
 private:
 	// Cerdito asociado al jugador
 	Cerdito* cerdito;

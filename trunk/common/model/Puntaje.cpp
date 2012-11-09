@@ -4,7 +4,9 @@
 // Header Include
 #include "Puntaje.h"
 
-Puntaje::Puntaje() { }
+Puntaje::Puntaje() {
+	this->puntos = 0;
+}
 
 Puntaje::~Puntaje() { }
 

@@ -63,9 +63,18 @@ public:
 
 	Velocidad2D getVelocidad() const;
 
+	/*
+	 * @brief devuelve b2Body asociado al objeto.
+	 * Usado para correcta eliminacion del mundo fisico (Box2D)
+	 */
+	b2Body* getBody();
+
+	void eliminarBody();
+
 	void printPosition() const; // TODO PROVISORIO, BORRAR
 
 protected:
+
 	// Cuerpo de Box2D que se encapsula.
 	b2Body* cuerpo;
 

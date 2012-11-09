@@ -84,9 +84,11 @@ public:
 	 * varios cerditos.
 	 * @param El nombre del jugador al que corresponde el cerdito matado.
 	 */
-	virtual void cerditoMatado(std::string nombreJugador) = 0;
+	virtual void cerditoMatado(unsigned int idJugador) = 0;
 
 	virtual void partidaGanada() = 0;
+
+	virtual void partidaPerdida() = 0;
 };
 
 #endif  /* OBSERVADORESCENARIO_H_ */
