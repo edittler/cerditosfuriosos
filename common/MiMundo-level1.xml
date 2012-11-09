@@ -3,9 +3,9 @@
     <Escenario ancho="14.62857142" alto="9.14285714">
         <Imagen>fondo_nivel1.jpg</Imagen>
         <Jugadores>2</Jugadores>
-        <SegmentosSuelo>
+        <Suelo>
             <y>10</y>
-        </SegmentosSuelo>
+        </Suelo>
         <Cerditos>
             <Cerdito>
                 <Punto2D x="2" y="10"></Punto2D>
@@ -31,6 +31,8 @@
                 <Punto2D x="800" y="25"></Punto2D>
             </CajaMadera>
         </Superficies>
+        <Frutas>
+        </Frutas>
     </Escenario>
     <LineaEntrada tiempoGeneracion="250" probabilidad="80">
         <PuntoInicial x="1023" y="300"></PuntoInicial>

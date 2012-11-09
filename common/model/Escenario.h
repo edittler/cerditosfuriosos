@@ -192,6 +192,21 @@ public:
 	void setRutaImagenFondo(std::string rutaArchivo);
 
 private:
+	/***************************************************
+	 * METODOS PRIVADOS DE SERIALIZACION E HIDRATACION *
+	 ***************************************************/
+	void XMLCargarAtributos(const XMLNode* nodo);
+	void XMLCargarSuelo(const XMLNode* nodo);
+	void XMLCargarCerditos(const XMLNode* nodo);
+	void XMLCargarMonticulo(const XMLNode* nodo);
+	void XMLCargarSuperficies(const XMLNode* nodo);
+	void XMLCargarFrutas(const XMLNode* nodo);
+	void XMLCargarPajaros(const XMLNode* nodo);
+	void XMLCargarDisparos(const XMLNode* nodo);
+
+	/*********************************************************
+	 * METODOS PRIVADOS DE OPERACIONES INTERNAS DE ESCENARIO *
+	 *********************************************************/
 	Jugador* getJugador(unsigned int indice);
 	void limpiarCuerposMuertos();
 	void limpiarEnListas(CuerpoAbstracto* cuerpo);
@@ -215,7 +230,7 @@ private:
 
 	/* Cantidad de jugadores para el cual se va a diseñar el escenario.
 	 */
-	const unsigned int cantJugadores;
+	unsigned int cantJugadores;
 
 	// Tiempo de tick (generalmente del orden de los 20 milisegundos)
 	float tiempoTick;

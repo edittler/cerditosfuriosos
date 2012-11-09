@@ -34,11 +34,12 @@
 #include "exceptions/SimulacionException.h"
 #include "exceptions/NoExisteJugadorException.h"
 
-Escenario::Escenario(unsigned int cantidadJugadores) :
-			cantJugadores(cantidadJugadores) {
+Escenario::Escenario(unsigned int cantidadJugadores) {
 	// Inicializo los atributos de dimensiones.
 	this->ancho = 0;
 	this->alto = 0;
+	// Inicializo la cantidad de jugadores que va a tener el escenario
+	this->cantJugadores = cantidadJugadores;
 	// Defino el tiempo de duracion de 1 tick
 	this->tiempoTick = 1.0f / 50.0f;  // 20 milisegundos
 	// Defino que la simulacion no comenzo
@@ -111,32 +112,61 @@ void Escenario::hydrate(const XMLNode* nodo) {
 	if (nombre.compare("Escenario") != 0) {
 		throw ParserException("El nodo Escenario es incorrecto.");
 	}
-	// Verifico si contiene el atributo ancho, si no lo posee, lanzo excepcion.
-	if (nodo->Attribute("ancho") == 0) {
-		throw ParserException("El nodo Escenario no contiene el atributo "
-				"'ancho'.");
+	// Cargo los atributos
+	this->XMLCargarAtributos(nodo);
+	// Obtengo el nodo de Cerditos y los cargo.
+	const XMLNode* cerditos = nodo->FirstChildElement("Cerditos");
+	// Si no existe el nodo Cerditos, lanzo una excepcion
+	if (cerditos == 0) {
+		throw ParserException("El nodo Escenario no contiene el nodo con los"
+				"cerditos.");
 	}
-	// Verifico si contiene el atributo alto, si no lo posee, lanzo excepcion.
-	if (nodo->Attribute("alto") == 0) {
-		throw ParserException("El nodo Escenario no contiene el atributo "
-				"'alto'.");
+	this->XMLCargarCerditos(cerditos);
+	// Obtengo el nodo del montíluco de huevos y lo cargo.
+	const XMLNode* monticulo = nodo->FirstChildElement("MonticuloHuevos");
+	// Si no existe el nodo MonticuloHuevos, lanzo una excepcion
+	if (monticulo == 0) {
+		throw ParserException("El nodo Escenario no contiene el nodo con el"
+				"Montículo de Huevos.");
 	}
-	// Obtengo el atributo de ancho y alto
-	std::string atributoAncho = nodo->Attribute("ancho");
-	std::string atributoAlto = nodo->Attribute("alto");
-	this->ancho = std::atof(atributoAncho.c_str());
-	this->alto = std::atof(atributoAlto.c_str());
-	std::cout << "Ancho: " << ancho << "\tAlto: " << alto << std::endl;  // TODO Provisorio
-
-	// Obtengo el nodo que contiene la ruta de la imagen.
-	const XMLNode* imagen = nodo->FirstChildElement("Imagen");
-	// Si no existe el nodo Imagen, lanzo una excepcion
-	if (imagen == 0) {
-		throw ParserException("El nodo Escenario no contiene informacion sobre "
-						"la imagen de fondo.");
+	this->XMLCargarMonticulo(monticulo);
+	// Obtengo el nodo de las Superficies y las cargo.
+	const XMLNode* superficies = nodo->FirstChildElement("Superficies");
+	// Si no existe el nodo Superficies, lanzo una excepcion
+	if (superficies == 0) {
+		throw ParserException("El nodo Escenario no contiene el nodo con las"
+				"superficies.");
 	}
-	this->rutaImagenFondo = imagen->GetText();
-	std::cout << "Ruta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
+	this->XMLCargarSuperficies(superficies);
+	// Obtengo el nodo de las Frutas y las cargo.
+	const XMLNode* frutas = nodo->FirstChildElement("Frutas");
+	// Si no existe el nodo Frutas, lanzo una excepcion
+	if (frutas == 0) {
+		throw ParserException("El nodo Escenario no contiene el nodo con las"
+				"frutas.");
+	}
+	this->XMLCargarFrutas(frutas);
+	/* Una vez cargados todos estos elementos, procedo a habilitar la
+	 * simulacion.
+	 */
+//	this->habilitarSimulacion();
+	/* Para el caso de recuperación de partida, se deben cargar los nodos de
+	 * pájaros y disparos. Estos nodos no se encuentran obligaroriamente en
+	 * el archivo XML, por lo que no lanzo excepcion en caso de que no se
+	 * encuentren.
+	 */
+	// Obtengo el nodo de los Pájaros y los cargo.
+	const XMLNode* pajaros = nodo->FirstChildElement("Pajaros");
+	// Si existe el nodo Pajaros, los cargo al escenario
+	if (pajaros != 0) {
+		this->XMLCargarPajaros(pajaros);
+	}
+	// Obtengo el nodo de los Disparos y los cargo.
+	const XMLNode* disparos = nodo->FirstChildElement("Disparos");
+	// Si existe el nodo Disparos, los cargo al escenario
+	if (disparos != 0) {
+		this->XMLCargarDisparos(disparos);
+	}
 }
 
 void Escenario::registrarObservador(ObservadorEscenario* observador) {
@@ -694,6 +724,73 @@ std::string Escenario::getRutaImagenFondo() const {
 
 void Escenario::setRutaImagenFondo(std::string rutaArchivo) {
 	this->rutaImagenFondo = rutaArchivo;
+}
+
+void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO ATRIBUTOS ===" << std::endl;
+	// Verifico si contiene el atributo ancho, si no lo posee, lanzo excepcion.
+	if (nodo->Attribute("ancho") == 0) {
+		throw ParserException("El nodo Escenario no contiene el atributo "
+				"'ancho'.");
+	}
+	// Verifico si contiene el atributo alto, si no lo posee, lanzo excepcion.
+	if (nodo->Attribute("alto") == 0) {
+		throw ParserException("El nodo Escenario no contiene el atributo "
+				"'alto'.");
+	}
+	// Obtengo el atributo de ancho y alto
+	std::string atributoAncho = nodo->Attribute("ancho");
+	std::string atributoAlto = nodo->Attribute("alto");
+	this->ancho = std::atof(atributoAncho.c_str());
+	this->alto = std::atof(atributoAlto.c_str());
+	std::cout << "\tAncho: " << ancho << "\tAlto: " << alto << std::endl;  // TODO Provisorio
+
+	// Obtengo el nodo que contiene la ruta de la imagen.
+	const XMLNode* imagen = nodo->FirstChildElement("Imagen");
+	// Si no existe el nodo Imagen, lanzo una excepcion
+	if (imagen == 0) {
+		throw ParserException("El nodo Escenario no contiene informacion sobre "
+						"la imagen de fondo.");
+	}
+	this->rutaImagenFondo = imagen->GetText();
+	std::cout << "\tRuta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
+	// Obtengo el nodo que contiene la cantidad de jugadores que puede disponer.
+	const XMLNode* jugadores = nodo->FirstChildElement("Jugadores");
+	// Si no existe el nodo Jugadores, lanzo una excepcion
+	if (imagen == 0) {
+		throw ParserException("El nodo Escenario no contiene informacion sobre "
+						"la cantidad de jugadores que puede contener.");
+	}
+	this->cantJugadores = std::atoi(jugadores->GetText());
+	std::cout << "\tCantidad de jugadores: " << this->cantJugadores << std::endl;
+}
+
+void Escenario::XMLCargarSuelo(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO SUELO ===" << std::endl;
+}
+
+void Escenario::XMLCargarCerditos(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO CERDITOS ===" << std::endl;
+}
+
+void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO MONTICULO ===" << std::endl;
+}
+
+void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO SUPERFICIES ===" << std::endl;
+}
+
+void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO FRUTAS ===" << std::endl;
+}
+
+void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO PAJAROS ===" << std::endl;
+}
+
+void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO DISPAROS ===" << std::endl;
 }
 
 Jugador* Escenario::getJugador(unsigned int indice) {
