@@ -22,6 +22,7 @@
 #include "Fruta.h"
 #include "Pajaro.h"
 #include "Disparo.h"
+#include "Constantes.h"
 
 /* @class Escenario.
  * Contiene los objetos de la escena y ejecuta la simulacion.

@@ -17,6 +17,8 @@
 // CONSTANTES DE CONFIGURACION
 #define VELOCIDAD_ITERACIONES 10
 #define POSICION_ITERACIONES 8
+#define GRAVEDAD_X 0.0f
+#define GRAVEDAD_Y -10.0f
 
 // CONSTANTES DE SUPERFICIES
 #define CAJA_MEDIO_ANCHO 0.3f
@@ -51,6 +53,7 @@
 #define PA_DANIO_SUPERFICIE 0.5f
 
 // CONSTANTES DE DISPAROS
+#define DISPARO_VELOCIDAD_X 10.0f
 // HUEVO BLANCO
 #define HB_RADIO 0.12f
 #define HB_DANIO_PAJARO 1.0f
@@ -59,8 +62,8 @@
 #define HC_RADIO 0.1f	// Minimo radio para evitar efecto tunneling
 #define HC_DANIO_PAJARO 0.5f
 #define HC_DANIO_SUPERFICIE 0.25f
-#define HC_OFFSET_MIN 1.2f
-#define HC_OFFSET_MAX 0.8f
+#define HC_OFFSET_MAX 1.2f
+#define HC_OFFSET_MIN 0.8f
 // HUEVO POCHE
 #define HP_RADIO 0.18f
 #define HP_DANIO_PAJARO 1.0f
