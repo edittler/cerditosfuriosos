@@ -1,4 +1,4 @@
-# Makefile de las dependencias de parseo
+# Makefile de las dependencias de controlador del cliente
 
 # CONFIGURACION
 ################
