@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
 	std::cout << "Soy el Cliente!!" << std::endl;
 
-	escenario.agregarCerdito(Punto2D(0.4, 0.6), Punto2D(10, 10));
+	escenario.agregarCerdito(Punto2D(1, 0.6), Punto2D(0.4, 0.6));
 	escenario.agregarMonticulo(Punto2D(-1,-1));
 	escenario.agregarCajaMadera(Punto2D(5,3));
 	escenario.agregarCajaVidrio(Punto2D(5,5));

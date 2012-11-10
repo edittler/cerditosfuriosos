@@ -14,6 +14,9 @@
 // CERDITOS
 #define RUTA_CERDITO PATH_IMAGENES "images/scene/CerditoAtacando.png"
 
+// CATAPULTA
+#define RUTA_CATAPULTA PATH_IMAGENES "images/scene/Catapulta.png"
+
 // MONTICULO
 #define RUTA_MONTICULO_COMPLETO PATH_IMAGENES "images/scene/Monticulo10.png"
 

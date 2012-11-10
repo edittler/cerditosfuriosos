@@ -254,6 +254,7 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	// Notifico al observador se que agrego un cerdito
 	if (this->observador != NULL) {
 		this->observador->seAgregoCerdito(cerdito);
+		this->observador->seAgregoCatapulta(catapulta);
 	}
 }
 
