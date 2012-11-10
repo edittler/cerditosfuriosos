@@ -18,7 +18,7 @@ class NivelLocal: public Nivel {
             bool finalizoPartida();
 
             void generarPajaro();
-            void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial);
+            void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
 };
 
 #endif

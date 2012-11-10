@@ -7,10 +7,10 @@
 #include <Escenario.h>
 #include <Nivel.h>
 
-class SimuladorProvisorio: public Thread {
+class Juego: public Thread {
 public:
-	SimuladorProvisorio(Escenario* escenario);
-	virtual ~SimuladorProvisorio();
+	Juego(Escenario* escenario);
+	virtual ~Juego();
 
 	void* run();
 private:
