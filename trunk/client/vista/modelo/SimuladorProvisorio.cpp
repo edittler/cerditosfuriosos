@@ -16,7 +16,7 @@ void* SimuladorProvisorio::run() {
 	int i = 0;
 	while (!nivel->finalizoPartida()) {
 		this->nivel->tick(20);
-		std::cout << "tick " << i << std::endl;
+		std::cout << "tick " << i++ << std::endl;
 		usleep(DELTA_LOOP);
 	}
 
