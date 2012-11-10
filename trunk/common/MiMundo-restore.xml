@@ -73,6 +73,22 @@
             </PajaroAzul>
         </Pajaros>
         <Disparos>
+            <HuevoBlanco jugadorID="1">
+                <Punto2D x="100.0" y="60.0"></Punto2D>
+                <Velocidad2D x="10.0" y="0.0"></Velocidad2D>
+            </HuevoBlanco>
+            <HuevoCodorniz jugadorID="2">
+                <Punto2D x="100.0" y="60.0"></Punto2D>
+                <Velocidad2D x="100.0" y="60.0"></Velocidad2D>
+            </HuevoCodorniz>
+            <HuevoPoche jugadorID="1">
+                <Punto2D x="100.0" y="60.0"></Punto2D>
+                <Velocidad2D x="100.0" y="60.0"></Velocidad2D>
+            </HuevoPoche>
+            <HuevoReloj jugadorID="1">
+                <Punto2D x="100.0" y="70.0"></Punto2D>
+                <Velocidad2D x="5.0" y="6.0"></Velocidad2D>
+            </HuevoReloj>
         </Disparos>
     </Escenario>
     <LineaEntrada tiempoGeneracion="250" probabilidad="80">

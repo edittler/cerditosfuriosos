@@ -310,12 +310,28 @@ private:
 	// Mapa asociado a los strings de valores enumerados de Pajaros.
 	static PajarosMap mapPajaros;
 
+	// Definicion de valores para disparos
+	static enum DisparosValues {
+		disNoDefinido,
+		disHuevoBlanco,
+		disHuevoCodorniz,
+		disHuevoPoche,
+		disHuevoReloj
+	} disValues;
+
+	// Definición del mapa de disparos
+	typedef std::map<std::string, DisparosValues> DisparosMap;
+
+	// Mapa asociado a los strings de valores enumerados de Disparos.
+	static DisparosMap mapDisparos;
+
 	/*************************************************
 	 * Funciones privadas para inicializar los mapas *
 	 *************************************************/
 	static SuperficiesMap inicializarMapaSuperficies();
 	static FrutasMap inicializarMapaFrutas();
 	static PajarosMap inicializarMapaPajaros();
+	static DisparosMap inicializarMapaDisparos();
 };
 
 #endif /* ESCENARIO_H_ */
