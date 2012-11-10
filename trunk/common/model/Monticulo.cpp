@@ -1,14 +1,12 @@
+// Header Include.
 #include "Monticulo.h"
+
+// Project Includes.
 #include "Constantes.h"
 
-Monticulo::Monticulo(b2Body* body) {
-	// Defino los atributos de clase
-	this->vida = M_VIDA;
-	this->cuerpo = body;
-
+Monticulo::Monticulo(b2Body* body) : CuerpoAbstracto(body, M_VIDA){
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
-
 	// Defino la forma del monticulo (triangulo)
 	b2PolygonShape polygonShape;
 	int32 verticesTriangulo = 3;
@@ -30,7 +28,4 @@ Monticulo::Monticulo(b2Body* body) {
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
-Monticulo::~Monticulo() {
-	// TODO Auto-generated destructor stub
-}
-
+Monticulo::~Monticulo() { }

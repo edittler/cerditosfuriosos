@@ -869,6 +869,17 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 
 void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO MONTICULO ===" << std::endl;
+	// Obtengo la posicion del monticulo.
+	const XMLNode* punto = nodo->FirstChildElement("Punto2D");
+	// Si no existe el nodo Punto2D, lanzo una excepcion
+	if (punto == 0) {
+		throw ParserException("El nodo Monticulo no contiene el nodo "
+				"'Punto2D'.");
+	}
+	// Hidrato el punto 2D
+	Punto2D p(punto);
+	std::cout << "Monticulo: \t x= " << p.x << "\ty= " << p.y << std::endl;
+	this->agregarMonticulo(p);
 }
 
 void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
