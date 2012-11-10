@@ -11,6 +11,7 @@ public:
 	virtual ~Nivel();
 
 	virtual void tick(int milisegundos) = 0;
+	virtual bool finalizoPartida() = 0;
 };
 
 #endif
