@@ -11,6 +11,8 @@ public:
 	Simulador(int pAzul, int pRojo, int pVerde);
 	virtual ~Simulador();
 
+	int generarHuevo();
+
 	int generarPajaro();
 	int generarAlturaPajaro(int alturaMin, int alturaMax);
 };
