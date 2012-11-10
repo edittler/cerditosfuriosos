@@ -296,11 +296,26 @@ private:
 	// Mapa asociado a los strings de valores enumerados de Frutas.
 	static FrutasMap mapFrutas;
 
+	// Definicion de valores para pajaros
+	static enum PajarosValues {
+		pajNoDefinido,
+		pajPajaroRojo,
+		pajPajaroVerde,
+		pajPajaroAzul
+	} pajValues;
+
+	// Definición del mapa de pajaros
+	typedef std::map<std::string, PajarosValues> PajarosMap;
+
+	// Mapa asociado a los strings de valores enumerados de Pajaros.
+	static PajarosMap mapPajaros;
+
 	/*************************************************
 	 * Funciones privadas para inicializar los mapas *
 	 *************************************************/
 	static SuperficiesMap inicializarMapaSuperficies();
 	static FrutasMap inicializarMapaFrutas();
+	static PajarosMap inicializarMapaPajaros();
 };
 
 #endif /* ESCENARIO_H_ */

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Nivel duracion="23">
+    <Escenario ancho="14.62857142" alto="9.14285714">
+        <Imagen>fondo_nivel1.jpg</Imagen>
+        <Jugadores>2</Jugadores>
+        <Suelo>
+            <y>10</y>
+        </Suelo>
+        <Cerditos>
+            <Cerdito>
+                <Punto2D x="2" y="10"></Punto2D>
+                <Catapulta>
+                    <Punto2D x="12" y="10"></Punto2D>
+                </Catapulta>
+            </Cerdito>
+            <Cerdito>
+                <Punto2D x="15" y="10"></Punto2D>
+                <Catapulta>
+                    <Punto2D x="25" y="10"></Punto2D>
+                </Catapulta>
+            </Cerdito>
+        </Cerditos>
+        <MonticuloHuevos>
+            <Punto2D x="30" y="10"></Punto2D>
+        </MonticuloHuevos>
+        <Superficies>
+            <CajaMadera>
+                <Punto2D x="600" y="20"></Punto2D>
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="800" y="25"></Punto2D>
+            </CajaMadera>
+            <CajaVidrio>
+                <Punto2D x="850" y="25"></Punto2D>
+            </CajaVidrio>
+            <CajaMetal>
+                <Punto2D x="875" y="25"></Punto2D>
+            </CajaMetal>
+        </Superficies>
+        <Frutas>
+            <Manzana>
+                <Punto2D x="600" y="50"></Punto2D>
+            </Manzana>
+            <Manzana>
+                <Punto2D x="650" y="50"></Punto2D>
+            </Manzana>
+            <Banana>
+                <Punto2D x="650" y="50"></Punto2D>
+            </Banana>
+            <Baaanana>
+                <Punto2D x="650" y="50"></Punto2D>
+            </Baaanana>
+            <Cereza>
+                <Punto2D x="750" y="50"></Punto2D>
+            </Cereza>
+        </Frutas>
+        <Pajaros>
+            <PajaroRojo>
+                <Punto2D x="100.0" y="60.0"></Punto2D>
+                <Velocidad2D x="10.0" y="0.0"></Velocidad2D>
+            </PajaroRojo>
+            <PajaroVerde>
+                <Punto2D x="100.0" y="60.0"></Punto2D>
+                <Velocidad2D x="100.0" y="60.0"></Velocidad2D>
+            </PajaroVerde>
+            <PaaajaroRojo>
+                <Punto2D x="100.0" y="60.0"></Punto2D>
+                <Velocidad2D x="100.0" y="60.0"></Velocidad2D>
+            </PaaajaroRojo>
+            <PajaroAzul>
+                <Punto2D x="100.0" y="70.0"></Punto2D>
+                <Velocidad2D x="5.0" y="6.0"></Velocidad2D>
+            </PajaroAzul>
+        </Pajaros>
+        <Disparos>
+        </Disparos>
+    </Escenario>
+    <LineaEntrada tiempoGeneracion="250" probabilidad="80">
+        <PuntoInicial x="1023" y="300"></PuntoInicial>
+        <PuntoFinal x="1023" y="300"></PuntoFinal>
+    </LineaEntrada>
+    <ProbabilidadesPajaros>
+        <PajaroRojo probabilidad="50"></PajaroRojo>
+        <PajaroVerde probabilidad="30"></PajaroVerde>
+        <PajaroAzul probabilidad="15"></PajaroAzul>
+    </ProbabilidadesPajaros>
+</Nivel>
