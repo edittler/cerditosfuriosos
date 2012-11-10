@@ -27,3 +27,8 @@ int Simulador::generarPajaro() {
 
 	return NO_PAJARO;
 }
+
+int Simulador::generarAlturaPajaro(int alturaMin, int alturaMax) {
+	int nroGenerado = rand() % (alturaMax - alturaMin) + alturaMin;
+	return nroGenerado;
+}

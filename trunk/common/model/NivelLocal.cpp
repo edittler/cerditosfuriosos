@@ -26,16 +26,20 @@ void NivelLocal::tick(int milisegundos) {
 void NivelLocal::generarPajaro() {
 	int res = simulador->generarPajaro();
 
-	// TODO setear bien los valores, la posicion debe ser aleatoria
-	switch (res) {
-		case PAJARO_AZUL:
-			escenario->lanzarPajaroAzul(Punto2D(13, 6), Velocidad2D(-10, 0));
-			break;
-		case PAJARO_ROJO:
-			escenario->lanzarPajaroRojo(Punto2D(13, 6), Velocidad2D(-10, 0));
-			break;
-		case PAJARO_VERDE:
-			escenario->lanzarPajaroVerde(Punto2D(13, 6), Velocidad2D(-10, 0));
-			break;
+	if (res != NO_PAJARO) {
+		// TODO LOS VALORES DEBEN SER LOS DEL XML
+		int altura = simulador->generarAlturaPajaro(0, 6);
+
+		switch (res) {
+			case PAJARO_AZUL:
+				escenario->lanzarPajaroAzul(Punto2D(10, altura), Velocidad2D(-10, 0));
+				break;
+			case PAJARO_ROJO:
+				escenario->lanzarPajaroRojo(Punto2D(10, altura), Velocidad2D(-10, 0));
+				break;
+			case PAJARO_VERDE:
+				escenario->lanzarPajaroVerde(Punto2D(10, altura), Velocidad2D(-10, 0));
+				break;
+		}
 	}
 }

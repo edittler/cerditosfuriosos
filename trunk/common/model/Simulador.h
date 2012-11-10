@@ -12,6 +12,7 @@ public:
 	virtual ~Simulador();
 
 	int generarPajaro();
+	int generarAlturaPajaro(int alturaMin, int alturaMax);
 };
 
 #endif
