@@ -825,6 +825,46 @@ void Escenario::XMLCargarSuelo(const XMLNode* nodo) {
 
 void Escenario::XMLCargarCerditos(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO CERDITOS ===" << std::endl;
+	// Obtengo el nodo que contiene la ruta de la imagen.
+	const XMLNode* cerdito = nodo->FirstChildElement("Cerdito");
+	// Mientras el nodo del cerdito no sea nulo, cargar el cerdito.
+	while (cerdito != 0) {
+		this->XMLCargarCerdito(cerdito);
+		cerdito = cerdito->NextSiblingElement("Cerdito");
+	}
+}
+
+void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
+	std::cout << "\t=== CARGANDO CERDITO ===" << std::endl;
+	// Obtengo la posicion del cerdito.
+	const XMLNode* posCerdito = nodo->FirstChildElement("Punto2D");
+	// Si no existe el nodo Punto2D, lanzo una excepcion
+	if (posCerdito == 0) {
+		throw ParserException("El nodo Cerdito no contiene el nodo "
+				"'Punto2D'.");
+	}
+	// Hidrato el punto 2D del cerdito
+	Punto2D puntoCerdito(posCerdito);
+	std::cout << "Cerdito: \t x= " << puntoCerdito.x << "\ty= " << puntoCerdito.y << std::endl;
+	// Obtengo el nodo de la catapulta.
+	const XMLNode* catapulta = nodo->FirstChildElement("Catapulta");
+	// Si no existe el nodo Catapulta, lanzo una excepcion
+	if (catapulta == 0) {
+		throw ParserException("El nodo Cerdito no contiene el nodo "
+				"'Catapulta'.");
+	}
+	// Obtengo la posicion de la catapulta.
+	const XMLNode* posCatapulta = catapulta->FirstChildElement("Punto2D");
+	// Si no existe el nodo Punto2D, lanzo una excepcion
+	if (posCatapulta == 0) {
+		throw ParserException("El nodo Catapulta no contiene el nodo "
+				"'Punto2D'.");
+	}
+	// Hidrato el punto 2D de la catapulta
+	Punto2D puntoCatapulta(posCatapulta);
+	std::cout << "Catapulta: \t x= " << puntoCatapulta.x << "\ty= " << puntoCatapulta.y << std::endl;
+	// Cargo el cerdito
+	this->agregarCerdito(puntoCerdito, puntoCatapulta);
 }
 
 void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {

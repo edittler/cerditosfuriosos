@@ -79,6 +79,7 @@
 #define CE_RADIO 0.3f
 
 // CONSTANTES DE CATAPULTA
+#define CAT_VIDA 10000.0f
 #define CAT_MEDIO_ANCHO 0.5f
 #define CAT_MEDIO_ALTO 0.3f
 

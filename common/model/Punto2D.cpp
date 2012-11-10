@@ -3,6 +3,7 @@
 
 // C++ Library Includes.
 #include <cstdlib>  // Para usar la funcion 'atof'
+#include <sstream>
 
 // Exceptions Includes.
 #include "exceptions/ParserException.h"
@@ -12,8 +13,13 @@ Punto2D::Punto2D(const XMLNode* nodo) {
 }
 
 XMLNode* Punto2D::serialize() {
-	// TODO(eze) XML IMPLEMENTAR
-	return 0;
+	XMLNode* nodo = new XMLNode("Punto2D");
+	std::ostringstream valX, valY;
+	valX << this->x;
+	valY << this->y;
+	nodo->SetAttribute("x", valX.str());
+	nodo->SetAttribute("y", valY.str());
+	return nodo;
 }
 
 void Punto2D::hydrate(const XMLNode* nodo) {

@@ -12,7 +12,7 @@
 #include "../parser/Serializable.h"
 
 // Project Includes.
-#include "CuerpoAbstracto.h" // FIXME Borrar luego de refactorizar
+//#include "CuerpoAbstracto.h" // FIXME Borrar luego de refactorizar
 #include "Punto2D.h"
 #include "Velocidad2D.h"
 #include "Suelo.h"
@@ -206,6 +206,7 @@ private:
 	void XMLCargarAtributos(const XMLNode* nodo);
 	void XMLCargarSuelo(const XMLNode* nodo);
 	void XMLCargarCerditos(const XMLNode* nodo);
+	void XMLCargarCerdito(const XMLNode* nodo);
 	void XMLCargarMonticulo(const XMLNode* nodo);
 	void XMLCargarSuperficies(const XMLNode* nodo);
 	void XMLCargarFrutas(const XMLNode* nodo);
