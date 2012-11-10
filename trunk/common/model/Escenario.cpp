@@ -583,7 +583,7 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	}
 }
 
-void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, unsigned int j) {
+void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador) {
 	/* Verifico si la simulacion ya está habilitada.
 	 * Caso contrario, lanzo una excepción.
 	 */
@@ -592,11 +592,12 @@ void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, unsigned
 				"no se puede lanzar Huevo.");
 	}
 
-	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	// TODO Ya no hace falta, eliminar
+	/*// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
 	Jugador* jugador = this->getJugador(j);
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
-	}
+	}*/
 
 	int random = rand() % 100;
 

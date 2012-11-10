@@ -5,10 +5,11 @@
 #include <gtkmm/widget.h>
 
 #include "Escenario.h"
+#include "Jugador.h"
 
 class MouseListener {
 public:
-	MouseListener(Escenario* escenario);
+	MouseListener(Escenario* escenario, Jugador* jugador);
 	virtual ~MouseListener();
 
 	/*
@@ -25,6 +26,7 @@ public:
 
 protected:
 	Escenario* escenario;
+	Jugador* jugador;
 };
 
 #endif /* MOUSELISTENER_H_ */
