@@ -15,6 +15,8 @@ class NivelLocal: public Nivel {
             virtual ~NivelLocal();
 
             void tick(int milisegundos);
+            bool finalizoPartida();
+
             void generarPajaro();
             void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial);
 };

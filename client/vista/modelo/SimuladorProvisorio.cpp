@@ -13,10 +13,12 @@ SimuladorProvisorio::~SimuladorProvisorio() {
 }
 
 void* SimuladorProvisorio::run() {
-	for(int i = 0; ; i++) {
+	int i = 0;
+	while (!nivel->finalizoPartida()) {
 		this->nivel->tick(20);
 		std::cout << "tick " << i << std::endl;
 		usleep(DELTA_LOOP);
 	}
+
 	return NULL;
 }

@@ -23,6 +23,10 @@ void NivelLocal::tick(int milisegundos) {
     escenario->correrTick();
 }
 
+bool NivelLocal::finalizoPartida() {
+	return escenario->finalizoPartida();
+}
+
 void NivelLocal::generarPajaro() {
 	int tipoPajaro = simulador->generarPajaro();
 
