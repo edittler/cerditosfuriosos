@@ -2,7 +2,7 @@
 #define PUNTO2D_H_
 
 // Hierarchy Includes.
-#include "Serializable.h"
+#include "../parser/Serializable.h"
 
 class Punto2D: public Serializable {
 public:

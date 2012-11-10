@@ -4,10 +4,10 @@
 // Project Includes.
 #include "Constantes.h"
 
-Cerdito::Cerdito(b2Body* body, Catapulta* catapulta) {
-	// Defino los atributos de clase
-	this->cuerpo = body;
-	this->vida = CE_VIDA;
+Cerdito::Cerdito(b2Body* body, Catapulta* catapulta) :
+				CuerpoAbstracto (body, CE_VIDA)
+{
+	// Defino los atributos de la clase Cerdito
 	this->catapulta = catapulta;
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
@@ -28,6 +28,30 @@ Cerdito::~Cerdito() {
 	delete this->catapulta;
 }
 
-Catapulta* Cerdito::getCatapulta() {
+XMLNode* Cerdito::serialize() {
+	// Serializo la posicion del cerdito
+	const b2Vec2 vec = this->cuerpo->GetPosition();
+	Punto2D p(vec.x, vec.y);
+	XMLNode* punto = p.serialize();
+	// Obtengo el nodo de la catapulta.
+	XMLNode* catapulta = this->catapulta->serialize();
+	// Creo el nodo para el cerdito
+	XMLNode* nodo = new XMLNode("Catapulta");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	nodo->LinkEndChild(catapulta);
+	return nodo;
+}
+
+void Cerdito::hydrate(const XMLNode* nodo) {
+	/* No realiza nada porque el objeto se construye con todos los atributos
+	 * necesarios.
+	 * Además, tampoco hay posibilidades de hidratarse a partir de un nodo XML
+	 * porque no hay manera de obtener el body de Box2D sin obtenerlo del
+	 * World de Box2D.
+	 */
+}
+
+const Catapulta* Cerdito::getCatapulta() {
 	return this->catapulta;
 }

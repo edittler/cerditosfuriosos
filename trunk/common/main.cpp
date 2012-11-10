@@ -35,8 +35,26 @@ void probarEscenario() {
 	}
 }
 
-void probarParseoEscenario() {
-	std::cout << " === PROBANDO LA CARGA DEL ESCENARIO A PARTIR DE UN ARCHIVO XML" << std::endl;
+void probarParseoPunto2D() {
+	std::cout << " === PROBANDO SERIALIZACION DE PUNTO 2D ===" << std::endl;
+	std::cout << "\t=== GUARDANDO PUNTO 2D ===" << std::endl;
+	XMLDocument doc1;
+	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	// Creo un punto 2D
+	Punto2D punto(4.56339, 6.32564);
+	doc1.LinkEndChild(decl);
+	doc1.LinkEndChild(punto.serialize());
+	doc1.SaveFile("punto2d.xml");
+	std::cout << "\t=== CARGANDO PUNTO 2D ===" << std::endl;
+	XMLDocument doc2;
+	doc2.LoadFile("punto2d.xml");
+	XMLNode* raiz = doc2.RootElement();
+	Punto2D p(raiz);
+	std::cout << "\tPunto cargado:  x= " << p.x << "  y= " << p.y << std::endl;
+}
+
+void probarCargaXMLEscenario() {
+	std::cout << " === PROBANDO LA CARGA DEL ESCENARIO A PARTIR DE UN ARCHIVO XML ===" << std::endl;
 	// Declaro el escenario que donde voy a cargar el XML.
 	Escenario escena;
 	// Declaro y cargo el documento XML.
@@ -54,12 +72,11 @@ void probarParseoEscenario() {
 		nodo = nodo->FirstChildElement();
 		// Cargo el escenario a partir del nodo XML.
 		escena.hydrate(nodo);
-
 	}
 }
 
 int main(int argc, char *argv[]) {
-//	probarEscenario();
-	probarParseoEscenario();
+	probarEscenario();
+	probarCargaXMLEscenario();
 	return 0;
 }
