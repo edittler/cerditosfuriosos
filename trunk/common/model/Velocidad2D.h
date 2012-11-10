@@ -1,38 +1,51 @@
-/* Velocidad 2D para ser manejado por la clase Escenario y usuarios.
- */
-
 #ifndef VELOCIDAD2D_H_
 #define VELOCIDAD2D_H_
 
-struct Velocidad2D {
-	// Constructor por default que se inicializa con velocidad nula.
+// Hierarchy Includes.
+#include "../parser/Serializable.h"
+
+class Velocidad2D: public Serializable {
+public:
+	// Constructor por default que se inicializa en (0,0).
 	Velocidad2D() : x(0.0f), y(0.0f) { }
 
 	// Constructor que inicializa con las velocidades especificadas.
 	Velocidad2D(float x, float y) : x(x), y(y) { }
 
-	// Setea el vector con las velocidades especificadas.
-	void set(float x_, float y_) { x = x_; y = y_; }
+	// Constructor que inicializa con las velocidades a partir de un nodo XML.
+	Velocidad2D(const XMLNode* nodo);
 
-	// Niega las magnitudes de la velocidad.
-	Velocidad2D operator -() const { Velocidad2D v; v.set(-x, -y); return v; }
+	// Destructor
+	~Velocidad2D() { }
 
-	// Suma el vector con otro vector de velocidad.
-	void operator += (const Velocidad2D& v) { x += v.x; y += v.y; }
+	// Serializa la Velocidad2D y retorna un nodo XML
+	XMLNode* serialize();
 
-	// Resta el vector con otro vector de velocidad.
-	void operator -= (const Velocidad2D& v) { x -= v.x; y -= v.y; }
+	// A partir de un nodo XML se establece la Velocidad2D
+	void hydrate(const XMLNode* nodo);
 
-	// Multiplica el vector de velocidad por un escalar.
-	void operator *= (float a) { x *= a; y *= a; }
+	// Setea la velocidad con las velocidades especificadas.
+	void set(float x_, float y_);
 
-	// Compara dos velocidades.
-	bool operator == (const Velocidad2D& v) { return (x == v.x && y == v.y); }
+	// Niega la velocidad.
+	Velocidad2D operator -() const;
 
-	// Velocidad en eje X.
+	// Suma la velocidad con otro punto.
+	void operator += (const Velocidad2D& v);
+
+	// Resta la velocidad con otro punto.
+	void operator -= (const Velocidad2D& v);
+
+	// Multiplica la velocidad por un escalar.
+	void operator *= (float a);
+
+	// Compara dos Velocidad2D.
+	bool operator == (const Velocidad2D& v);
+
+	// Velocidad en el eje X.
 	float x;
 
-	// Velocidad en eje Y.
+	// Velocidad en el eje Y.
 	float y;
 };
 

@@ -15,6 +15,9 @@ public:
 	// Constructor que inicializa con las coordenadas a partir de un nodo XML.
 	Punto2D(const XMLNode* nodo);
 
+	// Destructor
+	~Punto2D() { }
+
 	// Serializa el Punto2D y retorna un nodo XML
 	XMLNode* serialize();
 
