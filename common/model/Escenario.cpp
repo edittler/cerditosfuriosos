@@ -581,22 +581,38 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	}
 }
 
-void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
+void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, unsigned int j) {
 	/* Verifico si la simulacion ya está habilitada.
 	 * Caso contrario, lanzo una excepción.
 	 */
 	if (!this->simulacionHabilitada) {
 		throw SimulacionException("La simulación no está habilitada,"
-				"no se puede lanzar Huevo Blanco.");
+				"no se puede lanzar Huevo.");
 	}
 
-	Jugador* jugador = this->getJugador(j);
-
 	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(j);
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
 	}
 
+	int random = rand() % 100;
+
+	std::cout<< "\t random: " << random << std::endl;
+
+	if (random < HB_PROBABILIDAD) {
+		this->lanzarHuevoBlanco(posInicial, velInicial, jugador);
+	} else if (random - HB_PROBABILIDAD  < HC_PROBABILIDAD) {
+		this->lanzarHuevosCodorniz(posInicial, velInicial, jugador);
+	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD < HP_PROBABILIDAD) {
+		this->lanzarHuevoPoche(posInicial, velInicial, jugador);
+	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD - HP_PROBABILIDAD
+			< HR_PROBABILIDAD) {
+		this->lanzarHuevoReloj(posInicial, velInicial, jugador);
+	}
+}
+
+void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -621,21 +637,7 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, unsigned int j) {
 	}
 }
 
-void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
-	/* Verifico si la simulacion ya está habilitada.
-	 * Caso contrario, lanzo una excepción.
-	 */
-	if (!this->simulacionHabilitada) {
-		throw SimulacionException("La simulación no está habilitada,"
-				"no se puede lanzar Huevo Blanco.");
-	}
-	Jugador* jugador = this->getJugador(j);
-
-	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
-	if (jugador == NULL) {
-		throw NoExisteJugadorException();
-	}
-
+void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -653,11 +655,11 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
 	HuevoCodorniz* huevo1 = new HuevoCodorniz(body1, jugador);
 
 
-	bodyDef.linearVelocity.Set(v.x * HC_OFFSET_MAX, v.y * HC_OFFSET_MAX);
+	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MAX);
 	b2Body* body2 = this->escenario->CreateBody(&bodyDef);
 	HuevoCodorniz* huevo2 = new HuevoCodorniz(body2, jugador);
 
-	bodyDef.linearVelocity.Set(v.x * HC_OFFSET_MIN, v.y * HC_OFFSET_MIN);
+	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MIN);
 	b2Body* body3 = this->escenario->CreateBody(&bodyDef);
 	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3, jugador);
 
@@ -674,21 +676,7 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, unsigned int j) {
 	}
 }
 
-void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, unsigned int j) {
-	/* Verifico si la simulacion ya está habilitada.
-	 * Caso contrario, lanzo una excepción.
-	 */
-	if (!this->simulacionHabilitada) {
-		throw SimulacionException("La simulación no está habilitada,"
-				"no se puede lanzar Huevo Poche.");
-	}
-
-	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
-	Jugador* jugador = this->getJugador(j);
-	if (jugador == NULL) {
-		throw NoExisteJugadorException();
-	}
-
+void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -713,21 +701,7 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, unsigned int j) {
 	}
 }
 
-void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, unsigned int j) {
-	/* Verifico si la simulacion ya está habilitada.
-	 * Caso contrario, lanzo una excepción.
-	 */
-	if (!this->simulacionHabilitada) {
-		throw SimulacionException("La simulación no está habilitada,"
-				"no se puede lanzar Huevo Reloj.");
-	}
-
-	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
-	Jugador* jugador = this->getJugador(j);
-	if (jugador == NULL) {
-		throw NoExisteJugadorException();
-	}
-
+void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
