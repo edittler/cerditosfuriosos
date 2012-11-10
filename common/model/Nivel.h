@@ -6,9 +6,6 @@
 class Nivel {
 protected:
 	Escenario* escenario;
-
-	int tiempoGeneracionMinimo;
-        int tiempoAcumulado;
 public:
 	Nivel(Escenario* escenario);
 	virtual ~Nivel();
