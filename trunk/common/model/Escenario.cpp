@@ -152,7 +152,8 @@ void Escenario::hydrate(const XMLNode* nodo) {
 	/* Una vez cargados todos estos elementos, procedo a habilitar la
 	 * simulacion.
 	 */
-//	this->habilitarSimulacion();
+	this->habilitarSimulacion();
+	std::cout << "\t=== SIMULACION HABILITADA ===" << std::endl;
 	/* Para el caso de recuperación de partida, se deben cargar los nodos de
 	 * pájaros y disparos. Estos nodos no se encuentran obligaroriamente en
 	 * el archivo XML, por lo que no lanzo excepcion en caso de que no se
@@ -771,7 +772,7 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 	std::string atributoAlto = nodo->Attribute("alto");
 	this->ancho = std::atof(atributoAncho.c_str());
 	this->alto = std::atof(atributoAlto.c_str());
-	std::cout << "\tAncho: " << ancho << "\tAlto: " << alto << std::endl;  // TODO Provisorio
+	std::cout << "\tAncho: " << ancho << "\tAlto: " << alto << std::endl;
 
 	// Obtengo el nodo que contiene la ruta de la imagen.
 	const XMLNode* imagen = nodo->FirstChildElement("Imagen");
@@ -819,7 +820,7 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D del cerdito
 	Punto2D puntoCerdito(posCerdito);
-	std::cout << "Cerdito: \t x= " << puntoCerdito.x << "\ty= " << puntoCerdito.y << std::endl;
+	std::cout << "\tCerdito\tx= " << puntoCerdito.x << "\ty= " << puntoCerdito.y << std::endl;
 	// Obtengo el nodo de la catapulta.
 	const XMLNode* catapulta = nodo->FirstChildElement("Catapulta");
 	// Si no existe el nodo Catapulta, lanzo una excepcion
@@ -836,7 +837,7 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D de la catapulta
 	Punto2D puntoCatapulta(posCatapulta);
-	std::cout << "Catapulta: \t x= " << puntoCatapulta.x << "\ty= " << puntoCatapulta.y << std::endl;
+	std::cout << "\tCatapulta\tx= " << puntoCatapulta.x << "\ty= " << puntoCatapulta.y << std::endl;
 	// Cargo el cerdito
 	this->agregarCerdito(puntoCerdito, puntoCatapulta);
 }
@@ -852,7 +853,7 @@ void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D
 	Punto2D p(punto);
-	std::cout << "Monticulo: \t x= " << p.x << "\ty= " << p.y << std::endl;
+	std::cout << "\tMonticulo\tx= " << p.x << "\ty= " << p.y << std::endl;
 	this->agregarMonticulo(p);
 }
 
@@ -895,6 +896,39 @@ void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
 
 void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO FRUTAS ===" << std::endl;
+	// Cargo el primer nodo de superficie
+	const XMLNode* fruNode = nodo->FirstChildElement();
+	// Mientras el nodo de superficie no es nulo, la hidrato y agrego
+	while (fruNode != 0) {
+		// Obtengo el nodo de Punto2D de la superficie
+		const XMLNode* puntoNode = fruNode->FirstChildElement("Punto2D");
+		// Si el nodo del punto no es nulo, cargo la superficie
+		if (puntoNode != 0) {
+			// Hidrato el punto 2D
+			Punto2D p(puntoNode);
+			// Obtengo el nombre del nodo de superficie
+			std::string fruName = fruNode->ValueStr();
+			switch (mapFrutas[fruName]) {
+			case fruManzana:
+				std::cout << "\tManzana\tx= " << p.x << "\ty= " << p.y << std::endl;
+				this->agregarManzana(p);
+				break;
+			case fruBanana:
+				std::cout << "\tBanana\tx= " << p.x << "\ty= " << p.y << std::endl;
+				this->agregarBanana(p);
+				break;
+			case fruCereza:
+				std::cout << "\tCereza\tx= " << p.x << "\ty= " << p.y << std::endl;
+				this->agregarCereza(p);
+				break;
+			default:
+				std::cout << "\tNodo de Fruta no válido" << std::endl;
+				break;
+			}  // Fin switch
+		}  // Fin if nodo punto no nulo
+		// Obtengo el siguiente nodo de fruta
+		fruNode = fruNode->NextSiblingElement();
+	}  // Fin while
 }
 
 void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
@@ -1027,3 +1061,13 @@ Escenario::SuperficiesMap Escenario::inicializarMapaSuperficies() {
 }
 
 Escenario::SuperficiesMap Escenario::mapSuperficies(Escenario::inicializarMapaSuperficies());
+
+Escenario::FrutasMap Escenario::inicializarMapaFrutas() {
+	FrutasMap fruMap;
+	fruMap["Manzana"] = fruManzana;
+	fruMap["Banana"] = fruBanana;
+	fruMap["Cereza"] = fruCereza;
+	return fruMap;
+}
+
+Escenario::FrutasMap Escenario::mapFrutas(Escenario::inicializarMapaFrutas());

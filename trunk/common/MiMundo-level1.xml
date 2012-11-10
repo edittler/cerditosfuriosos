@@ -38,6 +38,21 @@
             </CajaMetal>
         </Superficies>
         <Frutas>
+            <Manzana>
+                <Punto2D x="600" y="50"></Punto2D>
+            </Manzana>
+            <Manzana>
+                <Punto2D x="650" y="50"></Punto2D>
+            </Manzana>
+            <Banana>
+                <Punto2D x="650" y="50"></Punto2D>
+            </Banana>
+            <Baaanana>
+                <Punto2D x="650" y="50"></Punto2D>
+            </Baaanana>
+            <Cereza>
+                <Punto2D x="750" y="50"></Punto2D>
+            </Cereza>
         </Frutas>
     </Escenario>
     <LineaEntrada tiempoGeneracion="250" probabilidad="80">

@@ -14,7 +14,6 @@
 #include "../parser/Serializable.h"
 
 // Project Includes.
-//#include "CuerpoAbstracto.h" // FIXME Borrar luego de refactorizar
 #include "Punto2D.h"
 #include "Velocidad2D.h"
 #include "Suelo.h"
@@ -283,10 +282,25 @@ private:
 	// Mapa asociado a los strings de valores enumerados de Superficies.
 	static SuperficiesMap mapSuperficies;
 
+	// Definicion de valores para frutas
+	static enum FrutasValues {
+		fruNoDefinida,
+		fruManzana,
+		fruBanana,
+		fruCereza
+	} fruValues;
+
+	// Definición del mapa de frutas
+	typedef std::map<std::string, FrutasValues> FrutasMap;
+
+	// Mapa asociado a los strings de valores enumerados de Frutas.
+	static FrutasMap mapFrutas;
+
 	/*************************************************
 	 * Funciones privadas para inicializar los mapas *
 	 *************************************************/
 	static SuperficiesMap inicializarMapaSuperficies();
+	static FrutasMap inicializarMapaFrutas();
 };
 
 #endif /* ESCENARIO_H_ */
