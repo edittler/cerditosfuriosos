@@ -28,6 +28,6 @@ bool MouseListener::onClick(GdkEventButton* event) {
 	float t = (xf - x0) / Vx;
 	float Vy = (yf - y0) / t - GRAVEDAD_Y * t / 2;
 
-	escenario->lanzarHuevo(Punto2D(x0, y0), Velocidad2D(Vx, Vy));
+	escenario->lanzarHuevo(Punto2D(x0, y0), Velocidad2D(Vx, Vy), 0);
 	return true;
 }
