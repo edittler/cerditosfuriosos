@@ -13,6 +13,20 @@ Simulador::~Simulador() {
 	// TODO Auto-generated destructor stub
 }
 
+int Simulador::generarHuevo() {
+	int nroGenerado = rand() % 4;
+
+	if (nroGenerado < HB_PROBABILIDAD) {
+		return HUEVO_BLANCO;
+	} else if (nroGenerado - HB_PROBABILIDAD  < HC_PROBABILIDAD) {
+		return HUEVO_CODORNIZ;
+	} else if (nroGenerado - HB_PROBABILIDAD - HC_PROBABILIDAD < HP_PROBABILIDAD) {
+		return HUEVO_POCHE;
+	}
+
+	return HUEVO_RELOJ;
+}
+
 int Simulador::generarPajaro() {
 	int nroGenerado = rand() % 100;
 

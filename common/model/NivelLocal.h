@@ -16,6 +16,7 @@ class NivelLocal: public Nivel {
 
             void tick(int milisegundos);
             void generarPajaro();
+            void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial);
 };
 
 #endif

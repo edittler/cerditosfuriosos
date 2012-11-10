@@ -24,13 +24,13 @@ void NivelLocal::tick(int milisegundos) {
 }
 
 void NivelLocal::generarPajaro() {
-	int res = simulador->generarPajaro();
+	int tipoPajaro = simulador->generarPajaro();
 
-	if (res != NO_PAJARO) {
-		// TODO LOS VALORES DEBEN SER LOS DEL XML
+	// TODO LOS VALORES DEBEN SER LOS DEL XML
+	if (tipoPajaro != NO_PAJARO) {
 		int altura = simulador->generarAlturaPajaro(0, 6);
 
-		switch (res) {
+		switch (tipoPajaro) {
 			case PAJARO_AZUL:
 				escenario->lanzarPajaroAzul(Punto2D(10, altura), Velocidad2D(-10, 0));
 				break;
@@ -39,6 +39,28 @@ void NivelLocal::generarPajaro() {
 				break;
 			case PAJARO_VERDE:
 				escenario->lanzarPajaroVerde(Punto2D(10, altura), Velocidad2D(-10, 0));
+				break;
+		}
+	}
+}
+
+void NivelLocal::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial) {
+	int tipoHuevo = simulador->generarHuevo();
+
+	// TODO LOS VALORES DEBEN SER LOS DEL XML
+	if (tipoHuevo != NO_PAJARO) {
+		switch (tipoHuevo) {
+			case HUEVO_BLANCO:
+				escenario->lanzarHuevo(posInicial, velInicial);
+				break;
+			case HUEVO_CODORNIZ:
+				escenario->lanzarHuevo(posInicial, velInicial);
+				break;
+			case HUEVO_POCHE:
+				escenario->lanzarHuevo(posInicial, velInicial);
+				break;
+			case HUEVO_RELOJ:
+				escenario->lanzarHuevo(posInicial, velInicial);
 				break;
 		}
 	}
