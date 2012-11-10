@@ -896,17 +896,17 @@ void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
 
 void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO FRUTAS ===" << std::endl;
-	// Cargo el primer nodo de superficie
+	// Cargo el primer nodo de fruta
 	const XMLNode* fruNode = nodo->FirstChildElement();
-	// Mientras el nodo de superficie no es nulo, la hidrato y agrego
+	// Mientras el nodo de fruta no es nulo, la hidrato y agrego
 	while (fruNode != 0) {
-		// Obtengo el nodo de Punto2D de la superficie
+		// Obtengo el nodo de Punto2D de la fruta
 		const XMLNode* puntoNode = fruNode->FirstChildElement("Punto2D");
-		// Si el nodo del punto no es nulo, cargo la superficie
+		// Si el nodo del punto no es nulo, cargo la fruta
 		if (puntoNode != 0) {
 			// Hidrato el punto 2D
 			Punto2D p(puntoNode);
-			// Obtengo el nombre del nodo de superficie
+			// Obtengo el nombre del nodo de fruta
 			std::string fruName = fruNode->ValueStr();
 			switch (mapFrutas[fruName]) {
 			case fruManzana:
@@ -933,6 +933,44 @@ void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
 
 void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO PAJAROS ===" << std::endl;
+	// Cargo el primer nodo de pajaro
+	const XMLNode* pajNode = nodo->FirstChildElement();
+	// Mientras el nodo de pajaro no es nulo, la hidrato y agrego
+	while (pajNode != 0) {
+		// Obtengo el nodo de Punto2D y Velocidad2D del pajaro
+		const XMLNode* posNode = pajNode->FirstChildElement("Punto2D");
+		const XMLNode* velNode = pajNode->FirstChildElement("Velocidad2D");
+		// Si los nodos de pocision y velocidad no son nulos, cargo el pajaro.
+		if ((posNode != 0) && (velNode != 0)) {
+			// Hidrato el punto 2D y la velocidad 2D
+			Punto2D p(posNode);
+			Velocidad2D v(velNode);
+			// Obtengo el nombre del nodo de pajaro
+			std::string pajName = pajNode->ValueStr();
+			switch (mapPajaros[pajName]) {
+			case pajPajaroRojo:
+				std::cout << "\tPajaroRojo\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
+				this->lanzarPajaroRojo(p, v);
+				break;
+			case pajPajaroVerde:
+				std::cout << "\tPajaroVerde\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
+				this->lanzarPajaroVerde(p, v);
+				break;
+			case pajPajaroAzul:
+				std::cout << "\tPajaroAzul\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
+				this->lanzarPajaroAzul(p, v);
+				break;
+			default:
+				std::cout << "\tNodo de Pajaro no válido" << std::endl;
+				break;
+			}  // Fin switch
+		}  // Fin if nodos punto y velocidad no nulos
+		// Obtengo el siguiente nodo de pajaro
+		pajNode = pajNode->NextSiblingElement();
+	}  // Fin while
 }
 
 void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
@@ -1071,3 +1109,13 @@ Escenario::FrutasMap Escenario::inicializarMapaFrutas() {
 }
 
 Escenario::FrutasMap Escenario::mapFrutas(Escenario::inicializarMapaFrutas());
+
+Escenario::PajarosMap Escenario::inicializarMapaPajaros() {
+	PajarosMap pajMap;
+	pajMap["PajaroRojo"] = pajPajaroRojo;
+	pajMap["PajaroVerde"] = pajPajaroVerde;
+	pajMap["PajaroAzul"] = pajPajaroAzul;
+	return pajMap;
+}
+
+Escenario::PajarosMap Escenario::mapPajaros(Escenario::inicializarMapaPajaros());

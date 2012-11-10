@@ -53,6 +53,24 @@ void probarParseoPunto2D() {
 	std::cout << "\tPunto cargado:  x= " << p.x << "  y= " << p.y << std::endl;
 }
 
+void probarParseoVelocidad2D() {
+ 	std::cout << " === PROBANDO SERIALIZACION DE VELOCIDAD 2D ===" << std::endl;
+ 	std::cout << "\t=== GUARDANDO VELOCIDAD 2D ===" << std::endl;
+ 	XMLDocument doc1;
+ 	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+ 	// Creo una velocidad 2D
+ 	Velocidad2D vel(4.56339, 6.32564);
+ 	doc1.LinkEndChild(decl);
+ 	doc1.LinkEndChild(vel.serialize());
+ 	doc1.SaveFile("velocidad2d.xml");
+ 	std::cout << "\t=== CARGANDO VELOCIDAD 2D ===" << std::endl;
+ 	XMLDocument doc2;
+ 	doc2.LoadFile("velocidad2d.xml");
+ 	XMLNode* raiz = doc2.RootElement();
+ 	Velocidad2D v(raiz);
+ 	std::cout << "\tPunto cargado: x= " << v.x << " y= " << v.y << std::endl;
+}
+
 void probarCargaXMLEscenario() {
 	std::cout << " === PROBANDO LA CARGA DEL ESCENARIO A PARTIR DE UN ARCHIVO XML ===" << std::endl;
 	// Declaro el escenario que donde voy a cargar el XML.
@@ -75,8 +93,33 @@ void probarCargaXMLEscenario() {
 	}
 }
 
+void probarRestaurarXMLEscenario() {
+	std::cout << " === PROBANDO LA RESTAURACION DEL ESCENARIO A PARTIR DE UN ARCHIVO XML ===" << std::endl;
+	// Declaro el escenario que donde voy a cargar el XML.
+	Escenario escena;
+	// Declaro y cargo el documento XML.
+	XMLDocument doc;
+	std::string fileName = "MiMundo-restore.xml";
+	bool cargoArchivo = doc.LoadFile(fileName);
+
+	// Si no se cargo, lanzo error.
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+	} else {
+		// Obtengo el elemento raiz, que debe ser <Nivel>, pero no valido.
+		const XMLNode* nodo = doc.RootElement();
+		// Obtengo el primer elemento hijo que debe ser <Escenario>
+		nodo = nodo->FirstChildElement();
+		// Cargo el escenario a partir del nodo XML.
+		escena.hydrate(nodo);
+	}
+}
+
 int main(int argc, char *argv[]) {
 //	probarEscenario();
-	probarCargaXMLEscenario();
+//	probarParseoPunto2D();
+//	probarParseoVelocidad2D();
+//	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
+	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 	return 0;
 }
