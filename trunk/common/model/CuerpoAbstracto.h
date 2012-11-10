@@ -19,7 +19,7 @@ class CuerpoAbstracto: public CuerpoObservable {
 public:
 	/* Constructor antiguo sin parametros.
 	 */
-	CuerpoAbstracto() __attribute__((deprecated));
+	CuerpoAbstracto();
 
 	/* @brief Constructor que inicializa los atributos.
 	 * @param cuerpo de Box2D.
