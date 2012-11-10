@@ -583,7 +583,7 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	}
 }
 
-void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador) {
+void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, unsigned int j) {
 	/* Verifico si la simulacion ya está habilitada.
 	 * Caso contrario, lanzo una excepción.
 	 */
@@ -592,12 +592,11 @@ void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador*
 				"no se puede lanzar Huevo.");
 	}
 
-	// TODO Ya no hace falta, eliminar
-	/*// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
 	Jugador* jugador = this->getJugador(j);
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
-	}*/
+	}
 
 	int random = rand() % 100;
 
@@ -977,58 +976,6 @@ void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
 
 void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO DISPAROS ===" << std::endl;
-	// Cargo el primer nodo de disparo
-	const XMLNode* disNode = nodo->FirstChildElement();
-	// Mientras el nodo de disparo no es nulo, lo hidrato y agrego
-	while (disNode != 0) {
-		// Obtengo el ID del jugador.
-		int jugador = 0;
-		const char* atributo = disNode->Attribute("jugadorID", &jugador);
-		// Obtengo el nodo de Punto2D y Velocidad2D del disparo
-		const XMLNode* posNode = disNode->FirstChildElement("Punto2D");
-		const XMLNode* velNode = disNode->FirstChildElement("Velocidad2D");
-		/* Si el atributo de id, los nodos de pocision y velocidad no son nulos,
-		 * cargo el disparo.
-		 */
-		if ((posNode != 0) && (velNode != 0) && (atributo != 0)) {
-			// Hidrato el punto 2D y la velocidad 2D
-			Punto2D p(posNode);
-			Velocidad2D v(velNode);
-			// Obtengo el nombre del nodo de disparo
-			std::string disName = disNode->ValueStr();
-			switch (mapDisparos[disName]) {
-			case disHuevoBlanco:
-				std::cout << "\tHuevoBlanco\tJugador: " << jugador << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-//				this->lanzarHuevoBlanco(p, v, 0);
-				break;
-			case disHuevoCodorniz:
-				std::cout << "\tHuevoCodorniz\tJugador: " << jugador << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-//				this->lanzarHuevosCodorniz(p, v, 0);
-				break;
-			case disHuevoPoche:
-				std::cout << "\tHuevoPoche\tJugador: " << jugador << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-//				this->lanzarHuevoPoche(p, v, 0);
-				break;
-			case disHuevoReloj:
-				std::cout << "\tHuevoReloj\tJugador: " << jugador << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-//				this->lanzarHuevoReloj(p, v, 0);
-				break;
-			default:
-				std::cout << "\tNodo de Disparo no válido" << std::endl;
-				break;
-			}  // Fin switch
-		}  // Fin if nodos punto y velocidad no nulos
-		// Obtengo el siguiente nodo de disparo
-		disNode = disNode->NextSiblingElement();
-	}  // Fin while
 }
 
 Jugador* Escenario::getJugador(unsigned int indice) {
@@ -1173,14 +1120,3 @@ Escenario::PajarosMap Escenario::inicializarMapaPajaros() {
 }
 
 Escenario::PajarosMap Escenario::mapPajaros(Escenario::inicializarMapaPajaros());
-
-Escenario::DisparosMap Escenario::inicializarMapaDisparos() {
-	DisparosMap disMap;
-	disMap["HuevoBlanco"] = disHuevoBlanco;
-	disMap["HuevoCodorniz"] = disHuevoCodorniz;
-	disMap["HuevoPoche"] = disHuevoPoche;
-	disMap["HuevoReloj"] = disHuevoReloj;
-	return disMap;
-}
-
-Escenario::DisparosMap Escenario::mapDisparos(Escenario::inicializarMapaDisparos());

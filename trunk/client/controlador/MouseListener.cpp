@@ -1,9 +1,8 @@
 #include "MouseListener.h"
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
-MouseListener::MouseListener(Escenario* escenario, Jugador* jugador) {
+MouseListener::MouseListener(Escenario* escenario) {
 	this->escenario = escenario;
-	this->jugador = jugador;
 }
 
 MouseListener::~MouseListener() { }
@@ -29,6 +28,6 @@ bool MouseListener::onClick(GdkEventButton* event) {
 	float t = (xf - x0) / Vx;
 	float Vy = (yf - y0) / t - GRAVEDAD_Y * t / 2;
 
-	escenario->lanzarHuevo(Punto2D(x0, y0), Velocidad2D(Vx, Vy), jugador);
+	escenario->lanzarHuevo(Punto2D(x0, y0), Velocidad2D(Vx, Vy));
 	return true;
 }

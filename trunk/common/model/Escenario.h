@@ -152,7 +152,7 @@ public:
 	 * 			o igual que 0.
 	 */
 	void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial,
-			Jugador* jugador);
+			unsigned int j);
 
 	/*
 	 * @brief Chequea que si la partida ha finalizado.
