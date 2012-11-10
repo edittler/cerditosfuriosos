@@ -9,6 +9,7 @@
 
 // GTK+ Library Includes.
 #include <gtkmm/fixed.h>
+#include <gtkmm/image.h>
 
 // Project Includes.
 #include "Escenario.h"
@@ -90,6 +91,10 @@ public:
 	int getAlto() const;
 
 private:
+
+
+	void iniciarImagenFondo();
+
 	/**************
 	 * ATTRIBUTES *
 	 **************/
@@ -103,6 +108,9 @@ private:
 
 	/* Lista de Vista de cuerpos */
 	std::list<VistaCuerpo*> vCuerpos;
+
+	/* Imagen de fondo */
+	Gtk::Image* fondo;
 };
 
 #endif  /* _VISTA_ESCENARIO_H_ */

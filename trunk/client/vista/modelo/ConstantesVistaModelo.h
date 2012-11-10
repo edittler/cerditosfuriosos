@@ -7,6 +7,10 @@
 // GENERAL
 #define PATH_IMAGENES "../common/"
 
+// FONDOS
+#define FONDO_BOSQUE PATH_IMAGENES "images/background/Bosque.png"
+#define FONDO_ISLA PATH_IMAGENES "images/background/Isla.png"
+
 // CERDITOS
 #define RUTA_CERDITO PATH_IMAGENES "images/scene/CerditoAtacando.png"
 
@@ -34,7 +38,7 @@
 // VISTA
 // Las escalas hacen referencia a cuantos pixeles equivalen a 1 metro
 // medida usada en modelo.
-#define AJUSTE_ESCALA_VISTA 70
+#define AJUSTE_ESCALA_VISTA 100
 #define ESCALA_IMAGENES 100.0f
 #define AJUSTE_ESCALA_IMAGENES (ESCALA_IMAGENES / AJUSTE_ESCALA_VISTA)
 #define DELTA_LOOP 30000

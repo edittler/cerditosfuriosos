@@ -1,10 +1,8 @@
 // Header Include.
 #include "VentanaCliente.h"
-#include "../controlador/MouseListener.h" // FIXME borrar
 
 VentanaCliente::VentanaCliente() {
 	set_title("Cerditos Furiosos");
-	set_border_width(10);
 	set_resizable(false);
 
 	this->contenedor = new Gtk::EventBox();
