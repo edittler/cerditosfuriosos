@@ -21,7 +21,7 @@ bool MouseListener::onClick(GdkEventButton* event) {
 	float xf = event->x / AJUSTE_ESCALA_VISTA;
 	float yf = escenario->getAlto() - event->y / AJUSTE_ESCALA_VISTA;
 
-	float x0 = 1, y0 = 1;  // FIXME se tiene que tomar posicion de la catapulta
+	float x0 = 1.3, y0 = 1.3;  // FIXME se tiene que tomar posicion de la catapulta
 
 	// Calculo velocidades iniciales.
 	float Vx = DISPARO_VELOCIDAD_X;
