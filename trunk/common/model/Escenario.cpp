@@ -858,6 +858,39 @@ void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
 
 void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
 	std::cout << "\t=== CARGANDO SUPERFICIES ===" << std::endl;
+	// Cargo el primer nodo de superficie
+	const XMLNode* supNode = nodo->FirstChildElement();
+	// Mientras el nodo de superficie no es nulo, la hidrato y agrego
+	while (supNode != 0) {
+		// Obtengo el nodo de Punto2D de la superficie
+		const XMLNode* puntoNode = supNode->FirstChildElement("Punto2D");
+		// Si el nodo del punto no es nulo, cargo la superficie
+		if (puntoNode != 0) {
+			// Hidrato el punto 2D
+			Punto2D p(puntoNode);
+			// Obtengo el nombre del nodo de superficie
+			std::string supName = supNode->ValueStr();
+			switch (mapSuperficies[supName]) {
+			case supCajaVidrio:
+				std::cout << "\tCajaVidrio\tx= " << p.x << "\ty= " << p.y << std::endl;
+				this->agregarCajaVidrio(p);
+				break;
+			case supCajaMadera:
+				std::cout << "\tCajaMadera\tx= " << p.x << "\ty= " << p.y << std::endl;
+				this->agregarCajaMadera(p);
+				break;
+			case supCajaMetal:
+				std::cout << "\tCajaMetal\tx= " << p.x << "\ty= " << p.y << std::endl;
+				this->agregarCajaMetal(p);
+				break;
+			default:
+				std::cout << "\tNodo de Superficie no válido" << std::endl;
+				break;
+			}  // Fin switch
+		}  // Fin if nodo punto no nulo
+		// Obtengo el siguiente nodo de superficie
+		supNode = supNode->NextSiblingElement();
+	}  // Fin while
 }
 
 void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
@@ -984,3 +1017,13 @@ void Escenario::imprimirPosiciones() {
 		(*itDis)->printPosition();
 	}
 }
+
+Escenario::SuperficiesMap Escenario::inicializarMapaSuperficies() {
+	SuperficiesMap supMap;
+	supMap["CajaVidrio"] = supCajaVidrio;
+	supMap["CajaMadera"] = supCajaMadera;
+	supMap["CajaMetal"] = supCajaMetal;
+	return supMap;
+}
+
+Escenario::SuperficiesMap Escenario::mapSuperficies(Escenario::inicializarMapaSuperficies());

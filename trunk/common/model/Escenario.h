@@ -3,6 +3,8 @@
 
 // C++ Library Includes.
 #include <vector>
+#include <map>
+#include <string>
 
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
@@ -263,6 +265,28 @@ private:
 
 	// flag que indica si la partida finalizo.
 	bool finalizo;
+
+	/*********************
+	 * PARSER ATTRIBUTES *
+	 *********************/
+	// Definicion de valores para superficies
+	static enum SuperficieValues {
+		supNoDefinida,
+		supCajaVidrio,
+		supCajaMadera,
+		supCajaMetal
+	} supValues;
+
+	// Definición del mapa de superficies
+	typedef std::map<std::string, SuperficieValues> SuperficiesMap;
+
+	// Mapa asociado a los strings de valores enumerados de Superficies.
+	static SuperficiesMap mapSuperficies;
+
+	/*************************************************
+	 * Funciones privadas para inicializar los mapas *
+	 *************************************************/
+	static SuperficiesMap inicializarMapaSuperficies();
 };
 
 #endif /* ESCENARIO_H_ */

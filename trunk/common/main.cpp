@@ -76,7 +76,7 @@ void probarCargaXMLEscenario() {
 }
 
 int main(int argc, char *argv[]) {
-	probarEscenario();
+//	probarEscenario();
 	probarCargaXMLEscenario();
 	return 0;
 }

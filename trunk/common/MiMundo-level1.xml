@@ -30,6 +30,12 @@
             <CajaMadera>
                 <Punto2D x="800" y="25"></Punto2D>
             </CajaMadera>
+            <CajaVidrio>
+                <Punto2D x="850" y="25"></Punto2D>
+            </CajaVidrio>
+            <CajaMetal>
+                <Punto2D x="875" y="25"></Punto2D>
+            </CajaMetal>
         </Superficies>
         <Frutas>
         </Frutas>
