@@ -6,6 +6,7 @@
 
 //Project Includes.
 #include "VistaCerdito.h"
+#include "VistaCatapulta.h"
 #include "VistaMonticulo.h"
 #include "VistaCajaMadera.h"
 #include "VistaCajaVidrio.h"
@@ -59,7 +60,9 @@ void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
 }
 
 void VistaEscenario::seAgregoCatapulta(Catapulta* catapulta) {
-
+	VistaCatapulta* vCatapulta = new VistaCatapulta(this, catapulta);
+	this->vCuerpos.push_back(vCatapulta);
+	show_all();
 }
 
 void VistaEscenario::seAgregoMonticulo(Monticulo* monticulo) {
