@@ -202,10 +202,14 @@ private:
 	void imprimirPosiciones();  // TODO, provisorio
 
 	// Metodos privados segun el tipo de huevo a lanzar.
-	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
-	void lanzarHuevosCodorniz(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
-	void lanzarHuevoPoche(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
-	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
+	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id, Jugador* jugador);
+	void lanzarHuevosCodorniz(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id, Jugador* jugador);
+	void lanzarHuevoPoche(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id, Jugador* jugador);
+	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id, Jugador* jugador);
 
 	/**************
 	 * ATTRIBUTES *

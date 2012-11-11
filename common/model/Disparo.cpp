@@ -1,7 +1,17 @@
 // Header Include.
 #include "Disparo.h"
 
-Disparo::Disparo() { }
+// Project Includes.
+#include "Constantes.h"
+
+Disparo::Disparo(b2Body* cuerpo, unsigned int idJugador, Jugador* jugador,
+		float danioPajaros, float danioSuperficies) :
+		CuerpoAbstracto(cuerpo, DISPARO_VIDA) {
+	this->identificador = idJugador;
+	this->jugador = jugador;
+	this->danioPajaro = danioPajaros;
+	this->danioSuperficie = danioSuperficies;
+}
 
 Disparo::~Disparo() { }
 
@@ -23,7 +33,7 @@ void Disparo::chocarCon(Cerdito* cerdito) {
 }
 
 void Disparo::chocarCon(Monticulo* monticulo) {
-	// FIXME tomo el monticulo como una superficie, no estoy seguro...
+	// Dania al monticulo de huevos como si fuera una superficie.
 	monticulo->daniar(danioSuperficie);
 }
 
