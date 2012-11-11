@@ -53,6 +53,7 @@
 #define PA_DANIO_SUPERFICIE 0.5f
 
 // CONSTANTES DE DISPAROS
+#define DISPARO_VIDA 1.0f
 #define DISPARO_VELOCIDAD_X 10.0f
 // HUEVO BLANCO
 #define HB_RADIO 0.12f
@@ -77,6 +78,7 @@
 #define HR_DANIO_SUPERFICIE 2.0f
 #define HR_DANIO_CERDITO 2.0f
 #define HR_PROBABILIDAD 20
+
 // CONSTANTES DE CERDITOS
 #define CE_VIDA 5.0f
 #define CE_RADIO 0.3f
@@ -114,4 +116,4 @@
 #define HUEVO_POCHE    3
 #define HUEVO_RELOJ    4
 
-#endif /* CONSTANTES_H_ */
+#endif  /* CONSTANTES_H_ */

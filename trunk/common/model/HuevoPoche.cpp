@@ -2,13 +2,10 @@
 #include "HuevoPoche.h"
 #include "Constantes.h"
 
-HuevoPoche::HuevoPoche(b2Body* body, Jugador* jugador) {
-	// Defino los atributos de clase
-	this->cuerpo = body;
-	this->vida = 1;
-	this->jugador = jugador;
-	this->danioPajaro = HP_DANIO_PAJARO;
-	this->danioSuperficie = HP_DANIO_SUPERFICIE;
+HuevoPoche::HuevoPoche(b2Body* body, unsigned int idJugador,
+		Jugador* jugador) :
+		Disparo(body, idJugador, jugador, HP_DANIO_PAJARO, HP_DANIO_SUPERFICIE)
+{
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
@@ -25,7 +22,4 @@ HuevoPoche::HuevoPoche(b2Body* body, Jugador* jugador) {
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
-HuevoPoche::~HuevoPoche() {
-	// TODO Auto-generated destructor stub
-}
-
+HuevoPoche::~HuevoPoche() { }

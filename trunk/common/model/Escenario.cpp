@@ -603,21 +603,23 @@ void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, unsigned
 	std::cout<< "\t random: " << random << std::endl;
 
 	if (random < HB_PROBABILIDAD) {
-		this->lanzarHuevoBlanco(posInicial, velInicial, jugador);
+		this->lanzarHuevoBlanco(posInicial, velInicial, j, jugador);
 	} else if (random - HB_PROBABILIDAD  < HC_PROBABILIDAD) {
-		this->lanzarHuevosCodorniz(posInicial, velInicial, jugador);
+		this->lanzarHuevosCodorniz(posInicial, velInicial, j, jugador);
 	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD < HP_PROBABILIDAD) {
-		this->lanzarHuevoPoche(posInicial, velInicial, jugador);
+		this->lanzarHuevoPoche(posInicial, velInicial, j, jugador);
 	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD - HP_PROBABILIDAD
 			< HR_PROBABILIDAD) {
-		this->lanzarHuevoReloj(posInicial, velInicial, jugador);
+		this->lanzarHuevoReloj(posInicial, velInicial, j, jugador);
 	}
 }
 
-void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, Jugador* jugador) {
+void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
+		unsigned int id, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
@@ -630,7 +632,7 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
-	HuevoBlanco* huevo = new HuevoBlanco(body, jugador);
+	HuevoBlanco* huevo = new HuevoBlanco(body,id, jugador);
 	this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo blanco
@@ -639,7 +641,8 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	}
 }
 
-void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, Jugador* jugador) {
+void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v,
+		unsigned int id, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -654,16 +657,16 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, Jugador* jugador)
 
 	// Creo tres objeto HuevoCodorniz con distinta velocidad inicial
 	b2Body* body1 = this->escenario->CreateBody(&bodyDef);
-	HuevoCodorniz* huevo1 = new HuevoCodorniz(body1, jugador);
+	HuevoCodorniz* huevo1 = new HuevoCodorniz(body1, id, jugador);
 
 
 	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MAX);
 	b2Body* body2 = this->escenario->CreateBody(&bodyDef);
-	HuevoCodorniz* huevo2 = new HuevoCodorniz(body2, jugador);
+	HuevoCodorniz* huevo2 = new HuevoCodorniz(body2, id, jugador);
 
 	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MIN);
 	b2Body* body3 = this->escenario->CreateBody(&bodyDef);
-	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3, jugador);
+	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3,id, jugador);
 
 	// Agrego disparos
 	this->disparos.push_back(huevo1);
@@ -678,7 +681,8 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v, Jugador* jugador)
 	}
 }
 
-void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, Jugador* jugador) {
+void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v,
+		unsigned int id, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -694,7 +698,7 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoPoche y le paso el cuerpo de Box2D
-	HuevoPoche* huevo = new HuevoPoche(body, jugador);
+	HuevoPoche* huevo = new HuevoPoche(body, id, jugador);
 	this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo poche
@@ -703,7 +707,8 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	}
 }
 
-void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, Jugador* jugador) {
+void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
+		unsigned int id, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -719,7 +724,7 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v, Jugador* jugador) {
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoReloj y le paso el cuerpo de Box2D
-	HuevoReloj* huevo = new HuevoReloj(body, jugador);
+	HuevoReloj* huevo = new HuevoReloj(body, id, jugador);
 	this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo reloj

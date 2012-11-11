@@ -17,8 +17,9 @@
  */
 class Disparo: public CuerpoAbstracto {
 public:
-	// Constructor por default.
-	Disparo();
+	// Constructor con parámetros
+	Disparo(b2Body* cuerpo, unsigned int idJugador, Jugador* jugador,
+			float danioPajaros, float danioSuperficies);
 
 	// Destructor.
 	virtual ~Disparo();
@@ -51,6 +52,9 @@ public:
 	virtual void chocarCon(Fruta* fruta);
 
 protected:
+	// Identificador del jugador que realiza el disparo
+	unsigned int identificador;
+
 	// Jugador que realiza el disparo.
 	Jugador* jugador;
 

@@ -2,13 +2,10 @@
 #include "HuevoCodorniz.h"
 #include "Constantes.h"
 
-HuevoCodorniz::HuevoCodorniz(b2Body* body, Jugador* jugador) {
-	// Defino los atributos de clase
-	this->cuerpo = body;
-	this->vida = 1;
-	this->jugador = jugador;
-	this->danioPajaro = HC_DANIO_PAJARO;
-	this->danioSuperficie = HC_DANIO_SUPERFICIE;
+HuevoCodorniz::HuevoCodorniz(b2Body* body, unsigned int idJugador,
+		Jugador* jugador) :
+		Disparo(body, idJugador, jugador, HC_DANIO_PAJARO, HC_DANIO_SUPERFICIE)
+{
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
