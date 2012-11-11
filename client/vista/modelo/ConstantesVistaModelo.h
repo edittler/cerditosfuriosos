@@ -36,6 +36,7 @@
 // DISPAROS
 #define RUTA_HUEVO_BLANCO PATH_IMAGENES "images/scene/HuevoBlanco.png"
 #define RUTA_HUEVO_CODORNIZ PATH_IMAGENES "images/scene/HuevoCodorniz.png"
+#define RUTA_HUEVO_POCHE PATH_IMAGENES "images/scene/HuevoPoche.png"
 #define RUTA_HUEVO_RELOJ PATH_IMAGENES "images/scene/HuevoReloj.png"
 
 // VISTA
