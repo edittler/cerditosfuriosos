@@ -17,6 +17,11 @@
 // CATAPULTA
 #define RUTA_CATAPULTA PATH_IMAGENES "images/scene/Catapulta.png"
 
+// FRUTAS
+#define RUTA_BANANA PATH_IMAGENES "images/scene/Banana.png"
+#define RUTA_CEREZA PATH_IMAGENES "images/scene/Cereza.png"
+#define RUTA_MANZANA PATH_IMAGENES "images/scene/Manzana.png"
+
 // MONTICULO
 #define RUTA_MONTICULO_COMPLETO PATH_IMAGENES "images/scene/Monticulo10.png"
 

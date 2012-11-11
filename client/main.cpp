@@ -43,6 +43,11 @@ int main(int argc, char *argv[]) {
 	escenario.agregarCajaMadera(Punto2D(5,3));
 	escenario.agregarCajaVidrio(Punto2D(5,5));
 	escenario.agregarCajaMetal(Punto2D(3,4));
+        
+        escenario.agregarBanana(Punto2D(7, 3));
+        escenario.agregarCereza(Punto2D(2, 5));
+        escenario.agregarManzana(Punto2D(5, 1.5));
+        
 	escenario.habilitarSimulacion();
 
 	Juego juego(&escenario);

@@ -11,6 +11,9 @@
 #include "VistaCajaMadera.h"
 #include "VistaCajaVidrio.h"
 #include "VistaCajaMetal.h"
+#include "VistaBanana.h"
+#include "VistaCereza.h"
+#include "VistaManzana.h"
 #include "VistaPajaroRojo.h"
 #include "VistaPajaroVerde.h"
 #include "VistaPajaroAzul.h"
@@ -93,15 +96,21 @@ void VistaEscenario::seAgregoCajaMetal(CajaMetal* caja) {
 }
 
 void VistaEscenario::seAgregoManzana(Manzana* manzana) {
-
+        VistaManzana* vManzana = new VistaManzana(this, manzana);
+	this->vCuerpos.push_back(vManzana);
+	show_all();
 }
 
 void VistaEscenario::seAgregoBanana(Banana* banana) {
-
+        VistaBanana* vBanana = new VistaBanana(this, banana);
+	this->vCuerpos.push_back(vBanana);
+	show_all();
 }
 
 void VistaEscenario::seAgregoCereza(Cereza* cereza) {
-
+        VistaCereza* vCereza = new VistaCereza(this, cereza);
+	this->vCuerpos.push_back(vCereza);
+	show_all();
 }
 
 void VistaEscenario::seLanzoPajaroRojo(PajaroRojo* pajaro) {
