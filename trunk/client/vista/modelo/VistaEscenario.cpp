@@ -16,6 +16,7 @@
 #include "VistaPajaroAzul.h"
 #include "VistaHuevoBlanco.h"
 #include "VistaHuevoCodorniz.h"
+#include "VistaHuevoPoche.h"
 #include "VistaHuevoReloj.h"
 #include "ConstantesVistaModelo.h"
 
@@ -134,7 +135,9 @@ void VistaEscenario::seLanzoHuevoCodorniz(HuevoCodorniz* huevo) {
 }
 
 void VistaEscenario::seLanzoHuevoPoche(HuevoPoche* huevo) {
-
+        VistaHuevoPoche* vHuevo = new VistaHuevoPoche(this, huevo);
+	this->vCuerpos.push_back(vHuevo);
+	show_all();
 }
 
 void VistaEscenario::seLanzoHuevoReloj(HuevoReloj* huevo) {
