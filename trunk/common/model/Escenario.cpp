@@ -1,4 +1,5 @@
 // C++ Library Includes.
+#include <sstream>
 #include <cstdlib>  // Para usar la funcion 'atof'
 #include <stdexcept>
 
@@ -103,7 +104,32 @@ Escenario::~Escenario() {
 }
 
 XMLNode* Escenario::serialize() {
-	return 0;
+	// Creo el nodo para almacenar el escenario
+	XMLNode* nodo = new XMLNode("Escenario");
+	// Almaceno los atributos en el nodo del escenario
+	this->XMLGuardarAtributos(nodo);
+	// Almaceno el suelo.
+	nodo->LinkEndChild(this->suelo->serialize());
+	// Almaceno la lista de cerditos.
+	nodo->LinkEndChild(this->XMLGetCerditos());
+	// Almaceno el monticulo de huevos
+	nodo->LinkEndChild(this->monticulo->serialize());
+	// Almaceno la lista de superficies
+	nodo->LinkEndChild(this->XMLGetSuperficies());
+	// Almaceno la lista de frutas
+	nodo->LinkEndChild(this->XMLGetFrutas());
+	/* Si la simulación se encuentra habilitada y se desea serializar el objeto,
+	 * es porque se va a usar el archivo XML para reanudar partidas.
+	 * Entonces, agrego los nodos correspondientes a Pajaros y Disparos.
+	 */
+	if (this->simulacionHabilitada) {
+		// Almaceno la lista de pajaros
+		nodo->LinkEndChild(this->XMLGetPajaros());
+		// Almaceno la lista de disparos
+		nodo->LinkEndChild(this->XMLGetDisparos());
+	}
+	// Retorno el nodo del escenario
+	return nodo;
 }
 
 void Escenario::hydrate(const XMLNode* nodo) {
@@ -742,7 +768,7 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
 	}
 }
 
-bool Escenario::finalizoPartida() {
+bool Escenario::finalizoPartida() const {
 	return this->finalizo;
 }
 
@@ -768,6 +794,94 @@ std::string Escenario::getRutaImagenFondo() const {
 
 void Escenario::setRutaImagenFondo(std::string rutaArchivo) {
 	this->rutaImagenFondo = rutaArchivo;
+}
+
+void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const{
+	std::cout << "\t=== GUARDANDO ATRIBUTOS ===" << std::endl;
+	// Convierto el ancho y alto en string
+	std::ostringstream strAncho, strAlto;
+	strAncho << this->ancho;
+	strAlto << this->alto;
+	nodoEscenario->SetAttribute("ancho", strAncho.str());
+	nodoEscenario->SetAttribute("alto", strAlto.str());
+	// Creo un nodo para la ruta de imagen del fondo y lo guardo
+	XMLText* textoImagen = new XMLText(this->rutaImagenFondo);
+	XMLNode* nodoImagen = new XMLNode("Imagen");
+	nodoImagen->LinkEndChild(textoImagen);
+	nodoEscenario->LinkEndChild(nodoImagen);
+	// Convierto la cantidad de jugadores en string
+	std::ostringstream strJugadores;
+	strJugadores << this->cantJugadores;
+	XMLText* textoJugadores = new XMLText(strJugadores.str());
+	// Creo un nodo para la cantidad de jugadores y lo guardo
+	XMLNode* nodoJugadores = new XMLNode("Jugadores");
+	nodoJugadores->LinkEndChild(textoJugadores);
+	nodoEscenario->LinkEndChild(nodoJugadores);
+}
+
+XMLNode* Escenario::XMLGetCerditos() const {
+	std::cout << "\t=== GUARDANDO CERDITOS ===" << std::endl;
+	// Creo el nodo de cerditos.
+	XMLNode* nodo = new XMLNode("Cerditos");
+	// Serializo los cerditos de los jugadores y los guardo.
+	std::vector<Jugador*>::const_iterator it = jugadores.begin();
+	while (it != jugadores.end()) {
+		nodo->LinkEndChild((*it)->getCerdito()->serialize());
+		it++;
+	}
+	return nodo;
+}
+
+XMLNode* Escenario::XMLGetSuperficies() const {
+	std::cout << "\t=== GUARDANDO SUPERFICIES ===" << std::endl;
+	// Creo el nodo de superficies.
+	XMLNode* nodo = new XMLNode("Superficies");
+	// Serializo las superficies y las guardo en el nodo.
+	std::list<Superficie*>::const_iterator it = superficies.begin();
+	while (it != superficies.end()) {
+		nodo->LinkEndChild((*it)->serialize());
+		it++;
+	}
+	return nodo;
+}
+
+XMLNode* Escenario::XMLGetFrutas() const {
+	std::cout << "\t=== GUARDANDO FRUTAS ===" << std::endl;
+	// Creo el nodo de las frutas
+	XMLNode* nodo = new XMLNode("Frutas");
+	// Serializo las frutas y las guardo en el nodo.
+	std::list<Fruta*>::const_iterator it = frutas.begin();
+	while (it != frutas.end()) {
+		nodo->LinkEndChild((*it)->serialize());
+		it++;
+	}
+	return nodo;
+}
+
+XMLNode* Escenario::XMLGetPajaros() const {
+	std::cout << "\t=== GUARDANDO PAJAROS ===" << std::endl;
+	// Creo el nodo de los pajaros
+	XMLNode* nodo = new XMLNode("Pajaros");
+	// Serializo los pajaros y los guardo en el nodo.
+	std::list<Pajaro*>::const_iterator it = pajaros.begin();
+	while (it != pajaros.end()) {
+		nodo->LinkEndChild((*it)->serialize());
+		it++;
+	}
+	return nodo;
+}
+
+XMLNode* Escenario::XMLGetDisparos() const {
+	std::cout << "\t=== GUARDANDO DISPAROS ===" << std::endl;
+	// Creo el nodo de los disparos.
+	XMLNode* nodo = new XMLNode("Disparos");
+	// Serializo los disparos y los guardo en el nodo.
+	std::list<Disparo*>::const_iterator it = disparos.begin();
+	while (it != disparos.end()) {
+		nodo->LinkEndChild((*it)->serialize());
+		it++;
+	}
+	return nodo;
 }
 
 void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
@@ -1064,7 +1178,7 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 	}  // Fin while
 }
 
-Jugador* Escenario::getJugador(unsigned int indice) {
+Jugador* Escenario::getJugador(unsigned int indice) const {
 	Jugador* jugador;
 	try {
 		jugador = this->jugadores.at(indice);

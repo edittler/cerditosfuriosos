@@ -11,8 +11,10 @@ Suelo::Suelo(b2Body* body) : CuerpoAbstracto(body, 100000000) {
 Suelo::~Suelo() { }
 
 XMLNode* Suelo::serialize() {
+	// Creo el nodo del suelo
+	XMLNode* nodo = new XMLNode("Suelo");
 	// TODO(eze) Implementar luego de ver como se va a implementar el suelo.
-	return NULL;
+	return nodo;
 }
 
 void Suelo::hydrate(const XMLNode* nodo) {

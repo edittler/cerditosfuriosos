@@ -155,11 +155,10 @@ public:
 	void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial,
 			unsigned int j);
 
-	/*
-	 * @brief Chequea que si la partida ha finalizado.
+	/* @brief Chequea que si la partida ha finalizado.
 	 * @return true si la partida finalizo, false caso contrario.
 	 */
-	bool finalizoPartida();
+	bool finalizoPartida() const;
 
 	/***********************
 	 * GETTERS AND SETTERS *
@@ -179,6 +178,13 @@ private:
 	/***************************************************
 	 * METODOS PRIVADOS DE SERIALIZACION E HIDRATACION *
 	 ***************************************************/
+	void XMLGuardarAtributos(XMLNode* nodoEscenario) const;
+	XMLNode* XMLGetCerditos() const;
+	XMLNode* XMLGetSuperficies() const;
+	XMLNode* XMLGetFrutas() const;
+	XMLNode* XMLGetPajaros() const;
+	XMLNode* XMLGetDisparos() const;
+
 	void XMLCargarAtributos(const XMLNode* nodo);
 	void XMLCargarSuelo(const XMLNode* nodo);
 	void XMLCargarCerditos(const XMLNode* nodo);
@@ -192,7 +198,7 @@ private:
 	/*********************************************************
 	 * METODOS PRIVADOS DE OPERACIONES INTERNAS DE ESCENARIO *
 	 *********************************************************/
-	Jugador* getJugador(unsigned int indice);
+	Jugador* getJugador(unsigned int indice) const;
 	/*
 	 * @brief Valida que haya cerditos vivos, y elimina aquellos muertos.
 	 * @return true si existe algun cerdito vivo, false en caso contrario.
