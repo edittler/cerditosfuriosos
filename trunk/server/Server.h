@@ -1,14 +1,16 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
+// C++ Library Includes.
 #include <map>
 #include <list>
 #include <string>
 
+// Project Includes.
 #include "SocketServer.h"
 #include "ThreadCliente.h"
-#include "thread/Mutex.h"
-#include "communication/ConstantesClientServer.h"
+#include "../common/thread/Mutex.h"
+#include "../common/communication/ConstantesClientServer.h"
 
 // Abreviaturas usadas para contenedores.
 //typedef std::list<std::pair<std::string, unsigned int> > ListaRecords;

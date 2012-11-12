@@ -1,12 +1,13 @@
 #ifndef THREADCLIENTE_H_
 #define THREADCLIENTE_H_
 
-#include "thread/Thread.h"
+// Hierarchy Include.
+#include "../common/thread/Thread.h"
 
-#include "communication/Socket.h"
+// Project Includes.
+#include "../common/communication/Socket.h"
 
-/*
- * @class ThreadCliente
+/* @class ThreadCliente
  * Thread que maneja la comunicacion con el cliente.
  */
 class ThreadCliente : public Thread {
