@@ -98,7 +98,7 @@
  * personaje, éstas desaparecen.
  */
 #define F_VIDA 1.0f
-#define F_RADIO 0.1f	 // Minimo radio para evitar efecto tunneling
+#define F_RADIO 0.15f	 // Minimo radio para evitar efecto tunneling
 // MANZANA
 #define FM_PUNTOS 10
 // BANANA
