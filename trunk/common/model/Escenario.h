@@ -23,6 +23,7 @@
 #include "Fruta.h"
 #include "Pajaro.h"
 #include "Disparo.h"
+#include "ObjetoVivo.h"
 #include "Constantes.h"
 
 /* @class Escenario.
@@ -265,6 +266,7 @@ private:
 	std::list<Fruta*> frutas;
 	std::list<Pajaro*> pajaros;
 	std::list<Disparo*> disparos;
+        std::list<ObjetoVivo*> objetosVivos;
 
 	// flag que indica si la partida finalizo.
 	bool finalizo;
