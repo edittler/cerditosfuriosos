@@ -91,6 +91,13 @@ void probarCargaXMLEscenario() {
 		// Cargo el escenario a partir del nodo XML.
 		escena.hydrate(nodo);
 	}
+
+	// AHORA PRUEBO GUARDAR EL ESCENARIO
+	XMLDocument docSave;
+	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	docSave.LinkEndChild(decl);
+	docSave.LinkEndChild(escena.serialize());
+	docSave.SaveFile("guardado.xml");
 }
 
 void probarRestaurarXMLEscenario() {
@@ -101,7 +108,6 @@ void probarRestaurarXMLEscenario() {
 	XMLDocument doc;
 	std::string fileName = "MiMundo-restore.xml";
 	bool cargoArchivo = doc.LoadFile(fileName);
-
 	// Si no se cargo, lanzo error.
 	if (cargoArchivo == false) {
 		std::cout << "\tError al abrir el archivo XML." << std::endl;
@@ -113,6 +119,32 @@ void probarRestaurarXMLEscenario() {
 		// Cargo el escenario a partir del nodo XML.
 		escena.hydrate(nodo);
 	}
+
+	// AHORA PRUEBO GUARDAR EL ESCENARIO
+	XMLDocument docSave;
+	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	docSave.LinkEndChild(decl);
+	docSave.LinkEndChild(escena.serialize());
+	docSave.SaveFile("restauracion-guardado.xml");
+}
+
+void probarReanudarXMLEscenario() {
+	std::cout << " === PROBANDO LA REANUDACION DEL ESCENARIO A PARTIR DE UN ARCHIVO XML ===" << std::endl;
+	// Declaro el escenario que donde voy a cargar el XML.
+	Escenario escena;
+	// Declaro y cargo el documento XML.
+	XMLDocument doc;
+	std::string fileName = "restauracion-guardado.xml";
+	bool cargoArchivo = doc.LoadFile(fileName);
+	// Si no se cargo, lanzo error.
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+	} else {
+		// Obtengo el elemento raiz, que debe ser <Nivel>, pero no valido.
+		const XMLNode* nodo = doc.RootElement();
+		// Cargo el escenario a partir del nodo XML.
+		escena.hydrate(nodo);
+	}
 }
 
 int main(int argc, char *argv[]) {
@@ -121,5 +153,6 @@ int main(int argc, char *argv[]) {
 //	probarParseoVelocidad2D();
 //	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
 	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
+	probarReanudarXMLEscenario();
 	return 0;
 }

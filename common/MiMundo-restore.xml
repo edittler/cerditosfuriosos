@@ -81,7 +81,7 @@
                 <Punto2D x="100.0" y="60.0"></Punto2D>
                 <Velocidad2D x="100.0" y="60.0"></Velocidad2D>
             </HuevoCodorniz>
-            <HuevoPoche jugadorID="2">
+            <HuevoPoche jugadorID="0">
                 <Punto2D x="100.0" y="60.0"></Punto2D>
                 <Velocidad2D x="100.0" y="60.0"></Velocidad2D>
             </HuevoPoche>
