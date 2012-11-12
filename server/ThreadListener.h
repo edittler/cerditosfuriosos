@@ -1,9 +1,11 @@
 #ifndef THREADLISTENER_H_
 #define THREADLISTENER_H_
 
-#include "Server.h"
+// Hierarchy Include.
+#include "../common/thread/Thread.h"
 
-#include "thread/Thread.h"
+// Project Includes.
+#include "Server.h"
 
 /*
  * @class ThreadListener

@@ -1,7 +1,8 @@
 #ifndef SOCKETSERVER_H_
 #define SOCKETSERVER_H_
 
-#include "communication/Socket.h"
+// Hierarchy Include.
+#include "../common/communication/Socket.h"
 
 /*
  * @class SocketServer

@@ -1,6 +1,9 @@
+// Header Include.
 #include "ThreadCliente.h"
-#include "communication/MensajeServer.h"
-#include "communication/MensajeCliente.h"
+
+// Project Includes.
+#include "../common/communication/MensajeServer.h"
+#include "../common/communication/MensajeCliente.h"
 
 ThreadCliente::ThreadCliente() {
 	// TODO Auto-generated constructor stub
