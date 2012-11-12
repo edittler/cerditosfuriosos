@@ -1,12 +1,11 @@
 // Header Include.
 #include "PajaroAzul.h"
+
+// Project Includes.
 #include "Constantes.h"
 
-PajaroAzul::PajaroAzul(b2Body* body) {
-	this->cuerpo = body;
-	this->vida = PA_VIDA;
-	this->danioCerdito = PA_DANIO_CERDITO;
-	this->danioSuperficie = PA_DANIO_SUPERFICIE;
+PajaroAzul::PajaroAzul(b2Body* body) :
+		Pajaro(body, PA_VIDA, PA_DANIO_CERDITO, PA_DANIO_SUPERFICIE) {
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
@@ -24,7 +23,25 @@ PajaroAzul::PajaroAzul(b2Body* body) {
 	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
-PajaroAzul::~PajaroAzul() {
-	// TODO Auto-generated destructor stub
+PajaroAzul::~PajaroAzul() { }
+
+XMLNode* PajaroAzul::serialize() {
+	// Serializo la posicion del pajaro
+	const b2Vec2 vecPos = this->cuerpo->GetPosition();
+	Punto2D p(vecPos.x, vecPos.y);
+	XMLNode* pos = p.serialize();
+	// Serializo la velocidad del pajaro
+	const b2Vec2 vecVel = this->cuerpo->GetLinearVelocity();
+	Velocidad2D v(vecVel.x, vecVel.y);
+	XMLNode* vel = v.serialize();
+	// Creo el nodo para el pajaro
+	XMLNode* nodo = new XMLNode("PajaroAzul");
+	// Agrego el nodo del Punto2D y Velocidad2D
+	nodo->LinkEndChild(pos);
+	nodo->LinkEndChild(vel);
+	return nodo;
 }
 
+void PajaroAzul::hydrate(const XMLNode* nodo) {
+	// No realiza nada porque se requiere el b2Body.
+}

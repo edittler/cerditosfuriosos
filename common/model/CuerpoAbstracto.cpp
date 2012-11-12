@@ -6,12 +6,6 @@
 
 #include <cstdio>  // TODO PROVISORIO, BORRAR
 
-CuerpoAbstracto::CuerpoAbstracto() {
-	this->cuerpo = NULL;
-	this->vida = 0;
-	this->observador = NULL;
-}
-
 CuerpoAbstracto::CuerpoAbstracto(b2Body* cuerpo, float vida) {
 	// Almaceno el b2Body correspondiente a Box2D
 	this->cuerpo = cuerpo;
@@ -19,12 +13,9 @@ CuerpoAbstracto::CuerpoAbstracto(b2Body* cuerpo, float vida) {
 	this->vida = vida;
 	// Establezco el observador como nulo.
 	this->observador = NULL;
-
 }
 
-CuerpoAbstracto::~CuerpoAbstracto() {
-	// TODO Auto-generated destructor stub
-}
+CuerpoAbstracto::~CuerpoAbstracto() { }
 
 bool CuerpoAbstracto::estaVivo() const {
 	if (this->vida <= 0)
@@ -75,7 +66,7 @@ void CuerpoAbstracto::notificarPosicionAObservador() {
 	}
 }
 
-Punto2D CuerpoAbstracto::getPosicion() const{
+Punto2D CuerpoAbstracto::getPosicion() const {
 	b2Vec2 vec = this->cuerpo->GetPosition();
 	Punto2D p;
 	p.x = vec.x;

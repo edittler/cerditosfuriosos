@@ -1,9 +1,6 @@
 #include "Suelo.h"
 
-Suelo::Suelo(b2Body* body) {
-	// TODO Auto-generated constructor stub
-	this->vida = 100000000;
-	this->cuerpo = body;
+Suelo::Suelo(b2Body* body) : CuerpoAbstracto(body, 100000000) {
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del suelo y lo agrego al body
 	b2PolygonShape groundBox;
@@ -11,8 +8,15 @@ Suelo::Suelo(b2Body* body) {
 	this->cuerpo->CreateFixture(&groundBox, 0.0f);
 }
 
-Suelo::~Suelo() {
-	// TODO Auto-generated destructor stub
+Suelo::~Suelo() { }
+
+XMLNode* Suelo::serialize() {
+	// TODO(eze) Implementar luego de ver como se va a implementar el suelo.
+	return NULL;
+}
+
+void Suelo::hydrate(const XMLNode* nodo) {
+	// No realiza nada porque se requiere el b2Body.
 }
 
 void Suelo::agregarPunto(Punto2D p) {

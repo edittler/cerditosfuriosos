@@ -4,7 +4,7 @@
 // Project Includes.
 #include "Constantes.h"
 
-Monticulo::Monticulo(b2Body* body) : CuerpoAbstracto(body, M_VIDA){
+Monticulo::Monticulo(b2Body* body) : CuerpoAbstracto(body, M_VIDA) {
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del monticulo (triangulo)
@@ -29,3 +29,19 @@ Monticulo::Monticulo(b2Body* body) : CuerpoAbstracto(body, M_VIDA){
 }
 
 Monticulo::~Monticulo() { }
+
+XMLNode* Monticulo::serialize() {
+	// Serializo la posicion del monticulo
+	const b2Vec2 vec = this->cuerpo->GetPosition();
+	Punto2D p(vec.x, vec.y);
+	XMLNode* punto = p.serialize();
+	// Creo el nodo para el monticulo
+	XMLNode* nodo = new XMLNode("MonticuloHuevos");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}
+
+void Monticulo::hydrate(const XMLNode* nodo) {
+	// No realiza nada porque se requiere el b2Body.
+}

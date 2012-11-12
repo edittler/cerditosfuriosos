@@ -3,12 +3,11 @@
 
 // Hierarchy Include.
 #include "CuerpoAbstracto.h"
-#include "../parser/Serializable.h"
 
 /* Clase Catapulta, abstraccion de la catapulta que aparece en el juego
  * Cerditos Furiosos.
  */
-class Catapulta: public CuerpoAbstracto, public Serializable {
+class Catapulta: public CuerpoAbstracto {
 public:
 	/* @brief Constructor con b2Body especificado para darle atributos
 	 * correspondientes.

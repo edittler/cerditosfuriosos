@@ -1,14 +1,12 @@
 // Header Include.
 #include "Superficie.h"
 
-Superficie::Superficie() {
-	// TODO Auto-generated constructor stub
-
+Superficie::Superficie(b2Body* body, float vida, int puntosDestruccion) :
+		CuerpoAbstracto(body, vida) {
+	this->puntosDestruccion = puntosDestruccion;
 }
 
-Superficie::~Superficie() {
-	// TODO Auto-generated destructor stub
-}
+Superficie::~Superficie() { }
 
 int Superficie::getPuntosDestruccion() const {
 	return puntosDestruccion;

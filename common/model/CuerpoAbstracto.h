@@ -3,6 +3,7 @@
 
 // Hierarchy Include.
 #include "CuerpoObservable.h"
+#include "../parser/Serializable.h"
 
 // Box2D Library Includes.
 #include "Box2D/Box2D.h"
@@ -15,12 +16,8 @@
  * dado que los cuerpos que hereden de CuerpoAbstracto pueden ser vistos por
  * otros objetos mediante el patrón observador, por ejemplo, para la vista.
  */
-class CuerpoAbstracto: public CuerpoObservable {
+class CuerpoAbstracto: public CuerpoObservable, public Serializable {
 public:
-	/* Constructor antiguo sin parametros.
-	 */
-	CuerpoAbstracto();
-
 	/* @brief Constructor que inicializa los atributos.
 	 * @param cuerpo de Box2D.
 	 * @param vida que va a tener el cuerpo.
@@ -71,10 +68,9 @@ public:
 
 	void eliminarBody();
 
-	void printPosition() const; // TODO PROVISORIO, BORRAR
+	void printPosition() const;  // TODO PROVISORIO, BORRAR
 
 protected:
-
 	// Cuerpo de Box2D que se encapsula.
 	b2Body* cuerpo;
 

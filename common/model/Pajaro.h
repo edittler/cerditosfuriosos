@@ -17,7 +17,16 @@
  */
 class Pajaro: public CuerpoAbstracto {
 public:
-	Pajaro();
+	/* @brief Constructor con parametros.
+	 * @param b2Body de Box2D asociado al pajaro.
+	 * @param vida del pajaro.
+	 * @param danio que realiza a los cerditos
+	 * @param danio que realiza a las superficies
+	 */
+	explicit Pajaro(b2Body* body, float vida, int danioCerditos,
+			int danioSuperficies);
+
+	// Destructor
 	virtual ~Pajaro();
 
 	/*
@@ -43,6 +52,7 @@ public:
 	 * @param Monticulo a la que se quiere chocar.
 	 */
 	void chocarCon(Monticulo* monticulo);
+
 protected:
 	// Daño que le realiza a los Cerditos al chocarlos.
 	float danioCerdito;
@@ -51,4 +61,4 @@ protected:
 	float danioSuperficie;
 };
 
-#endif /* PAJARO_H_ */
+#endif  /* PAJARO_H_ */

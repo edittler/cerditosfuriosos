@@ -1,12 +1,11 @@
 // Header Include.
 #include "CajaVidrio.h"
+
+// Project Includes.
 #include "Constantes.h"
 
-CajaVidrio::CajaVidrio(b2Body* body) {
-	// Defino los atributos de clase
-	this->vida = CV_VIDA;
-	this->puntosDestruccion = CV_PUNTOS;
-	this->cuerpo = body;
+CajaVidrio::CajaVidrio(b2Body* body) :
+		Superficie(body, CV_VIDA, CV_PUNTOS) {
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del cuerpo
@@ -23,3 +22,19 @@ CajaVidrio::CajaVidrio(b2Body* body) {
 }
 
 CajaVidrio::~CajaVidrio() { }
+
+XMLNode* CajaVidrio::serialize() {
+	// Serializo la posicion de la caja
+	const b2Vec2 vec = this->cuerpo->GetPosition();
+	Punto2D p(vec.x, vec.y);
+	XMLNode* punto = p.serialize();
+	// Creo el nodo para la caja
+	XMLNode* nodo = new XMLNode("CajaVidrio");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}
+
+void CajaVidrio::hydrate(const XMLNode* nodo) {
+	// No realiza nada porque se requiere el b2Body.
+}
