@@ -1,30 +1,41 @@
 #include "VentanaDiseniador.h"
-#include <gdkmm/color.h>
 
 VentanaDiseniador::VentanaDiseniador() {
 	set_title("Creador de niveles");
 	set_border_width(10);
 	set_resizable(false);
-	
-	/* */
-	lienzo = new Lienzo(800, 600);
-	/* */
-	paletaEscenario = new PaletaEscenario();
-	cajaPaletaBorrar.pack_start(*paletaEscenario);
-	/* */
-	eliminador = new EliminadorPosicionables(lienzo);
-	cajaPaletaBorrar.pack_start(*eliminador);
-	/* */
-	caja.pack_start(cajaPaletaBorrar);
-	caja.pack_start(*lienzo);
-	/* */
-	add(caja);
+	panelMundo = new PanelMundo();
+	add(*panelMundo);
+	panelMundo->setInformable(this);
+	panelNivel = NULL;
+	panelEscenario = NULL;
 	show_all_children();
 }
 
 VentanaDiseniador::~VentanaDiseniador() {
-	delete paletaEscenario;
-	delete lienzo;
-	delete eliminador;
+	delete panelMundo;
+	if (panelNivel != NULL)
+		delete panelNivel;
+	if (panelEscenario != NULL)
+		delete panelEscenario;
 }
 
+void VentanaDiseniador::editarMundo(std::string rutaMundo) {
+	remove();
+	panelNivel = new PanelNivel(rutaMundo);
+	panelNivel->setInformable(this);
+	add(*panelNivel);
+	show_all_children();
+}
+
+void VentanaDiseniador::nombreSeleccionadoInvalido() {
+	Gtk::MessageDialog dialog(*this, "Nombre invalido");
+	dialog.run();
+}
+
+void VentanaDiseniador::crearNivel() {
+	remove();
+	panelEscenario = new PanelEscenario();
+	add(*panelEscenario);
+	show_all_children();
+}
