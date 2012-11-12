@@ -3,7 +3,7 @@
 #include "Constantes.h"
 
 HuevoReloj::HuevoReloj(b2Body* body, unsigned int idJugador,
-		Jugador* jugador) :
+		Jugador* jugador, int milisegundos) :
 		Disparo(body, idJugador, jugador, HR_DANIO_PAJARO, HR_DANIO_SUPERFICIE)
 {
 	// Defino los atributos de clase
@@ -28,14 +28,26 @@ HuevoReloj::HuevoReloj(b2Body* body, unsigned int idJugador,
 
 	// TODO completar el seteo del tiempo, falta el random
 	// TODO agregar el tiempo minimo y maximo como constantes.
-	tiempoExplosion = 6.0f;
+	tiempoExplosion = milisegundos;
 }
 
-HuevoReloj::~HuevoReloj() { }
+HuevoReloj::~HuevoReloj() { 
 
-bool HuevoReloj::explotar() {
-	if (this->tiempoExplosion > 0) {
-		return false;
-	}
-	return true;
+}
+
+void HuevoReloj::vivir(int milisegundos) {
+    this->tiempoExplosion -= milisegundos;
+    
+    if (this->tiempoExplosion <= 0) {
+        this->explotar();
+    }
+}
+
+void HuevoReloj::explotar() {
+    this->aumentarTamanio();
+    this->matar();
+}
+
+void HuevoReloj::aumentarTamanio() {
+
 }

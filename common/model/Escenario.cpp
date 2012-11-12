@@ -724,8 +724,12 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoReloj y le paso el cuerpo de Box2D
-	HuevoReloj* huevo = new HuevoReloj(body, id, jugador);
-	this->disparos.push_back(huevo);
+	HuevoReloj* huevo = new HuevoReloj(body, id, jugador, 6000);
+	
+        // TODO Reemplazar por this->objetosVivos.push_back...
+        // No lo hago ahora porque no se eliminan los objetos de la vista si no
+        // y no pude encontrar donde es que se hace eso...
+        this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo reloj
 	if (this->observador != NULL) {
