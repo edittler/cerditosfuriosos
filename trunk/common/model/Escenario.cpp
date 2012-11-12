@@ -94,7 +94,7 @@ Escenario::~Escenario() {
 	for(itDis = disparos.begin(); itDis != disparos.end(); ++itDis) {
 		delete (*itDis);
 	}
-	//Libero la memoria del monticulo
+	// Libero la memoria del monticulo
 	if (this->monticulo != NULL)
 		delete this->monticulo;
 	// Libero la memoria del Suelo
@@ -244,7 +244,9 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	b2Body* bodyCerdito = this->escenario->CreateBody(&bodyCerditoDef);
 	// Creo el objeto Cerdito y le paso el cuerpo de Box2D y la catapulta
 	Cerdito* cerdito = new Cerdito(bodyCerdito, catapulta);
-	// El cerdito está asociado a un jugador. Creo dicho jugador y le paso el cerdito.
+	/* El cerdito está asociado a un jugador.
+	 * Creo dicho jugador y le paso el cerdito.
+	 */
 	Jugador* jugador = new Jugador(cerdito);
 	// Agrego el jugador en la lista de jugadores.
 	this->jugadores.push_back(jugador);
@@ -444,7 +446,9 @@ void Escenario::habilitarSimulacion() {
 				"no se puede habilitar la simulación.");
 	}
 
-	/* Verifico que haya algun monticulo en la escena. Si no, lanzo una excepcion. */
+	/* Verifico que haya algun monticulo en la escena.
+	 * Si no, lanzo una excepcion.
+	 */
 	if (this->monticulo == NULL) {
 		throw SimulacionException("No hay monticulo en la escena,"
 						"no se puede habilitar la simulación.");
@@ -460,9 +464,10 @@ void Escenario::correrTick() {
 	if (!this->simulacionHabilitada) {
 		throw SimulacionException("La simulación no está habilitada.");
 	}
-	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES, POSICION_ITERACIONES);
+	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES,
+			POSICION_ITERACIONES);
 	// Imprimo las posiciones de los objetos. TODO Provisorio.
-//	this->imprimirPosiciones();
+// 	this->imprimirPosiciones();
 
 	// NOTA: Si el monticulo es destruido o todos los cerditos han muerto
 	// se ha perdido la partida.
@@ -583,7 +588,8 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	}
 }
 
-void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, unsigned int j) {
+void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial,
+		unsigned int j) {
 	/* Verifico si la simulacion ya está habilitada.
 	 * Caso contrario, lanzo una excepción.
 	 */
@@ -619,7 +625,6 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
-
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
@@ -632,7 +637,7 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
-	HuevoBlanco* huevo = new HuevoBlanco(body,id, jugador);
+	HuevoBlanco* huevo = new HuevoBlanco(body, id, jugador);
 	this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo blanco
@@ -666,7 +671,7 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v,
 
 	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MIN);
 	b2Body* body3 = this->escenario->CreateBody(&bodyDef);
-	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3,id, jugador);
+	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3, id, jugador);
 
 	// Agrego disparos
 	this->disparos.push_back(huevo1);
@@ -726,10 +731,10 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
 	// Creo el objeto HuevoReloj y le paso el cuerpo de Box2D
 	HuevoReloj* huevo = new HuevoReloj(body, id, jugador, 6000);
 	
-        // TODO Reemplazar por this->objetosVivos.push_back...
-        // No lo hago ahora porque no se eliminan los objetos de la vista si no
-        // y no pude encontrar donde es que se hace eso...
-        this->disparos.push_back(huevo);
+	// TODO Reemplazar por this->objetosVivos.push_back...
+	// No lo hago ahora porque no se eliminan los objetos de la vista si no
+	// y no pude encontrar donde es que se hace eso...
+	this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo reloj
 	if (this->observador != NULL) {
@@ -830,7 +835,8 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D del cerdito
 	Punto2D puntoCerdito(posCerdito);
-	std::cout << "\tCerdito\tx= " << puntoCerdito.x << "\ty= " << puntoCerdito.y << std::endl;
+	std::cout << "\tCerdito\tx= " << puntoCerdito.x << "\ty= " << puntoCerdito.y
+			<< std::endl;
 	// Obtengo el nodo de la catapulta.
 	const XMLNode* catapulta = nodo->FirstChildElement("Catapulta");
 	// Si no existe el nodo Catapulta, lanzo una excepcion
@@ -847,7 +853,8 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D de la catapulta
 	Punto2D puntoCatapulta(posCatapulta);
-	std::cout << "\tCatapulta\tx= " << puntoCatapulta.x << "\ty= " << puntoCatapulta.y << std::endl;
+	std::cout << "\tCatapulta\tx= " << puntoCatapulta.x << "\ty= " <<
+			puntoCatapulta.y << std::endl;
 	// Cargo el cerdito
 	this->agregarCerdito(puntoCerdito, puntoCatapulta);
 }
@@ -883,15 +890,18 @@ void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
 			std::string supName = supNode->ValueStr();
 			switch (mapSuperficies[supName]) {
 			case supCajaVidrio:
-				std::cout << "\tCajaVidrio\tx= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\tCajaVidrio\tx= " << p.x << "\ty= " << p.y <<
+				std::endl;
 				this->agregarCajaVidrio(p);
 				break;
 			case supCajaMadera:
-				std::cout << "\tCajaMadera\tx= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\tCajaMadera\tx= " << p.x << "\ty= " << p.y <<
+				std::endl;
 				this->agregarCajaMadera(p);
 				break;
 			case supCajaMetal:
-				std::cout << "\tCajaMetal\tx= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\tCajaMetal\tx= " << p.x << "\ty= " << p.y <<
+				std::endl;
 				this->agregarCajaMetal(p);
 				break;
 			default:
@@ -920,15 +930,18 @@ void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
 			std::string fruName = fruNode->ValueStr();
 			switch (mapFrutas[fruName]) {
 			case fruManzana:
-				std::cout << "\tManzana\tx= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\tManzana\tx= " << p.x << "\ty= " << p.y <<
+				std::endl;
 				this->agregarManzana(p);
 				break;
 			case fruBanana:
-				std::cout << "\tBanana\tx= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\tBanana\tx= " << p.x << "\ty= " << p.y <<
+				std::endl;
 				this->agregarBanana(p);
 				break;
 			case fruCereza:
-				std::cout << "\tCereza\tx= " << p.x << "\ty= " << p.y << std::endl;
+				std::cout << "\tCereza\tx= " << p.x << "\ty= " << p.y <<
+				std::endl;
 				this->agregarCereza(p);
 				break;
 			default:
@@ -959,18 +972,24 @@ void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
 			std::string pajName = pajNode->ValueStr();
 			switch (mapPajaros[pajName]) {
 			case pajPajaroRojo:
-				std::cout << "\tPajaroRojo\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
+				std::cout << "\tPajaroRojo\tPosicion: x= " << p.x << "\ty= " <<
+				p.y << std::endl;
+				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y <<
+						std::endl;
 				this->lanzarPajaroRojo(p, v);
 				break;
 			case pajPajaroVerde:
-				std::cout << "\tPajaroVerde\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
+				std::cout << "\tPajaroVerde\tPosicion: x= " << p.x << "\ty= " <<
+				p.y << std::endl;
+				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y <<
+						std::endl;
 				this->lanzarPajaroVerde(p, v);
 				break;
 			case pajPajaroAzul:
-				std::cout << "\tPajaroAzul\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
+				std::cout << "\tPajaroAzul\tPosicion: x= " << p.x << "\ty= " <<
+				p.y << std::endl;
+				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y <<
+						std::endl;
 				this->lanzarPajaroAzul(p, v);
 				break;
 			default:
@@ -1012,25 +1031,25 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 			std::string disName = disNode->ValueStr();
 			switch (mapDisparos[disName]) {
 			case disHuevoBlanco:
-				std::cout << "\tHuevoBlanco\tJugador: " << jugador << std::endl;
+				std::cout << "\tHuevoBlanco\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevoBlanco(p, v, jugadorID, jugador);
 				break;
 			case disHuevoCodorniz:
-				std::cout << "\tHuevoCodorniz\tJugador: " << jugador << std::endl;
+				std::cout << "\tHuevoCodorniz\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevosCodorniz(p, v, jugadorID, jugador);
 				break;
 			case disHuevoPoche:
-				std::cout << "\tHuevoPoche\tJugador: " << jugador << std::endl;
+				std::cout << "\tHuevoPoche\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevoPoche(p, v, jugadorID, jugador);
 				break;
 			case disHuevoReloj:
-				std::cout << "\tHuevoReloj\tJugador: " << jugador << std::endl;
+				std::cout << "\tHuevoReloj\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevoReloj(p, v, jugadorID, jugador);
@@ -1049,7 +1068,7 @@ Jugador* Escenario::getJugador(unsigned int indice) {
 	Jugador* jugador;
 	try {
 		jugador = this->jugadores.at(indice);
-	} catch (std::out_of_range& e) {  // indice incorrecto
+	} catch(std::out_of_range& e) {  // indice incorrecto
 		return NULL;
 	}
 	return jugador;
@@ -1076,7 +1095,7 @@ bool Escenario::validarCerditosVivos() {
 }
 
 void Escenario::limpiarCuerposInvalidos() {
-	//NOTA: precaucion al eliminar cuando se itera.
+ 	//NOTA: precaucion al eliminar cuando se itera.
 
 	std::list<Superficie*>::iterator itSu = superficies.begin();
 	while (itSu != superficies.end()) {
@@ -1122,7 +1141,6 @@ void Escenario::limpiarCuerposInvalidos() {
 			++itDi;
 		}
 	}
-
 }
 
 void Escenario::notificarPosicionesAObservadores() {
@@ -1166,7 +1184,8 @@ Escenario::SuperficiesMap Escenario::inicializarMapaSuperficies() {
 	return supMap;
 }
 
-Escenario::SuperficiesMap Escenario::mapSuperficies(Escenario::inicializarMapaSuperficies());
+Escenario::SuperficiesMap Escenario::mapSuperficies(Escenario::
+		inicializarMapaSuperficies());
 
 Escenario::FrutasMap Escenario::inicializarMapaFrutas() {
 	FrutasMap fruMap;
@@ -1186,7 +1205,8 @@ Escenario::PajarosMap Escenario::inicializarMapaPajaros() {
 	return pajMap;
 }
 
-Escenario::PajarosMap Escenario::mapPajaros(Escenario::inicializarMapaPajaros());
+Escenario::PajarosMap Escenario::mapPajaros(Escenario::
+		inicializarMapaPajaros());
 
 Escenario::DisparosMap Escenario::inicializarMapaDisparos() {
 	DisparosMap disMap;
@@ -1197,4 +1217,5 @@ Escenario::DisparosMap Escenario::inicializarMapaDisparos() {
 	return disMap;
 }
 
-Escenario::DisparosMap Escenario::mapDisparos(Escenario::inicializarMapaDisparos());
+Escenario::DisparosMap Escenario::mapDisparos(Escenario::
+		inicializarMapaDisparos());

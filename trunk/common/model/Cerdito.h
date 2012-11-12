@@ -3,7 +3,6 @@
 
 // Hierarchy Include.
 #include "CuerpoAbstracto.h"
-#include "../parser/Serializable.h"
 
 // Project Includes.
 #include "Catapulta.h"
@@ -11,7 +10,7 @@
 /* Clase Cerdito, abstraccion del cerdito que aparece en el juego
  * Cerditos Furiosos.
  */
-class Cerdito: public CuerpoAbstracto, public Serializable {
+class Cerdito: public CuerpoAbstracto {
 public:
 	/* @brief Constructor con b2Body especificado para darle atributos
 	 * correspondientes.

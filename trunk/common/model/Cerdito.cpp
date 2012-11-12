@@ -5,8 +5,7 @@
 #include "Constantes.h"
 
 Cerdito::Cerdito(b2Body* body, Catapulta* catapulta) :
-				CuerpoAbstracto (body, CE_VIDA)
-{
+				CuerpoAbstracto(body, CE_VIDA) {
 	// Defino los atributos de la clase Cerdito
 	this->catapulta = catapulta;
 	// Paso una referencia de este objeto al body de Box2D
@@ -36,7 +35,7 @@ XMLNode* Cerdito::serialize() {
 	// Obtengo el nodo de la catapulta.
 	XMLNode* catapulta = this->catapulta->serialize();
 	// Creo el nodo para el cerdito
-	XMLNode* nodo = new XMLNode("Catapulta");
+	XMLNode* nodo = new XMLNode("Cerdito");
 	// Agrego el nodo del Punto2D
 	nodo->LinkEndChild(punto);
 	nodo->LinkEndChild(catapulta);

@@ -15,6 +15,15 @@ public:
 
 	// Destructor
 	virtual ~HuevoPoche();
+
+	/* @brief Serializa el Huevo Poche y lo retorna en un nodo XML */
+	XMLNode* serialize();
+
+	/* @brief Como el CuerpoAbstracto requiere del b2Body para realizar
+	 * operaciones básicas, no se puede hidratar desde un nodo, salvo algunos
+	 * atributos.
+	 */
+	void hydrate(const XMLNode* nodo);
 };
 
 #endif /* HUEVOPOCHE_H_ */

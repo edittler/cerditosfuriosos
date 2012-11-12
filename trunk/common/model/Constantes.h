@@ -61,7 +61,7 @@
 #define HB_DANIO_SUPERFICIE 0.5f
 #define HB_PROBABILIDAD 40
 // HUEVO CODORNIZ
-#define HC_RADIO 0.1f	// Minimo radio para evitar efecto tunneling
+#define HC_RADIO 0.1f		// Minimo radio para evitar efecto tunneling
 #define HC_DANIO_PAJARO 0.5f
 #define HC_DANIO_SUPERFICIE 0.25f
 #define HC_OFFSET_MAX 1.2f
@@ -94,7 +94,11 @@
 #define M_ALTO 0.58f
 
 // CONSTANTES FRUTAS
-#define F_RADIO 0.1f	// Minimo radio para evitar efecto tunneling
+/* Para todas las frutas la vida es igual, ya que al ser adquiridas por un
+ * personaje, éstas desaparecen.
+ */
+#define F_VIDA 1.0f
+#define F_RADIO 0.1f	 // Minimo radio para evitar efecto tunneling
 // MANZANA
 #define FM_PUNTOS 10
 // BANANA

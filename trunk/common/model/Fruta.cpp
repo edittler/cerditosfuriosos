@@ -1,12 +1,15 @@
+// Header Include.
 #include "Fruta.h"
 
-Fruta::Fruta() {
-	this->vida = 1;  // las frutas desaparecen al ser tocadas
+// Project Includes.
+#include "Constantes.h"
+
+Fruta::Fruta(b2Body* body, int puntosAdquisicion) :
+		CuerpoAbstracto(body, F_VIDA) {
+	this->puntosAdquisicion = puntosAdquisicion;
 }
 
-Fruta::~Fruta() {
-	// TODO Auto-generated destructor stub
-}
+Fruta::~Fruta() { }
 
 int Fruta::getPuntosAdquisicion() const {
 	return this->puntosAdquisicion;

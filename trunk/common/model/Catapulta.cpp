@@ -4,11 +4,6 @@
 // Projet Includes.
 #include "Constantes.h"
 
-// Exceptions Includes.
-#include "exceptions/ParserException.h"
-
-#include <iostream>  // TODO PROVISORIO
-
 Catapulta::Catapulta(b2Body* body) : 	CuerpoAbstracto(body, CAT_VIDA) {
 	// Paso una referencia de este objeto al body de Box2D
 	this->cuerpo->SetUserData(this);
@@ -37,9 +32,6 @@ XMLNode* Catapulta::serialize() {
 	return nodo;
 }
 
-/* @brief A partir de un nodo XML se establece atributos de la catapulta.
- * @param Nodo XML del cual obtener los atributos de la catapulta.
- */
 void Catapulta::hydrate(const XMLNode* nodo) {
 	/* No realiza nada porque el objeto se construye con todos los atributos
 	 * necesarios.

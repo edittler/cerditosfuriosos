@@ -1,7 +1,11 @@
 // Header Include.
 #include "Pajaro.h"
 
-Pajaro::Pajaro() { }
+Pajaro::Pajaro(b2Body* body, float vida, int danioCerditos,
+		int danioSuperficies) : CuerpoAbstracto(body, vida) {
+	this->danioCerdito = danioCerditos;
+	this->danioSuperficie = danioSuperficies;
+}
 
 Pajaro::~Pajaro() { }
 
