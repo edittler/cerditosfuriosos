@@ -69,10 +69,11 @@ class PaletaEscenario : public Gtk::Frame {
 		Gtk::Frame itemsJugador, itemsVarios;
 		
 		// Cajas donde se guardaran los items dentro de cada grupo
-		Gtk::VBox cajaItemsJugador, cajaItemsVarios;
+		Gtk::VBox* cajaItemsJugador;
+		Gtk::VBox* cajaItemsVarios;
 		
 		// Caja donde se guardaran los grupos
-		Gtk::VBox cajaGrupos;
+		Gtk::VBox* cajaGrupos;
 		
 		/**
 		 * Agrega los items a los grupos, y estos a la paleta.

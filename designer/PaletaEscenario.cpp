@@ -2,11 +2,11 @@
 
 PaletaEscenario::PaletaEscenario():
 	itemsJugador("ITEMS JUGADOR"),
-	itemsVarios("ITEMS VARIOS"),
-	cajaGrupos(false, 0),
-	cajaItemsJugador(false, 0),
-	cajaItemsVarios(false, 0)
+	itemsVarios("ITEMS VARIOS")
 {
+	cajaItemsJugador = manage(new Gtk::VBox(false, 0));
+	cajaItemsVarios = manage(new Gtk::VBox(false, 0));
+	cajaGrupos = manage(new Gtk::VBox(false, 0));
 	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
 	set_border_width(6);
 	itemCerdo.signal_drag_data_get().connect(sigc::mem_fun(*this,
@@ -70,22 +70,21 @@ void PaletaEscenario::boton_caja_vidrio_arrastrado(
 }
 
 void PaletaEscenario::agregarItems() {
-	itemsJugador.add(cajaItemsJugador);
-	cajaItemsJugador.pack_start(itemCerdo, Gtk::PACK_EXPAND_PADDING, 10);
-	cajaItemsJugador.pack_start(itemHuevos, Gtk::PACK_EXPAND_PADDING, 10);
-	itemsVarios.add(cajaItemsVarios);
-	cajaItemsVarios.pack_start(itemCajaMadera, Gtk::PACK_EXPAND_PADDING, 10);
-	cajaItemsVarios.pack_start(itemCajaMetal, Gtk::PACK_EXPAND_PADDING, 10);
-	cajaItemsVarios.pack_start(itemCajaVidrio, Gtk::PACK_EXPAND_PADDING, 10);
-	cajaGrupos.pack_start(itemsJugador, Gtk::PACK_SHRINK, 10);
-	cajaGrupos.pack_start(itemsVarios, Gtk::PACK_SHRINK, 10);
+	itemsJugador.add(*cajaItemsJugador);
+	cajaItemsJugador->pack_start(itemCerdo, Gtk::PACK_EXPAND_PADDING, 10);
+	cajaItemsJugador->pack_start(itemHuevos, Gtk::PACK_EXPAND_PADDING, 10);
+	itemsVarios.add(*cajaItemsVarios);
+	cajaItemsVarios->pack_start(itemCajaMadera, Gtk::PACK_EXPAND_PADDING, 10);
+	cajaItemsVarios->pack_start(itemCajaMetal, Gtk::PACK_EXPAND_PADDING, 10);
+	cajaItemsVarios->pack_start(itemCajaVidrio, Gtk::PACK_EXPAND_PADDING, 10);
+	cajaGrupos->pack_start(itemsJugador, Gtk::PACK_SHRINK, 10);
+	cajaGrupos->pack_start(itemsVarios, Gtk::PACK_SHRINK, 10);
 	itemCerdo.add_pixlabel(RUTA_ITEM_CERDO, "Cerdo");
 	itemHuevos.add_pixlabel(RUTA_ITEM_HUEVOS, "Huevos");
 	itemCajaMadera.add_pixlabel(RUTA_ITEM_CAJA_MADERA, "Caja de madera");
 	itemCajaMetal.add_pixlabel(RUTA_ITEM_CAJA_METAL, "Caja de metal");
 	itemCajaVidrio.add_pixlabel(RUTA_ITEM_CAJA_VIDRIO, "Caja de vidrio");
-	add(cajaGrupos);
-	
+	add(*cajaGrupos);
 }
 
 PaletaEscenario::~PaletaEscenario() {}

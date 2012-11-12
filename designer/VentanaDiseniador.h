@@ -1,16 +1,17 @@
 #ifndef _VENTANA_DISENIADOR_H_
 #define _VENTANA_DISENIADOR_H_
-#include "PaletaEscenario.h"
-#include "EliminadorPosicionables.h"
-#include "Lienzo.h"
+
 #include <gtkmm/window.h>
-#include <gtkmm/targetentry.h>
-#include <gtkmm/box.h>
+#include <gtkmm/messagedialog.h>
+
+#include "PanelNivel.h"
+#include "PanelMundo.h"
+#include "PanelEscenario.h"
 
 /**
  * Ventana principal de la aplicacion diseniador.
  */
-class VentanaDiseniador : public Gtk::Window {
+class VentanaDiseniador : public Gtk::Window, public InformableSeleccion {
 	public:
 	
 		/**
@@ -23,15 +24,17 @@ class VentanaDiseniador : public Gtk::Window {
 		 */
 		virtual ~VentanaDiseniador();
 		
-	protected:
+		virtual void editarMundo(std::string rutaMundo);
+		
+		virtual void nombreSeleccionadoInvalido();
+		
+		virtual void crearNivel();
+		
+	private:
 	
-		/* Objetos con funcionalidad */
-		PaletaEscenario* paletaEscenario;
-		EliminadorPosicionables* eliminador;
-		Lienzo* lienzo;
-		/* */
-		Gtk::VBox cajaPaletaBorrar;
-		Gtk::HBox caja;
+		PanelMundo* panelMundo;
+		PanelNivel* panelNivel;
+		PanelEscenario* panelEscenario;
 };
 
 #endif
