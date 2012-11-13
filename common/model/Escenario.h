@@ -168,11 +168,9 @@ public:
 	 ***********************/
 
 	// FIXME return unsigned int pero alto y ancho son float, arreglar??
-	unsigned int getAlto() const;
-	void setAlto(unsigned int alto);
-
-	unsigned int getAncho() const;
-	void setAncho(unsigned int ancho);
+	void setTamanio(float ancho, float alto);
+	float getAlto() const;
+	float getAncho() const;
 
 	std::string getRutaImagenFondo() const;
 	void setRutaImagenFondo(std::string rutaArchivo);

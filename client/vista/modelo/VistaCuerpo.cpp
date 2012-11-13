@@ -74,3 +74,12 @@ void VistaCuerpo::iniciarImagen(const char* path) {
 	this->ancho = nuevoAncho;
 	this->alto = nuevoAlto;
 }
+
+int VistaCuerpo::getX() const {
+	return x;
+}
+
+int VistaCuerpo::getY() const {
+	return y;
+}
+

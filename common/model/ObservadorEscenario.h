@@ -42,6 +42,12 @@ public:
 	// Destructor
 	virtual ~ObservadorEscenario();
 
+	virtual void seAjustoTamanio(float ancho, float alto) = 0;
+
+	virtual void seEstablecioFondo() = 0;
+
+	virtual void seEstablecioSuelo() = 0;
+
 	virtual void seAgregoCerdito(Cerdito* cerdito) = 0;
 
 	virtual void seAgregoCatapulta(Catapulta* catapulta) = 0;

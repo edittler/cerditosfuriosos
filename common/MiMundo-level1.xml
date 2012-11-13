@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Nivel duracion="23">
     <Escenario ancho="16.3" alto="8.6">
-        <Imagen>../common/images/background/Bosque.png</Imagen>
+        <ImagenFondo>../common/images/background/Bosque.png</ImagenFondo>
+        <ImagenSuelo>../common/images/background/SueloBosque.png</ImagenSuelo>
         <Jugadores>1</Jugadores>
         <Suelo>
             <y>10</y>

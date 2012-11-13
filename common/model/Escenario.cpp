@@ -784,20 +784,21 @@ bool Escenario::finalizoPartida() const {
 	return this->finalizo;
 }
 
-unsigned int Escenario::getAlto() const {
+void Escenario::setTamanio(float ancho, float alto) {
+	this->ancho = ancho;
+	this->alto = alto;
+	// Notifico al observador que se cambio el tamaño del escenario
+	if (this->observador != NULL) {
+		this->observador->seAjustoTamanio(this->ancho, this->alto);
+	}
+}
+
+float Escenario::getAlto() const {
 	return alto;
 }
 
-void Escenario::setAlto(unsigned int alto) {
-	this->alto = alto;
-}
-
-unsigned int Escenario::getAncho() const {
+float Escenario::getAncho() const {
 	return ancho;
-}
-
-void Escenario::setAncho(unsigned int ancho) {
-	this->ancho = ancho;
 }
 
 std::string Escenario::getRutaImagenFondo() const {
@@ -806,6 +807,10 @@ std::string Escenario::getRutaImagenFondo() const {
 
 void Escenario::setRutaImagenFondo(std::string rutaArchivo) {
 	this->rutaImagenFondo = rutaArchivo;
+	// Notifico al observador que se cambio la imagen de fondo
+	if (this->observador != NULL) {
+		this->observador->seEstablecioFondo();
+	}
 }
 
 std::string Escenario::getRutaImagenSuelo() const {
@@ -814,6 +819,10 @@ std::string Escenario::getRutaImagenSuelo() const {
 
 void Escenario::setRutaImagenSuelo(std::string rutaArchivo) {
 	this->rutaImagenSuelo = rutaArchivo;
+	// Notifico al observador que se cambio la imagen de fondo
+	if (this->observador != NULL) {
+		this->observador->seEstablecioSuelo();
+	}
 }
 
 void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const{
@@ -824,11 +833,15 @@ void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const{
 	strAlto << this->alto;
 	nodoEscenario->SetAttribute("ancho", strAncho.str());
 	nodoEscenario->SetAttribute("alto", strAlto.str());
-	// Creo un nodo para la ruta de imagen del fondo y lo guardo
-	XMLText* textoImagen = new XMLText(this->rutaImagenFondo);
-	XMLNode* nodoImagen = new XMLNode("Imagen");
-	nodoImagen->LinkEndChild(textoImagen);
-	nodoEscenario->LinkEndChild(nodoImagen);
+	// Creo un nodo para la ruta de imagen del fondo y suelo y lo guardo
+	XMLText* textoImagenFondo = new XMLText(this->rutaImagenFondo);
+	XMLNode* nodoImagenFondo = new XMLNode("ImagenFondo");
+	nodoImagenFondo->LinkEndChild(textoImagenFondo);
+	XMLText* textoImagenSuelo = new XMLText(this->rutaImagenSuelo);
+	XMLNode* nodoImagenSuelo = new XMLNode("ImagenSuelo");
+	nodoImagenSuelo->LinkEndChild(textoImagenSuelo);
+	nodoEscenario->LinkEndChild(nodoImagenFondo);
+	nodoEscenario->LinkEndChild(nodoImagenSuelo);
 	// Convierto la cantidad de jugadores en string
 	std::ostringstream strJugadores;
 	strJugadores << this->cantJugadores;
@@ -924,23 +937,35 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 	// Obtengo el atributo de ancho y alto
 	std::string atributoAncho = nodo->Attribute("ancho");
 	std::string atributoAlto = nodo->Attribute("alto");
-	this->ancho = std::atof(atributoAncho.c_str());
-	this->alto = std::atof(atributoAlto.c_str());
+	float fAncho = std::atof(atributoAncho.c_str());
+	float fAlto = std::atof(atributoAlto.c_str());
+	this->setTamanio(fAncho, fAlto);
 	std::cout << "\tAncho: " << ancho << "\tAlto: " << alto << std::endl;
 
-	// Obtengo el nodo que contiene la ruta de la imagen.
-	const XMLNode* imagen = nodo->FirstChildElement("Imagen");
-	// Si no existe el nodo Imagen, lanzo una excepcion
-	if (imagen == 0) {
+	// Obtengo el nodo que contiene la ruta de la imagen del fondo.
+	const XMLNode* imagenFondo = nodo->FirstChildElement("ImagenFondo");
+	// Si no existe el nodo ImagenFondo, lanzo una excepcion
+	if (imagenFondo == 0) {
 		throw ParserException("El nodo Escenario no contiene informacion sobre "
 						"la imagen de fondo.");
 	}
-	this->rutaImagenFondo = imagen->GetText();
+	this->setRutaImagenFondo(imagenFondo->GetText());
 	std::cout << "\tRuta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
+
+	// Obtengo el nodo que contiene la ruta de la imagen del suelo.
+	const XMLNode* imagenSuelo = nodo->FirstChildElement("ImagenSuelo");
+	// Si no existe el nodo ImagenSuelo, lanzo una excepcion
+	if (imagenSuelo == 0) {
+		throw ParserException("El nodo Escenario no contiene informacion sobre "
+						"la imagen de fondo.");
+	}
+	this->setRutaImagenSuelo(imagenSuelo->GetText());
+	std::cout << "\tRuta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
+
 	// Obtengo el nodo que contiene la cantidad de jugadores que puede disponer.
 	const XMLNode* jugadores = nodo->FirstChildElement("Jugadores");
 	// Si no existe el nodo Jugadores, lanzo una excepcion
-	if (imagen == 0) {
+	if (jugadores == 0) {
 		throw ParserException("El nodo Escenario no contiene informacion sobre "
 						"la cantidad de jugadores que puede contener.");
 	}

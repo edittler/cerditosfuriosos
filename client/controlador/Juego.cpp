@@ -37,10 +37,7 @@ void* Juego::run() {
 
 				// hidrato escenario
 				this->nivel->cargarXML("../common/MiMundo-level1.xml");
-				this->nivel->getEscenario()->setRutaImagenSuelo(SUELO_BOSQUE);  // FIXME provisorio
 
-				// Actualizo la vista, cargando el escenario
-				this->vista->cargarEscenario();
 				// Inicio la vista
 				ventana->agregarContenedor(vista);
 				ventana->setMouseListener(new MouseListener(nivel->getEscenario()));
