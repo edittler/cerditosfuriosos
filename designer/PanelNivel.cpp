@@ -1,6 +1,7 @@
 #include "PanelNivel.h"
 
-PanelNivel::PanelNivel(std::string rutaMundo) : Paned() {
+PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
+	this->informable = informable;
 	cargarIdNiveles(rutaMundo);
 	// Cargo el selector
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 20));
@@ -15,7 +16,7 @@ PanelNivel::PanelNivel(std::string rutaMundo) : Paned() {
 	cuadroEditar->add(*cajaHorizontalUno);
 	// Cargo el creador
 	Gtk::HBox* cajaHorizontalDos = manage(new Gtk::HBox(false, 20));
-	creador = new CreadorNivel(idNiveles.size()+1);
+	creador = new CreadorNivel(idNiveles.size()+1, informable);
 	cajaHorizontalDos->pack_start(*creador);
 	botonCrear = new Gtk::Button("Crear nivel nuevo");
 	Gtk::HButtonBox* cajaAuxiliarDos = manage(new Gtk::HButtonBox());
@@ -39,10 +40,6 @@ PanelNivel::~PanelNivel() {
 	delete creador;
 	delete botonEditar;
 	delete botonCrear;
-}
-
-void PanelNivel::setInformable(InformableSeleccion* informable) {
-	this->informable = informable;
 }
 
 void PanelNivel::botonCrearClickeado() {

@@ -3,6 +3,9 @@
 
 #include <gtkmm/window.h>
 #include <gtkmm/messagedialog.h>
+#include <gtkmm/filechooserdialog.h>
+#include <gtkmm/stock.h>
+#include <gtkmm/filefilter.h>
 
 #include "PanelNivel.h"
 #include "PanelMundo.h"
@@ -29,6 +32,8 @@ class VentanaDiseniador : public Gtk::Window, public InformableSeleccion {
 		virtual void nombreSeleccionadoInvalido();
 		
 		virtual void crearNivel();
+		
+		virtual std::string seleccionarImagen();
 		
 	private:
 	
