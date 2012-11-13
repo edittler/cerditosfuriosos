@@ -26,6 +26,11 @@ class InformableSeleccion {
 		 */
 		virtual void crearNivel() = 0;
 		
+		/**
+		 * @return ruta de una imagen seleccionada por el usuario
+		 */
+		virtual std::string seleccionarImagen() = 0;
+		
 		virtual ~InformableSeleccion() {};
 };
 

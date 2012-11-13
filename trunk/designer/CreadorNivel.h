@@ -6,6 +6,12 @@
 #include <gtkmm/label.h>
 #include <gtkmm/box.h>
 #include <gtkmm/spinbutton.h>
+#include <gtkmm/button.h>
+#include <gtkmm/entry.h>
+
+#include <string>
+
+#include "InformableSeleccion.h"
 
 /**
  * Muestra al usuario una caja combo que le permite optar por uno de los
@@ -18,20 +24,29 @@ class CreadorNivel : public Gtk::Paned {
 		/**
 		 * Constructor.
 		 * @param idProximoNivel indice del proximo nivel dentro del mundo
+		 * @param informable se le informa cuando el usuario selecciona una
+		 * informacion de relevancia
 		 */
-		CreadorNivel(int idProximoNivel);
+		CreadorNivel(int idProximoNivel, InformableSeleccion* informable);
 		
 		/**
 		 * Destructor.
 		 */
 		~CreadorNivel();
 	
+	protected:
+	
+		void botonExaminarClickeado();
+	
 	private:
 	
 		Gtk::ComboBoxText selectorTamanio;
 		Gtk::Adjustment* ajuste;
 		Gtk::SpinButton* selectorDuracion;
+		Gtk::Entry* archivoImagen;
+		Gtk::Button* botonExaminar;
 		
+		InformableSeleccion* informable;
 		int idProximoNivel;
 };
 

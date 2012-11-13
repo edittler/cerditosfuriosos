@@ -15,19 +15,13 @@ class PanelNivel : public Gtk::Paned {
 		/**
 		 * Constructor.
 		 */
-		PanelNivel(std::string rutaMundo);
+		PanelNivel(std::string rutaMundo, InformableSeleccion* informable);
 		
 		/**
 		 * Destructor.
 		 */
 		virtual ~PanelNivel();
 		
-		/**
-		 * @param informable el objeto al que se le informara cuando el usuario
-		 * ingrese informacion relevante
-		 */
-		void setInformable(InformableSeleccion* informable);
-	
 	protected:
 	
 		/**

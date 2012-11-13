@@ -86,12 +86,14 @@ bool Lienzo::coincidenciaOcupacional(int x, int y, ImagenPosicionable* imagen) {
 	bool condicion;
 	list<ImagenPosicionable*>::iterator iterador = posicionables.begin();
 	while (iterador != posicionables.end()) {
-		if (x <= ((*iterador)->getX()+(*iterador)->ancho)&&
-			x+imagen->ancho >= ((*iterador)->getX()))
-			condicion = (y <= ((*iterador)->getY()+(*iterador)->alto)&&
-					y+imagen->alto >= ((*iterador)->getY()));
-		if (condicion)
-			return true;
+		if (imagen != *iterador) {
+			if (x <= ((*iterador)->getX()+(*iterador)->ancho)&&
+				x+imagen->ancho >= ((*iterador)->getX()))
+				condicion = (y <= ((*iterador)->getY()+(*iterador)->alto)&&
+						y+imagen->alto >= ((*iterador)->getY()));
+			if (condicion)
+				return true;
+		}
 		++iterador;
 	}
 	return false;
