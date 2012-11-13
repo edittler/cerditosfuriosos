@@ -36,6 +36,9 @@
 #include "exceptions/SimulacionException.h"
 #include "exceptions/NoExisteJugadorException.h"
 
+// Thread Includes.
+#include "../thread/Lock.h"
+
 Escenario::Escenario(unsigned int cantidadJugadores) {
 	// Inicializo los atributos de dimensiones.
 	this->ancho = 0;
@@ -63,28 +66,34 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 }
 
 Escenario::~Escenario() {
+	// Inhabilito la simulacion y doy por finalizada la partida.
 	// Libero la memoria del escenario de Box2D
 	delete this->escenario;
 	// Libero la memoria del colisionador
 	delete this->colisionador;
 	// Libero la memoria de los jugadores
+	Lock(this->mJugadores);
 	std::vector<Jugador*>::iterator itJ;
 	for(itJ = this->jugadores.begin(); itJ != this->jugadores.end(); ++itJ) {
 		delete (*itJ);
 	}
 	// Libero la memoria de los objetos
+	Lock(this->mSuperficies);
 	std::list<Superficie*>::iterator itSup;
 	for(itSup = superficies.begin(); itSup != superficies.end(); ++itSup) {
 		delete (*itSup);
 	}
+	Lock(this->mFrutas);
 	std::list<Fruta*>::iterator itFru;
 	for(itFru = frutas.begin(); itFru != frutas.end(); ++itFru) {
 		delete (*itFru);
 	}
+	Lock(this->mPajaros);
 	std::list<Pajaro*>::iterator itPaj;
 	for(itPaj = pajaros.begin(); itPaj != pajaros.end(); ++itPaj) {
 		delete (*itPaj);
 	}
+	Lock(this->mDisparos);
 	std::list<Disparo*>::iterator itDis;
 	for(itDis = disparos.begin(); itDis != disparos.end(); ++itDis) {
 		delete (*itDis);
@@ -244,6 +253,7 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	 * por el escenario. Si es igual a la cantidad requerida, no se puede
 	 * agregar el cerdito y lanza excepcion.
 	 */
+	Lock(this->mJugadores);
 	if (this->jugadores.size() >= this->cantJugadores) {
 		throw AgregarObjetoException("El escenario ya posee la cantidad de "
 				"jugadores requeridos, no se puede agregar Cerdito.");
@@ -328,9 +338,12 @@ void Escenario::agregarCajaVidrio(Punto2D p) {
 
 	// Creo el objeto CajaVidrio y le paso el cuerpo de Box2D
 	CajaVidrio* cajaVidrio = new CajaVidrio(body);
+
+	// Bloqueo la lista de superficies y agrego la caja de vidrio.
+	Lock(this->mSuperficies);
 	this->superficies.push_back(cajaVidrio);
 
-	// Notifico al observador que se creo una caja de vidrio.
+	// Notifico al observador que se creo una caja.
 	if (this->observador != NULL) {
 		this->observador->seAgregoCajaVidrio(cajaVidrio);
 	}
@@ -351,6 +364,9 @@ void Escenario::agregarCajaMadera(Punto2D p) {
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto CajaMadera y le paso el cuerpo de Box2D
 	CajaMadera* cajaMadera = new CajaMadera(body);
+
+	// Bloqueo la lista de superficies y agrego la caja.
+	Lock(this->mSuperficies);
 	this->superficies.push_back(cajaMadera);
 	// Notifico al observador que se creo una caja de madera.
 	if (this->observador != NULL)
@@ -374,6 +390,9 @@ void Escenario::agregarCajaMetal(Punto2D p) {
 
 	// Creo el objeto CajaMetal y le paso el cuerpo de Box2D
 	CajaMetal* cajaMetal = new CajaMetal(body);
+
+	// Bloqueo la lista de superficies y agrego la caja.
+	Lock(this->mSuperficies);
 	this->superficies.push_back(cajaMetal);
 
 	// Notifico al observador que se creo una caja de vidrio.
@@ -399,6 +418,9 @@ void Escenario::agregarManzana(Punto2D p) {
 
 	// Creo el objeto Manzana y le paso el cuerpo de Box2D
 	Manzana* manzana = new Manzana(body);
+
+	// Bloqueo la lista de frutas y agrego la fruta.
+	Lock(this->mFrutas);
 	this->frutas.push_back(manzana);
 
 	// Notifico al observador que se creo una caja de vidrio.
@@ -424,6 +446,8 @@ void Escenario::agregarBanana(Punto2D p) {
 
 	// Creo el objeto Manzana y le paso el cuerpo de Box2D
 	Banana* banana = new Banana(body);
+	// Bloqueo la lista de frutas y agrego la fruta.
+	Lock(this->mFrutas);
 	this->frutas.push_back(banana);
 
 	// Notifico al observador que se creo una caja de vidrio.
@@ -449,6 +473,8 @@ void Escenario::agregarCereza(Punto2D p) {
 
 	// Creo el objeto Manzana y le paso el cuerpo de Box2D
 	Cereza* cereza = new Cereza(body);
+	// Bloqueo la lista de frutas y agrego la fruta.
+	Lock(this->mFrutas);
 	this->frutas.push_back(cereza);
 
 	// Notifico al observador que se creo una caja de vidrio.
@@ -461,6 +487,7 @@ void Escenario::habilitarSimulacion() {
 	/* Verifico si el escenario cumple con la cantidad de jugadores que se
 	 * requieren.
 	 */
+	Lock(this->mJugadores);
 	if (this->jugadores.size() != this->cantJugadores) {
 		throw SimulacionException("El escenario no cumple con la cantidad de"
 				"cerditos/jugadores requeridos,"
@@ -487,27 +514,23 @@ void Escenario::correrTick() {
 	}
 	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES,
 			POSICION_ITERACIONES);
-	// Imprimo las posiciones de los objetos. TODO Provisorio.
-// 	this->imprimirPosiciones();
-
 	// NOTA: Si el monticulo es destruido o todos los cerditos han muerto
 	// se ha perdido la partida.
 	// Sin embargo si solo alguno de los cerditos ha muerto se continua jugando.
 
 	if (!monticulo->estaVivo()) {  // el monticulo fue destruido
+		std::cout << "MONTICULO DESTRUIDO" << std::endl;
 		if (this->observador != NULL) {
 			this->observador->monticuloDestruido();
 			this->observador->partidaPerdida();
 		}
 		this->finalizo = true;
 	}
-
 	if (!validarCerditosVivos()) {  // todos los cerditos estan muertos
 		if (this->observador != NULL)
 			this->observador->partidaPerdida();
 		this->finalizo = true;
 	}
-
 	// Elimino objetos "muertos"
 	this->limpiarCuerposInvalidos();
 	// Notifico al observador las nuevas posiciones de pajaros y disparos.
@@ -529,14 +552,14 @@ void Escenario::lanzarPajaroRojo(Punto2D p, Velocidad2D v) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
 	// Creo el objeto PajaroRojo y le paso el cuerpo de Box2D
 	PajaroRojo* pajaro = new PajaroRojo(body);
+	// Bloqueo la lista de pajaros y agrego el pajaro.
+	Lock(this->mPajaros);
 	this->pajaros.push_back(pajaro);
 	// Notifico al observador que se lanzo un pajaro rojo
 	if (this->observador != NULL)
@@ -551,7 +574,6 @@ void Escenario::lanzarPajaroVerde(Punto2D p, Velocidad2D v) {
 		throw SimulacionException("La simulación no está habilitada,"
 				"no se puede lanzar un Pajaro Verde.");
 	}
-
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -559,15 +581,14 @@ void Escenario::lanzarPajaroVerde(Punto2D p, Velocidad2D v) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
-
 	// Creo el objeto PajaroVerde y le paso el cuerpo de Box2D
 	PajaroVerde* pajaro = new PajaroVerde(body);
+	// Bloqueo la lista de pajaros y agrego el pajaro.
+	Lock(this->mPajaros);
 	this->pajaros.push_back(pajaro);
 
 	// Notifico al observador que se lanzo un pajaro rojo
@@ -584,7 +605,6 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 		throw SimulacionException("La simulación no está habilitada,"
 				"no se puede lanzar un Pajaro Azul.");
 	}
-
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -592,17 +612,15 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
-
 	// Creo el objeto PajaroAzul y le paso el cuerpo de Box2D
 	PajaroAzul* pajaro = new PajaroAzul(body);
+	// Bloqueo la lista de pajaros y agrego el pajaro.
+	Lock(this->mPajaros);
 	this->pajaros.push_back(pajaro);
-
 	// Notifico al observador que se lanzo un pajaro rojo
 	if (this->observador != NULL) {
 		this->observador->seLanzoPajaroAzul(pajaro);
@@ -650,15 +668,14 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
-
 	// Creo el objeto HuevoBlanco y le paso el cuerpo de Box2D
 	HuevoBlanco* huevo = new HuevoBlanco(body, id, jugador);
+	// Bloqueo la lista de disparos y agrego el huevo.
+	Lock(this->mDisparos);
 	this->disparos.push_back(huevo);
 
 	// Notifico al observador que se lanzo un huevo blanco
@@ -676,25 +693,23 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v,
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	// Creo tres objeto HuevoCodorniz con distinta velocidad inicial
+	// Creo el primer HuevoCodorniz
 	b2Body* body1 = this->escenario->CreateBody(&bodyDef);
 	HuevoCodorniz* huevo1 = new HuevoCodorniz(body1, id, jugador);
-
-
+	// Creo el segundo HuevoCodorniz
 	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MAX);
 	b2Body* body2 = this->escenario->CreateBody(&bodyDef);
 	HuevoCodorniz* huevo2 = new HuevoCodorniz(body2, id, jugador);
-
+	// Creo el tercer HuevoCodorniz
 	bodyDef.linearVelocity.Set(v.x, v.y * HC_OFFSET_MIN);
 	b2Body* body3 = this->escenario->CreateBody(&bodyDef);
 	HuevoCodorniz* huevo3 = new HuevoCodorniz(body3, id, jugador);
-
-	// Agrego disparos
+	// Bloqueo la lista de disparos y agrego los huevos.
+	Lock(this->mDisparos);
 	this->disparos.push_back(huevo1);
 	this->disparos.push_back(huevo2);
 	this->disparos.push_back(huevo3);
@@ -716,17 +731,15 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v,
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
-
 	// Creo el objeto HuevoPoche y le paso el cuerpo de Box2D
 	HuevoPoche* huevo = new HuevoPoche(body, id, jugador);
+	// Bloqueo la lista de disparos y agrego el huevo.
+	Lock(this->mDisparos);
 	this->disparos.push_back(huevo);
-
 	// Notifico al observador que se lanzo un huevo poche
 	if (this->observador != NULL) {
 		this->observador->seLanzoHuevoPoche(huevo);
@@ -742,21 +755,20 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(p.x, p.y);
 	bodyDef.linearVelocity.Set(v.x, v.y);
-
 	// valido que b2World no este bloqueado haciendo el step()
 	if (escenario->IsLocked())
 		return;
-
 	b2Body* body = this->escenario->CreateBody(&bodyDef);
-
 	// Creo el objeto HuevoReloj y le paso el cuerpo de Box2D
 	HuevoReloj* huevo = new HuevoReloj(body, id, jugador, 6000);
-	
-	// TODO Reemplazar por this->objetosVivos.push_back...
-	// No lo hago ahora porque no se eliminan los objetos de la vista si no
-	// y no pude encontrar donde es que se hace eso...
+	// Bloqueo la lista de disparos y agrego el huevo.
+	Lock(this->mDisparos);
 	this->disparos.push_back(huevo);
-
+	/* Como el HuevoReloj tiene un cierto tiempo de vida, lo agrego a la lista
+	 * de ObjetosVivos.
+	 */
+	Lock(this->mObjetosVivos);
+	this->objetosVivos.push_back(huevo);
 	// Notifico al observador que se lanzo un huevo reloj
 	if (this->observador != NULL) {
 		this->observador->seLanzoHuevoReloj(huevo);
@@ -822,11 +834,12 @@ void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const{
 	nodoEscenario->LinkEndChild(nodoJugadores);
 }
 
-XMLNode* Escenario::XMLGetCerditos() const {
+XMLNode* Escenario::XMLGetCerditos() {
 	std::cout << "\t=== GUARDANDO CERDITOS ===" << std::endl;
 	// Creo el nodo de cerditos.
 	XMLNode* nodo = new XMLNode("Cerditos");
 	// Serializo los cerditos de los jugadores y los guardo.
+	Lock(this->mJugadores);
 	std::vector<Jugador*>::const_iterator it = jugadores.begin();
 	while (it != jugadores.end()) {
 		nodo->LinkEndChild((*it)->getCerdito()->serialize());
@@ -835,11 +848,12 @@ XMLNode* Escenario::XMLGetCerditos() const {
 	return nodo;
 }
 
-XMLNode* Escenario::XMLGetSuperficies() const {
+XMLNode* Escenario::XMLGetSuperficies() {
 	std::cout << "\t=== GUARDANDO SUPERFICIES ===" << std::endl;
 	// Creo el nodo de superficies.
 	XMLNode* nodo = new XMLNode("Superficies");
 	// Serializo las superficies y las guardo en el nodo.
+	Lock(this->mSuperficies);
 	std::list<Superficie*>::const_iterator it = superficies.begin();
 	while (it != superficies.end()) {
 		nodo->LinkEndChild((*it)->serialize());
@@ -848,11 +862,12 @@ XMLNode* Escenario::XMLGetSuperficies() const {
 	return nodo;
 }
 
-XMLNode* Escenario::XMLGetFrutas() const {
+XMLNode* Escenario::XMLGetFrutas() {
 	std::cout << "\t=== GUARDANDO FRUTAS ===" << std::endl;
 	// Creo el nodo de las frutas
 	XMLNode* nodo = new XMLNode("Frutas");
 	// Serializo las frutas y las guardo en el nodo.
+	Lock(this->mFrutas);
 	std::list<Fruta*>::const_iterator it = frutas.begin();
 	while (it != frutas.end()) {
 		nodo->LinkEndChild((*it)->serialize());
@@ -861,11 +876,12 @@ XMLNode* Escenario::XMLGetFrutas() const {
 	return nodo;
 }
 
-XMLNode* Escenario::XMLGetPajaros() const {
+XMLNode* Escenario::XMLGetPajaros() {
 	std::cout << "\t=== GUARDANDO PAJAROS ===" << std::endl;
 	// Creo el nodo de los pajaros
 	XMLNode* nodo = new XMLNode("Pajaros");
 	// Serializo los pajaros y los guardo en el nodo.
+	Lock(this->mPajaros);
 	std::list<Pajaro*>::const_iterator it = pajaros.begin();
 	while (it != pajaros.end()) {
 		nodo->LinkEndChild((*it)->serialize());
@@ -874,11 +890,12 @@ XMLNode* Escenario::XMLGetPajaros() const {
 	return nodo;
 }
 
-XMLNode* Escenario::XMLGetDisparos() const {
+XMLNode* Escenario::XMLGetDisparos() {
 	std::cout << "\t=== GUARDANDO DISPAROS ===" << std::endl;
 	// Creo el nodo de los disparos.
 	XMLNode* nodo = new XMLNode("Disparos");
 	// Serializo los disparos y los guardo en el nodo.
+	Lock(this->mDisparos);
 	std::list<Disparo*>::const_iterator it = disparos.begin();
 	while (it != disparos.end()) {
 		nodo->LinkEndChild((*it)->serialize());
@@ -1181,8 +1198,9 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 	}  // Fin while
 }
 
-Jugador* Escenario::getJugador(unsigned int indice) const {
+Jugador* Escenario::getJugador(unsigned int indice) {
 	Jugador* jugador;
+	Lock(this->mJugadores);
 	try {
 		jugador = this->jugadores.at(indice);
 	} catch(std::out_of_range& e) {  // indice incorrecto
@@ -1193,7 +1211,7 @@ Jugador* Escenario::getJugador(unsigned int indice) const {
 
 bool Escenario::validarCerditosVivos() {
 	bool resultado = false;
-
+	Lock(this->mJugadores);
 	std::vector<Jugador*>::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		if ((*it)->perdio()) {
@@ -1207,13 +1225,12 @@ bool Escenario::validarCerditosVivos() {
 			resultado = true;
 		}
 	}
-
 	return resultado;
 }
 
 void Escenario::limpiarCuerposInvalidos() {
  	//NOTA: precaucion al eliminar cuando se itera.
-
+	Lock(this->mSuperficies);
 	std::list<Superficie*>::iterator itSu = superficies.begin();
 	while (itSu != superficies.end()) {
 		if (!(*itSu)->estaVivo()) {
@@ -1224,8 +1241,7 @@ void Escenario::limpiarCuerposInvalidos() {
 			++itSu;
 		}
 	}
-
-
+	Lock(this->mFrutas);
 	std::list<Fruta*>::iterator itFr = frutas.begin();
 	while (itFr != frutas.end()) {
 		if (!(*itFr)->estaVivo()) {
@@ -1236,7 +1252,7 @@ void Escenario::limpiarCuerposInvalidos() {
 			++itFr;
 		}
 	}
-
+	Lock(this->mPajaros);
 	std::list<Pajaro*>::iterator itPa = pajaros.begin();
 	while (itPa != pajaros.end()) {
 		if (!(*itPa)->estaVivo()) {
@@ -1247,11 +1263,14 @@ void Escenario::limpiarCuerposInvalidos() {
 			++itPa;
 		}
 	}
-
+	Lock(this->mDisparos);
 	std::list<Disparo*>::iterator itDi = disparos.begin();
 	while (itDi != disparos.end()) {
 		if (!(*itDi)->estaVivo()) {
 			escenario->DestroyBody((*itDi)->getBody());
+			/* FIXME Verificar si el disparo es un huevo reloj.
+			 * En caso correcto, eliminarlo de la lista de ObjetosVivos
+			 */
 			delete (*itDi);
 			itDi = disparos.erase(itDi);
 		} else {
@@ -1261,35 +1280,15 @@ void Escenario::limpiarCuerposInvalidos() {
 }
 
 void Escenario::notificarPosicionesAObservadores() {
+	Lock(this->mPajaros);
 	std::list<Pajaro*>::iterator itPaj;
 	for(itPaj = pajaros.begin(); itPaj != pajaros.end(); ++itPaj) {
 		(*itPaj)->notificarPosicionAObservador();
 	}
+	Lock(this->mDisparos);
 	std::list<Disparo*>::iterator itDis;
 	for(itDis = disparos.begin(); itDis != disparos.end(); ++itDis) {
 		(*itDis)->notificarPosicionAObservador();
-	}
-}
-
-void Escenario::imprimirPosiciones() {
-	this->monticulo->printPosition();
-
-	// Imprimo las pocisiones de los cuerpos del escenario
-	std::list<Superficie*>::iterator itSup;
-	for(itSup = superficies.begin(); itSup != superficies.end(); ++itSup) {
-		(*itSup)->printPosition();
-	}
-	std::list<Fruta*>::iterator itFru;
-	for(itFru = frutas.begin(); itFru != frutas.end(); ++itFru) {
-		(*itFru)->printPosition();
-	}
-	std::list<Pajaro*>::iterator itPaj;
-	for(itPaj = pajaros.begin(); itPaj != pajaros.end(); ++itPaj) {
-		(*itPaj)->printPosition();
-	}
-	std::list<Disparo*>::iterator itDis;
-	for(itDis = disparos.begin(); itDis != disparos.end(); ++itDis) {
-		(*itDis)->printPosition();
 	}
 }
 

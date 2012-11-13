@@ -26,6 +26,9 @@
 #include "ObjetoVivo.h"
 #include "Constantes.h"
 
+// Thread Includes.
+#include "../thread/Mutex.h"
+
 /* @class Escenario.
  * Contiene los objetos de la escena y ejecuta la simulacion.
  * Permite ser serializado e hidratado a partir de un nodo XML.
@@ -182,11 +185,11 @@ private:
 	 * METODOS PRIVADOS DE SERIALIZACION E HIDRATACION *
 	 ***************************************************/
 	void XMLGuardarAtributos(XMLNode* nodoEscenario) const;
-	XMLNode* XMLGetCerditos() const;
-	XMLNode* XMLGetSuperficies() const;
-	XMLNode* XMLGetFrutas() const;
-	XMLNode* XMLGetPajaros() const;
-	XMLNode* XMLGetDisparos() const;
+	XMLNode* XMLGetCerditos();
+	XMLNode* XMLGetSuperficies();
+	XMLNode* XMLGetFrutas();
+	XMLNode* XMLGetPajaros();
+	XMLNode* XMLGetDisparos();
 
 	void XMLCargarAtributos(const XMLNode* nodo);
 	void XMLCargarSuelo(const XMLNode* nodo);
@@ -201,7 +204,7 @@ private:
 	/*********************************************************
 	 * METODOS PRIVADOS DE OPERACIONES INTERNAS DE ESCENARIO *
 	 *********************************************************/
-	Jugador* getJugador(unsigned int indice) const;
+	Jugador* getJugador(unsigned int indice);
 	/*
 	 * @brief Valida que haya cerditos vivos, y elimina aquellos muertos.
 	 * @return true si existe algun cerdito vivo, false en caso contrario.
@@ -209,7 +212,6 @@ private:
 	bool validarCerditosVivos();
 	void limpiarCuerposInvalidos();
 	void notificarPosicionesAObservadores();
-	void imprimirPosiciones();  // TODO, provisorio
 
 	// Metodos privados segun el tipo de huevo a lanzar.
 	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
@@ -252,19 +254,25 @@ private:
 	 */
 	bool simulacionHabilitada;
 
+	// flag que indica si la partida finalizo.
+	bool finalizo;
+
 	ObservadorEscenario* observador;
 
 	// Escenario de Box2D
 	b2World* escenario;
 
-	// Suelo del escenario
-	Suelo* suelo;
-
 	// Administrador de colisiones
 	b2ContactListener* colisionador;
 
+	// Suelo del escenario
+	Suelo* suelo;
+
 	// Lista de jugadores
 	std::vector<Jugador*> jugadores;
+
+	// Mutex para la lista de jugadores
+	Mutex mJugadores;
 
 	// Monticulo de huevos
 	Monticulo* monticulo;
@@ -276,10 +284,14 @@ private:
 	std::list<Fruta*> frutas;
 	std::list<Pajaro*> pajaros;
 	std::list<Disparo*> disparos;
-        std::list<ObjetoVivo*> objetosVivos;
+	std::list<ObjetoVivo*> objetosVivos;
 
-	// flag que indica si la partida finalizo.
-	bool finalizo;
+	// Mutex de las listas de cuerpos.
+	Mutex mSuperficies;
+	Mutex mFrutas;
+	Mutex mPajaros;
+	Mutex mDisparos;
+	Mutex mObjetosVivos;
 
 	/*********************
 	 * PARSER ATTRIBUTES *
