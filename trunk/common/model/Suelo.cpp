@@ -1,11 +1,20 @@
+// Header Include.
 #include "Suelo.h"
+
+// Project Includes.
+#include "ConstantesColisiones.h"
 
 Suelo::Suelo(b2Body* body, float ancho, float alto) : CuerpoAbstracto(body, 100000000) {
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del suelo y lo agrego al body
 	b2PolygonShape groundBox;
 	groundBox.SetAsBox(ancho / 2, alto / 2);
-	this->cuerpo->CreateFixture(&groundBox, 0.0f);
+	// Defino las propiedades del cuerpo
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &groundBox;
+	fixtureDef.filter.categoryBits = CATEGORY_SUELO;
+	fixtureDef.filter.maskBits = MASK_SUELO;
+	this->cuerpo->CreateFixture(&fixtureDef);
 }
 
 Suelo::~Suelo() { }

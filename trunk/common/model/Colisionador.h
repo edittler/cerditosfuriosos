@@ -1,10 +1,3 @@
-/*
- * Colisionador.h
- *
- *  Created on: 25/10/2012
- *      Author: ezequiel
- */
-
 #ifndef COLISIONADOR_H_
 #define COLISIONADOR_H_
 
@@ -53,17 +46,27 @@ public:
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
 
 private:
-	void chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarPajaroConCerdito(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarPajaroConFruta(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarPajaroConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
+	void chocarPajaroConSuperficie(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarPajaroConFruta(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarPajaroConCerdito(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarPajaroConMonticulo(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
 
-	void chocarDisparoConSuperficie(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarDisparoConPajaro(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarDisparoConCerdito(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarDisparoConMonticulo(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-	void chocarDisparoConFruta(CuerpoAbstracto* cuerpoA, CuerpoAbstracto* cuerpoB);
-
+	void chocarDisparoConSuelo(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarDisparoConSuperficie(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarDisparoConFruta(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarDisparoConCerdito(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarDisparoConMonticulo(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
+	void chocarDisparoConPajaro(CuerpoAbstracto* cuerpoA,
+			CuerpoAbstracto* cuerpoB);
 };
 
 #endif /* COLISIONADOR_H_ */
