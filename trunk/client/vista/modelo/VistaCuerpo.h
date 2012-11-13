@@ -29,6 +29,8 @@ public:
 	void actualizarPosicion(Punto2D posicion);
 
 	void seMurio();
+	int getX() const;
+	int getY() const;
 
 protected:
 	/* @brief El modelo del escenario trabaja con valores en punto flotante.

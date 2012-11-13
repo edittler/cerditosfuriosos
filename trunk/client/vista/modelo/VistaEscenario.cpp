@@ -46,10 +46,6 @@ VistaEscenario::~VistaEscenario() {
 }
 
 void VistaEscenario::cargarEscenario() {
-	// Ajusto las dimensiones del fixed al tamaño del escenario.
-	this->ancho = escenario->getAncho() * AJUSTE_ESCALA_VISTA;
-	this->alto = escenario->getAlto() * AJUSTE_ESCALA_VISTA;
-	this->set_size_request(ancho, alto);
 	// inicio las imagenes de fondo
 	this->iniciarImagenFondo();
 	this->iniciarImagenSuelo();
@@ -66,6 +62,21 @@ void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
 	this->vCuerpos.remove(cuerpo);
 	// Elimino el cuerpo.
 	delete cuerpo;
+}
+
+void VistaEscenario::seAjustoTamanio(float ancho, float alto) {
+	// Ajusto las dimensiones del fixed al tamaño del escenario.
+	this->ancho = ancho * AJUSTE_ESCALA_VISTA;
+	this->alto = alto * AJUSTE_ESCALA_VISTA;
+	this->set_size_request(this->ancho, this->alto);
+}
+
+void VistaEscenario::seEstablecioFondo() {
+	this->iniciarImagenFondo();
+}
+
+void VistaEscenario::seEstablecioSuelo() {
+	this->iniciarImagenSuelo();
 }
 
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {

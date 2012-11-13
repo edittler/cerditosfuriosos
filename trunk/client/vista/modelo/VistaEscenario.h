@@ -41,6 +41,12 @@ public:
 	 */
 	void eliminar(VistaCuerpo* cuerpo);
 
+	void seAjustoTamanio(float ancho, float alto);
+
+	void seEstablecioFondo();
+
+	void seEstablecioSuelo();
+
 	void seAgregoCerdito(Cerdito* cerdito);
 
 	void seAgregoCatapulta(Catapulta* catapulta);
