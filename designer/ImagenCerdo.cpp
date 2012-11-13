@@ -7,6 +7,7 @@ ImagenCerdo::ImagenCerdo(int x, int y) :
 	this->y = y;
 	this->alto = ALTO_CERDO;
 	this->ancho = ANCHO_CERDO;
+	drag_source_set_icon(Gtk::Image(RUTA_CERDO).get_pixbuf());
 }
 
 ImagenCerdo::~ImagenCerdo() {}

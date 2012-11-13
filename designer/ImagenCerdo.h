@@ -3,8 +3,8 @@
 #include "ImagenPosicionable.h"
 
 #define RUTA_CERDO "imagenes/cerdo.png"
-#define ALTO_CERDO 60
-#define ANCHO_CERDO 60
+#define ALTO_CERDO 50
+#define ANCHO_CERDO 50
 
 /**
  * Las instancias de esta clase representan a la vista de un cerdo sobre un
