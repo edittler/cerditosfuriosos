@@ -1,5 +1,5 @@
 #include "Lienzo.h"
-#include <iostream>
+
 Lienzo::Lienzo(int ancho, int alto) {
 	set_size_request(ancho, alto);
 	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
@@ -29,6 +29,8 @@ void Lienzo::recibirInformacion(
 								const Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
+	x = x+2;
+	y = y+2;
 	string recepcion = selection_data.get_data_as_string();
 	ImagenPosicionable* imagen;
 	if (recepcion.compare("CERDO") == 0)
@@ -87,10 +89,10 @@ bool Lienzo::coincidenciaOcupacional(int x, int y, ImagenPosicionable* imagen) {
 	list<ImagenPosicionable*>::iterator iterador = posicionables.begin();
 	while (iterador != posicionables.end()) {
 		if (imagen != *iterador) {
-			if (x <= ((*iterador)->getX()+(*iterador)->ancho)&&
-				x+imagen->ancho >= ((*iterador)->getX()))
-				condicion = (y <= ((*iterador)->getY()+(*iterador)->alto)&&
-						y+imagen->alto >= ((*iterador)->getY()));
+			if (x <= ((*iterador)->getX()+(*iterador)->ancho-1)&&
+				(x+imagen->ancho-1) >= ((*iterador)->getX()))
+				condicion = (y <= ((*iterador)->getY()+(*iterador)->alto-1)&&
+						(y+imagen->alto-1) >= ((*iterador)->getY()));
 			if (condicion)
 				return true;
 		}
