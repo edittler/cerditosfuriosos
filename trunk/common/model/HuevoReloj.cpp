@@ -60,14 +60,21 @@ void HuevoReloj::hydrate(const XMLNode* nodo) {
 
 void HuevoReloj::vivir(int milisegundos) {
 	this->tiempoExplosion -= milisegundos;
-
 	if (this->tiempoExplosion <= 0) {
 		this->explotar();
 	}
 }
 
+void HuevoReloj::chocarCon(Cerdito* cerdito) {
+	cerdito->daniar(this->danioCerdito);
+	this->matar();
+}
+
 void HuevoReloj::explotar() {
 	this->aumentarTamanio();
+	/* FIXME Se debe dejar un tiempo con el tamaño aumentado para que se
+	 * pueda procesar alguna colisión con otro objeto.
+	 */
 	this->matar();
 }
 

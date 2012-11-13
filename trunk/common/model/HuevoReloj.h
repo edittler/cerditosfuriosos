@@ -30,6 +30,8 @@ public:
 	// Metodo para el paso del tiempo
 	void vivir(int milisegundos);
 
+	void chocarCon(Cerdito* cerdito);
+
 private:
 	// Metodo que hace explotar el huevo.
 	void explotar();
