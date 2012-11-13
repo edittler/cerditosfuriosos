@@ -24,6 +24,8 @@ public:
 
 	virtual ~VistaEscenario();
 
+	void cargarEscenario();
+
 	/**
 	 * Mueve un widget contenido en este contenedor hacia la nueva posicion
 	 * indicada.
@@ -91,6 +93,7 @@ public:
 	int getAlto() const;
 
 private:
+
 
 	/*
 	 * @brief carga y escala la imagen correspondiente al fondo

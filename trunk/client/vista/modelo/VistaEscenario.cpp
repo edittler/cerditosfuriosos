@@ -31,13 +31,10 @@ VistaEscenario::VistaEscenario(Escenario* escenario) {
 	this->escenario = escenario;
 	// Registro la vista del escenario en el escenario del modelo.
 	this->escenario->registrarObservador(this);
-	// Ajusto las dimensiones del fixed al tamaño del escenario.
-	this->ancho = escenario->getAncho() * AJUSTE_ESCALA_VISTA;
-	this->alto = escenario->getAlto() * AJUSTE_ESCALA_VISTA;
+	// Establezco unas dimenciones estandar
+	this->ancho = 1024;
+	this->alto = 640;
 	this->set_size_request(ancho, alto);
-	// Agrego el fondo en el fixed.
-	this->iniciarImagenFondo();
-	this->iniciarImagenSuelo();
 }
 
 VistaEscenario::~VistaEscenario() {
@@ -46,6 +43,16 @@ VistaEscenario::~VistaEscenario() {
 	for(it = this->vCuerpos.begin(); it != this->vCuerpos.end(); ++it) {
 		delete (*it);
 	}
+}
+
+void VistaEscenario::cargarEscenario() {
+	// Ajusto las dimensiones del fixed al tamaño del escenario.
+	this->ancho = escenario->getAncho() * AJUSTE_ESCALA_VISTA;
+	this->alto = escenario->getAlto() * AJUSTE_ESCALA_VISTA;
+	this->set_size_request(ancho, alto);
+	// inicio las imagenes de fondo
+	this->iniciarImagenFondo();
+	this->iniciarImagenSuelo();
 }
 
 void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {

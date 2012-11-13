@@ -18,7 +18,7 @@ CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
 CPPUNITFLAG = -lcppunit
 
 # Flags para compilar con POSIX Threads
-#CXXFLAGS += -pthread -lpthread
+CXXFLAGS += -pthread -lpthread
 
 # Flag de inclusion de las librerias de gtkmm
 #GTKFLAGS = `pkg-config gtkmm-2.4 --cflags --libs`
@@ -31,10 +31,10 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = model parser
+SUBDIRS = model parser thread
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = model parser Box2D/include
+SUBDIRSINCLUDE = Box2D/include model parser thread
 
 # Declaracion de objetos externos
 EXTERNOBJS =$(foreach path, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(path)/*.cpp))))

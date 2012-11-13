@@ -146,6 +146,11 @@ void Escenario::hydrate(const XMLNode* nodo) {
 	}
 	// Cargo los atributos
 	this->XMLCargarAtributos(nodo);
+	/* TODO(eze) Se deberia cargar el suelo desde el XML, pero como no está
+	 * implementado, lo creo aca.
+	 */
+	std::list<Punto2D*> puntosSuelo;
+	this->agregarSuelo(puntosSuelo);
 	// Obtengo el nodo de Cerditos y los cargo.
 	const XMLNode* cerditos = nodo->FirstChildElement("Cerditos");
 	// Si no existe el nodo Cerditos, lanzo una excepcion

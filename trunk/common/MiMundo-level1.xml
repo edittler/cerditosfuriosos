@@ -1,57 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Nivel duracion="23">
-    <Escenario ancho="14.62857142" alto="9.14285714">
+    <Escenario ancho="16.3" alto="8.6">
         <Imagen>../common/images/background/Bosque.png</Imagen>
-        <Jugadores>2</Jugadores>
+        <Jugadores>1</Jugadores>
         <Suelo>
             <y>10</y>
         </Suelo>
         <Cerditos>
             <Cerdito>
-                <Punto2D x="2" y="10"></Punto2D>
+                <Punto2D x="1" y="0.6"></Punto2D>
                 <Catapulta>
-                    <Punto2D x="12" y="10"></Punto2D>
-                </Catapulta>
-            </Cerdito>
-            <Cerdito>
-                <Punto2D x="15" y="10"></Punto2D>
-                <Catapulta>
-                    <Punto2D x="25" y="10"></Punto2D>
+                    <Punto2D x="0.4" y="0.6"></Punto2D>
                 </Catapulta>
             </Cerdito>
         </Cerditos>
         <MonticuloHuevos>
-            <Punto2D x="30" y="10"></Punto2D>
+            <Punto2D x="5" y="0.6"></Punto2D>
         </MonticuloHuevos>
         <Superficies>
             <CajaMadera>
-                <Punto2D x="600" y="20"></Punto2D>
-            </CajaMadera>
-            <CajaMadera>
-                <Punto2D x="800" y="25"></Punto2D>
+                <Punto2D x="5" y="3"></Punto2D>
             </CajaMadera>
             <CajaVidrio>
-                <Punto2D x="850" y="25"></Punto2D>
+                <Punto2D x="5" y="5"></Punto2D>
             </CajaVidrio>
             <CajaMetal>
-                <Punto2D x="875" y="25"></Punto2D>
+                <Punto2D x="3" y="4"></Punto2D>
             </CajaMetal>
         </Superficies>
         <Frutas>
             <Manzana>
-                <Punto2D x="600" y="50"></Punto2D>
-            </Manzana>
-            <Manzana>
-                <Punto2D x="650" y="50"></Punto2D>
+                <Punto2D x="5" y="1.50"></Punto2D>
             </Manzana>
             <Banana>
-                <Punto2D x="650" y="50"></Punto2D>
+                <Punto2D x="7" y="3"></Punto2D>
             </Banana>
-            <Baaanana>
-                <Punto2D x="650" y="50"></Punto2D>
-            </Baaanana>
             <Cereza>
-                <Punto2D x="750" y="50"></Punto2D>
+                <Punto2D x="2" y="5"></Punto2D>
             </Cereza>
         </Frutas>
     </Escenario>

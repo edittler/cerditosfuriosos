@@ -2,13 +2,13 @@
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
 #include <iostream> // FIXME eliminar
-#include <X11/Xlib.h>
+//#include <X11/Xlib.h>
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
 #include "NivelLocal.h"
 
 Juego::Juego(Escenario* escenario, VentanaCliente* ventana) {
-	XInitThreads();
+//	XInitThreads();
 	this->estado = SPLASH;
 	this->nivel = new NivelLocal(escenario, 250);
 	this->ventana = ventana;
@@ -32,12 +32,16 @@ void* Juego::run() {
 				this->estado = GAMEPLAY;
 			break; }
 			case GAMEPLAY: {
+				// Creo la vista y le asocio el escenario del modelo
+				this->vista = new VistaEscenario(nivel->getEscenario());
+
 				// hidrato escenario
 				this->nivel->cargarXML("../common/MiMundo-level1.xml");
-
-				// inicio vista
 				this->nivel->getEscenario()->setRutaImagenSuelo(SUELO_BOSQUE);  // FIXME provisorio
-				this->vista = new VistaEscenario(nivel->getEscenario());
+
+				// Actualizo la vista, cargando el escenario
+				this->vista->cargarEscenario();
+				// Inicio la vista
 				ventana->agregarContenedor(vista);
 				ventana->setMouseListener(new MouseListener(nivel->getEscenario()));
 

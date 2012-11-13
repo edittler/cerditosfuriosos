@@ -151,8 +151,8 @@ int main(int argc, char *argv[]) {
 //	probarEscenario();
 //	probarParseoPunto2D();
 //	probarParseoVelocidad2D();
-//	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
-	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
-	probarReanudarXMLEscenario();
+	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
+//	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
+//	probarReanudarXMLEscenario();
 	return 0;
 }

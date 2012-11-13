@@ -1,4 +1,5 @@
 #include "Nivel.h"
+#include <exception>
 #include "../parser/XMLTypes.h"
 
 Nivel::Nivel(Escenario* escenario) {
@@ -20,8 +21,12 @@ void Nivel::cargarXML(std::string path) {
 		// Obtengo el elemento raiz, que debe ser <Nivel>, pero no valido.
 		const XMLNode* nodo = doc.RootElement();
 		// Obtengo el primer elemento hijo que debe ser <Escenario>
-		nodo = nodo->FirstChildElement();
-		// Cargo el escenario a partir del nodo XML.
-		this->escenario->hydrate(nodo);
+		nodo = nodo->FirstChildElement("Escenario");
+		// Si el nodo no es nulo, cargo el escenario a partir del mismo.
+		if (nodo != 0) {
+			this->escenario->hydrate(nodo);
+		} else {
+			throw std::exception();
+		}
 	}
 }
