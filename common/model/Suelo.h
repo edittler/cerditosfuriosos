@@ -14,7 +14,7 @@ class Suelo : public CuerpoAbstracto {
 public:
 	/* @brief Constructor que recibe el b2Body de Box2D.
 	 */
-	explicit Suelo(b2Body* body);
+	explicit Suelo(b2Body* body, float ancho, float alto);
 
 	// Destructor
 	virtual ~Suelo();

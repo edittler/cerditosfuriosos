@@ -47,8 +47,9 @@ protected:
 	 * @brief Inicializa imagen resizeando a valor correspondiente
 	 * segun tamanio de escenario.
 	 * Simultaneamente setea ancho y alto de escenarios.
+	 * @param path de la imagen.
 	 */
-	void iniciarImagen();
+	void iniciarImagen(const char* path);
 
 	/**************
 	 * ATTRIBUTES *

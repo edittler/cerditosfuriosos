@@ -9,13 +9,13 @@
 #include "VistaEscenario.h"
 
 VistaCuerpo::VistaCuerpo(VistaEscenario* escenario, CuerpoAbstracto* cuerpo,
-		const char* ruta) : Gtk::Image(ruta) {
+		const char* ruta) {
 	// Almaceno la referencia de la VistaEscenario
 	this->escenario = escenario;
 	// Almaceno la referencia al CuerpoAbstracto asociado.
 	this->cuerpo = cuerpo;
 	// inicializo imagen
-	this->iniciarImagen();
+	this->iniciarImagen(ruta);
 	// Obtengo la posicion del cuerpo y realizo el ajuste de valores.
 	Punto2D p = cuerpo->getPosicion();
 	this->x = this->ajustarValorX(p.x);
@@ -50,19 +50,19 @@ int VistaCuerpo::ajustarValorY(float valorFlotante) {
 	return valor;
 }
 
-void VistaCuerpo::iniciarImagen() {
+void VistaCuerpo::iniciarImagen(const char* path) {
 	// Obtengo las dimensiones de la imagen.
-	this->ancho = this->get_pixbuf()->get_width();
-	this->alto = this->get_pixbuf()->get_height();
+	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create_from_file(path);
+	this->ancho = buf->get_width();
+	this->alto = buf->get_height();
 
 	if (AJUSTE_ESCALA_IMAGENES == 1)  // no es necesario escalar.
 		return;
 
 	// escalo la imagen
-	Glib::RefPtr<Gdk::Pixbuf> buf;
 	int nuevoAncho = round(ancho / AJUSTE_ESCALA_IMAGENES);
 	int nuevoAlto = round(alto / AJUSTE_ESCALA_IMAGENES);
-	buf = this->get_pixbuf()->scale_simple(nuevoAncho, nuevoAlto, Gdk::INTERP_NEAREST);
+	buf = buf->scale_simple(nuevoAncho, nuevoAlto, Gdk::INTERP_BILINEAR);
 	// FIXME la documentacion aclara que usando este metodo
 	// The Gtk::Image will not react to state changes
 	// Aclarar que significa esto.

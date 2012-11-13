@@ -34,6 +34,7 @@ VistaEscenario::VistaEscenario(Escenario* escenario) {
 	this->set_size_request(ancho, alto);
 	// Agrego el fondo en el fixed.
 	this->iniciarImagenFondo();
+	this->iniciarImagenSuelo();
 }
 
 VistaEscenario::~VistaEscenario() {
@@ -192,7 +193,17 @@ void VistaEscenario::iniciarImagenFondo() {
 	this->fondo = new Gtk::Image(this->escenario->getRutaImagenFondo());
 	// escalo la imagen
 	Glib::RefPtr<Gdk::Pixbuf> buf;
-	buf = fondo->get_pixbuf()->scale_simple(ancho, alto, Gdk::INTERP_NEAREST);
+	buf = fondo->get_pixbuf()->scale_simple(ancho, alto, Gdk::INTERP_BILINEAR);
 	fondo->set(buf);
 	this->put(*fondo, 0, 0);
+}
+
+void VistaEscenario::iniciarImagenSuelo() {
+	this->suelo =  new Gtk::Image(this->escenario->getRutaImagenSuelo());
+	// escalo la imagen
+	Glib::RefPtr<Gdk::Pixbuf> buf;
+	int nuevoAlto = round((SUELO_ALTO + SUELO_POSICION) * AJUSTE_ESCALA_VISTA);
+	buf = suelo->get_pixbuf()->scale_simple(ancho, nuevoAlto, Gdk::INTERP_BILINEAR);
+	suelo->set(buf);
+	this->put(*suelo, 0, alto - nuevoAlto);
 }

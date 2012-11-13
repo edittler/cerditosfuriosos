@@ -92,8 +92,15 @@ public:
 
 private:
 
-
+	/*
+	 * @brief carga y escala la imagen correspondiente al fondo
+	 */
 	void iniciarImagenFondo();
+
+	/*
+	 * @brief carga y escala la imagen correspondiente al suelo
+	 */
+	void iniciarImagenSuelo();
 
 	/**************
 	 * ATTRIBUTES *
@@ -111,6 +118,9 @@ private:
 
 	/* Imagen de fondo */
 	Gtk::Image* fondo;
+
+	/* Imagen de suelo */
+	Gtk::Image* suelo;
 };
 
 #endif  /* _VISTA_ESCENARIO_H_ */

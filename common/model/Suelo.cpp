@@ -1,10 +1,10 @@
 #include "Suelo.h"
 
-Suelo::Suelo(b2Body* body) : CuerpoAbstracto(body, 100000000) {
+Suelo::Suelo(b2Body* body, float ancho, float alto) : CuerpoAbstracto(body, 100000000) {
 	this->cuerpo->SetUserData(this);
 	// Defino la forma del suelo y lo agrego al body
 	b2PolygonShape groundBox;
-	groundBox.SetAsBox(100.0f, 10.0f);
+	groundBox.SetAsBox(ancho / 2, alto / 2);
 	this->cuerpo->CreateFixture(&groundBox, 0.0f);
 }
 

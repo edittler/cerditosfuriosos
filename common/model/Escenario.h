@@ -174,6 +174,9 @@ public:
 	std::string getRutaImagenFondo() const;
 	void setRutaImagenFondo(std::string rutaArchivo);
 
+	std::string getRutaImagenSuelo() const;
+	void setRutaImagenSuelo(std::string rutaArchivo);
+
 private:
 	/***************************************************
 	 * METODOS PRIVADOS DE SERIALIZACION E HIDRATACION *
@@ -232,6 +235,7 @@ private:
 	 * que se almacena para usos externos.
 	 */
 	std::string rutaImagenFondo;
+	std::string rutaImagenSuelo;
 
 	/* Cantidad de jugadores para el cual se va a diseñar el escenario.
 	 */
