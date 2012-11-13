@@ -23,6 +23,9 @@
 #include "VistaHuevoReloj.h"
 #include "ConstantesVistaModelo.h"
 
+// Exception Includes
+#include "../excepciones/ImagenException.h"
+
 VistaEscenario::VistaEscenario(Escenario* escenario) {
 	// Almaceno el escenario
 	this->escenario = escenario;
@@ -190,20 +193,32 @@ int VistaEscenario::getAlto() const {
 }
 
 void VistaEscenario::iniciarImagenFondo() {
-	this->fondo = new Gtk::Image(this->escenario->getRutaImagenFondo());
-	// escalo la imagen
 	Glib::RefPtr<Gdk::Pixbuf> buf;
-	buf = fondo->get_pixbuf()->scale_simple(ancho, alto, Gdk::INTERP_BILINEAR);
-	fondo->set(buf);
+	try {
+		buf = Gdk::Pixbuf::create_from_file(this->escenario->getRutaImagenFondo());
+	} catch (Glib::FileError& e) {
+		throw ImagenException("Error al cargar imagen de fondo.");
+	}
+	// escalo imagen
+	buf = buf->scale_simple(ancho, alto, Gdk::INTERP_BILINEAR);
+
+	// seteo nueva imgen
+	this->fondo = new Gtk::Image(buf);
 	this->put(*fondo, 0, 0);
 }
 
 void VistaEscenario::iniciarImagenSuelo() {
-	this->suelo =  new Gtk::Image(this->escenario->getRutaImagenSuelo());
-	// escalo la imagen
 	Glib::RefPtr<Gdk::Pixbuf> buf;
+	try {
+		buf = Gdk::Pixbuf::create_from_file(this->escenario->getRutaImagenSuelo());
+	} catch (Glib::FileError& e) {
+		throw ImagenException("Error al cargar imagen del suelo.");
+	}
+	// escalo imagen
 	int nuevoAlto = round((SUELO_ALTO + SUELO_POSICION) * AJUSTE_ESCALA_VISTA);
-	buf = suelo->get_pixbuf()->scale_simple(ancho, nuevoAlto, Gdk::INTERP_BILINEAR);
-	suelo->set(buf);
+	buf = buf->scale_simple(ancho, nuevoAlto, Gdk::INTERP_BILINEAR);
+
+	// seteo nueva imgen
+	this->suelo =  new Gtk::Image(buf);
 	this->put(*suelo, 0, alto - nuevoAlto);
 }

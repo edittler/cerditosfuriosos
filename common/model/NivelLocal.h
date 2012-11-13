@@ -11,14 +11,14 @@ class NivelLocal: public Nivel {
         
         Simulador* simulador;
     public:
-            NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo);
-            virtual ~NivelLocal();
+		NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo);
+		virtual ~NivelLocal();
 
-            void tick(int milisegundos);
-            bool finalizoPartida();
+		void tick(int milisegundos);
+		bool finalizoPartida();
 
-            void generarPajaro();
-            void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
+		void generarPajaro();
+		void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
 };
 
 #endif

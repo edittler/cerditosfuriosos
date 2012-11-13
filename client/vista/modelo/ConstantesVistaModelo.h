@@ -11,6 +11,10 @@
 #define FONDO_BOSQUE PATH_IMAGENES "background/Bosque.png"
 #define FONDO_ISLA PATH_IMAGENES "background/Isla.png"
 
+// VARIOS
+#define SPLASH_IMAGEN PATH_IMAGENES "varias/Splash.png"
+#define GAME_OVER_IMAGEN PATH_IMAGENES "varias/GameOver.png"
+
 // SUELOS
 #define SUELO_BOSQUE PATH_IMAGENES "background/SueloBosque.png"
 
@@ -54,5 +58,10 @@
 #define ESCALA_IMAGENES 100.0f
 #define AJUSTE_ESCALA_IMAGENES (ESCALA_IMAGENES / AJUSTE_ESCALA_VISTA)
 #define DELTA_LOOP 30000
+#define WAIT 5  // en segundos
+
+// VENTANA
+#define VENTANA_WIDTH 600
+#define VENTANA_HEIGHT 400
 
 #endif /* CONSTANTESVISTAMODELO_H_ */
