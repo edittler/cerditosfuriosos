@@ -11,6 +11,12 @@
 #define RUTA_ITEM_CAJA_VIDRIO "imagenes/itemCajaVidrio.png"
 #define RUTA_ITEM_CERDO "imagenes/itemCerdo.png"
 #define RUTA_ITEM_HUEVOS "imagenes/itemHuevos.png"
+// Ruta de las imagenes que se colocaran al arrastrar un boton
+#define RUTA_CAJA_MADERA "imagenes/cajaMadera.png"
+#define RUTA_CAJA_METAL "imagenes/cajaMetal.png"
+#define RUTA_CAJA_VIDRIO "imagenes/cajaVidrio.png"
+#define RUTA_CERDO "imagenes/cerdo.png"
+#define RUTA_HUEVOS "imagenes/huevos.png"
 
 class PaletaEscenario : public Gtk::Frame {
 	public:
@@ -26,7 +32,7 @@ class PaletaEscenario : public Gtk::Frame {
 		virtual ~PaletaEscenario();
 	
 	protected:
-	
+		
 		void boton_cerdo_arrastrado(
 								const Glib::RefPtr<Gdk::DragContext>& context,
 								Gtk::SelectionData& selection_data,

@@ -1,5 +1,5 @@
 #include "PaletaEscenario.h"
-
+#include <gtkmm/image.h>
 PaletaEscenario::PaletaEscenario():
 	itemsJugador("ITEMS JUGADOR"),
 	itemsVarios("ITEMS VARIOS")
@@ -24,6 +24,11 @@ PaletaEscenario::PaletaEscenario():
 	itemCajaMadera.drag_source_set(listaObjetivos);
 	itemCajaMetal.drag_source_set(listaObjetivos);
 	itemCajaVidrio.drag_source_set(listaObjetivos);
+	itemCerdo.drag_source_set_icon(Gtk::Image(RUTA_CERDO).get_pixbuf());
+	itemCajaMadera.drag_source_set_icon(Gtk::Image(RUTA_CAJA_MADERA).get_pixbuf());
+	itemCajaMetal.drag_source_set_icon(Gtk::Image(RUTA_CAJA_METAL).get_pixbuf());
+	itemCajaVidrio.drag_source_set_icon(Gtk::Image(RUTA_CAJA_VIDRIO).get_pixbuf());
+	itemHuevos.drag_source_set_icon(Gtk::Image(RUTA_HUEVOS).get_pixbuf());
 	// Agrego los grupos y los items
 	agregarItems();
 	show_all_children();
