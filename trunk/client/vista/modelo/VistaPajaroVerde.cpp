@@ -12,8 +12,7 @@ VistaPajaroVerde::VistaPajaroVerde(VistaEscenario* escenario,
 	// Obtengo la velocidad en x y selecciono la imagen a usar
 	float velX = pajaro->getVelocidad().x;
 	if (velX >= 0) {
-		this->set(RUTA_PAJARO_VERDE_DER);
-		iniciarImagen();
+		iniciarImagen(RUTA_PAJARO_VERDE_DER);
 	}
 }
 

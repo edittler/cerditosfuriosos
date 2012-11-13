@@ -55,12 +55,6 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 	b2Vec2 gravity(GRAVEDAD_X, GRAVEDAD_Y);  // Vector que indica la gravedad
 	this->escenario = new b2World(gravity);
 
-	/* FIXME por ahora se crea un suelo por defecto aqui, mas adelante deberia
-	 * llamarse al metodo directamente desde el disenador.
-	 */
-	std::list<Punto2D*> p;
-	agregarSuelo(p);
-
 	// Agrego el ContactListener
 	this->colisionador = new Colisionador();
 	this->escenario->SetContactListener(this->colisionador);
@@ -223,17 +217,18 @@ void Escenario::agregarSuelo(std::list<Punto2D*>& puntos) {
 	/* TODO implementar, el codigo siguiente no utilza @puntos para
 	 * hacer la interpolacion de puntos. Solo crea un suelo rectangular-
 	 */
-	/* TODO Hay que validad que haya un único suelo, caso contrario hay que
-	 * lanzar una excepcion.
-	 */
+
+	// Valido que se haya creado un suelo anteriormente.
+	if (this->suelo != NULL)
+		throw AgregarObjetoException("Ya existe un suelo, no se puede agregar uno nuevo");
 
 	// Defino el cuerpo del suelo.
 	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0.0f, -10.0f);
+	groundBodyDef.position.Set(ancho / 2, SUELO_POSICION);
 	// Creo el cuerpo del suelo.
 	b2Body* groundBody = this->escenario->CreateBody(&groundBodyDef);
 
-	Suelo* suelo = new Suelo(groundBody);
+	Suelo* suelo = new Suelo(groundBody, ancho, SUELO_ALTO);
 	this->suelo = suelo;
 }
 
@@ -794,6 +789,14 @@ std::string Escenario::getRutaImagenFondo() const {
 
 void Escenario::setRutaImagenFondo(std::string rutaArchivo) {
 	this->rutaImagenFondo = rutaArchivo;
+}
+
+std::string Escenario::getRutaImagenSuelo() const {
+	return this->rutaImagenSuelo;
+}
+
+void Escenario::setRutaImagenSuelo(std::string rutaArchivo) {
+	this->rutaImagenSuelo = rutaArchivo;
 }
 
 void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const{
