@@ -3,8 +3,8 @@
 #include "ImagenPosicionable.h"
 
 #define RUTA_CAJA_MADERA "imagenes/cajaMadera.png"
-#define ANCHO_CAJA_MADERA 60;
-#define ALTO_CAJA_MADERA 60;
+#define ANCHO_CAJA_MADERA 50;
+#define ALTO_CAJA_MADERA 50;
 
 /**
  * Las instancias de esta clase representan a la vista de una cada de madera
