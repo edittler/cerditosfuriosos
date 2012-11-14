@@ -8,8 +8,8 @@ MouseListener::MouseListener(Escenario* escenario) {
 MouseListener::~MouseListener() { }
 
 void MouseListener::cargarEventos(Gtk::Widget* container) {
-	// setea eventos nuevos, eliminando eventos registrados previamente.
-	container->set_events(Gdk::BUTTON_PRESS_MASK);
+	// setea eventos nuevos.
+	container->add_events(Gdk::BUTTON_PRESS_MASK);
 
 	// conecta cada evento con su metodo handler
 	container->signal_button_press_event().connect(sigc::mem_fun(*this,
