@@ -5,20 +5,33 @@
 #include "Simulador.h"
 
 class NivelLocal: public Nivel {
-    private:
-        int tiempoGeneracionMinimo;
-        int tiempoAcumulado;  
-        
-        Simulador* simulador;
-    public:
-		NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo);
-		virtual ~NivelLocal();
+public:
 
-		void tick(int milisegundos);
-		bool finalizoPartida();
+	/*
+	 * @brief Constructor
+	 * @param escenario en el cual se correran ticks.
+	 * @param tiempo minimo de generacion de pajaros.
+	 */
+	NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo);
+	virtual ~NivelLocal();
 
-		void generarPajaro();
-		void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
+	void tick(int milisegundos);
+	bool finalizoPartida();
+
+	/*
+	 * @brief genera un pajaro segun las probabilidades establecidas,
+	 * ubicandolo dentro de la zona de generacion de pajaros y lo lanza
+	 * en el escenario con una velocidad aleatoria.
+	 */
+	void generarPajaro();
+//	void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
+
+private:
+	int tiempoGeneracionMinimo;
+	int tiempoAcumulado;
+
+	/* Generador de pajaros */
+	Simulador* simulador;
 };
 
 #endif
