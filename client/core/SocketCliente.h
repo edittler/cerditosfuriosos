@@ -3,7 +3,7 @@
 
 #include <netdb.h>
 
-#include "Socket.h"
+#include "../../common/communication/Socket.h"
 
 /*
  * @class SocketCliente

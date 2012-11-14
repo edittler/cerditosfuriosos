@@ -31,11 +31,11 @@ void Client::desconectar() {
 bool Client::ejecutar() {
 	// FIXME implementacion prueba
 	Mensaje* r = new MensajeCliente();
-	socket->enviar(r);
+	socket->enviar(*r);
 	std::cout << "Mensajes enviado: " << r->serealizar() << std::endl;
 
 	Mensaje* m =  new MensajeServer();
-	socket->recibir(m);
+	socket->recibir(*m);
 	std::cout << "Mensajes recibido: " << m->serealizar() << std::endl;
 	delete r;
 	delete m;

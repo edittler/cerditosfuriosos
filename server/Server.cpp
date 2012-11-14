@@ -53,8 +53,11 @@ void Server::crearPartida() {
 	unsigned int id = 0;  // FIXME generar id
 	ThreadPartida* t = new ThreadPartida(new Partida(id));
 
+	// TODO Agregar Cliente a la partida.
 	std::pair<unsigned int, ThreadPartida*> p(id, t);
 	this->partidasDisponibles.insert(p);
+
+	t->start();
 }
 
 void Server::registrarCliente(ThreadCliente* cliente) {

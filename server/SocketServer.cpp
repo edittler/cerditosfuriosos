@@ -1,6 +1,7 @@
 #include "SocketServer.h"
 
-SocketServer::SocketServer() : Socket() { }
+SocketServer::SocketServer() {
+}
 
 SocketServer::SocketServer(int fd) : Socket(fd) { }
 
