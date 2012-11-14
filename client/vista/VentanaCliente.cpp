@@ -7,6 +7,9 @@ VentanaCliente::VentanaCliente() {
 	set_resizable(false);
 	set_default_size(VENTANA_WIDTH, VENTANA_HEIGHT);
 
+	// Inicializa multi threading
+	gdk_threads_init();
+
 	// posiciono ventana en medio de la pantalla
 	set_position(Gtk::WIN_POS_CENTER_ALWAYS);
 
@@ -21,15 +24,19 @@ VentanaCliente::~VentanaCliente() {
 }
 
 void VentanaCliente::agregarContenedor(Gtk::Widget* widget) {
-	// elimina widget anterior
-	contenedor->remove();
-	// agrega widget nuevo.
-	contenedor->add(*widget);
+	gdk_threads_enter();
+		// elimina widget anterior
+		contenedor->remove();
+		// agrega widget nuevo.
+		contenedor->add(*widget);
 
-	show_all_children();
+		show_all_children();
+	gdk_threads_leave();
 }
 
 void VentanaCliente::setMouseListener(MouseListener* listener) {
 	// FIXME guardar referencia l listener para despues poder liberar memoria.
-	listener->cargarEventos(contenedor);
+	gdk_threads_enter();
+		listener->cargarEventos(contenedor);
+	gdk_threads_leave();
 }

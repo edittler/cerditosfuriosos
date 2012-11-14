@@ -34,7 +34,9 @@ VistaEscenario::VistaEscenario(Escenario* escenario) {
 	// Establezco unas dimenciones estandar
 	this->ancho = 1024;
 	this->alto = 640;
-	this->set_size_request(ancho, alto);
+	gdk_threads_enter();
+		this->set_size_request(ancho, alto);
+	gdk_threads_leave();
 }
 
 VistaEscenario::~VistaEscenario() {
@@ -52,12 +54,16 @@ void VistaEscenario::cargarEscenario() {
 }
 
 void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
-	this->move(*cuerpo, x, y);
+	gdk_threads_enter();
+		this->move(*cuerpo, x, y);
+	gdk_threads_leave();
 }
 
 void VistaEscenario::eliminar(VistaCuerpo* cuerpo) {
 	// Elimino el cuerpo del fixed
-	this->remove(*cuerpo);
+	gdk_threads_enter();
+		this->remove(*cuerpo);
+	gdk_threads_leave();
 	// Elimino el cuerpo de la lista de vista de cuerpos
 	this->vCuerpos.remove(cuerpo);
 	// Elimino el cuerpo.
@@ -68,7 +74,9 @@ void VistaEscenario::seAjustoTamanio(float ancho, float alto) {
 	// Ajusto las dimensiones del fixed al tamaño del escenario.
 	this->ancho = ancho * AJUSTE_ESCALA_VISTA;
 	this->alto = alto * AJUSTE_ESCALA_VISTA;
-	this->set_size_request(this->ancho, this->alto);
+	gdk_threads_enter();
+		this->set_size_request(this->ancho, this->alto);
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seEstablecioFondo() {
@@ -80,77 +88,101 @@ void VistaEscenario::seEstablecioSuelo() {
 }
 
 void VistaEscenario::seAgregoCerdito(Cerdito* cerdito) {
+	gdk_threads_enter();
 	VistaCerdito* vCerdito = new VistaCerdito(this, cerdito);
 	this->vCuerpos.push_back(vCerdito);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoCatapulta(Catapulta* catapulta) {
+	gdk_threads_enter();
 	VistaCatapulta* vCatapulta = new VistaCatapulta(this, catapulta);
 	this->vCuerpos.push_back(vCatapulta);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoMonticulo(Monticulo* monticulo) {
+	gdk_threads_enter();
 	VistaMonticulo* vMonticulo = new VistaMonticulo(this, monticulo);
 	this->vCuerpos.push_back(vMonticulo);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoCajaVidrio(CajaVidrio* caja) {
+	gdk_threads_enter();
 	VistaCajaVidrio* vCaja = new VistaCajaVidrio(this, caja);
 	this->vCuerpos.push_back(vCaja);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoCajaMadera(CajaMadera* caja) {
 	// FIXME usar manage para crear asi libera memoria automaticamente??
 	// idem con todos los metodos.
+	gdk_threads_enter();
 	VistaCajaMadera* vCaja = new VistaCajaMadera(this, caja);
 	this->vCuerpos.push_back(vCaja);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoCajaMetal(CajaMetal* caja) {
+	gdk_threads_enter();
 	VistaCajaMetal* vCaja = new VistaCajaMetal(this, caja);
 	this->vCuerpos.push_back(vCaja);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoManzana(Manzana* manzana) {
-        VistaManzana* vManzana = new VistaManzana(this, manzana);
+	gdk_threads_enter();
+	VistaManzana* vManzana = new VistaManzana(this, manzana);
 	this->vCuerpos.push_back(vManzana);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoBanana(Banana* banana) {
-        VistaBanana* vBanana = new VistaBanana(this, banana);
+	gdk_threads_enter();
+	VistaBanana* vBanana = new VistaBanana(this, banana);
 	this->vCuerpos.push_back(vBanana);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seAgregoCereza(Cereza* cereza) {
-        VistaCereza* vCereza = new VistaCereza(this, cereza);
+	gdk_threads_enter();
+	VistaCereza* vCereza = new VistaCereza(this, cereza);
 	this->vCuerpos.push_back(vCereza);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoPajaroRojo(PajaroRojo* pajaro) {
+	gdk_threads_enter();
 	VistaPajaroRojo* vPajaro = new VistaPajaroRojo(this, pajaro);
 	this->vCuerpos.push_back(vPajaro);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoPajaroVerde(PajaroVerde* pajaro) {
+	gdk_threads_enter();
 	VistaPajaroVerde* vPajaro = new VistaPajaroVerde(this, pajaro);
 	this->vCuerpos.push_back(vPajaro);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoPajaroAzul(PajaroAzul* pajaro) {
+	gdk_threads_enter();
 	VistaPajaroAzul* vPajaro = new VistaPajaroAzul(this, pajaro);
 	this->vCuerpos.push_back(vPajaro);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoHuevoBlanco(HuevoBlanco* huevo) {
@@ -222,7 +254,9 @@ void VistaEscenario::iniciarImagenFondo() {
 
 	// seteo nueva imgen
 	this->fondo = new Gtk::Image(buf);
-	this->put(*fondo, 0, 0);
+	gdk_threads_enter();
+		this->put(*fondo, 0, 0);
+	gdk_threads_leave();
 }
 
 void VistaEscenario::iniciarImagenSuelo() {
@@ -238,5 +272,7 @@ void VistaEscenario::iniciarImagenSuelo() {
 
 	// seteo nueva imgen
 	this->suelo =  new Gtk::Image(buf);
-	this->put(*suelo, 0, alto - nuevoAlto);
+	gdk_threads_enter();
+		this->put(*suelo, 0, alto - nuevoAlto);
+	gdk_threads_leave();
 }
