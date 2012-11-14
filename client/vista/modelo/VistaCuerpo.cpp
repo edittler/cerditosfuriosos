@@ -1,6 +1,7 @@
 // Header Include.
 #include "VistaCuerpo.h"
 #include "ConstantesVistaModelo.h"
+#include "../excepciones/ImagenException.h"
 
 // C++ Library Includes.
 #include <cmath>
@@ -52,7 +53,12 @@ int VistaCuerpo::ajustarValorY(float valorFlotante) {
 
 void VistaCuerpo::iniciarImagen(const char* path) {
 	// Obtengo las dimensiones de la imagen.
-	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create_from_file(path);
+	Glib::RefPtr<Gdk::Pixbuf> buf;
+	try {
+		buf = Gdk::Pixbuf::create_from_file(path);
+	} catch (Glib::Exception& e) {
+		throw ImagenException("Error al cargar imagen del cuerpo.");
+	}
 	this->ancho = buf->get_width();
 	this->alto = buf->get_height();
 
