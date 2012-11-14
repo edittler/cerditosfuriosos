@@ -5,7 +5,6 @@ Server::Server() {
 	port = PUERTO_DEFAULT;
 
 	socket = new SocketServer();
-	clientesEnEspera = new ClientesEnEspera();
 	// TODO Auto-generated constructor stub
 
 }
@@ -15,12 +14,20 @@ Server::Server(unsigned short int port) {
 	this->port = port;
 
 	socket = new SocketServer();
-	clientesEnEspera = new ClientesEnEspera();
 	// TODO Auto-generated constructor stub
 }
 
 Server::~Server() {
-	delete clientesEnEspera;
+	ClientesConectados::iterator itCl;
+	for (itCl = clientesConectados.begin(); itCl != clientesConectados.end(); ++itCl) {
+		delete (*itCl);
+	}
+
+	PartidasDisponibles::iterator itPa;
+	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
+		delete itPa->second;
+	}
+
 	delete socket;
 	// TODO Auto-generated destructor stub
 }
@@ -42,7 +49,15 @@ void Server::apagar() {
 	socket->desconectar();
 }
 
+void Server::crearPartida() {
+	unsigned int id = 0;  // FIXME generar id
+	ThreadPartida* t = new ThreadPartida(new Partida(id));
+
+	std::pair<unsigned int, ThreadPartida*> p(id, t);
+	this->partidasDisponibles.insert(p);
+}
+
 void Server::registrarCliente(ThreadCliente* cliente) {
-	clientesEnEspera->push_back(cliente);
+	clientesConectados.push_back(cliente);
 	cliente->start();
 }

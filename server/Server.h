@@ -3,21 +3,20 @@
 
 // C++ Library Includes.
 #include <map>
-#include <list>
 #include <string>
 
 // Project Includes.
 #include "SocketServer.h"
 #include "ThreadCliente.h"
-#include "../common/thread/Mutex.h"
-#include "../common/communication/ConstantesClientServer.h"
+#include "ThreadPartida.h"
+#include "thread/Mutex.h"
+#include "communication/ConstantesClientServer.h"
 
 // Abreviaturas usadas para contenedores.
 //typedef std::list<std::pair<std::string, unsigned int> > ListaRecords;
 //typedef std::map<std::string, ListaRecords> TablaRecords;
 
-//typedef std::map<unsigned int, ThreadPartida* >PartidasDisponibles;
-typedef std::list<ThreadCliente*> ClientesEnEspera;
+typedef std::map<unsigned int, ThreadPartida* > PartidasDisponibles;
 
 /*
  * @class Server
@@ -33,6 +32,13 @@ public:
 	void apagar();
 
 	/*
+	 * @brief crea una partida nueva
+	 * @param
+	 * @param
+	 */
+	void crearPartida();
+
+	/*
 	 * @brief registra y comienza un nuevo Thread destinado a manejar
 	 * comunicaciones directamente con el cliente.
 	 * @param nuevo thread a registrar.
@@ -41,13 +47,18 @@ public:
 
 private:
 	bool encendido;
-	unsigned short int port;
 
+	unsigned short int port;
 	SocketServer* socket;
-//	Mutex* mutexSocket;
+
+	/* Tabla de records */
 //	TablaRecords* records;
-//	PartidasDisponibles* partidasDisponibles;
-	ClientesEnEspera* clientesEnEspera;
+
+	/* Partidas creadas */
+	PartidasDisponibles partidasDisponibles;
+
+	/* Clientes conectados */
+	ClientesConectados clientesConectados;
 
 	friend class ThreadListener;
 };
