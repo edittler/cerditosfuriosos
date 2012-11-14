@@ -118,10 +118,10 @@
 #define PAJARO_ROJO  2
 #define PAJARO_VERDE 3
 
-// HUEVOS
-#define HUEVO_BLANCO   1
-#define HUEVO_CODORNIZ 2
-#define HUEVO_POCHE    3
-#define HUEVO_RELOJ    4
+//// HUEVOS
+//#define HUEVO_BLANCO   1
+//#define HUEVO_CODORNIZ 2
+//#define HUEVO_POCHE    3
+//#define HUEVO_RELOJ    4
 
 #endif  /* CONSTANTES_H_ */
