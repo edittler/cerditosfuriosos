@@ -31,6 +31,9 @@ public:
 	 * @return Devuelve el file descriptor del socket aceptado.
 	 */
 	int aceptar();
+
+private:
+	bool error;
 };
 
 #endif /* SOCKETSERVER_H_ */

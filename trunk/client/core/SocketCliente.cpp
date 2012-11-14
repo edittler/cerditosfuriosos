@@ -1,8 +1,9 @@
 #include "SocketCliente.h"
 
-SocketCliente::SocketCliente() : Socket() { }
+// Los constructores no están bien. En teoria esta clase no se va a usar más.
+SocketCliente::SocketCliente() : Socket(Puerto(0)) { }
 
-SocketCliente::SocketCliente(int fd) : Socket(fd) { }
+SocketCliente::SocketCliente(int fd) : Socket(Puerto(0)) { }
 
 SocketCliente::~SocketCliente() { }
 
