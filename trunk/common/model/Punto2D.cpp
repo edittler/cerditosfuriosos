@@ -2,7 +2,6 @@
 #include "Punto2D.h"
 
 // C++ Library Includes.
-#include <cstdlib>  // Para usar la funcion 'atof'
 #include <sstream>
 
 // Exceptions Includes.
@@ -40,10 +39,13 @@ void Punto2D::hydrate(const XMLNode* nodo) {
 		throw ParserException("El nodo Punto2D no contiene el atributo 'y'.");
 	}
 	// Obtengo el atributo x e y
-	std::string atributoX = nodo->Attribute("x");
-	std::string atributoY = nodo->Attribute("y");
-	this->x = std::atof(atributoX.c_str());
-	this->y = std::atof(atributoY.c_str());
+	std::istringstream atributoX(nodo->Attribute("x"));
+	std::istringstream atributoY(nodo->Attribute("y"));
+	// Seteo la configuracion regional defaul de C++ para dichos streams.
+	atributoX.imbue(std::locale("C"));
+	atributoY.imbue(std::locale("C"));
+	atributoX >> this->x;
+	atributoY >> this->y;
 }
 
 void Punto2D::set(float x, float y) {

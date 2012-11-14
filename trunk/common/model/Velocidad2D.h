@@ -13,7 +13,7 @@ public:
 	Velocidad2D(float x, float y) : x(x), y(y) { }
 
 	// Constructor que inicializa con las velocidades a partir de un nodo XML.
-	Velocidad2D(const XMLNode* nodo);
+	explicit Velocidad2D(const XMLNode* nodo);
 
 	// Destructor
 	~Velocidad2D() { }

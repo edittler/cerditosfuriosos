@@ -1,6 +1,5 @@
 // C++ Library Includes.
 #include <sstream>
-#include <cstdlib>  // Para usar la funcion 'atof'
 #include <stdexcept>
 
 // Project Includes
@@ -233,8 +232,10 @@ void Escenario::agregarSuelo(std::list<Punto2D*>& puntos) {
 	 */
 
 	// Valido que se haya creado un suelo anteriormente.
-	if (this->suelo != NULL)
-		throw AgregarObjetoException("Ya existe un suelo, no se puede agregar uno nuevo");
+	if (this->suelo != NULL) {
+		throw AgregarObjetoException("Ya existe un suelo, no se puede agregar"
+				" uno nuevo");
+	}
 
 	// Defino el cuerpo del suelo.
 	b2BodyDef groundBodyDef;
@@ -825,7 +826,7 @@ void Escenario::setRutaImagenSuelo(std::string rutaArchivo) {
 	}
 }
 
-void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const{
+void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const {
 	std::cout << "\t=== GUARDANDO ATRIBUTOS ===" << std::endl;
 	// Convierto el ancho y alto en string
 	std::ostringstream strAncho, strAlto;
@@ -935,12 +936,16 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 				"'alto'.");
 	}
 	// Obtengo el atributo de ancho y alto
-	std::string atributoAncho = nodo->Attribute("ancho");
-	std::string atributoAlto = nodo->Attribute("alto");
-	float fAncho = std::atof(atributoAncho.c_str());
-	float fAlto = std::atof(atributoAlto.c_str());
+	std::istringstream atributoAncho(nodo->Attribute("ancho"));
+	std::istringstream atributoAlto(nodo->Attribute("alto"));
+	// Seteo la configuracion regional defaul de C++ para dichos streams.
+	atributoAncho.imbue(std::locale("C"));
+	atributoAlto.imbue(std::locale("C"));
+	float fAncho, fAlto;
+	atributoAncho >> fAncho;
+	atributoAlto >> fAlto;
 	this->setTamanio(fAncho, fAlto);
-	std::cout << "\tAncho: " << ancho << "\tAlto: " << alto << std::endl;
+	std::cout << "\tAncho: " << fAncho << "\tAlto: " << fAlto << std::endl;
 
 	// Obtengo el nodo que contiene la ruta de la imagen del fondo.
 	const XMLNode* imagenFondo = nodo->FirstChildElement("ImagenFondo");
@@ -1259,7 +1264,7 @@ bool Escenario::validarCerditosVivos() {
 }
 
 void Escenario::limpiarCuerposInvalidos() {
- 	//NOTA: precaucion al eliminar cuando se itera.
+	// NOTA: precaucion al eliminar cuando se itera.
 	Lock(this->mSuperficies);
 	std::list<Superficie*>::iterator itSu = superficies.begin();
 	while (itSu != superficies.end()) {

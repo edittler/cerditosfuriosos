@@ -13,7 +13,7 @@ public:
 	Punto2D(float x, float y) : x(x), y(y) { }
 
 	// Constructor que inicializa con las coordenadas a partir de un nodo XML.
-	Punto2D(const XMLNode* nodo);
+	explicit Punto2D(const XMLNode* nodo);
 
 	// Destructor
 	~Punto2D() { }
