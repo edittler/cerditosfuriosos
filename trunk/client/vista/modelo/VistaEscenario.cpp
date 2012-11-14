@@ -246,7 +246,7 @@ void VistaEscenario::iniciarImagenFondo() {
 	Glib::RefPtr<Gdk::Pixbuf> buf;
 	try {
 		buf = Gdk::Pixbuf::create_from_file(this->escenario->getRutaImagenFondo());
-	} catch (Glib::FileError& e) {
+	} catch (Glib::Exception& e) {
 		throw ImagenException("Error al cargar imagen de fondo.");
 	}
 	// escalo imagen
@@ -263,7 +263,7 @@ void VistaEscenario::iniciarImagenSuelo() {
 	Glib::RefPtr<Gdk::Pixbuf> buf;
 	try {
 		buf = Gdk::Pixbuf::create_from_file(this->escenario->getRutaImagenSuelo());
-	} catch (Glib::FileError& e) {
+	} catch (Glib::Exception& e) {
 		throw ImagenException("Error al cargar imagen del suelo.");
 	}
 	// escalo imagen
