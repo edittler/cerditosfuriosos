@@ -1,5 +1,12 @@
+// Header Include.
 #include "Client.h"
+
+// C++ Library Includes.
+#include <iostream>
+
+// Project Includes.
 #include "MensajeCliente.h"
+#include "RespuestaServer.h"
 #include "MensajeServer.h"
 #include "ConstantesClientServer.h"
 
@@ -21,6 +28,9 @@ Client::~Client() {
 
 void Client::conectar() {
 	this->socket->conectar(this->serverIp);
+	/* TODO Si no se puede conectar, se debería mostrar un mensaje
+	 * al usuario y retornar a la pantalla principal.
+	 */
 }
 
 void Client::desconectar() {
@@ -29,13 +39,20 @@ void Client::desconectar() {
 
 bool Client::ejecutar() {
 	// FIXME implementacion prueba
-	Mensaje* r = new MensajeCliente();
+	Mensaje* r = new MensajeCliente(VerPartidas);
 	socket->enviar(*r);
-	std::cout << "Mensajes enviado: " << r->serealizar() << std::endl;
+	std::cout << "Mensajes enviado: VerPartidas" << r->serealizar() << std::endl;
 
-	Mensaje* m =  new MensajeServer();
+	RespuestaServer* m =  new RespuestaServer();
 	socket->recibir(*m);
-	std::cout << "Mensajes recibido: " << m->serealizar() << std::endl;
+	std::cout << "Mensajes recibido: " << m->getDatos() << std::endl;
+
+	delete r;
+	r = new MensajeCliente(Desconectar);
+	socket->enviar(*r);
+
+	std::cout << "Mensajes enviado: Desconectar" << r->serealizar() << std::endl;
+
 	delete r;
 	delete m;
 

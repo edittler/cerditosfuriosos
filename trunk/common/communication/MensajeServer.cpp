@@ -14,6 +14,6 @@ std::string MensajeServer::serealizar() const {
 	return std::string("Mensaje Prueba Server\n");
 }
 
-void MensajeServer::deserealizar(std::string& mensaje) {
+void MensajeServer::deserealizar(const std::string& mensaje) {
 	// TODO implementar
 }

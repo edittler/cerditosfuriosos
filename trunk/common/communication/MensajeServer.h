@@ -9,7 +9,7 @@ public:
 	virtual ~MensajeServer();
 
 	virtual std::string serealizar() const;
-	virtual void deserealizar(std::string& mensaje);
+	virtual void deserealizar(const std::string& mensaje);
 };
 
 #endif /* MENSAJESERVER_H_ */
