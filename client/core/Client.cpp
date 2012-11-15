@@ -4,24 +4,23 @@
 #include "ConstantesClientServer.h"
 
 Client::Client() {
-	this->serverIp = new std::string(SERVER_IP_DEFAULT);
-	this->socket = new SocketCliente();
+	this->serverIp = SERVER_IP_DEFAULT;
+	this->socket = new Socket(PUERTO_DEFAULT);
 	this->port = PUERTO_DEFAULT;
 }
 
 Client::Client(const char* ip, unsigned short int port) {
-	this->serverIp = new std::string(ip);
-	this->socket = new SocketCliente();
+	this->serverIp = ip;
+	this->socket = new Socket(port);
 	this->port = port;
 }
 
 Client::~Client() {
 	delete socket;
-	delete serverIp;
 }
 
 void Client::conectar() {
-	this->socket->conectar(this->serverIp->c_str(), this->port);
+	this->socket->conectar(this->serverIp);
 }
 
 void Client::desconectar() {

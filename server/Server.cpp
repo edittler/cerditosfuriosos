@@ -2,18 +2,16 @@
 
 Server::Server() {
 	encendido = false;
-	port = PUERTO_DEFAULT;
 
-	socket = new SocketServer();
+	socket = new Socket(PUERTO_DEFAULT);
 	// TODO Auto-generated constructor stub
 
 }
 
 Server::Server(unsigned short int port) {
 	encendido = false;
-	this->port = port;
 
-	socket = new SocketServer();
+	socket = new Socket(port);
 	// TODO Auto-generated constructor stub
 }
 
@@ -37,8 +35,8 @@ void Server::prender() {
 	encendido = true;
 
 	// inicializa Server Socket.
-	socket->enlazar(this->port);
-	socket->escuchar(MAX_CONEXION_ESPERA);
+	socket->enlazar();
+	socket->escucharConexiones(MAX_CONEXION_ESPERA);
 }
 
 void Server::apagar() {

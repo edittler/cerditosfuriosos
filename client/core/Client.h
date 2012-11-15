@@ -1,7 +1,7 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
-#include "SocketCliente.h"
+#include <Socket.h>
 
 class Client {
 public:
@@ -27,9 +27,9 @@ public:
 	bool ejecutar();
 
 private:
-	SocketCliente* socket;
+	Socket* socket;
 
-	std::string* serverIp;
+	std::string serverIp;
 	unsigned short int port;
 };
 
