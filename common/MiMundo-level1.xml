@@ -22,11 +22,35 @@
             <CajaMadera>
                 <Punto2D x="5" y="3"></Punto2D>
             </CajaMadera>
+             <CajaMadera>
+                <Punto2D x="5.61" y="3"></Punto2D>
+            </CajaMadera>
+             <CajaMadera>
+                <Punto2D x="6.22" y="3"></Punto2D>
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="6.83" y="3.61"></Punto2D>
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="6.83" y="4.22"></Punto2D>
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="6.83" y="4.82"></Punto2D>
+            </CajaMadera>
             <CajaVidrio>
-                <Punto2D x="5" y="5"></Punto2D>
+                <Punto2D x="10" y="5"></Punto2D>
+            </CajaVidrio>
+            <CajaVidrio>
+                <Punto2D x="10.61" y="5.61"></Punto2D>
+            </CajaVidrio>
+            <CajaVidrio>
+                <Punto2D x="9.39" y="4.39"></Punto2D>
             </CajaVidrio>
             <CajaMetal>
                 <Punto2D x="3" y="4"></Punto2D>
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="2.39" y="4"></Punto2D>
             </CajaMetal>
         </Superficies>
         <Frutas>
@@ -34,10 +58,16 @@
                 <Punto2D x="5" y="1.50"></Punto2D>
             </Manzana>
             <Banana>
-                <Punto2D x="7" y="3"></Punto2D>
+                <Punto2D x="3" y="3"></Punto2D>
             </Banana>
             <Cereza>
-                <Punto2D x="2" y="5"></Punto2D>
+                <Punto2D x="2.31" y="5"></Punto2D>
+            </Cereza>
+            <Cereza>
+                <Punto2D x="1.69" y="5"></Punto2D>
+            </Cereza>
+            <Cereza>
+                <Punto2D x="2" y="5.31"></Punto2D>
             </Cereza>
         </Frutas>
     </Escenario>

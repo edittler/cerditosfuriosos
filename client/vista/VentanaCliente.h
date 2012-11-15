@@ -11,7 +11,7 @@ public:
 	VentanaCliente();
 	virtual ~VentanaCliente();
 
-	void agregarContenedor(Gtk::Widget* widget);
+	void agregarContenedor(Gtk::Widget& widget);
 
 	/*
 	 * @brief Asigna handler de eventos del mouse al contenedor actual

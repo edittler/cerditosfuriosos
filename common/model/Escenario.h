@@ -163,6 +163,11 @@ public:
 	 */
 	bool finalizoPartida() const;
 
+	/* @brief Chequea si se gano la partida.
+	 * @retun true si se gano la partida, false caso contrario.
+	 */
+	bool ganoPartida() const;
+
 	/***********************
 	 * GETTERS AND SETTERS *
 	 ***********************/
@@ -241,9 +246,6 @@ private:
 	 */
 	unsigned int cantJugadores;
 
-	// Tiempo de tick (generalmente del orden de los 20 milisegundos)
-	float tiempoTick;
-
 	/* Flag para indicar si la simulacion está habilitada.
 	 * Si la simulacion no está habilitada, no se pueden lanzar pájaros
 	 * ni disparos.
@@ -254,6 +256,11 @@ private:
 
 	// flag que indica si la partida finalizo.
 	bool finalizo;
+
+	// tiempo de juego. En milisegundos.
+	unsigned int tiempoDeJuego;
+	// duracion de juego. En milisegundos.
+	unsigned int duracionDeJuego;
 
 	ObservadorEscenario* observador;
 

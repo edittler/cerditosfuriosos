@@ -13,7 +13,8 @@
 
 // VARIOS
 #define SPLASH_IMAGEN PATH_IMAGENES "varias/Splash.png"
-#define GAME_OVER_IMAGEN PATH_IMAGENES "varias/GameOver.jpg"
+#define GAME_OVER_IMAGEN PATH_IMAGENES "varias/GameOver.png"
+#define WIN_IMAGEN PATH_IMAGENES "varias/Winner.png"
 
 // SUELOS
 #define SUELO_BOSQUE PATH_IMAGENES "background/SueloBosque.png"

@@ -23,8 +23,11 @@ public:
 	Juego(Escenario* escenario, VentanaCliente* ventana);
 	virtual ~Juego();
 
+	void finalizarJuego();
+
 	void* run();
 private:
+	bool ejecutando;
 
 	Nivel* nivel;
 
