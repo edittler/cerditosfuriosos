@@ -1,5 +1,4 @@
 #include "ImagenPosicionable.h"
-#include <iostream>
 
 int ImagenPosicionable::contadorInstancias = 0;
 

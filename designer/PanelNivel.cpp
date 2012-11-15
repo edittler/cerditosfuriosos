@@ -1,8 +1,10 @@
 #include "PanelNivel.h"
 
 PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
+	set_size_request(600, 400);
+	this->rutaMundo = rutaMundo;
 	this->informable = informable;
-	cargarIdNiveles(rutaMundo);
+	cargarNiveles(rutaMundo);
 	// Cargo el selector
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 20));
 	selector = new SelectorNiveles(idNiveles);
@@ -33,6 +35,8 @@ PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
 	// Seniales
 	botonCrear->signal_clicked().connect(sigc::mem_fun(*this,
 											&PanelNivel::botonCrearClickeado));
+	botonEditar->signal_clicked().connect(sigc::mem_fun(*this,
+											&PanelNivel::botonEditarClickeado));
 }
 
 PanelNivel::~PanelNivel() {
@@ -42,12 +46,46 @@ PanelNivel::~PanelNivel() {
 	delete botonCrear;
 }
 
-void PanelNivel::botonCrearClickeado() {
-	informable->crearNivel();
+void PanelNivel::botonEditarClickeado() {
+	if (idNiveles.size() > 0)
+		informable->editarNivel(selector->getRutaNivelSeleccionado());
 }
 
-void PanelNivel::cargarIdNiveles(std::string rutaMundo) {
-	idNiveles[std::string("nivel_1.xml")] = 1;
-	idNiveles[std::string("nivel_2.xml")] = 2;
-	idNiveles[std::string("nivel_3.xml")] = 3;
+void PanelNivel::botonCrearClickeado() {
+	if (!(creador->imagenSeleccionada())) {
+		informable->imagenNoSeleccionada();
+		return;
+	}
+	/* 
+	 * Informacion para Eze: Aca hay que crear el archivo de un nivel.
+	 * 
+	 * Para agregarlo al mundo que lo contiene contas con la ruta del archivo
+	 * del mundo en el atributo rutaMundo.
+	 * 
+	 * Para obtener el id del nivel en cuestion, podes preguntarle por el size
+	 * al mapa idNiveles, dado que ahi tenes todos los niveles del mundo sobre
+	 * el que se esta trabajando.
+	 * 
+	 * Para obtener los otros atributos del nivel contas con los siguientes
+	 * metodos:
+	 * creador->getAnchoEscenario()
+	 * creador->getAltoEscenario()
+	 * creador->getDuracion()
+	 * creador->getRutaImagenFondo(): Mas arriba ya se valida que haya elegido
+	 * alguna.
+	 * 
+	 * Una vez hecho esto hay que llamar a informable->editarNivel(PARAMETRO)
+	 * Donde parametro es el nombre del archivo xml del nivel que se acaba de
+	 * crear.
+	 */
+}
+
+void PanelNivel::cargarNiveles(std::string rutaMundo) {
+	/*
+	 * Informacion para Eze: Aca hay que cargar en un mapa los niveles del mundo
+	 * para poder acceder a la ruta del archivo a partir del id del nivel.
+	 */
+	idNiveles[1] = "nivel_1.xml";
+	idNiveles[2] = "nivel_2.xml";
+	idNiveles[3] = "nivel_3.xml";
 }

@@ -8,7 +8,7 @@ SelectorMundos::SelectorMundos(std::map<std::string, std::string> nombreMundos) 
 	unsigned int contador = 0;
 	std::map<std::string, std::string>::iterator iterador = nombreMundos.begin();
 	while (iterador != nombreMundos.end()) {
-		mundos[contador] = new Gtk::RadioButton(iterador->second);
+		mundos[contador] = new Gtk::RadioButton(iterador->first);
 		Gtk::RadioButton::Group grupo = mundos[0]->get_group();
 		if (contador != 0)
 			mundos[contador]->set_group(grupo);
@@ -34,16 +34,12 @@ SelectorMundos::~SelectorMundos() {
 	delete [] mundos;
 }
 
-std::string SelectorMundos::getNombreMundoSeleccionado() {
+std::string SelectorMundos::getRutaMundoSeleccionado() {
 	int contadorBotones = 0;
 	while (mundos[contadorBotones]->get_active() == false)
 		++contadorBotones;
-	std::map<std::string, std::string>::iterator iterador = nombreMundos.begin();
-	while (iterador != nombreMundos.end()) {
-		if (iterador->second.compare(mundos[contadorBotones]->get_label()) == 0)
-			return iterador->first;
-		++iterador;
-	}
-	return std::string("");
+	std::map<std::string, std::string>::iterator iterador = 
+						nombreMundos.find(mundos[contadorBotones]->get_label());
+	return iterador->second;
 }
 

@@ -17,21 +17,26 @@ class SelectorNiveles : public Gtk::ScrolledWindow {
 	
 		/**
 		 * Constructor.
-		 * @param idNiveles contenedor mapa dentro del cual a partir de la ruta
-		 * del archivo de un nivel se accede a su indice
+		 * @param idNiveles contenedor mapa dentro del cual a partir del indice
+		 * de un nivel se accede a la ruta de su archivo
 		 */
-		SelectorNiveles(std::map<std::string, int> idNiveles);
+		SelectorNiveles(std::map<int, std::string> idNiveles);
 		
 		/**
 		 * Destructor.
 		 */
 		virtual ~SelectorNiveles();
+		
+		/**
+		 * @return ruta del archivo del nivel seleccionado
+		 */
+		std::string getRutaNivelSeleccionado();
 
 	private:
 	
 		Gtk::RadioButton** niveles;
 		
-		std::map<std::string, int> idNiveles;
+		std::map<int, std::string> idNiveles;
 };
 
 #endif

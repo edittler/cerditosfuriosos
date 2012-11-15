@@ -1,6 +1,7 @@
 #include "PanelMundo.h"
 
 PanelMundo::PanelMundo() {
+	set_size_request(600, 400);
 	cargarNombreMundos();
 	// Widgets con funcionalidad
 	botonEditar = new Gtk::Button("Editar mundo seleccionado");
@@ -48,16 +49,40 @@ void PanelMundo::setInformable(InformableSeleccion* informable) {
 }
 
 void PanelMundo::botonEditarClickeado() {
-	informable->editarMundo(selector->getNombreMundoSeleccionado());
+	if (nombreMundos.size() > 0)
+		informable->editarMundo(selector->getRutaMundoSeleccionado());
 }
 
 void PanelMundo::botonCrearClickeado() {
-	if (!(creador->nombreSeleccionadoValido()))
-		informable->nombreSeleccionadoInvalido();
+	if (creador->nombreVacio()) {
+		informable->nombreSeleccionadoVacio();
+		return;
+	}
+	if (creador->nombreExistente()) {
+		informable->nombreSeleccionadoYaExistente();
+		return;
+	}
+	/*
+	 * Informacion para Eze: Aca se debe crear un nuevo mundo. Llamando a:
+	 * - creador->getNombreElegido(): Se obtiene un string con el nombre del
+	 * mundo seleccionado por el usuario (ya validado mas arriba en este metodo)
+	 * - creador->getCantidadJugadores(): Se obtiene un entero con la cantidad
+	 * de jugadores que el usuario selecciono para el mundo.
+	 * Una vez que se creo el archivo, hay que enviar el siguiente mensaje:
+	 * - informable->editarMundo(PARAMETRO)
+	 * El parametro debe ser la ruta del archivo creado.
+	 */ 
 }
 
 void PanelMundo::cargarNombreMundos() {
-	nombreMundos[std::string("mundo_1.xml")] = std::string("Mundo uno");
-	nombreMundos[std::string("mundo_2.xml")] = std::string("Mundo dos");
-	nombreMundos[std::string("mundo_3.xml")] = std::string("Mundo tres");
+	/*
+	 * Informacion para Eze: Aca se deben cargar todos los mundos creados en un
+	 * mapa stl, el cual debe permitir acceder a la ruta del archivo de cada
+	 * mundo a partir del nombre del mismo.
+	 * 
+	 * A continuacion hay un ejemplo hecho para que se pueda probar el codigo:
+	 */
+	nombreMundos[std::string("Mundo 1")] = std::string("mundo_1.xml");
+	nombreMundos[std::string("Mundo 2")] = std::string("mundo_2.xml");
+	nombreMundos[std::string("Mundo 3")] = std::string("mundo_3.xml");
 }

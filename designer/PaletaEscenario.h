@@ -4,6 +4,7 @@
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/eventbox.h>
+#include <gtkmm/image.h>
 
 // Ruta de las imagenes que se colocaran en los botones
 #define RUTA_ITEM_CAJA_MADERA "imagenes/itemCajaMadera.png"

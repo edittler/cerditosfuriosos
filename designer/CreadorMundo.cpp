@@ -8,7 +8,7 @@ CreadorMundo::CreadorMundo(std::map<std::string, std::string> nombreMundos) {
 	nombre = new Gtk::Entry();
 	Gtk::Label* etiquetaCantidadJugadores = manage(new Gtk::Label(
 									"Seleccione su cantidad de jugadores: "));
-	ajuste = new Gtk::Adjustment(1.0, 1.0, 5.0);
+	ajuste = new Gtk::Adjustment(1.0, 1.0, MAXIMA_CANTIDAD_JUGADORES);
 	cantidadJugadores = new Gtk::SpinButton(*ajuste);
 	cantidadJugadores->set_editable(false);
 	// Contenedores
@@ -24,17 +24,30 @@ CreadorMundo::CreadorMundo(std::map<std::string, std::string> nombreMundos) {
 	add(*cajaVertical);
 }
 
-bool CreadorMundo::nombreSeleccionadoValido() {
+bool CreadorMundo::nombreVacio() {
 	std::string nombreSeleccionado = nombre->get_text();
 	if (nombreSeleccionado.size() == 0)
-		return false;
+		return true;
+	return false;
+}
+
+bool CreadorMundo::nombreExistente() {
+	std::string nombreSeleccionado = nombre->get_text();
 	std::map<std::string, std::string>::iterator iterador = nombreMundos.begin();
 	while (iterador != nombreMundos.end()) {
-		if (nombreSeleccionado.compare(iterador->second) == 0)
-			return false;
+		if (nombreSeleccionado.compare(iterador->first) == 0)
+			return true;
 		++iterador;
 	}
-	return true;
+	return false;
+}
+
+std::string CreadorMundo::getNombreElegido() {
+	return nombre->get_text();
+}
+
+int CreadorMundo::getCantidadJugadores() {
+	return cantidadJugadores->get_value_as_int();
 }
 
 CreadorMundo::~CreadorMundo() {

@@ -17,19 +17,31 @@ class InformableSeleccion {
 		virtual void editarMundo(std::string rutaMundo) = 0;
 		
 		/**
-		 * El usuario ha seleccionado un nombre invalido.
+		 * El usuario ha dejado el campo de seleccion un nombre sin texto.
 		 */
-		virtual void nombreSeleccionadoInvalido() = 0;
+		virtual void nombreSeleccionadoVacio() = 0;
 		
 		/**
-		 * El usuario ha informado que desea crear un nivel.
+		 * El usuario ha optado por un nombre ya existente.
 		 */
-		virtual void crearNivel() = 0;
+		virtual void nombreSeleccionadoYaExistente() = 0;
+		
+		/**
+		 * El usuario ha informado que desea editar un nivel.
+		 * @param rutaNivel ruta del archivo del nivel
+		 */
+		virtual void editarNivel(std::string rutaNivel) = 0;
 		
 		/**
 		 * @return ruta de una imagen seleccionada por el usuario
 		 */
 		virtual std::string seleccionarImagen() = 0;
+		
+		/**
+		 * Informa que el usuario quiere crear un escenario pero no ha elegido
+		 * ninguna imagen para su fondo.
+		 */
+		virtual void imagenNoSeleccionada() = 0;
 		
 		virtual ~InformableSeleccion() {};
 };
