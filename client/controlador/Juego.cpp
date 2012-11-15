@@ -48,7 +48,7 @@ void* Juego::run() {
 
 				int i = 0;
 				while (!nivel->finalizoPartida() && this->ejecutando) {
-					this->nivel->tick(TIEMPO_TICK);
+					this->nivel->tick(TIEMPO_TICK * 1000);
 					std::cout << "tick " << i++ << std::endl;
 					usleep(DELTA_LOOP);
 				}
