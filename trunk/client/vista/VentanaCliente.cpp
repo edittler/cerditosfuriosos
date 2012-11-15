@@ -23,12 +23,12 @@ VentanaCliente::~VentanaCliente() {
 	delete contenedor;
 }
 
-void VentanaCliente::agregarContenedor(Gtk::Widget* widget) {
+void VentanaCliente::agregarContenedor(Gtk::Widget& widget) {
 	gdk_threads_enter();
 		// elimina widget anterior
 		contenedor->remove();
 		// agrega widget nuevo.
-		contenedor->add(*widget);
+		contenedor->add(widget);
 
 		show_all_children();
 	gdk_threads_leave();

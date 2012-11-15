@@ -44,8 +44,6 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 	this->alto = 0;
 	// Inicializo la cantidad de jugadores que va a tener el escenario
 	this->cantJugadores = cantidadJugadores;
-	// Defino el tiempo de duracion de 1 tick
-	this->tiempoTick = 1.0f / 50.0f;  // 20 milisegundos
 	// Defino que la simulacion no comenzo
 	this->simulacionHabilitada = false;
 	// Establezco el observadro, suelo y monticulo como NULL.
@@ -62,6 +60,8 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 	this->escenario->SetContactListener(this->colisionador);
 
 	this->finalizo = false;
+	this->tiempoDeJuego = 0;
+	this->duracionDeJuego = 10 * 1000;  // FIXME cargar desde XML, se cuenta en milisegundos.
 }
 
 Escenario::~Escenario() {
@@ -518,12 +518,15 @@ void Escenario::correrTick() {
 	if (!this->simulacionHabilitada) {
 		throw SimulacionException("La simulación no está habilitada.");
 	}
-	this->escenario->Step(this->tiempoTick, VELOCIDAD_ITERACIONES,
+	this->escenario->Step(TIEMPO_TICK, VELOCIDAD_ITERACIONES,
 			POSICION_ITERACIONES);
-	// NOTA: Si el monticulo es destruido o todos los cerditos han muerto
-	// se ha perdido la partida.
-	// Sin embargo si solo alguno de los cerditos ha muerto se continua jugando.
 
+	// unidades -> tiempoTick (seg), tiempoDeJuego (mseg)
+	this->tiempoDeJuego += round(TIEMPO_TICK * 1000);
+
+	// NOTA: Si el monticulo es destruido o TODOS los cerditos han muerto
+	// se ha perdido la partida.
+	// Sin embargo si solo ALGUNO de los cerditos ha muerto se continua jugando.
 	if (!monticulo->estaVivo()) {  // el monticulo fue destruido
 		std::cout << "MONTICULO DESTRUIDO" << std::endl;
 		if (this->observador != NULL) {
@@ -537,6 +540,13 @@ void Escenario::correrTick() {
 			this->observador->partidaPerdida();
 		this->finalizo = true;
 	}
+
+	if (this->tiempoDeJuego >= this->duracionDeJuego) {  // se gano partida
+		if (this->observador != NULL)
+			this->observador->partidaGanada();
+		this->finalizo = true;
+	}
+
 	// Elimino objetos "muertos"
 	this->limpiarCuerposInvalidos();
 	// Notifico al observador las nuevas posiciones de pajaros y disparos.
@@ -783,6 +793,11 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
 
 bool Escenario::finalizoPartida() const {
 	return this->finalizo;
+}
+
+bool Escenario::ganoPartida() const {
+	// si se alcanzo el tiempo esperado se da por ganada la partida.
+	return (this->tiempoDeJuego >= this->duracionDeJuego);
 }
 
 void Escenario::setTamanio(float ancho, float alto) {

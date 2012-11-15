@@ -7,9 +7,7 @@ Nivel::Nivel(Escenario* escenario) {
     this->escenario = escenario;
 }
 
-Nivel::~Nivel() {
-	delete escenario;
-}
+Nivel::~Nivel() { }
 
 void Nivel::cargarXML(std::string path) {
 	XMLDocument doc;
@@ -29,4 +27,8 @@ void Nivel::cargarXML(std::string path) {
 			throw std::exception();
 		}
 	}
+}
+
+Escenario* Nivel::getEscenario() {
+	return this->escenario;
 }

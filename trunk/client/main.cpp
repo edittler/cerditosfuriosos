@@ -65,6 +65,7 @@ int main(int argc, char *argv[]) {
 
 	Gtk::Main::run(ventana);
 
+	juego.finalizarJuego();
 	juego.join();
 	return 0;
 }
