@@ -7,7 +7,8 @@
 // Project Includes.
 #include "../common/communication/Socket.h"
 
-/* @class ThreadCliente
+/**
+ * @class ThreadCliente
  * Thread que maneja la comunicacion con el cliente.
  */
 class ThreadCliente : public Thread {
@@ -19,6 +20,8 @@ public:
 	virtual void* run();
 
 private:
+	// Flag que indica si el cliente está conectado.
+	bool conectado;
 	Socket* socket;
 };
 

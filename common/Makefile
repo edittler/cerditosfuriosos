@@ -31,7 +31,7 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = model parser thread
+SUBDIRS = communication model parser thread
 
 # Subdirectorio de inclusiones externas a agregar
 SUBDIRSINCLUDE = Box2D/include model parser thread

@@ -1,6 +1,8 @@
 #include <iostream>
 #include "model/Escenario.h"
 #include "parser/XMLTypes.h"
+#include "communication/MensajeCliente.h"
+#include "communication/RespuestaServer.h"
 
 void probarEscenario() {
 	Escenario escena;
@@ -147,12 +149,37 @@ void probarReanudarXMLEscenario() {
 	}
 }
 
+void probarMensajeCliente() {
+	// Creo un mensaje no definido
+//	MensajeCliente msjND;
+	std::string msj; // = msjND.serealizar();
+//	std::cout << "Mensaje NoDefinido: " << msj;
+//	MensajeCliente msjNDD;
+//	msjNDD.deserealizar(msj);
+	// Creo un mensaje para solicitar ver records.
+	MensajeCliente msjVR(VerRecords);
+	msj.clear();
+	msj = msjVR.serealizar();
+	std::cout << msj;
+	MensajeCliente msjVRD;
+	msjVRD.deserealizar(msj);
+	// Creo un mensaje para solicitar unirse a una partida.
+	MensajeCliente msjUP("partida");
+	msj.clear();
+	msj = msjUP.serealizar();
+	std::cout << msj;
+	MensajeCliente msjUPD;
+	msjUPD.deserealizar(msj);
+}
+
 int main(int argc, char *argv[]) {
 //	probarEscenario();
 //	probarParseoPunto2D();
 //	probarParseoVelocidad2D();
-	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
+//	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
+	probarMensajeCliente();
+	RespuestaServer r;
 	return 0;
 }
