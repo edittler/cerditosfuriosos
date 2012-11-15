@@ -1,6 +1,8 @@
 #ifndef _CREADOR_MUNDO_H_
 #define _CREADOR_MUNDO_H_
 
+#include "ConstantesDiseniador.h"
+
 #include <gtkmm/paned.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/label.h>
@@ -29,12 +31,28 @@ class CreadorMundo : public Gtk::Paned {
 		 * Destructor.
 		 */
 		virtual ~CreadorMundo();
+
+		/**
+		 * @return true si el usuario no ha elegido ningun nombre y false en el
+		 * caso contrario
+		 */
+		bool nombreVacio();
 		
 		/**
-		 * @return true si el nombre elegido para el mundo por el usuario no
-		 * pertenece a otro (y no esta vacio) y false en el caso contrario
+		 * @return true si el nombre elegido para el mundo por el usuario
+		 * pertenece a otro y false en el caso contrario
 		 */
-		bool nombreSeleccionadoValido();
+		bool nombreExistente();
+		
+		/**
+		 * @return el nombre del mundo elegido por el usuario
+		 */
+		std::string getNombreElegido();
+
+		/**
+		 * @return la cantidad de jugadores elegida por el usuario
+		 */
+		int getCantidadJugadores();
 	
 	private:
 		

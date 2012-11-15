@@ -55,8 +55,8 @@ class PanelMundo : public Gtk::Paned {
 		std::map<std::string, std::string> nombreMundos;
 		
 		/**
-		 * Crea un contenedor mapa que permite acceder a los nombres de los
-		 * mundos a partir de la ruta de su archivo.
+		 * Crea un contenedor mapa que permite acceder a la ruta de los archivos
+		 * de los distintos mundos a partir del nombre de los mismos.
 		 */
 		void cargarNombreMundos();
 };

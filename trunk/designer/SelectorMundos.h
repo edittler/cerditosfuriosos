@@ -28,9 +28,9 @@ class SelectorMundos : public Gtk::ScrolledWindow {
 		virtual ~SelectorMundos();
 		
 		/**
-		 * @return nombre del nivel seleccionado
+		 * @return ruta del archivo del mundo seleccionado
 		 */
-		std::string getNombreMundoSeleccionado();
+		std::string getRutaMundoSeleccionado();
 
 	private:
 	

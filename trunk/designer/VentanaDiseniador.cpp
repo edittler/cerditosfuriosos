@@ -27,12 +27,17 @@ void VentanaDiseniador::editarMundo(std::string rutaMundo) {
 	show_all_children();
 }
 
-void VentanaDiseniador::nombreSeleccionadoInvalido() {
-	Gtk::MessageDialog dialogo(*this, "Nombre invalido");
+void VentanaDiseniador::nombreSeleccionadoVacio() {
+	Gtk::MessageDialog dialogo(*this, "Por favor elija un nombre para el mundo");
+	dialogo.run();
+}
+		
+void VentanaDiseniador::nombreSeleccionadoYaExistente() {
+	Gtk::MessageDialog dialogo(*this, "El nombre elegido para el mundo ya pertenece a otro, por favor elija uno nuevo");
 	dialogo.run();
 }
 
-void VentanaDiseniador::crearNivel() {
+void VentanaDiseniador::editarNivel(std::string rutaNivel) {
 	remove();
 	panelEscenario = new PanelEscenario();
 	add(*panelEscenario);
@@ -54,4 +59,9 @@ std::string VentanaDiseniador::seleccionarImagen() {
 		return dialogo.get_filename();
 	std::string noSeleccion("");
 	return noSeleccion;
+}
+
+void VentanaDiseniador::imagenNoSeleccionada() {
+	Gtk::MessageDialog dialogo(*this, "Por favor seleccione una imagen para el fondo del escenario");
+	dialogo.run();
 }

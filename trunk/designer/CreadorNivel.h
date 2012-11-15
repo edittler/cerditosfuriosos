@@ -1,6 +1,9 @@
 #ifndef _CREADOR_NIVEL_H_
 #define _CREADOR_NIVEL_H_
 
+#include "ConstantesDiseniador.h"
+#include "InformableSeleccion.h"
+
 #include <gtkmm/paned.h>
 #include <gtkmm/comboboxtext.h>
 #include <gtkmm/label.h>
@@ -10,8 +13,6 @@
 #include <gtkmm/entry.h>
 
 #include <string>
-
-#include "InformableSeleccion.h"
 
 /**
  * Muestra al usuario una caja combo que le permite optar por uno de los
@@ -33,6 +34,32 @@ class CreadorNivel : public Gtk::Paned {
 		 * Destructor.
 		 */
 		~CreadorNivel();
+		
+		/**
+		 * @return ancho que tendra el escenario del nivel
+		 */
+		int getAnchoEscenario();
+		
+		/**
+		 * @return alto que tendra el escenario del nivel
+		 */
+		int getAltoEscenario();
+		
+		/**
+		 * @return duracion en segundos del nivel
+		 */
+		int getDuracion();
+		
+		/**
+		 * @return string con la ruta de la imagen de fondo del escenario
+		 */
+		std::string getRutaImagenFondo();
+		
+		/**
+		 * @return true si el usuario ha seleccionado una imagen y false en el
+		 * caso contrario
+		 */
+		bool imagenSeleccionada();
 	
 	protected:
 	

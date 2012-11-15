@@ -1,5 +1,5 @@
 #include "PaletaEscenario.h"
-#include <gtkmm/image.h>
+
 PaletaEscenario::PaletaEscenario():
 	itemsJugador("ITEMS JUGADOR"),
 	itemsVarios("ITEMS VARIOS")

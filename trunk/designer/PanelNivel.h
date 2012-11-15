@@ -14,6 +14,10 @@ class PanelNivel : public Gtk::Paned {
 	
 		/**
 		 * Constructor.
+		 * @param rutaMundo ruta del archivo del mundo a quien le queremos
+		 * agregar niveles o cuyos niveles queremos editar
+		 * @param informable se le informara cuando el usuario seleccione
+		 * ciertas informaciones de relevancia
 		 */
 		PanelNivel(std::string rutaMundo, InformableSeleccion* informable);
 		
@@ -28,6 +32,11 @@ class PanelNivel : public Gtk::Paned {
 		 * Metodo llamado cuando se clickea el boton de creacion de mundo.
 		 */
 		void botonCrearClickeado();
+		
+		/**
+		 * Metodo llamado cuando se clickea el boton de edicion de mundo.
+		 */
+		void botonEditarClickeado();
 	
 	private:
 		
@@ -37,15 +46,16 @@ class PanelNivel : public Gtk::Paned {
 		Gtk::Button* botonEditar;
 		Gtk::Button* botonCrear;
 		
-		std::map<std::string, int> idNiveles;
+		std::map<int, std::string> idNiveles;
+		std::string rutaMundo;
 		
 		/**
-		 * Carga en un contenedor mapa los id de los niveles de un mundo, para
-		 * ser accedidos a partir de la ruta de los archivos de los mismos.
+		 * Carga en un contenedor mapa las rutas de los niveles, para ser
+		 * accedidas a partir de la id de los mismos.
 		 * @param rutaMundo ruta del archivo que contiene al mundo al cual
 		 * pertenecen los niveles
 		 */
-		void cargarIdNiveles(std::string rutaMundo);
+		void cargarNiveles(std::string rutaMundo);
 };
 
 #endif
