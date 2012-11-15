@@ -6,11 +6,11 @@
 #include <string>
 
 // Project Includes.
-#include <communication/Socket.h>
+#include <Socket.h>
 #include "ThreadCliente.h"
 #include "ThreadPartida.h"
-#include "thread/Mutex.h"
-#include "communication/ConstantesClientServer.h"
+#include <Mutex.h>
+#include <ConstantesClientServer.h>
 
 // Abreviaturas usadas para contenedores.
 //typedef std::list<std::pair<std::string, unsigned int> > ListaRecords;
