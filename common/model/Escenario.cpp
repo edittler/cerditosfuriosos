@@ -518,11 +518,11 @@ void Escenario::correrTick() {
 	if (!this->simulacionHabilitada) {
 		throw SimulacionException("La simulación no está habilitada.");
 	}
-	this->escenario->Step(TIEMPO_TICK, VELOCIDAD_ITERACIONES,
+	this->escenario->Step(TIEMPO_TICK_SEG, VELOCIDAD_ITERACIONES,
 			POSICION_ITERACIONES);
 
 	// unidades -> tiempoTick (seg), tiempoDeJuego (mseg)
-	this->tiempoDeJuego += round(TIEMPO_TICK * 1000);
+	this->tiempoDeJuego += round(TIEMPO_TICK_MSEG);
 
 	// NOTA: Si el monticulo es destruido o TODOS los cerditos han muerto
 	// se ha perdido la partida.
