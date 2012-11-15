@@ -10,12 +10,12 @@ ThreadListener::~ThreadListener() { }
 
 void* ThreadListener::run() {
 	while (server->encendido) {
-		int fd = server->socket->aceptar();
+		Socket* socket = server->socket->aceptarConexion();
 
-		if (fd < 0)
+		if (socket == NULL)
 			continue;
 
-		server->registrarCliente(new ThreadCliente(fd));
+		server->registrarCliente(new ThreadCliente(socket));
 	}
 	return NULL;
 }

@@ -6,7 +6,7 @@
 #include <string>
 
 // Project Includes.
-#include "SocketServer.h"
+#include <communication/Socket.h>
 #include "ThreadCliente.h"
 #include "ThreadPartida.h"
 #include "thread/Mutex.h"
@@ -48,8 +48,7 @@ public:
 private:
 	bool encendido;
 
-	unsigned short int port;
-	SocketServer* socket;
+	Socket* socket;
 
 	/* Tabla de records */
 //	TablaRecords* records;

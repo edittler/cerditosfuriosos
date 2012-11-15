@@ -13,7 +13,7 @@
 class ThreadCliente : public Thread {
 public:
 	ThreadCliente();
-	ThreadCliente(int fd);
+	ThreadCliente(Socket* socket);
 	virtual ~ThreadCliente();
 
 	virtual void* run();

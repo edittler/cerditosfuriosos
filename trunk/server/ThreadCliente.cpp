@@ -10,8 +10,8 @@ ThreadCliente::ThreadCliente() {
 
 }
 
-ThreadCliente::ThreadCliente(int fd) {
-	this->socket = new Socket(fd);
+ThreadCliente::ThreadCliente(Socket* socket) {
+	this->socket = socket;
 	// TODO Auto-generated destructor stub
 }
 
@@ -22,11 +22,11 @@ ThreadCliente::~ThreadCliente() {
 void* ThreadCliente::run() {
 	// FIXME implementacion prueba
 	Mensaje* m =  new MensajeCliente();
-	socket->recibir(m);
+	socket->recibir(*m);
 	std::cout << "Mensajes recibido: " << m->serealizar() << std::endl;
 
 	Mensaje* r = new MensajeServer();
-	socket->enviar(r);
+	socket->enviar(*r);
 	std::cout << "Mensajes enviado: " << r->serealizar() << std::endl;
 	delete r;
 	delete m;
