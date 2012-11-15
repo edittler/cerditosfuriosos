@@ -2,7 +2,7 @@
 #define THREADPARTIDA_H_
 
 #include <list>
-#include <thread/Thread.h>
+#include <Thread.h>
 
 #include "Partida.h"
 #include "ThreadCliente.h"
