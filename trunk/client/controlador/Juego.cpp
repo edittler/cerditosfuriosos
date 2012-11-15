@@ -48,7 +48,7 @@ void* Juego::run() {
 
 				int i = 0;
 				while (!nivel->finalizoPartida() && this->ejecutando) {
-					this->nivel->tick(TIEMPO_TICK * 1000);
+					this->nivel->tick(TIEMPO_TICK_MSEG);
 					std::cout << "tick " << i++ << std::endl;
 					usleep(DELTA_LOOP);
 				}
@@ -73,7 +73,7 @@ void* Juego::run() {
 				break; }
 			case EXIT: {
 				this->ejecutando = false;
-				ventana->hide_all();
+				Gtk::Main::quit();
 				break; }
 			default:
 				break;
