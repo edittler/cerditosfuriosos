@@ -42,6 +42,11 @@ class InformableSeleccion {
 		 * ninguna imagen para su fondo.
 		 */
 		virtual void imagenNoSeleccionada() = 0;
+
+		/**
+		 * Muestra un dialogo con el mensaje pasado por parametro
+		 */
+		virtual void mostrarDialogo(std::string mensaje) = 0;
 		
 		virtual ~InformableSeleccion() {};
 };

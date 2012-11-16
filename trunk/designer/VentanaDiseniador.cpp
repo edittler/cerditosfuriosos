@@ -39,7 +39,7 @@ void VentanaDiseniador::nombreSeleccionadoYaExistente() {
 
 void VentanaDiseniador::editarNivel(std::string rutaNivel) {
 	remove();
-	panelEscenario = new PanelEscenario();
+	panelEscenario = new PanelEscenario(rutaNivel, this, panelNivel->getCantidadJugadores());
 	add(*panelEscenario);
 	show_all_children();
 }
@@ -59,6 +59,11 @@ std::string VentanaDiseniador::seleccionarImagen() {
 		return dialogo.get_filename();
 	std::string noSeleccion("");
 	return noSeleccion;
+}
+
+void VentanaDiseniador::mostrarDialogo(std::string mensaje) {
+	Gtk::MessageDialog dialogo(*this, mensaje);
+	dialogo.run();
 }
 
 void VentanaDiseniador::imagenNoSeleccionada() {

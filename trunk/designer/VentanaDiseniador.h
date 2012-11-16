@@ -39,6 +39,8 @@ class VentanaDiseniador : public Gtk::Window, public InformableSeleccion {
 		
 		virtual std::string seleccionarImagen();
 		
+		virtual void mostrarDialogo(std::string mensaje);
+		
 	private:
 	
 		PanelMundo* panelMundo;

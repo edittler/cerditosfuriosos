@@ -1,10 +1,7 @@
 #ifndef _IMAGEN_CERDO_H_
 #define _IMAGEN_CERDO_H_
 #include "ImagenPosicionable.h"
-
-#define RUTA_CERDO "imagenes/cerdo.png"
-#define ALTO_CERDO 50
-#define ANCHO_CERDO 50
+#include "ConstantesDiseniador.h"
 
 /**
  * Las instancias de esta clase representan a la vista de un cerdo sobre un
