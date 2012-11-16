@@ -1,10 +1,7 @@
 #ifndef _IMAGEN_CAJA_VIDRIO_H_
 #define _IMAGEN_CAJA_VIDRIO_H_
 #include "ImagenPosicionable.h"
-
-#define RUTA_CAJA_VIDRIO "imagenes/cajaVidrio.png"
-#define ALTO_CAJA_VIDRIO 50
-#define ANCHO_CAJA_VIDRIO 50
+#include "ConstantesDiseniador.h"
 
 /**
  * Las instancias de esta clase representan a la vista de una cada de vidrio

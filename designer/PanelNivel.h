@@ -26,6 +26,11 @@ class PanelNivel : public Gtk::Paned {
 		 */
 		virtual ~PanelNivel();
 		
+		/**
+		 * @return cantidad de jugadores que juegan este nivel
+		 */
+		int getCantidadJugadores();
+		
 	protected:
 	
 		/**
@@ -48,6 +53,8 @@ class PanelNivel : public Gtk::Paned {
 		
 		std::map<int, std::string> idNiveles;
 		std::string rutaMundo;
+		
+		int cantidadJugadores;
 		
 		/**
 		 * Carga en un contenedor mapa las rutas de los niveles, para ser

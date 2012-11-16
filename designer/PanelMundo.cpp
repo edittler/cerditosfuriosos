@@ -81,6 +81,8 @@ void PanelMundo::cargarNombreMundos() {
 	 * mundo a partir del nombre del mismo.
 	 * 
 	 * A continuacion hay un ejemplo hecho para que se pueda probar el codigo:
+	 * 
+	 * 
 	 */
 	nombreMundos[std::string("Mundo 1")] = std::string("mundo_1.xml");
 	nombreMundos[std::string("Mundo 2")] = std::string("mundo_2.xml");

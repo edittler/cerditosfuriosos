@@ -1,10 +1,7 @@
 #ifndef _IMAGEN_HUEVOS_H_
 #define _IMAGEN_HUEVOS_H_
 #include "ImagenPosicionable.h"
-
-#define RUTA_HUEVOS "imagenes/huevos.png"
-#define ALTO_HUEVOS 50
-#define ANCHO_HUEVOS 50
+#include "ConstantesDiseniador.h"
 
 /**
  * Las instancias de esta clase representan a la vista de un monticulo de huevos
