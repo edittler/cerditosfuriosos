@@ -20,6 +20,9 @@ public:
 	virtual void* run();
 
 private:
+	// TODO provisorio
+	void correrJuego();
+
 	// Flag que indica si el cliente está conectado.
 	bool conectado;
 	Socket* socket;

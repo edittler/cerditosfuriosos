@@ -55,26 +55,3 @@ void NivelLocal::generarPajaro() {
 		}
 	}
 }
-
-//void NivelLocal::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador) {
-//	// TODO Reemplazar la llamada a Escenario->lanzarHuevo por esto
-//	int tipoHuevo = simulador->generarHuevo();
-//
-//	// TODO LOS VALORES DEBEN SER LOS DEL XML
-//	if (tipoHuevo != NO_PAJARO) {
-//		switch (tipoHuevo) {
-//			case HUEVO_BLANCO:
-//				escenario->lanzarHuevoBlanco(posInicial, velInicial, jugador);
-//				break;
-//			case HUEVO_CODORNIZ:
-//				escenario->lanzarHuevosCodorniz(posInicial, velInicial, jugador);
-//				break;
-//			case HUEVO_POCHE:
-//				escenario->lanzarHuevoPoche(posInicial, velInicial, jugador);
-//				break;
-//			case HUEVO_RELOJ:
-//				escenario->lanzarHuevoReloj(posInicial, velInicial, jugador);
-//				break;
-//		}
-//	}
-//}

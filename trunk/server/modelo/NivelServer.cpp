@@ -1,10 +1,4 @@
-/*
- * NivelServer.cpp
- *
- *  Created on: 15/11/2012
- *      Author: ezequiel
- */
-
+// Header Include.
 #include "NivelServer.h"
 
 NivelServer::NivelServer(Escenario* escenario) : Nivel(escenario) {
@@ -16,3 +10,11 @@ NivelServer::~NivelServer() {
 	// TODO Auto-generated destructor stub
 }
 
+void NivelServer::tick(int milisegundos) {
+	// TODO Implementar
+}
+
+bool NivelServer::finalizoPartida() {
+	// TODO Implementar
+	return false;
+}

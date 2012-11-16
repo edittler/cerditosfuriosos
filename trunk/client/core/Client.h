@@ -27,6 +27,8 @@ public:
 	bool ejecutar();
 
 private:
+
+	void correrJuego();
 	Socket* socket;
 
 	std::string serverIp;

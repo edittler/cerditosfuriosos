@@ -22,7 +22,7 @@ CXX = g++
 archivos = $(filter-out main.cpp test.cpp, $(wildcard *.cpp))
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = ../../common/communication ../../common/thread
+SUBDIRSINCLUDE = ../../common/Box2D/include ../../common/communication ../../common/thread
 
 # Inclusion de las cabeceras de los subdirectorios
 I-INCLUDES = $(addprefix -I, $(SUBDIRSINCLUDE))

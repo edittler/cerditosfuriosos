@@ -7,6 +7,9 @@ class NivelProxy: public Nivel {
 public:
 	NivelProxy(Escenario* escenario);
 	virtual ~NivelProxy();
+
+	void tick(int milisegundos);
+	bool finalizoPartida();
 };
 
 #endif

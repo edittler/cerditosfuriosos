@@ -1,10 +1,3 @@
-/*
- * NivelServer.h
- *
- *  Created on: 15/11/2012
- *      Author: ezequiel
- */
-
 #ifndef NIVELSERVER_H_
 #define NIVELSERVER_H_
 
