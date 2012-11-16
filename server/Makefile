@@ -22,7 +22,7 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = ../common/communication ../common/parser ../common/thread core
+SUBDIRS = ../common/communication ../common/model ../common/parser ../common/thread core modelo
 
 # Declaracion de objetos externos
 EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))
@@ -32,6 +32,12 @@ CXX = g++
 
 # Inclusion de las cabeceras de los subdirectorios
 I-SUBDIRS = $(addprefix -I, $(SUBDIRS))
+
+# Directorio de la liberia de Box2D
+BOX2DLIBDIR = ../common/Box2D/lib
+
+# Flag de inclusion de librerias
+BOX2DFLAG = -L$(BOX2DLIBDIR) -lBox2D
 
 # Binarios a generar
 bin = $(archivos:.cpp=.o)
@@ -69,7 +75,7 @@ subdirs:
 	done
 	
 main: subdirs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp -o $(main_target)
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp $(BOX2DFLAG) -o $(main_target)
 
 test: subdirs
 	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test

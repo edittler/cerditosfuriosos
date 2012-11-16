@@ -4,10 +4,14 @@
 // C++ Library Includes.
 #include <iostream>
 
+// Common Project Includes.
+#include "../../common/model/Escenario.h"
+
 // Project Includes.
 #include "MensajeServer.h"
 #include "RespuestaServer.h"
 #include "MensajeCliente.h"
+#include "../modelo/NivelServer.h"
 
 ThreadCliente::ThreadCliente() { }
 
@@ -54,8 +58,9 @@ void* ThreadCliente::run() {
 			std::cout << "El cliente quiere unirse a una partida." << std::endl;
 			/* TODO intentar agregar el cliente a la partida y enviar resultado
 			 */
-			r = new RespuestaServer(ErrorUnirsePartida, "Hubo un error al unirse a una partida");
+			r = new RespuestaServer(OKUnirsePartida, "Hubo un error al unirse a una partida");
 			this->socket->enviar(*r);
+			this->correrJuego();
 			break;
 		case Desconectar:
 			std::cout << "El cliente se va a desconectar." << std::endl;
@@ -70,4 +75,23 @@ void* ThreadCliente::run() {
 	}
 
 	return NULL;
+}
+
+void ThreadCliente::correrJuego() {
+	Escenario escena;
+	NivelServer nivel(&escena);
+	nivel.cargarXML("../common/MiMundo-level1.xml");
+	MensajeServer* msj;
+	for(int i = 0; i < 200; i++) {
+		msj = new MensajeServer(MS_EVENTO);
+		nivel.tick(20);
+		this->socket->enviar(*msj);
+		std::cout << "tick " << i << std::endl;
+		usleep(30000);
+		delete msj;
+	}
+
+	msj = new MensajeServer(MS_FINALIZAR_PARTIDA);
+	this->socket->enviar(*msj);
+
 }

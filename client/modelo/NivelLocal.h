@@ -24,7 +24,6 @@ public:
 	 * en el escenario con una velocidad aleatoria.
 	 */
 	void generarPajaro();
-//	void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial, Jugador* jugador);
 
 private:
 	int tiempoGeneracionMinimo;
