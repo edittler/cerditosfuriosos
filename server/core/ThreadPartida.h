@@ -1,13 +1,14 @@
 #ifndef THREADPARTIDA_H_
 #define THREADPARTIDA_H_
 
+// C++ Library Includes.
 #include <list>
-#include <Thread.h>
 
+// Project Includes.
+#include "../../common/thread/Thread.h"
+#include "DefinicionesServidor.h"
 #include "Partida.h"
 #include "ThreadCliente.h"
-
-typedef std::list<ThreadCliente*> ClientesConectados;
 
 class ThreadPartida: public Thread {
 public:
