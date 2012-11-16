@@ -1,10 +1,13 @@
+// Header Include.
 #include "Juego.h"
-#include "../vista/modelo/ConstantesVistaModelo.h"
 
-#include <iostream> // FIXME eliminar
+// GTK+ Library Includes.
 #include <gtkmm/main.h>
 #include <gtkmm/messagedialog.h>
-#include "NivelLocal.h"
+
+// Client Project Includes.
+#include "../modelo/NivelLocal.h"
+#include "../vista/modelo/ConstantesVistaModelo.h"
 
 Juego::Juego(Escenario* escenario, VentanaCliente* ventana) {
 	this->ejecutando = true;

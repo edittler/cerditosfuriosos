@@ -1,4 +1,4 @@
-# Makefile de las dependencias de controlador del cliente
+# Makefile de las dependencias de modelo del cliente
 
 # CONFIGURACION
 ################
@@ -9,7 +9,7 @@ CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
 #CXXFLAGS += -pthread -lpthread
 
 # Flag de inclusion de las librerias de gtkmm
-GTKFLAGS = `pkg-config gtkmm-2.4 --cflags --libs`
+#GTKFLAGS = `pkg-config gtkmm-2.4 --cflags --libs`
 
 # Si la compilacion se ejecuta en modo DEBUG, agrego los flags correspondientes
 ifdef DEBUG
@@ -25,7 +25,7 @@ CXX = g++
 archivos = $(filter-out main.cpp test.cpp, $(wildcard *.cpp))
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = ../../common/Box2D/include ../../common/model ../modelo
+SUBDIRSINCLUDE = ../../common/Box2D/include ../../common/model
 
 # Inclusion de las cabeceras de los subdirectorios
 I-INCLUDES = $(addprefix -I, $(SUBDIRSINCLUDE))
