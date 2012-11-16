@@ -22,7 +22,7 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = ../common/communication ../common/parser ../common/thread
+SUBDIRS = ../common/communication ../common/parser ../common/thread core
 
 # Declaracion de objetos externos
 EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))
@@ -69,7 +69,7 @@ subdirs:
 	done
 	
 main: subdirs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) *.cpp -o $(main_target)
+	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) main.cpp -o $(main_target)
 
 test: subdirs
 	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test

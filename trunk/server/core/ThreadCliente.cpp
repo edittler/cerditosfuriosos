@@ -5,9 +5,9 @@
 #include <iostream>
 
 // Project Includes.
-#include "../common/communication/MensajeServer.h"
-#include "../common/communication/RespuestaServer.h"
-#include "../common/communication/MensajeCliente.h"
+#include "MensajeServer.h"
+#include "RespuestaServer.h"
+#include "MensajeCliente.h"
 
 ThreadCliente::ThreadCliente() { }
 

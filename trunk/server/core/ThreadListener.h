@@ -2,7 +2,7 @@
 #define THREADLISTENER_H_
 
 // Hierarchy Include.
-#include "../common/thread/Thread.h"
+#include "../../common/thread/Thread.h"
 
 // Project Includes.
 #include "Server.h"

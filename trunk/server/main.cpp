@@ -1,9 +1,11 @@
 // Standard C++ Library Includes
 #include <iostream>
-
-#include "Server.h"
-#include "ThreadListener.h"
 #include <cstdio>
+
+// Server Project Includes.
+#include "core/Server.h"
+#include "core/ThreadListener.h"
+
 
 int main(int argc, char *argv[]) {
 	std::cout << "Soy el Servidor!!" << std::endl;

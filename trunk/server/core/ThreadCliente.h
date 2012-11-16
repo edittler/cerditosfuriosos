@@ -2,10 +2,10 @@
 #define THREADCLIENTE_H_
 
 // Hierarchy Include.
-#include "../common/thread/Thread.h"
+#include "../../common/thread/Thread.h"
 
 // Project Includes.
-#include "../common/communication/Socket.h"
+#include "../../common/communication/Socket.h"
 
 /**
  * @class ThreadCliente

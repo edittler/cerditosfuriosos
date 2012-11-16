@@ -5,18 +5,15 @@
 #include <map>
 #include <string>
 
-// Project Includes.
-#include <Socket.h>
+// Common Project Includes.
+#include "../../common/thread/Mutex.h"
+#include "../../common/communication/Socket.h"
+#include "../../common/communication/ConstantesClientServer.h"
+
+// Server Project Includes.
+#include "DefinicionesServidor.h"
 #include "ThreadCliente.h"
 #include "ThreadPartida.h"
-#include <Mutex.h>
-#include <ConstantesClientServer.h>
-
-// Abreviaturas usadas para contenedores.
-//typedef std::list<std::pair<std::string, unsigned int> > ListaRecords;
-//typedef std::map<std::string, ListaRecords> TablaRecords;
-
-typedef std::map<unsigned int, ThreadPartida* > PartidasDisponibles;
 
 /*
  * @class Server
