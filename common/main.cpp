@@ -3,6 +3,7 @@
 #include "parser/XMLTypes.h"
 #include "communication/MensajeCliente.h"
 #include "communication/RespuestaServer.h"
+#include "communication/Evento.h"
 
 void probarEscenario() {
 	Escenario escena;
@@ -157,7 +158,7 @@ void probarMensajeCliente() {
 //	MensajeCliente msjNDD;
 //	msjNDD.deserealizar(msj);
 	// Creo un mensaje para solicitar ver records.
-	MensajeCliente msjVR(VerRecords);
+	MensajeCliente msjVR(MC_VER_RECORDS);
 	msj.clear();
 	msj = msjVR.serealizar();
 	std::cout << msj;
@@ -172,6 +173,41 @@ void probarMensajeCliente() {
 	msjUPD.deserealizar(msj);
 }
 
+void probarSerializarEvento() {
+	// Serializo un evento no definido
+	Evento eNoDefinido;
+	std::string strNoDefinido = eNoDefinido.serealizar();
+	if (strNoDefinido.empty())
+		std::cout << "La cadena evento indefinido está vacia" << std::endl;
+	// Serealizo un pedido de disparo indefinido.
+	Evento ePedidoDisparoInd(T_DISPARO_INDEFINIDO, Punto2D(1.2, 3.4));
+	std::string strPedidoDisparoIn = ePedidoDisparoInd.serealizar();
+	if (strPedidoDisparoIn.empty())
+		std::cout << "La cadena de pedido de disparo indefinido está vacia" << std::endl;
+	// Serealizo un pedido de disparo de huevo blanco.
+	Evento ePedidoDisparoHB(T_HUEVO_BLANCO, Punto2D(1.2f, 3.4f));
+	std::cout << ePedidoDisparoHB.serealizar() << std::endl;
+	// Serealizo un disparo indefinido.
+	Evento eDisparoI(T_DISPARO_INDEFINIDO, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
+	std::string strDisparoInd = eDisparoI.serealizar();
+	if (strDisparoInd.empty())
+		std::cout << "La cadena de disparo indefinido está vacia" << std::endl;
+	// Serealizo un disparo de huevo codorniz.
+	Evento eDisparoHC(T_HUEVO_CODORNIZ, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
+	std::cout << eDisparoHC.serealizar() << std::endl;
+	// Serealizo un pajaro indefinido.
+	Evento ePajaroI(T_PAJARO_INDEFINIDO, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
+	std::string strPajaroInd = ePajaroI.serealizar();
+	if (strPajaroInd.empty())
+		std::cout << "La cadena de pajaro indefinido está vacia" << std::endl;
+	// Serealizo un pajaro verde.
+	Evento ePajaroV(T_PAJARO_VERDE, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
+	std::cout << ePajaroV.serealizar() << std::endl;
+	// Serializo fin de nivel
+	Evento eFinNivel(E_FIN_NIVEL);
+	std::cout << eFinNivel.serealizar() << std::endl;
+}
+
 int main(int argc, char *argv[]) {
 //	probarEscenario();
 //	probarParseoPunto2D();
@@ -179,7 +215,7 @@ int main(int argc, char *argv[]) {
 //	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
-	probarMensajeCliente();
-	RespuestaServer r;
+	probarSerializarEvento();
+//	probarMensajeCliente();
 	return 0;
 }

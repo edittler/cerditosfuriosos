@@ -7,15 +7,15 @@
 /**
  * Enumerado que lista los valores que puede adquirir el comando del cliente.
  */
-typedef enum ComandoClienteValues {
-	ComandoNoDefinido,	// Comando indefinido.
-	VerRecords,			// Ver la lista de records.
-	CrearPartida,		// Creacion de una nueva partida.
-	VerPartidas,		// Ver partidas ya creadas.
-	UnirsePartida,		// Unirse a una partida especificada.
-	Evento,				// Modo envio de evento.
-	Desconectar 		// Abandonar la partida.
-} ComandoCliente;
+enum ComandoCliente {
+	MC_INDEFINIDO,			// Comando indefinido.
+	MC_VER_RECORDS,			// Ver la lista de records.
+	MC_CREAR_PARTIDA,		// Creacion de una nueva partida.
+	MC_VER_PARTIDAS,		// Ver partidas ya creadas.
+	MC_UNIRSE_PARTIDA,		// Unirse a una partida especificada.
+	MC_EVENTO,				// Modo envio de evento.
+	MC_DESCONECTAR 			// Abandonar la partida.
+};
 
 /**
  * Mensaje que el cliente envía al servidor.
@@ -28,7 +28,7 @@ public:
 	 * Constructor con parametros.
 	 * @param comando Comando con el que se quiere inicializar el mensaje.
 	 */
-	explicit MensajeCliente(ComandoCliente comando = ComandoNoDefinido);
+	explicit MensajeCliente(ComandoCliente comando = MC_INDEFINIDO);
 
 	/**
 	 * Constructor con parametros.

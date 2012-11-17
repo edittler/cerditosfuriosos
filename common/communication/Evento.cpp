@@ -3,6 +3,7 @@
 
 // C++ Library Includes.
 #include <sstream>
+#include <iostream>  // TODO PROVISORIO
 
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL TIPO DE EVENTO.
 #define TE_PEDIDO_LANZAR_DIS	'D'
@@ -57,16 +58,28 @@ std::string Evento::serealizar() const {
 	// De acuerdo al tipo de evento, realizo la serializacion adecuada.
 	switch (this->evento) {
 	case E_PEDIDO_LANZAR_DISPARO:
-		// Agrego el identificador y la serializacion del disparo.
-		msj << TE_PEDIDO_LANZAR_DIS << '%' << this->serializarDisparo() << '%';
+		/* Si el disparo no es indefinido, agrego el identificador y
+		 * la serializacion del disparo.
+		 */
+		if (this->disparo != T_DISPARO_INDEFINIDO) {
+			msj << TE_PEDIDO_LANZAR_DIS << '%' << this->serializarDisparo();
+		}
 		break;
 	case E_LANZAR_PAJARO:
-		// Agrego el identificador y la serializacion de pajaro
-		msj << TE_LANZAR_PAJARO << '%' << this->serializarPajaro() << '%';
+		/* Si el pajaro no es indefinido, agrego el identificador y
+		 * la serializacion del pajaro.
+		 */
+		if (this->pajaro != T_PAJARO_INDEFINIDO) {
+			msj << TE_LANZAR_PAJARO << '%' << this->serializarPajaro();
+		}
 		break;
 	case E_LANZAR_DISPARO:
-		// Agrego el identificador y la serializacion del disparo.
-		msj << TE_LANZAR_HUEVO << '%' << this->serializarDisparo() << '%';
+		/* Si el disparo no es indefinido, agrego el identificador y
+		 * la serializacion del disparo.
+		 */
+		if (this->disparo != T_DISPARO_INDEFINIDO) {
+			msj << TE_LANZAR_HUEVO << '%' << this->serializarDisparo();
+		}
 		break;
 	case E_FIN_NIVEL:
 		// Agrego el identificador.
@@ -81,6 +94,10 @@ std::string Evento::serealizar() const {
 }
 
 void Evento::deserealizar(const std::string& mensaje) {
+	// Si la cadena está vacia, deserializo como evento indefinido
+	if (mensaje.empty())
+		this->evento = E_INDEFINIDO;
+	// Obtengo la cadena de caracteres asociada al mensaje.
 	const char* msj = mensaje.c_str();
 	/* Verifico si en la segunda posicion se encuentra el delimitador.
 	 * Si no se encuentra, cargo el mensaje como no definido.
@@ -167,29 +184,68 @@ std::string Evento::serializarDisparo() const {
 		// Para el caso por defaul, no realizo nada.
 		break;
 	}
-	// Agrego la posicion a disparar o inicial de disparo
-	msj << this->serializarPunto();
-	// Si el evento es LANZAR_DISPARO, debo cargar la velocidad
-	if (this->evento == E_LANZAR_DISPARO) {
-		msj << this->serializarVelocidad();
+	/* Si el disparo no es indefinido, agrego la posicion a disparar
+	 * o inicial de disparo.
+	 */
+	if (this->disparo != T_DISPARO_INDEFINIDO) {
+		msj << this->serializarPunto() << '%';
+		// Si el evento es LANZAR_DISPARO, debo cargar la velocidad
+		if (this->evento == E_LANZAR_DISPARO) {
+			msj << this->serializarVelocidad() << '%';
+		}
 	}
 	// Retorna el string.
 	return msj.str();
 }
 
 std::string Evento::serializarPajaro() const {
-	// TODO(eze) Implementar.
-	return "Pajaro";
+	std::ostringstream msj;
+	// De acuerdo al tipo de pajaro, realizo la serializacion adecuada.
+	switch (this->pajaro) {
+	case T_PAJARO_ROJO:
+		msj << TP_ROJO << '%';		// Agrego el identificador de pajaro.
+		break;
+	case T_PAJARO_VERDE:
+		msj << TP_VERDE << '%';		// Agrego el identificador de pajaro.
+		break;
+	case T_PAJARO_AZUL:
+		msj << TP_AZUL << '%';		// Agrego el identificador de pajaro.
+		break;
+	default:
+		// Para el caso por defaul, no realizo nada.
+		break;
+	}
+	/* Si el pajaro no es indefinido, agrego la posicion y velocidad inicial
+	 * de lanzamiento.
+	 */
+	if (this->pajaro != T_PAJARO_INDEFINIDO) {
+		// Agrego la posicion inicial de lanzamiento del pajaro
+		msj << this->serializarPunto() << '%';
+		// Agrego la velocidad inicial de lanzamiento del pajaro
+		msj << this->serializarVelocidad() << '%';
+	}
+	// Retorna el string.
+	return msj.str();
 }
 
 std::string Evento::serializarPunto() const {
-	// TODO(eze) Implementar.
-	return "Punto";
+	std::ostringstream valX, valY, sPunto;
+	valX.imbue(std::locale("C"));
+	valY.imbue(std::locale("C"));
+	valX << this->punto.x;
+	valY << this->punto.y;
+	sPunto << valX.str() << '&' << valY.str() << '&';
+	return sPunto.str();
 }
 
 std::string Evento::serializarVelocidad() const {
-	// TODO(eze) Implementar.
-	return "Velocidad";
+	std::ostringstream valX, valY, sVelocidad;
+	valX.imbue(std::locale("C"));
+	valY.imbue(std::locale("C"));
+	valX << this->velocidad.x;
+	valY << this->velocidad.y;
+	sVelocidad << valX.str() << '&' << valY.str() << '&';
+	return sVelocidad.str();
 }
 
 void Evento::decodificarDisparo(const std::string& mensaje) {

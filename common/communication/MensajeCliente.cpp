@@ -3,13 +3,12 @@
 
 // C++ Library Includes.
 #include <sstream>
-#include <cstring>
 
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL COMANDO ENVIADO.
 #define C_VER_RECORDS		'R'
 #define C_CREAR_PARTIDA		'C'
 #define C_VER_PARTIDAS		'V'
-#define C_UNIR_SEPARTIDA		'U'
+#define C_UNIR_SEPARTIDA	'U'
 #define C_EVENTO			'E'
 #define C_DESCONECTAR		'D'
 
@@ -19,7 +18,7 @@ MensajeCliente::MensajeCliente(ComandoCliente comando) {
 }
 
 MensajeCliente::MensajeCliente(std::string partidaID) {
-	this->comando = UnirsePartida;
+	this->comando = MC_UNIRSE_PARTIDA;
 	this->partida = partidaID;
 }
 
@@ -29,21 +28,21 @@ std::string MensajeCliente::serealizar() const {
 	std::ostringstream msj;
 	// De acuerdo al comando, realizo la serializacion adecuada.
 	switch (this->comando) {
-	case VerRecords:
+	case MC_VER_RECORDS:
 		msj << C_VER_RECORDS << '|';
 		break;
-	case CrearPartida:
+	case MC_CREAR_PARTIDA:
 		msj << C_CREAR_PARTIDA << '|';
 		break;
-	case VerPartidas:
+	case MC_VER_PARTIDAS:
 		msj << C_VER_PARTIDAS << '|';
 		break;
-	case UnirsePartida:
+	case MC_UNIRSE_PARTIDA:
 		msj << C_UNIR_SEPARTIDA << '|';
 		// Agrego el ID de partida.
 		msj << this->partida << '|';
 		break;
-	case Desconectar:
+	case MC_DESCONECTAR:
 		msj << C_DESCONECTAR << '|';
 		break;
 	default:
@@ -62,34 +61,34 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 	 * Si no se encuentra, cargo el mensaje como no definido.
 	 */
 	if (msj[1] != '|') {
-		this->comando = ComandoNoDefinido;
+		this->comando = MC_INDEFINIDO;
 		return;
 	}
 	// Obtengo el primer caracter
 	char c = msj[0];
 	switch (c) {
 	case C_VER_RECORDS:
-		this->comando = VerRecords;
+		this->comando = MC_VER_RECORDS;
 		break;
 	case C_CREAR_PARTIDA:
-		this->comando = CrearPartida;
+		this->comando = MC_CREAR_PARTIDA;
 		break;
 	case C_VER_PARTIDAS:
-		this->comando = VerPartidas;
+		this->comando = MC_VER_PARTIDAS;
 		break;
 	case C_UNIR_SEPARTIDA:
-		this->comando = UnirsePartida;
+		this->comando = MC_UNIRSE_PARTIDA;
 		// Deserealizar el ID de la partida
 		this->decodificarPartida(mensaje);
 		break;
 	case C_DESCONECTAR:
-		this->comando = Desconectar;
+		this->comando = MC_DESCONECTAR;
 		break;
 	case C_EVENTO:
-		this->comando = Evento;
+		this->comando = MC_EVENTO;
 		break;
 	default:
-		this->comando = ComandoNoDefinido;
+		this->comando = MC_INDEFINIDO;
 		break;
 	}
 }
