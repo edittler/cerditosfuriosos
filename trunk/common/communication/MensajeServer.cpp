@@ -12,9 +12,14 @@
 MensajeServer::MensajeServer(ComandoServer comando) {
 	this->comando = comando;
 	this->datos.clear();
+	this->evento = NULL;
 }
 
-MensajeServer::~MensajeServer() { }
+MensajeServer::~MensajeServer() {
+	if (evento != NULL) {
+		delete evento;
+	}
+}
 
 std::string MensajeServer::serealizar() const {
 	std::ostringstream msj;
