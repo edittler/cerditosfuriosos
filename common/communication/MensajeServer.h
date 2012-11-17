@@ -4,6 +4,9 @@
 // Hierarchy Include.
 #include "Mensaje.h"
 
+// Project Includes.
+#include "Evento.h"
+
 /**
  * Enumerado de los valores que puede adquirir el comando del cliente.
  */
@@ -33,7 +36,7 @@ private:
 	std::string datos;
 
 	// Evento que contiene el mensaje del servidor.
-//	Evento* evento;
+	Evento* evento;
 };
 
 #endif /* MENSAJESERVER_H_ */
