@@ -138,7 +138,7 @@ private:
 
 	std::string floatToString(const float valor) const;
 
-	float stringToFloat(const std::string) const;
+	float stringToFloat(const std::string cadena) const;
 
 	// Tipo de evento que se almacena.
 	TipoEvento evento;

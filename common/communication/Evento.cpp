@@ -245,22 +245,20 @@ std::string Evento::serializarPajaro() const {
 }
 
 std::string Evento::serializarPunto() const {
-	std::ostringstream valX, valY, sPunto;
-	valX.imbue(std::locale("C"));
-	valY.imbue(std::locale("C"));
-	valX << this->punto.x;
-	valY << this->punto.y;
-	sPunto << valX.str() << '&' << valY.str() << '&';
+	std::ostringstream sPunto;
+	std::string valX, valY;
+	valX = this->floatToString(this->punto.x);
+	valY = this->floatToString(this->punto.x);
+	sPunto << valX << '&' << valY << '&';
 	return sPunto.str();
 }
 
 std::string Evento::serializarVelocidad() const {
-	std::ostringstream valX, valY, sVelocidad;
-	valX.imbue(std::locale("C"));
-	valY.imbue(std::locale("C"));
-	valX << this->velocidad.x;
-	valY << this->velocidad.y;
-	sVelocidad << valX.str() << '&' << valY.str() << '&';
+	std::ostringstream sVelocidad;
+	std::string valX, valY;
+	valX = this->floatToString(this->velocidad.x);
+	valY = this->floatToString(this->velocidad.y);
+	sVelocidad << valX << '&' << valY << '&';
 	return sVelocidad.str();
 }
 
@@ -351,7 +349,6 @@ void Evento::decodificarPajaro(const std::string& mensaje) {
 	this->decodificarVelocidad(cadena);
 }
 
-
 void Evento::decodificarPunto(const std::string& mensaje) {
 	// Obtengo el atributo x
 	std::string sX;
@@ -367,13 +364,8 @@ void Evento::decodificarPunto(const std::string& mensaje) {
 		sY += mensaje[i];
 		i++;
 	}
-	std::istringstream valX(sX);
-	std::istringstream valY(sY);
-	// Seteo la configuracion regional defaul de C++ para dichos streams.
-	valX.imbue(std::locale("C"));
-	valY.imbue(std::locale("C"));
-	valX >> this->punto.x;
-	valY >> this->punto.y;
+	this->punto.x = this->stringToFloat(sX);
+	this->punto.y = this->stringToFloat(sY);
 }
 
 void Evento::decodificarVelocidad(const std::string& mensaje) {
@@ -391,11 +383,21 @@ void Evento::decodificarVelocidad(const std::string& mensaje) {
 		sY += mensaje[i];
 		i++;
 	}
-	std::istringstream valX(sX);
-	std::istringstream valY(sY);
-	// Seteo la configuracion regional defaul de C++ para dichos streams.
-	valX.imbue(std::locale("C"));
-	valY.imbue(std::locale("C"));
-	valX >> this->velocidad.x;
-	valY >> this->velocidad.y;
+	this->velocidad.x = this->stringToFloat(sX);
+	this->velocidad.y = this->stringToFloat(sY);
+}
+
+std::string Evento::floatToString(const float valor) const {
+	std::ostringstream val;
+	val.imbue(std::locale("C"));
+	val << valor;
+	return val.str();
+}
+
+float Evento::stringToFloat(const std::string cadena) const {
+	std::istringstream val(cadena);
+	val.imbue(std::locale("C"));
+	float valor;
+	val >> valor;
+	return valor;
 }

@@ -33,36 +33,36 @@ void* ThreadCliente::run() {
 		// Declaro el puntero a la respuesta a enviar.
 		RespuestaServer* r = NULL;
 		switch (comandoCli) {
-		case VerRecords:
+		case MC_VER_RECORDS:
 			std::cout << "El cliente quiere ver la tabla de records." << std::endl;
 			/* TODO enviar la tabla de records.
 			 */
-			r = new RespuestaServer(TablaRecords, "Tabla de records.");
+			r = new RespuestaServer(RS_TABLA_RECORDS, "Tabla de records.");
 			this->socket->enviar(*r);
 			break;
-		case CrearPartida:
+		case MC_CREAR_PARTIDA:
 			std::cout << "El cliente quiere crear una partida." << std::endl;
 			/* TODO enviar la lista de mundos
 			 */
-			r = new RespuestaServer(ListaMundos, "Lista de Mundos");
+			r = new RespuestaServer(RS_LISTA_MUNDOS, "Lista de Mundos");
 			this->socket->enviar(*r);
 			break;
-		case VerPartidas:
+		case MC_VER_PARTIDAS:
 			std::cout << "El cliente quiere ver partidas existentes." << std::endl;
 			/* TODO enviar la lista de partidas
 			 */
-			r = new RespuestaServer(ListaPartidas, "Lista de partidas disponibles");
+			r = new RespuestaServer(RS_LISTA_PARTIDAS, "Lista de partidas disponibles");
 			this->socket->enviar(*r);
 			break;
-		case UnirsePartida:
+		case MC_UNIRSE_PARTIDA:
 			std::cout << "El cliente quiere unirse a una partida." << std::endl;
 			/* TODO intentar agregar el cliente a la partida y enviar resultado
 			 */
-			r = new RespuestaServer(OKUnirsePartida, "Hubo un error al unirse a una partida");
+			r = new RespuestaServer(RS_UNIRSE_PARTIDA_OK, "Hubo un error al unirse a una partida");
 			this->socket->enviar(*r);
 			this->correrJuego();
 			break;
-		case Desconectar:
+		case MC_DESCONECTAR:
 			std::cout << "El cliente se va a desconectar." << std::endl;
 			this->conectado = false;
 			break;
