@@ -7,14 +7,14 @@
 /**
  * Enumerado que lista los valores que puede adquirir la respuesta del server.
  */
-typedef enum RespuestaServerValues {
-	RespuestaNoDefinida,  // Respuesta indefinida.
-	TablaRecords,		// Enviar la lista de records.
-	ListaMundos,		// Enviar mundos para la creacion de una nueva partida.
-	ListaPartidas,		// Enviar partidas ya creadas.
-	OKUnirsePartida,	// Confirmacion para unirse a una partida especificada.
-	ErrorUnirsePartida	// Aviso de error al intentar unirse a una partida.
-} RespuestaServidor;
+enum RespuestaServidor {
+	RS_INDEFINIDA,			// Respuesta indefinida.
+	RS_TABLA_RECORDS,		// Enviar la lista de records.
+	RS_LISTA_MUNDOS,		// Enviar mundos para la creacion de una nueva partida.
+	RS_LISTA_PARTIDAS,		// Enviar partidas ya creadas.
+	RS_UNIRSE_PARTIDA_OK,	// Confirmacion para unirse a una partida especificada.
+	RS_UNIRSE_PARTIDA_ERROR	// Aviso de error al intentar unirse a una partida.
+};
 
 /**
  * Mensaje que el servidor en respuesta a un mensaje que recibió del cliente.
@@ -27,7 +27,7 @@ public:
 	 * Constructor con parametros.
 	 * @param tipo Tipo de respuesta que se va a crear.
 	 */
-	RespuestaServer(RespuestaServidor tipo = RespuestaNoDefinida);
+	RespuestaServer(RespuestaServidor tipo = RS_INDEFINIDA);
 
 	/**
 	 * Constructor con parametros

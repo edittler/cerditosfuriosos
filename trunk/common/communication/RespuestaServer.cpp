@@ -28,23 +28,23 @@ std::string RespuestaServer::serealizar() const {
 	std::ostringstream msj;
 	// De acuerdo al tipo de respuesta, realizo la serializacion adecuada.
 	switch (this->tipo) {
-	case TablaRecords:
+	case RS_TABLA_RECORDS:
 		// Agrego el identificador y los datos de la tabla de records
 		msj << C_TABLA_RECORDS << '|' << this->datos << '|';
 		break;
-	case ListaMundos:
+	case RS_LISTA_MUNDOS:
 		// Agrego el identificador y la lista de mundos
 		msj << C_LISTA_MUNDOS << '|' << this->datos << '|';
 		break;
-	case ListaPartidas:
+	case RS_LISTA_PARTIDAS:
 		// Agrego el identificador y la lista de partidas
 		msj << C_LISTA_PARTIDAS << '|' << this->datos << '|';
 		break;
-	case OKUnirsePartida:
+	case RS_UNIRSE_PARTIDA_OK:
 		// Agrego el identificador.
 		msj << C_OK_UNIRSE << '|';
 		break;
-	case ErrorUnirsePartida:
+	case RS_UNIRSE_PARTIDA_ERROR:
 		// Agrego el identificador.
 		msj << C_ERROR_UNIRSE << '|';
 		break;
@@ -64,32 +64,32 @@ void RespuestaServer::deserealizar(const std::string& mensaje) {
 	 * Si no se encuentra, cargo el mensaje como no definido.
 	 */
 	if (msj[1] != '|') {
-		this->tipo = RespuestaNoDefinida;
+		this->tipo = RS_INDEFINIDA;
 		return;
 	}
 	// Obtengo el primer caracter
 	char c = msj[0];
 	switch (c) {
 	case C_TABLA_RECORDS:
-		this->tipo = TablaRecords;
+		this->tipo = RS_TABLA_RECORDS;
 		this->decodificarDatos(mensaje);
 		break;
 	case C_LISTA_MUNDOS:
-		this->tipo = ListaMundos;
+		this->tipo = RS_LISTA_MUNDOS;
 		this->decodificarDatos(mensaje);
 		break;
 	case C_LISTA_PARTIDAS:
-		this->tipo = ListaPartidas;
+		this->tipo = RS_LISTA_PARTIDAS;
 		this->decodificarDatos(mensaje);
 		break;
 	case C_OK_UNIRSE:
-		this->tipo = OKUnirsePartida;
+		this->tipo = RS_UNIRSE_PARTIDA_OK;
 		break;
 	case C_ERROR_UNIRSE:
-		this->tipo = ErrorUnirsePartida;
+		this->tipo = RS_UNIRSE_PARTIDA_ERROR;
 		break;
 	default:
-		this->tipo = RespuestaNoDefinida;
+		this->tipo = RS_INDEFINIDA;
 		break;
 	}
 }

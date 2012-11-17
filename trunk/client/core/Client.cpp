@@ -43,7 +43,7 @@ void Client::desconectar() {
 
 bool Client::ejecutar() {
 	// FIXME implementacion prueba
-	Mensaje* r = new MensajeCliente(UnirsePartida);
+	Mensaje* r = new MensajeCliente(MC_UNIRSE_PARTIDA);
 	socket->enviar(*r);
 	std::cout << "Mensajes enviado: UnirsePartidas" << std::endl;
 
@@ -80,7 +80,7 @@ bool Client::ejecutar() {
 
 	delete nivel;
 
-	r = new MensajeCliente(Desconectar);
+	r = new MensajeCliente(MC_DESCONECTAR);
 	socket->enviar(*r);
 	std::cout << "Mensajes enviado: Desconectar" << std::endl;
 
