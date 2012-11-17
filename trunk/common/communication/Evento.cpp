@@ -7,6 +7,7 @@
 
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL TIPO DE EVENTO.
 #define TE_PEDIDO_LANZAR_DIS	'D'
+#define TE_CORRER_TICK			'T'
 #define TE_LANZAR_PAJARO		'P'
 #define TE_LANZAR_HUEVO			'H'
 #define TE_FIN_NIVEL			'F'
@@ -51,6 +52,12 @@ Evento::Evento(TipoDisparo tDisparo, Punto2D puntoInicial, Velocidad2D velInicia
 	this->velocidad = velInicial;
 }
 
+Evento::Evento(std::string eventoSerealizado) {
+	this->pajaro = T_PAJARO_INDEFINIDO;
+	this->disparo = T_DISPARO_INDEFINIDO;
+	this->deserealizar(eventoSerealizado);
+}
+
 Evento::~Evento() { }
 
 std::string Evento::serealizar() const {
@@ -64,6 +71,10 @@ std::string Evento::serealizar() const {
 		if (this->disparo != T_DISPARO_INDEFINIDO) {
 			msj << TE_PEDIDO_LANZAR_DIS << '%' << this->serializarDisparo();
 		}
+		break;
+	case E_CORRER_TICK:
+		// Agrego el identificador.
+		msj << TE_CORRER_TICK << '%';
 		break;
 	case E_LANZAR_PAJARO:
 		/* Si el pajaro no es indefinido, agrego el identificador y
@@ -95,8 +106,10 @@ std::string Evento::serealizar() const {
 
 void Evento::deserealizar(const std::string& mensaje) {
 	// Si la cadena está vacia, deserializo como evento indefinido
-	if (mensaje.empty())
+	if (mensaje.empty()) {
 		this->evento = E_INDEFINIDO;
+		return;
+	}
 	// Obtengo la cadena de caracteres asociada al mensaje.
 	const char* msj = mensaje.c_str();
 	/* Verifico si en la segunda posicion se encuentra el delimitador.
@@ -112,6 +125,9 @@ void Evento::deserealizar(const std::string& mensaje) {
 	case TE_PEDIDO_LANZAR_DIS:
 		this->evento = E_PEDIDO_LANZAR_DISPARO;
 		this->decodificarDisparo(mensaje);
+		break;
+	case TE_CORRER_TICK:
+		this->evento = E_CORRER_TICK;
 		break;
 	case TE_LANZAR_PAJARO:
 		this->evento = E_LANZAR_PAJARO;
@@ -249,17 +265,137 @@ std::string Evento::serializarVelocidad() const {
 }
 
 void Evento::decodificarDisparo(const std::string& mensaje) {
-	// TODO(eze) Implementar
+	const char* msj = mensaje.c_str();
+	// Obtengo el tipo de disparo y aigno el atributo correspondiente.
+	char tipoDisparo = msj[2];
+	switch (tipoDisparo) {
+	case TD_HBLANCO:
+		this->disparo = T_HUEVO_BLANCO;
+		break;
+	case TD_HCODORNIZ:
+		this->disparo = T_HUEVO_CODORNIZ;
+		break;
+	case TD_HPOCHE:
+		this->disparo = T_HUEVO_POCHE;
+		break;
+	case TD_HRELOJ:
+		this->disparo = T_HUEVO_RELOJ;
+		break;
+	default:
+		this->disparo = T_DISPARO_INDEFINIDO;
+		break;
+	}
+	// Decodifico la posicion.
+	int i = 4;
+	char c = msj[i];
+	std::string cadena;
+	cadena.clear();
+	while ((c != '%') && (c != '\0')) {
+		cadena += c;
+		i++;
+		c = msj[i];
+	}
+	this->decodificarPunto(cadena);
+	// Si el tipo de evento es lanzamiento de disparo, decodifico la velocidad.
+	if (this->evento == E_LANZAR_DISPARO) {
+		cadena.clear();
+		i++;
+		c = msj[i];
+		while ((c != '%') && (c != '\0')) {
+			cadena += c;
+			i++;
+			c = msj[i];
+		}
+		this->decodificarVelocidad(cadena);
+	}
 }
 
 void Evento::decodificarPajaro(const std::string& mensaje) {
-	// TODO(eze) Implementar
+	const char* msj = mensaje.c_str();
+	// Obtengo el tipo de pajaro y aigno el atributo correspondiente.
+	char tipoPajaro = msj[2];
+	switch (tipoPajaro) {
+	case TP_ROJO:
+		this->pajaro = T_PAJARO_ROJO;
+		break;
+	case TP_VERDE:
+		this->pajaro = T_PAJARO_VERDE;
+		break;
+	case TP_AZUL:
+		this->pajaro = T_PAJARO_AZUL;
+		break;
+	default:
+		this->pajaro = T_PAJARO_INDEFINIDO;
+		break;
+	}
+	// Decodifico la posicion.
+	int i = 4;
+	char c = msj[i];
+	std::string cadena;
+	cadena.clear();
+	while ((c != '%') && (c != '\0')) {
+		cadena += c;
+		i++;
+		c = msj[i];
+	}
+	this->decodificarPunto(cadena);
+	// decodifico la velocidad.
+	cadena.clear();
+	i++;
+	c = msj[i];
+	while ((c != '%') && (c != '\0')) {
+		cadena += c;
+		i++;
+		c = msj[i];
+	}
+	this->decodificarVelocidad(cadena);
 }
 
+
 void Evento::decodificarPunto(const std::string& mensaje) {
-	// TODO(eze) Implementar
+	// Obtengo el atributo x
+	std::string sX;
+	int i = 0;
+	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+		sX += mensaje[i];
+		i++;
+	}
+	// Obtengo el atributo y
+	std::string sY;
+	i++;
+	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+		sY += mensaje[i];
+		i++;
+	}
+	std::istringstream valX(sX);
+	std::istringstream valY(sY);
+	// Seteo la configuracion regional defaul de C++ para dichos streams.
+	valX.imbue(std::locale("C"));
+	valY.imbue(std::locale("C"));
+	valX >> this->punto.x;
+	valY >> this->punto.y;
 }
 
 void Evento::decodificarVelocidad(const std::string& mensaje) {
-	// TODO(eze) Implementar
+	// Obtengo el atributo x
+	std::string sX;
+	int i = 0;
+	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+		sX += mensaje[i];
+		i++;
+	}
+	// Obtengo el atributo y
+	std::string sY;
+	i++;
+	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+		sY += mensaje[i];
+		i++;
+	}
+	std::istringstream valX(sX);
+	std::istringstream valY(sY);
+	// Seteo la configuracion regional defaul de C++ para dichos streams.
+	valX.imbue(std::locale("C"));
+	valY.imbue(std::locale("C"));
+	valX >> this->velocidad.x;
+	valY >> this->velocidad.y;
 }

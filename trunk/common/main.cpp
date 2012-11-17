@@ -179,33 +179,86 @@ void probarSerializarEvento() {
 	std::string strNoDefinido = eNoDefinido.serealizar();
 	if (strNoDefinido.empty())
 		std::cout << "La cadena evento indefinido está vacia" << std::endl;
+	// Deserealizo el evento no definido
+	Evento eDesIndef(strNoDefinido);
+	if (eDesIndef.getTipoEvento() == E_INDEFINIDO) {
+		std::cout << "Deserealizar evento indefinido                 OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar evento indefinido                 FAIL" << std::endl;
+	}
+
 	// Serealizo un pedido de disparo indefinido.
 	Evento ePedidoDisparoInd(T_DISPARO_INDEFINIDO, Punto2D(1.2, 3.4));
 	std::string strPedidoDisparoIn = ePedidoDisparoInd.serealizar();
 	if (strPedidoDisparoIn.empty())
 		std::cout << "La cadena de pedido de disparo indefinido está vacia" << std::endl;
+
 	// Serealizo un pedido de disparo de huevo blanco.
 	Evento ePedidoDisparoHB(T_HUEVO_BLANCO, Punto2D(1.2f, 3.4f));
-	std::cout << ePedidoDisparoHB.serealizar() << std::endl;
+	std::string strPedidoDisparoHB = ePedidoDisparoHB.serealizar();
+	std::cout << strPedidoDisparoHB << std::endl;
+	Evento eDesPedidoDisparoHB(strPedidoDisparoHB);
+	if (strPedidoDisparoHB.compare(eDesPedidoDisparoHB.serealizar()) == 0) {
+		std::cout << "Deserealizar evento pedido disparo huevo       OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar evento pedido disparo huevo       FAIL" << std::endl;
+	}
+
+	// Serializo correr tick
+	Evento eTick(E_CORRER_TICK);
+	std::string strTick = eTick.serealizar();
+	std::cout << strTick << std::endl;
+	Evento eSerTick(strTick);
+	if (eSerTick.getTipoEvento() == E_CORRER_TICK) {
+		std::cout << "Deserealizar evento correr tick                OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar evento correr tick                FAIL" << std::endl;
+	}
+
 	// Serealizo un disparo indefinido.
 	Evento eDisparoI(T_DISPARO_INDEFINIDO, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
 	std::string strDisparoInd = eDisparoI.serealizar();
 	if (strDisparoInd.empty())
 		std::cout << "La cadena de disparo indefinido está vacia" << std::endl;
+
 	// Serealizo un disparo de huevo codorniz.
 	Evento eDisparoHC(T_HUEVO_CODORNIZ, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
-	std::cout << eDisparoHC.serealizar() << std::endl;
+	std::string strDisparoHC = eDisparoHC.serealizar();
+	std::cout << strDisparoHC << std::endl;
+	Evento eDesDisparoHC(strDisparoHC);
+	if (strDisparoHC.compare(eDesDisparoHC.serealizar()) == 0) {
+		std::cout << "Deserealizar evento disparo huevo              OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar evento disparo huevo              FAIL" << std::endl;
+	}
+
 	// Serealizo un pajaro indefinido.
 	Evento ePajaroI(T_PAJARO_INDEFINIDO, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
 	std::string strPajaroInd = ePajaroI.serealizar();
 	if (strPajaroInd.empty())
 		std::cout << "La cadena de pajaro indefinido está vacia" << std::endl;
+
 	// Serealizo un pajaro verde.
 	Evento ePajaroV(T_PAJARO_VERDE, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
-	std::cout << ePajaroV.serealizar() << std::endl;
+	std::string strPajaroV = ePajaroV.serealizar();
+	std::cout << strPajaroV << std::endl;
+	Evento eDesPajaroV(strPajaroV);
+	if (strPajaroV.compare(eDesPajaroV.serealizar()) == 0) {
+		std::cout << "Deserealizar evento lanzamiento pajaro         OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar evento lanzamiento pajaro         FAIL" << std::endl;
+	}
+
 	// Serializo fin de nivel
 	Evento eFinNivel(E_FIN_NIVEL);
-	std::cout << eFinNivel.serealizar() << std::endl;
+	std::string strFinNivel = eFinNivel.serealizar();
+	std::cout << strFinNivel << std::endl;
+	Evento eDesFinNivel(strFinNivel);
+	if (eDesFinNivel.getTipoEvento() == E_FIN_NIVEL) {
+		std::cout << "Deserealizar evento fin nivel                  OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar evento fin nivel                  FAIL" << std::endl;
+	}
 }
 
 int main(int argc, char *argv[]) {

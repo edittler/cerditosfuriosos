@@ -16,6 +16,7 @@
 enum TipoEvento {
 	E_INDEFINIDO,			// Evento indefinido.
 	E_PEDIDO_LANZAR_DISPARO,	// Pedido de lanzamiento de huevo.
+	E_CORRER_TICK,			// Correr un tick. TODO ver si envia el XML o no.
 	E_LANZAR_PAJARO,		// Lanzamiento de pajaro.
 	E_LANZAR_DISPARO,		// Lanzamiento de huevo.
 	E_FIN_NIVEL				// Fin de nivel.
@@ -56,18 +57,38 @@ public:
 	/**
 	 * Constructor que inicializa el evento en modo pedido de lanzamiento de
 	 * disparo.
+	 * @param tDisparo Tipo de disparo que se quiere realizar.
+	 * @param puntoADisparar Punto2D que establece la ubicación hacia donde se
+	 * quiere disparar.
 	 */
 	Evento(TipoDisparo tDisparo, Punto2D puntoADisparar);
 
 	/**
 	 * Constructor que inicializa el evento en modo lanzamiento de pajaro.
+	 * @param tPajaro Tipo de pajaro que se desea lanzar.
+	 * @param puntoInicial Punto2D que establece la posicion desde el cual
+	 * comenzar el lanzamiento.
+	 * @param velInicial Velocidad2D que establece la velocidad desde la cual
+	 * comenzar el lanzamiento.
 	 */
 	Evento(TipoPajaro tPajaro, Punto2D puntoInicial, Velocidad2D velInicial);
 
 	/**
 	 * Constructor que inicializa el evento en modo lanzamiento de disparo.
+	 * @param tDisparo Tipo de disparo que se desea lanzar.
+	 * @param puntoInicial Punto2D que establece la posicion desde el cual
+	 * comenzar el lanzamiento.
+	 * @param velInicial Velocidad2D que establece la velocidad desde la cual
+	 * comenzar el lanzamiento.
 	 */
 	Evento(TipoDisparo tDisparo, Punto2D puntoInicial, Velocidad2D velInicial);
+
+	/**
+	 * Constructor que inicializa el evento mediante una cadena.
+	 * @param eventoSerealizado Cadena de caracteres que contiene el evento
+	 * serealizado.
+	 */
+	Evento(std::string eventoSerealizado);
 
 	/**
 	 * Destructor.
@@ -114,6 +135,10 @@ private:
 	void decodificarPunto(const std::string& mensaje);
 
 	void decodificarVelocidad(const std::string& mensaje);
+
+	std::string floatToString(const float valor) const;
+
+	float stringToFloat(const std::string) const;
 
 	// Tipo de evento que se almacena.
 	TipoEvento evento;
