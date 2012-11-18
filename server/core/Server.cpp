@@ -40,8 +40,6 @@ void Server::prender() {
 	socket->escucharConexiones(MAX_CONEXION_ESPERA);
 	// Comienzo el thread para aceptar clientes
 	this->start();
-//	this->listener = new ThreadListener(this);
-//	this->listener->start();
 }
 
 void Server::apagar() {
@@ -49,8 +47,6 @@ void Server::apagar() {
 	encendido = false;
 	// Desconecto el socket del servidor
 	socket->desconectar();
-	// Finalizo el listener de forma ordenada
-//	this->listener->join();
 }
 
 void Server::crearPartida() {
@@ -71,7 +67,7 @@ void* Server::run() {
 		if (socket == NULL)
 			continue;
 
-		ThreadCliente* cliente = new ThreadCliente(socket);
+		ThreadCliente* cliente = new ThreadCliente(*this, socket);
 		this->clientesConectados.push_back(cliente);
 		cliente->start();
 	}

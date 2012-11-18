@@ -6,16 +6,16 @@
 
 // Common Project Includes.
 #include "../../common/model/Escenario.h"
-
-// Project Includes.
 #include "MensajeServer.h"
 #include "RespuestaServer.h"
 #include "MensajeCliente.h"
+
+// Server Project Includes.
+#include "Server.h"
 #include "../modelo/NivelServer.h"
 
-ThreadCliente::ThreadCliente() { }
-
-ThreadCliente::ThreadCliente(Socket* socket) {
+ThreadCliente::ThreadCliente(Server& servidor, Socket* socket) :
+		server(servidor) {
 	this->conectado = true;
 	this->socket = socket;
 }
