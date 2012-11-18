@@ -1,8 +1,8 @@
 #include "ThreadPartida.h"
 
-ThreadPartida::ThreadPartida(Partida* partida) {
-	// TODO Auto-generated constructor stub
+ThreadPartida::ThreadPartida(Partida* partida, ThreadCliente* cliente) {
 	this->partida = partida;
+	this->jugadores.push_back(cliente);
 }
 
 ThreadPartida::~ThreadPartida() {
@@ -24,7 +24,11 @@ void* ThreadPartida::run() {
 	while (!partida->finalizo()) {
 		switch (partida->getEstado()) {
 			case CREANDO: {
-				// TODO esperar a que se conectens mas clientes.
+				/* TODO Verifico si la cantidad de clientes conectados
+				 * es igual a la cantidad q requiere el mundo.
+				 * Si es así, envío el primer nivel y cambio el estado a
+				 * EJECUTANDO.
+				 */
 				break; }
 
 			case EJECUTANDO: {

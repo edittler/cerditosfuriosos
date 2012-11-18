@@ -1,14 +1,13 @@
+// Header Include.
 #include "Partida.h"
 
-Partida::Partida(unsigned int id) {
-	// TODO Auto-generated constructor stub
+Partida::Partida(unsigned int id, std::string nombre) {
 	this->id = id;
+	this->nombre = nombre;
 	this->estado = CREANDO;
 }
 
-Partida::~Partida() {
-	// TODO Auto-generated destructor stub
-}
+Partida::~Partida() { }
 
 bool Partida::finalizo() {
 	return (this->estado == FINALIZADO);

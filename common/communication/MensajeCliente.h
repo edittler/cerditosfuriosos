@@ -4,17 +4,22 @@
 // Hierarchy Include.
 #include "Mensaje.h"
 
+// Project Includes.
+#include "Evento.h"
+
 /**
  * Enumerado que lista los valores que puede adquirir el comando del cliente.
  */
 enum ComandoCliente {
 	MC_INDEFINIDO,			// Comando indefinido.
 	MC_VER_RECORDS,			// Ver la lista de records.
+	MC_VER_MUNDOS,			// Ver lista de mundos para crear una partida.
 	MC_CREAR_PARTIDA,		// Creacion de una nueva partida.
 	MC_VER_PARTIDAS,		// Ver partidas ya creadas.
 	MC_UNIRSE_PARTIDA,		// Unirse a una partida especificada.
 	MC_EVENTO,				// Modo envio de evento.
-	MC_DESCONECTAR 			// Abandonar la partida.
+	MC_ABANDONAR_PARTIDA,	// Abandonar la partida.
+	MC_DESCONECTAR			// Desconectar del server
 };
 
 /**
@@ -32,15 +37,16 @@ public:
 
 	/**
 	 * Constructor con parametros.
-	 * @param evento Evento con el que se quiere inicializar el mensaje.
+	 * @param comando comando que se va a enviar.
+	 * @param id string con el identificador del mundo o la partida.
 	 */
-	MensajeCliente(std::string partidaID);
+	MensajeCliente(ComandoCliente comando, std::string id);
 
 	/**
 	 * Constructor con parametros.
 	 * @param evento Evento con el que se quiere inicializar el mensaje.
 	 */
-	//MensajeCliente(Evento evento);
+	MensajeCliente(Evento evento);
 
 	/**
 	 * Destructor.
@@ -64,14 +70,30 @@ public:
 	 */
 	ComandoCliente getComando() const;
 
+	std::string getID() const;
+
+	std::string getNombrePartida() const;
+
+	Evento getEvento() const;
+
 private:
-	void decodificarPartida(const std::string& mensaje);
+	void decodificarID(const std::string& mensaje);
+
+	void deserealizarEvento(const std::string& mensaje);
 
 	// Comando que tiene cargado el mensaje del cliente.
 	ComandoCliente comando;
 
-	// Identificador de la partida a la que se quiere unir.
-	std::string partida;
+	/* Identificador del mundo seleccionado para crear una partida o de la
+	 * partida a la que se quiere unir.
+	 */
+	std::string id;
+
+	// Nombre de la partida que se va a crear
+	std::string nombre;
+
+	// Evento que se envia en el mensaje
+	Evento evento;
 };
 
 #endif /* MENSAJECLIENTE_H_ */
