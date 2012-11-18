@@ -3,6 +3,8 @@
 
 #include "ConstantesDiseniador.h"
 
+#include <string>
+
 #include <gtkmm/frame.h>
 #include <gtkmm/label.h>
 #include <gtkmm/box.h>
@@ -20,7 +22,7 @@ class EntradaPajaros : public Gtk::Frame {
 		 * @param anchoEscenario ancho del escenario en pixeles
 		 * @param altoEscenario ancho del escenario en pixeles
 		 */
-		EntradaPajaros(int anchoEscenario, int altoEscenario);
+		EntradaPajaros(float anchoEscenario, float altoEscenario);
 		
 		/**
 		 * Destructor.
@@ -83,6 +85,20 @@ class EntradaPajaros : public Gtk::Frame {
 		 * @return probabilidad del pajaro azul
 		 */
 		int getProbabilidadPajaroAzul();
+		
+		/**
+		 * Se cargaran los valores que se habian seleccionado en un nivel ya
+		 * existente.
+		 * @param rutaNivel ruta del archivo xml que contiene al nivel
+		 */
+		void cargarNivel(std::string rutaNivel);
+		
+		/**
+		 * Se guardaran los valores seleccionados en el archivo del nivel que
+		 * se esta editando.
+		 * @param rutaNivel ruta del archivo xml que contiene al nivel
+		 */
+		void guardarNivel(std::string rutaNivel);
 		
 	private:
 	

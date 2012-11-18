@@ -38,15 +38,15 @@ PaletaEscenario::PaletaEscenario():
 	itemCereza.drag_source_set(listaObjetivos);
 	itemManzana.drag_source_set(listaObjetivos);
 	itemCatapulta.drag_source_set(listaObjetivos);
-	itemCerdo.drag_source_set_icon(Gtk::Image(RUTA_CERDO).get_pixbuf());
-	itemCajaMadera.drag_source_set_icon(Gtk::Image(RUTA_CAJA_MADERA).get_pixbuf());
-	itemCajaMetal.drag_source_set_icon(Gtk::Image(RUTA_CAJA_METAL).get_pixbuf());
-	itemCajaVidrio.drag_source_set_icon(Gtk::Image(RUTA_CAJA_VIDRIO).get_pixbuf());
-	itemHuevos.drag_source_set_icon(Gtk::Image(RUTA_HUEVOS).get_pixbuf());
-	itemBanana.drag_source_set_icon(Gtk::Image(RUTA_BANANA).get_pixbuf());
-	itemCereza.drag_source_set_icon(Gtk::Image(RUTA_CEREZA).get_pixbuf());
-	itemManzana.drag_source_set_icon(Gtk::Image(RUTA_MANZANA).get_pixbuf());
-	itemCatapulta.drag_source_set_icon(Gtk::Image(RUTA_CATAPULTA).get_pixbuf());
+	itemCerdo.drag_source_set_icon(Gtk::Image(RUTA_CERDO).get_pixbuf()->scale_simple(ANCHO_CERDO, ALTO_CERDO, Gdk::INTERP_BILINEAR));
+	itemCajaMadera.drag_source_set_icon(Gtk::Image(RUTA_CAJA_MADERA).get_pixbuf()->scale_simple(ANCHO_CAJA_MADERA, ALTO_CAJA_MADERA, Gdk::INTERP_BILINEAR));
+	itemCajaMetal.drag_source_set_icon(Gtk::Image(RUTA_CAJA_METAL).get_pixbuf()->scale_simple(ANCHO_CAJA_METAL, ALTO_CAJA_METAL, Gdk::INTERP_BILINEAR));
+	itemCajaVidrio.drag_source_set_icon(Gtk::Image(RUTA_CAJA_VIDRIO).get_pixbuf()->scale_simple(ANCHO_CAJA_VIDRIO, ANCHO_CAJA_VIDRIO, Gdk::INTERP_BILINEAR));
+	itemHuevos.drag_source_set_icon(Gtk::Image(RUTA_HUEVOS).get_pixbuf()->scale_simple(ANCHO_HUEVOS, ANCHO_HUEVOS, Gdk::INTERP_BILINEAR));
+	itemBanana.drag_source_set_icon(Gtk::Image(RUTA_BANANA).get_pixbuf()->scale_simple(ANCHO_BANANA, ANCHO_BANANA, Gdk::INTERP_BILINEAR));
+	itemCereza.drag_source_set_icon(Gtk::Image(RUTA_CEREZA).get_pixbuf()->scale_simple(ANCHO_CEREZA, ANCHO_CEREZA, Gdk::INTERP_BILINEAR));
+	itemManzana.drag_source_set_icon(Gtk::Image(RUTA_MANZANA).get_pixbuf()->scale_simple(ANCHO_MANZANA, ANCHO_MANZANA, Gdk::INTERP_BILINEAR));
+	itemCatapulta.drag_source_set_icon(Gtk::Image(RUTA_CATAPULTA).get_pixbuf()->scale_simple(ANCHO_CATAPULTA, ANCHO_CATAPULTA, Gdk::INTERP_BILINEAR));
 	// Agrego los grupos y los items
 	agregarItems();
 	show_all_children();

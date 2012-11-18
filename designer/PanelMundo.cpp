@@ -63,12 +63,19 @@ void PanelMundo::botonCrearClickeado() {
 		return;
 	}
 	/*
-	 * Informacion para Eze: Aca se debe crear un nuevo mundo. Llamando a:
+	 * Informacion para Eze:
+	 * 
+	 * Aca se debe crear un nuevo mundo.
+	 * 
+	 * Llamando a:
 	 * - creador->getNombreElegido(): Se obtiene un string con el nombre del
 	 * mundo seleccionado por el usuario (ya validado mas arriba en este metodo)
+	 * 
 	 * - creador->getCantidadJugadores(): Se obtiene un entero con la cantidad
 	 * de jugadores que el usuario selecciono para el mundo.
+	 * 
 	 * Una vez que se creo el archivo, hay que enviar el siguiente mensaje:
+	 * 
 	 * - informable->editarMundo(PARAMETRO)
 	 * El parametro debe ser la ruta del archivo creado.
 	 */ 
@@ -76,13 +83,13 @@ void PanelMundo::botonCrearClickeado() {
 
 void PanelMundo::cargarNombreMundos() {
 	/*
-	 * Informacion para Eze: Aca se deben cargar todos los mundos creados en un
-	 * mapa stl, el cual debe permitir acceder a la ruta del archivo de cada
-	 * mundo a partir del nombre del mismo.
+	 * Informacion para Eze:
+	 * 
+	 * Aca se deben cargar todos los mundos creados en el mapa "nombreMundos",
+	 * que es atributo de este objeto. El mismo debe permitir acceder a la ruta
+	 * del archivo de cada mundo a partir del nombre del mismo.
 	 * 
 	 * A continuacion hay un ejemplo hecho para que se pueda probar el codigo:
-	 * 
-	 * 
 	 */
 	nombreMundos[std::string("Mundo 1")] = std::string("mundo_1.xml");
 	nombreMundos[std::string("Mundo 2")] = std::string("mundo_2.xml");

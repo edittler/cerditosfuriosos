@@ -7,7 +7,11 @@ ImagenBanana::ImagenBanana(int x, int y) :
 	this->y = y;
 	this->alto = ALTO_BANANA;
 	this->ancho = ANCHO_BANANA;
-	drag_source_set_icon(Gtk::Image(RUTA_BANANA).get_pixbuf());
+	Glib::RefPtr<Gdk::Pixbuf> buffer;
+	buffer = Gdk::Pixbuf::create_from_file(RUTA_BANANA);
+	buffer = buffer->scale_simple(ancho, alto, Gdk::INTERP_BILINEAR);
+	imagenFija = manage(new Gtk::Image(buffer));
+	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
 ImagenBanana::~ImagenBanana() {}

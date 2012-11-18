@@ -2,9 +2,13 @@
 #define _IMAGEN_POSICIONABLE_H_
 #include <gtkmm/image.h>
 #include <gtkmm/eventbox.h>
+#include <gtkmm/fixed.h>
+
+#include "ConstantesDiseniador.h"
 
 #include <list>
 #include <string>
+#include <vector>
 
 /**
  * Las instancias de esta clase representan a imagenes que pueden colocarse en
@@ -46,6 +50,25 @@ class ImagenPosicionable : public Gtk::EventBox {
 		// Dimensiones de la imagen en pixeles
 		int alto;
 		int ancho;
+		
+		/**
+		 * Agrega un fondo a la imagen que sera mostrada.
+		 * @param fondo pixeles del fondo
+		 */
+		void setFondo(const Glib::RefPtr< Gdk::Pixbuf >& fondo);
+		
+		/**
+		 * @return coordenada x del objeto mostrado por esta imagen dentro del
+		 * modelo
+		 */
+		float getXFlotante();
+		
+		/**
+		 * @param alto altura del escenario en pixeles
+		 * @return coordenada y del objeto mostrado por esta imagen dentro del
+		 * modelo
+		 */
+		float getYFlotante(int alto);
 	
 	protected:
 	
@@ -59,6 +82,13 @@ class ImagenPosicionable : public Gtk::EventBox {
 		 * Coordenadas del objeto en el lienzo que integra.
 		 */
 		int x, y;
+		
+		/**
+		 * Imagen que sera mostrada.
+		 */
+		Gtk::Image* imagenFija;
+		
+		Gtk::Fixed* contenedorFondo;
 		
 		/* Un identificador unico para cada instancia de esta clase o una
 		 * subclase de la misma. */

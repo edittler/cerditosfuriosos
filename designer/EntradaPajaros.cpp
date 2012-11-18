@@ -1,14 +1,13 @@
 #include "EntradaPajaros.h"
 
-EntradaPajaros::EntradaPajaros(int anchoEscenario, int altoEscenario):
+EntradaPajaros::EntradaPajaros(float anchoEscenario, float altoEscenario):
 	Frame("ENTRADA DE LOS PÁJAROS")
 {
-	float maximoX = (((anchoEscenario-1)*70)/100);
-	float maximoY = (((altoEscenario-1)*70)/100);
-	
+	float maximoX = (anchoEscenario-1);
+	float maximoY = (altoEscenario-1);
 	// Ajustes
-	Gtk::Adjustment* ajusteXInicial = manage(new Gtk::Adjustment(1.0, 0.0, maximoX));
-	Gtk::Adjustment* ajusteYInicial = manage(new Gtk::Adjustment(1.0, 0.0, maximoY));
+	Gtk::Adjustment* ajusteXInicial = manage(new Gtk::Adjustment(1.0, 1.0, maximoX));
+	Gtk::Adjustment* ajusteYInicial = manage(new Gtk::Adjustment(1.0, 1.0, maximoY));
 	
 	Gtk::Adjustment* ajusteXFinal = manage(new Gtk::Adjustment(1.0, 0.0, maximoX));
 	Gtk::Adjustment* ajusteYFinal = manage(new Gtk::Adjustment(1.0, 0.0, maximoY));
@@ -169,4 +168,54 @@ int EntradaPajaros::getProbabilidadPajaroVerde() {
 
 int EntradaPajaros::getProbabilidadPajaroAzul() {
 	return probabilidadAzul->get_value_as_int();
+}
+
+void EntradaPajaros::cargarNivel(std::string rutaNivel) {
+	/*
+	 * Informacion para Eze:
+	 * 
+	 * Aca se cargan de un nivel cuya ruta se pasa por parametro los valores
+	 * correspondientes a la entrada de los pajaros, que estan en los siguientes
+	 * widgets:
+	 * 
+	 * Gtk::SpinButton* xInicial;
+	 * Gtk::SpinButton* yInicial;
+	 * Gtk::SpinButton* xFinal;
+	 * Gtk::SpinButton* yFinal;
+	 * Gtk::SpinButton* tiempoGeneracion;
+	 * Gtk::SpinButton* probabilidadGeneracion;
+	 * Gtk::SpinButton* probabilidadRojo;
+	 * Gtk::SpinButton* probabilidadVerde;
+	 * Gtk::SpinButton* probabilidadAzul;
+	 * 
+	 * Para setearle a cada uno su correspondiente valor les podes invocar:
+	 * ->set_value(float);
+	 */
+}
+
+void EntradaPajaros::guardarNivel(std::string rutaNivel) {
+	/*
+	 * Informacion para Eze:
+	 * 
+	 * Aca se guardan en un archivo xml cuya ruta se pasa por parametro los
+	 * valores correspondientes a la entrada de los pajaros, que estan en los
+	 * siguientes widgets:
+	 * 
+	 * Gtk::SpinButton* xInicial;
+	 * Gtk::SpinButton* yInicial;
+	 * Gtk::SpinButton* xFinal;
+	 * Gtk::SpinButton* yFinal;
+	 * Gtk::SpinButton* tiempoGeneracion;
+	 * Gtk::SpinButton* probabilidadGeneracion;
+	 * Gtk::SpinButton* probabilidadRojo;
+	 * Gtk::SpinButton* probabilidadVerde;
+	 * Gtk::SpinButton* probabilidadAzul;
+	 * 
+	 * Para obtener de cada uno su correspondiente valor contas con los metodos:
+	 * ->get_value_as_int() : En caso de que lo necesites como entero
+	 * ->get_value() : En caso de que lo necesites como double
+	 * 
+	 * No hay que realizar ninguna validacion dado que si se llama a este metodo
+	 * es porque ya todos los valores son validos.
+	 */
 }

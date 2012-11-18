@@ -1,17 +1,31 @@
 #include "PanelEscenario.h"
 
-PanelEscenario::PanelEscenario(std::string rutaNivel, InformableSeleccion* informable, int cantidadJugadores) {
+PanelEscenario::PanelEscenario(string rutaNivel,
+								InformableSeleccion* informable,
+								int cantidadJugadores,
+								bool nivelNuevo) {
 	this->cantidadJugadores = cantidadJugadores;
-	this->informable = informable;
 	this->rutaNivel = rutaNivel;
-	lienzo = new Lienzo(800, 600, cantidadJugadores);
+	this->informable = informable;
+	cargarCaracteristicasNivel();
+	int ancho = (int)(anchoFlotante * PIXELES_SOBRE_METRO);
+	int alto = (int)(altoFlotante * PIXELES_SOBRE_METRO);
+	// Inicializacion de los widgets propios
+	lienzo = new Lienzo(ancho, alto, cantidadJugadores, rutaFondo, informable);
 	paletaEscenario = new PaletaEscenario();
 	eliminador = new EliminadorPosicionables(lienzo);
-	entrada = new EntradaPajaros(800, 600);
+	entrada = new EntradaPajaros(anchoFlotante, altoFlotante);
+	if (!nivelNuevo) {
+		lienzo->cargarNivel(rutaNivel);
+		entrada->cargarNivel(rutaNivel);
+	}
+	// Inicializacion del boton para guardar el nivel
 	botonGuardar = new Gtk::Button();
 	Gtk::Image* imagenGuardar = manage(new Gtk::Image(
 			Gtk::StockID("gtk-floppy"), Gtk::IconSize(Gtk::ICON_SIZE_BUTTON)));
 	botonGuardar->set_image(*imagenGuardar);
+	Gtk::Label* etiquetaGuardar = manage(new Gtk::Label("Guardar nivel: "));
+	// Contenedores
 	Gtk::VBox* cajaVerticalUno = manage(new Gtk::VBox(false, 20));
 	cajaVerticalUno->pack_start(*paletaEscenario);
 	cajaVerticalUno->pack_start(*eliminador);
@@ -19,7 +33,6 @@ PanelEscenario::PanelEscenario(std::string rutaNivel, InformableSeleccion* infor
 	cajaAuxiliarUno->set_layout(Gtk::BUTTONBOX_CENTER);
 	cajaAuxiliarUno->pack_start(*botonGuardar, Gtk::PACK_SHRINK);
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 20));
-	Gtk::Label* etiquetaGuardar = manage(new Gtk::Label("Guardar nivel: "));
 	cajaHorizontalUno->pack_start(*etiquetaGuardar);
 	cajaHorizontalUno->pack_start(*cajaAuxiliarUno);
 	Gtk::VBox* cajaVerticalDos = manage(new Gtk::VBox(false, 20));
@@ -56,7 +69,7 @@ void PanelEscenario::botonGuardarClickeado() {
 	}
 	if (!(lienzo->cantidadJugadoresValida())) {
 		escenarioValido = false;
-		mensaje += "- El numero de jugadores debe ser";
+		mensaje += "- El numero de jugadores debe ser ";
 		mensaje += (char)(cantidadJugadores + '0');
 		mensaje += "\n";
 	}
@@ -68,4 +81,23 @@ void PanelEscenario::botonGuardarClickeado() {
 		informable->mostrarDialogo(mensaje);
 		return;
 	}
+	lienzo->guardarNivel(rutaNivel);
+	entrada->guardarNivel(rutaNivel);
+}
+
+void PanelEscenario::cargarCaracteristicasNivel() {
+	/* 
+	 * Informacion para Eze:
+	 * 
+	 * Aca deben cargarse en los atributos correspondientes las caracteristicas
+	 * propias del nivel.
+	 * 
+	 * Para esto contas con el atributo "rutaNivel" que tiene la ruta del archivo
+	 * xml que contiene al nivel en cuestion.
+	 * 
+	 * En el siguiente ejemplo se ve cuales son estas caracteristicas:
+	 */
+	anchoFlotante = 12;
+	altoFlotante = 9;
+	rutaFondo = "../common/images/scene/Bosque.png";
 }
