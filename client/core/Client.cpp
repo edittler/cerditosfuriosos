@@ -57,24 +57,20 @@ bool Client::ejecutar() {
 	 * lo cree al hidratarse.
 	 */
 	Escenario escenario;
-	Nivel* nivel = new NivelProxy(&escenario);
+	NivelProxy* nivel = new NivelProxy(&escenario);
 	nivel->cargarXML("../common/MiMundo-level1.xml");
-
-	bool finalizo = false;
 
 	MensajeServer* msjServer;
 	int i = 0;
-	while (!finalizo) {
-		std::cout << "Loop: ";
+	while (!nivel->finalizoPartida()) {
 		msjServer = new MensajeServer();
 		this->socket->recibir(*msjServer);
 		if (msjServer->getComando() == MS_EVENTO) {
-			nivel->tick(20);
-			std::cout << "tick " << i++ << std::endl;
+			nivel->procesarEvento(msjServer->getEvento());
 		}
 		if (msjServer->getComando() == MS_FINALIZAR_PARTIDA) {
-			finalizo = true;
 			std::cout << "Fin nivel " << i++ << std::endl;
+			break;
 		}
 	}
 

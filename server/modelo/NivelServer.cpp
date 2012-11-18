@@ -11,10 +11,13 @@ NivelServer::~NivelServer() {
 }
 
 void NivelServer::tick(int milisegundos) {
-	// TODO Implementar
+	this->escenario->correrTick();
 }
 
 bool NivelServer::finalizoPartida() {
-	// TODO Implementar
-	return false;
+	return this->escenario->finalizoPartida();
+}
+
+void NivelServer::lanzarPajaroVerde(Punto2D punto, Velocidad2D velocidad) {
+	this->escenario->lanzarPajaroVerde(punto, velocidad);
 }
