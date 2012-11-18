@@ -14,7 +14,7 @@ enum ComandoServer {
 	MS_INDEFINIDO,			// Comando indefinido.
 	MS_CARGAR_NIVEL,		// Cargar nivel, junto con los datos del nivel
 	MS_EVENTO,				// Comando server que indica que se envia un evento.
-	MS_FINALIZAR_NIVEL,		// Finalizar nivel.
+	MS_PAUSAR_PARTIDA,		// Establece la partida en pausa.
 	MS_FINALIZAR_PARTIDA	// Finalizar partida.
 };
 

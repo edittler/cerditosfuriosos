@@ -21,7 +21,7 @@ ThreadCliente::ThreadCliente(Socket* socket) {
 }
 
 ThreadCliente::~ThreadCliente() {
-	// TODO Auto-generated destructor stub
+	delete this->socket;
 }
 
 void* ThreadCliente::run() {
@@ -108,5 +108,5 @@ void ThreadCliente::correrJuego() {
 
 	msj = new MensajeServer(MS_FINALIZAR_PARTIDA);
 	this->socket->enviar(*msj);
-
+	delete msj;
 }

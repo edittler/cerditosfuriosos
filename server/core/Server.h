@@ -1,6 +1,9 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
+// Hierarchy Include.
+#include "../../common/thread/Thread.h"
+
 // C++ Library Includes.
 #include <map>
 #include <string>
@@ -15,36 +18,53 @@
 #include "ThreadCliente.h"
 #include "ThreadPartida.h"
 
-/*
- * @class Server
- * TODO
+/**
+ * Server
+ * Administra partidas, acepta conexiones de clientes y los atiende.
  */
-class Server {
+class Server: private Thread {
 public:
+	/**
+	 * Constructor por defecto
+	 */
 	Server();
-	Server(unsigned short int port);
+
+	/**
+	 * Constructor con parámetros
+	 * @param port Puerto desde el cual se desea realizar conexiones.
+	 */
+	Server(Puerto port);
+
+	/**
+	 * Destructor
+	 */
 	virtual ~Server();
 
+	/**
+	 * Enciende el servidor, habilitando el puerto para escuchar conexiones,
+	 * aceptar conexiones entrantes y atender a los clientes.
+	 */
 	void prender();
 	void apagar();
 
-	/*
-	 * @brief crea una partida nueva
+	/**
+	 * Crea una partida nueva
 	 * @param
 	 * @param
 	 */
 	void crearPartida();
 
-	/*
-	 * @brief registra y comienza un nuevo Thread destinado a manejar
-	 * comunicaciones directamente con el cliente.
-	 * @param nuevo thread a registrar.
-	 */
-	void registrarCliente(ThreadCliente* cliente);
-
 private:
+	/**
+	 * @brief metodo asincronico donde se aceptan conexiones entrantes.
+	 * Una vez aceptada la conexion se delega su administracion a un
+	 * nuevo Thread.
+	 */
+	void* run();
+
 	bool encendido;
 
+	// Socket por el cual se realizan las comunicaciones en red.
 	Socket* socket;
 
 	/* Tabla de records */
@@ -55,8 +75,6 @@ private:
 
 	/* Clientes conectados */
 	ClientesConectados clientesConectados;
-
-	friend class ThreadListener;
 };
 
 #endif /* SERVER_H_ */

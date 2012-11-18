@@ -1,23 +1,24 @@
+// Header Include.
 #include "Server.h"
 
 Server::Server() {
-	encendido = false;
-
-	socket = new Socket(PUERTO_DEFAULT);
-	// TODO Auto-generated constructor stub
-
+	this->encendido = false;
+	this->socket = new Socket(PUERTO_DEFAULT);
 }
 
-Server::Server(unsigned short int port) {
-	encendido = false;
-
-	socket = new Socket(port);
-	// TODO Auto-generated constructor stub
+Server::Server(Puerto port) {
+	this->encendido = false;
+	this->socket = new Socket(port);
 }
 
 Server::~Server() {
+	// Si el servidor aún está encendido, lo apago
+	if (this->encendido)
+		this->apagar();
+
 	ClientesConectados::iterator itCl;
 	for (itCl = clientesConectados.begin(); itCl != clientesConectados.end(); ++itCl) {
+		(*itCl)->join();
 		delete (*itCl);
 	}
 
@@ -27,38 +28,52 @@ Server::~Server() {
 	}
 
 	delete socket;
-	// TODO Auto-generated destructor stub
+
+	this->join();
 }
 
 void Server::prender() {
-	// TODO completar implementacion
+	// Establezco que el servidor está encendido.
 	encendido = true;
-
-	// inicializa Server Socket.
+	// Habilito el socket para conectarse y escuchar conexiones.
 	socket->enlazar();
 	socket->escucharConexiones(MAX_CONEXION_ESPERA);
+	// Comienzo el thread para aceptar clientes
+	this->start();
+//	this->listener = new ThreadListener(this);
+//	this->listener->start();
 }
 
 void Server::apagar() {
-	// TODO completar implementacion
+	// Establezco que el servidor está apagado
 	encendido = false;
-
-	// finaliza Server Socket
+	// Desconecto el socket del servidor
 	socket->desconectar();
+	// Finalizo el listener de forma ordenada
+//	this->listener->join();
 }
 
 void Server::crearPartida() {
 	unsigned int id = 0;  // FIXME generar id
-	ThreadPartida* t = new ThreadPartida(new Partida(id));
+	ThreadPartida* partida = new ThreadPartida(new Partida(id));
 
 	// TODO Agregar Cliente a la partida.
-	std::pair<unsigned int, ThreadPartida*> p(id, t);
+	std::pair<unsigned int, ThreadPartida*> p(id, partida);
 	this->partidasDisponibles.insert(p);
 
-	t->start();
+	partida->start();
 }
 
-void Server::registrarCliente(ThreadCliente* cliente) {
-	clientesConectados.push_back(cliente);
-	cliente->start();
+void* Server::run() {
+	while (this->encendido) {
+		Socket* socket = this->socket->aceptarConexion();
+
+		if (socket == NULL)
+			continue;
+
+		ThreadCliente* cliente = new ThreadCliente(socket);
+		this->clientesConectados.push_back(cliente);
+		cliente->start();
+	}
+	return NULL;
 }
