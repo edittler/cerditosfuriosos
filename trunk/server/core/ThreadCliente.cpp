@@ -18,6 +18,7 @@ ThreadCliente::ThreadCliente(Server& servidor, Socket* socket) :
 		server(servidor) {
 	this->conectado = true;
 	this->socket = socket;
+	this->colaEventos = NULL;
 }
 
 ThreadCliente::~ThreadCliente() {

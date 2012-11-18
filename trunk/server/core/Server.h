@@ -17,6 +17,7 @@
 #include "DefinicionesServidor.h"
 #include "ThreadCliente.h"
 #include "ThreadPartida.h"
+#include "Partida.h"
 
 /**
  * Server
@@ -52,7 +53,7 @@ public:
 	 * @param
 	 * @param
 	 */
-	void crearPartida();
+	void crearPartida(Partida* partida, ThreadCliente* cliente);
 
 private:
 	/**

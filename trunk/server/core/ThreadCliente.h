@@ -4,8 +4,9 @@
 // Hierarchy Include.
 #include "../../common/thread/Thread.h"
 
-// Project Includes.
+// Common Project Includes.
 #include "../../common/communication/Socket.h"
+#include "../../common/communication/ColaEventos.h"
 
 // Forward Class Declaration
 class Server;
@@ -20,7 +21,8 @@ public:
 
 	virtual ~ThreadCliente();
 
-	virtual void* run();
+protected:
+	void* run();
 
 private:
 	// TODO provisorio
@@ -34,6 +36,8 @@ private:
 
 	// Referencia del servidor
 	Server& server;
+
+	ColaEventos* colaEventos;
 };
 
 #endif /* THREADCLIENTE_H_ */

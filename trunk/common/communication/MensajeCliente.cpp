@@ -6,20 +6,27 @@
 
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL COMANDO ENVIADO.
 #define C_VER_RECORDS		'R'
+#define C_VER_MUNDOS		'M'
 #define C_CREAR_PARTIDA		'C'
 #define C_VER_PARTIDAS		'V'
-#define C_UNIR_SEPARTIDA	'U'
+#define C_UNIRSE_PARTIDA	'U'
 #define C_EVENTO			'E'
+#define C_ABANDONAR_PARTIDA	'A'
 #define C_DESCONECTAR		'D'
 
 MensajeCliente::MensajeCliente(ComandoCliente comando) {
 	this->comando = comando;
-	this->partida.clear();
+	this->id.clear();
 }
 
-MensajeCliente::MensajeCliente(std::string partidaID) {
-	this->comando = MC_UNIRSE_PARTIDA;
-	this->partida = partidaID;
+MensajeCliente::MensajeCliente(ComandoCliente comando, std::string id) {
+	this->comando = comando;
+	this->id = id;
+}
+
+MensajeCliente::MensajeCliente(Evento evento) {
+	this->comando = MC_EVENTO;
+	this->evento = evento;
 }
 
 MensajeCliente::~MensajeCliente() { }
@@ -31,16 +38,27 @@ std::string MensajeCliente::serealizar() const {
 	case MC_VER_RECORDS:
 		msj << C_VER_RECORDS << '|';
 		break;
+	case MC_VER_MUNDOS:
+		msj << C_VER_MUNDOS << '|';
+		break;
 	case MC_CREAR_PARTIDA:
 		msj << C_CREAR_PARTIDA << '|';
+		// Agrego el ID del mundo.
+		msj << this->id << '|';
 		break;
 	case MC_VER_PARTIDAS:
 		msj << C_VER_PARTIDAS << '|';
 		break;
 	case MC_UNIRSE_PARTIDA:
-		msj << C_UNIR_SEPARTIDA << '|';
+		msj << C_UNIRSE_PARTIDA << '|';
 		// Agrego el ID de partida.
-		msj << this->partida << '|';
+		msj << this->id << '|';
+		break;
+	case MC_EVENTO:
+		msj << C_EVENTO << '|' << this->evento.serealizar() << '|';
+		break;
+	case MC_ABANDONAR_PARTIDA:
+		msj << C_ABANDONAR_PARTIDA << '|';
 		break;
 	case MC_DESCONECTAR:
 		msj << C_DESCONECTAR << '|';
@@ -70,16 +88,24 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 	case C_VER_RECORDS:
 		this->comando = MC_VER_RECORDS;
 		break;
+	case C_VER_MUNDOS:
+		this->comando = MC_VER_MUNDOS;
+		break;
 	case C_CREAR_PARTIDA:
 		this->comando = MC_CREAR_PARTIDA;
+		// Deserealizo el id del mundo selecionado para crear partida
+		this->decodificarID(mensaje);
 		break;
 	case C_VER_PARTIDAS:
 		this->comando = MC_VER_PARTIDAS;
 		break;
-	case C_UNIR_SEPARTIDA:
+	case C_UNIRSE_PARTIDA:
 		this->comando = MC_UNIRSE_PARTIDA;
 		// Deserealizar el ID de la partida
-		this->decodificarPartida(mensaje);
+		this->decodificarID(mensaje);
+		break;
+	case C_ABANDONAR_PARTIDA:
+		this->comando = MC_ABANDONAR_PARTIDA;
 		break;
 	case C_DESCONECTAR:
 		this->comando = MC_DESCONECTAR;
@@ -97,6 +123,36 @@ ComandoCliente MensajeCliente::getComando() const {
 	return comando;
 }
 
-void MensajeCliente::decodificarPartida(const std::string& mensaje) {
-	// TODO(eze) Implementar.
+std::string MensajeCliente::getID() const {
+	return id;
+}
+
+Evento MensajeCliente::getEvento() const {
+	return evento;
+}
+
+void MensajeCliente::decodificarID(const std::string& mensaje) {
+	const char* msj = mensaje.c_str();
+	std::string sID;
+	int i = 2;
+	char c = msj[i];
+	while((c != '|') && (c != '\0')) {
+		sID += c;
+		i++;
+		c = msj[i];
+	}
+	this->id = sID;
+}
+
+void MensajeCliente::deserealizarEvento(const std::string& mensaje) {
+	const char* msj = mensaje.c_str();
+	std::string sEvento;
+	int i = 2;
+	char c = msj[i];
+	while((c != '|') && (c != '\0')) {
+		sEvento += c;
+		i++;
+		c = msj[i];
+	}
+	this->evento.deserealizar(sEvento);
 }

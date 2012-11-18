@@ -28,8 +28,6 @@ Server::~Server() {
 	}
 
 	delete socket;
-
-	this->join();
 }
 
 void Server::prender() {
@@ -47,17 +45,17 @@ void Server::apagar() {
 	encendido = false;
 	// Desconecto el socket del servidor
 	socket->desconectar();
+	this->join();
 }
 
-void Server::crearPartida() {
+void Server::crearPartida(Partida* partida, ThreadCliente* cliente) {
 	unsigned int id = 0;  // FIXME generar id
-	ThreadPartida* partida = new ThreadPartida(new Partida(id));
+	ThreadPartida* tPartida = new ThreadPartida(partida, cliente);
 
-	// TODO Agregar Cliente a la partida.
-	std::pair<unsigned int, ThreadPartida*> p(id, partida);
+	std::pair<unsigned int, ThreadPartida*> p(id, tPartida);
 	this->partidasDisponibles.insert(p);
 
-	partida->start();
+	tPartida->start();
 }
 
 void* Server::run() {
