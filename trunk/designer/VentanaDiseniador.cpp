@@ -37,9 +37,10 @@ void VentanaDiseniador::nombreSeleccionadoYaExistente() {
 	dialogo.run();
 }
 
-void VentanaDiseniador::editarNivel(std::string rutaNivel) {
+void VentanaDiseniador::editarNivel(std::string rutaNivel, bool nivelNuevo) {
 	remove();
-	panelEscenario = new PanelEscenario(rutaNivel, this, panelNivel->getCantidadJugadores());
+	panelEscenario = new PanelEscenario(rutaNivel, this,
+								panelNivel->getCantidadJugadores(), nivelNuevo);
 	add(*panelEscenario);
 	show_all_children();
 }

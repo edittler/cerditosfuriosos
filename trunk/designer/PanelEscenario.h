@@ -20,7 +20,10 @@ class PanelEscenario : public Gtk::Paned {
 		/**
 		 * Constructor.
 		 */
-		PanelEscenario(std::string rutaNivel, InformableSeleccion* informable, int cantidadJugadores);
+		PanelEscenario(std::string rutaNivel,
+						InformableSeleccion* informable,
+						int cantidadJugadores,
+						bool nivelNuevo);
 		
 		/**
 		 * Destructor.
@@ -45,8 +48,17 @@ class PanelEscenario : public Gtk::Paned {
 		Gtk::Button* botonGuardar;
 		
 		InformableSeleccion* informable;
+		
 		std::string rutaNivel;
+		float anchoFlotante;
+		float altoFlotante;
+		std::string rutaFondo;
 		int cantidadJugadores;
+		
+		/**
+		 * Carga las caracteristicas del nivel en atributos propios.
+		 */
+		void cargarCaracteristicasNivel();
 };
 
 #endif

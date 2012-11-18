@@ -13,8 +13,8 @@ ImagenPosicionable::ImagenPosicionable(const char* ruta): Gtk::EventBox() {
 		}
 	}
 	++contadorInstancias;
-	Gtk::Image* imagen = manage(new Gtk::Image(ruta));
-	add(*imagen);
+	contenedorFondo = manage(new Gtk::Fixed());
+	add(*contenedorFondo);
 	set_events(Gdk::ALL_EVENTS_MASK);
 	std::list<Gtk::TargetEntry> listaObjetivos;
 	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
@@ -51,4 +51,24 @@ void ImagenPosicionable::setX(int x) {
 		
 void ImagenPosicionable::setY(int y) {
 	this->y = y;
+}
+
+void ImagenPosicionable::setFondo(const Glib::RefPtr< Gdk::Pixbuf >& fondo) {
+	Gtk::Image* imagenConFondo = manage(new Gtk::Image(fondo));
+	std::vector<Widget*> hijos = contenedorFondo->get_children();
+	if (hijos.size() == 2) {
+		contenedorFondo->remove(*hijos[0]);
+		contenedorFondo->remove(*hijos[1]);
+	}
+	contenedorFondo->put(*imagenConFondo, 0, 0);
+	contenedorFondo->put(*imagenFija, 0, 0);
+	contenedorFondo->show_all();
+}
+
+float ImagenPosicionable::getXFlotante() {
+	return (x+(((float)ancho) / 2))/PIXELES_SOBRE_METRO;
+}
+
+float ImagenPosicionable::getYFlotante(int alto) {
+	return (alto-(y+(((float)this->alto) / 2)))/PIXELES_SOBRE_METRO;
 }

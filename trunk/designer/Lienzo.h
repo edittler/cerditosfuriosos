@@ -4,6 +4,7 @@
 #include <gtkmm/fixed.h>
 #include <gtkmm/eventbox.h>
 #include <list>
+#include "InformableSeleccion.h"
 #include "ConstantesDiseniador.h"
 #include "ImagenCajaMadera.h"
 #include "ImagenCajaMetal.h"
@@ -28,7 +29,24 @@ class Lienzo : public Gtk::Fixed {
 		/**
 		 * Constructor.
 		 */
-		Lienzo(int ancho, int alto, int cantidadJugadores);
+		Lienzo(int ancho,
+				int alto,
+				int cantidadJugadores,
+				string rutaFondo,
+				InformableSeleccion* informable);
+	
+		/**
+		 * @param rutaNivel cargaremos los objetos pertenecientes a un nivel que
+		 * se quiere editar
+		 */
+		void cargarNivel(string rutaNivel);
+		
+		/**
+		 * @param rutaNivel guardaremos los objetos pertenecientes al nivel ya
+		 * editado
+		 */
+		void guardarNivel(string rutaNivel);
+		
 	
 		/**
 		 * Destructor.
@@ -72,7 +90,10 @@ class Lienzo : public Gtk::Fixed {
 		unsigned int cantidadJugadores;
 		int ancho;
 		int alto;
+		
+		InformableSeleccion* informable;
 	
+		Gtk::Image* imagenFondo;
 		list<Gtk::TargetEntry> listaObjetivos;
 		
 		list<ImagenCajaMadera*> cajasMadera;
@@ -86,6 +107,20 @@ class Lienzo : public Gtk::Fixed {
 		list<ImagenCatapulta*> catapultas;
 		
 		list<ImagenPosicionable*> posicionables;
+		
+		/**
+		 * Le copia el fondo a una imagen posicionable.
+		 * @param x abscisa a partir de la cual queremos copiar el fondo
+		 * @param y ordenada a partir de la cual queremos copiar el fondo
+		 * @param imagen puntero a la imagen posicionable a la cual le
+		 * copiaremos el fondo
+		 */
+		void copiarFondo(int x, int y, ImagenPosicionable* imagen);
+		
+		/**
+		 * Se le pasa la ruta de una imagen y la escala para ponerla de fondo.
+		 */
+		void agregarFondo(string rutaImagen);
 		
 		/**
 		 * @param id identificador del posicionable contenido en este lienzo que
@@ -182,6 +217,20 @@ class Lienzo : public Gtk::Fixed {
 		 * escenario y false en el caso contrario
 		 */
 		bool dentroDeEscenario(int x, int y, ImagenPosicionable* imagen);
+		
+		/**
+		 * Los siguientes metodos estan sobrecargados para los casos en los que
+		 * se carga un nivel desde un archivo.
+		 */
+		void agregarCerdo(float x, float y);
+		void agregarHuevos(float x, float y);
+		void agregarCatapulta(float x, float y);
+		void agregarCajaMadera(float x, float y);
+		void agregarCajaMetal(float x, float y);
+		void agregarCajaVidrio(float x, float y);
+		void agregarBanana(float x, float y);
+		void agregarCereza(float x, float y);
+		void agregarManzana(float x, float y);
 };
 
 #endif

@@ -5,39 +5,38 @@
  * Aqui se definen constantes que determinan los valores por los que el usuario
  * puede optar en la creacion de mundos y niveles.
  */
-
 #define MAXIMA_CANTIDAD_JUGADORES 5.0
-
-#define ANCHO_ESCENARIO_CHICO 600
-#define ALTO_ESCENARIO_CHICO 450
-#define ANCHO_ESCENARIO_MEDIANO 800
-#define ALTO_ESCENARIO_MEDIANO 600
-#define ANCHO_ESCENARIO_GRANDE 1024
-#define ALTO_ESCENARIO_GRANDE 768
+// Las siguientes constantes estan en unidades del modelo
+#define ANCHO_ESCENARIO_CHICO 12
+#define ALTO_ESCENARIO_CHICO 9
+#define ANCHO_ESCENARIO_MEDIANO 13
+#define ALTO_ESCENARIO_MEDIANO 10
+#define ANCHO_ESCENARIO_GRANDE 14
+#define ALTO_ESCENARIO_GRANDE 11
 
 #define MAXIMA_DURACION_NIVEL 60.0
 
 // Ruta de las imagenes que se colocaran en los botones
-#define RUTA_ITEM_CAJA_MADERA "imagenes/ItemCajaMadera.png"
-#define RUTA_ITEM_CAJA_METAL "imagenes/ItemCajaMetal.png"
-#define RUTA_ITEM_CAJA_VIDRIO "imagenes/ItemCajaVidrio.png"
-#define RUTA_ITEM_CERDO "imagenes/ItemCerdo.png"
-#define RUTA_ITEM_HUEVOS "imagenes/ItemMonticulo.png"
-#define RUTA_ITEM_BANANA "imagenes/ItemBanana.png"
-#define RUTA_ITEM_CEREZA "imagenes/ItemCereza.png"
-#define RUTA_ITEM_MANZANA "imagenes/ItemManzana.png"
-#define RUTA_ITEM_CATAPULTA "imagenes/ItemCatapulta.png"
+#define RUTA_ITEM_CAJA_MADERA "items/ItemCajaMadera.png"
+#define RUTA_ITEM_CAJA_METAL "items/ItemCajaMetal.png"
+#define RUTA_ITEM_CAJA_VIDRIO "items/ItemCajaVidrio.png"
+#define RUTA_ITEM_CERDO "items/ItemCerdo.png"
+#define RUTA_ITEM_HUEVOS "items/ItemMonticulo.png"
+#define RUTA_ITEM_BANANA "items/ItemBanana.png"
+#define RUTA_ITEM_CEREZA "items/ItemCereza.png"
+#define RUTA_ITEM_MANZANA "items/ItemManzana.png"
+#define RUTA_ITEM_CATAPULTA "items/ItemCatapulta.png"
 // Ruta de las imagenes que se colocaran al arrastrar un boton
-#define RUTA_CAJA_MADERA "imagenes/CajaMadera.png"
-#define RUTA_CAJA_METAL "imagenes/CajaMetal.png"
-#define RUTA_CAJA_VIDRIO "imagenes/CajaVidrio.png"
-#define RUTA_CERDO "imagenes/CerditoAtacando.png"
-#define RUTA_HUEVOS "imagenes/Monticulo10.png"
-#define RUTA_BANANA "imagenes/Banana.png"
-#define RUTA_CEREZA "imagenes/Cereza.png"
-#define RUTA_MANZANA "imagenes/Manzana.png"
-#define RUTA_CATAPULTA "imagenes/Catapulta.png"
-// Dimensiones de los objetos del lienzo
+#define RUTA_CAJA_MADERA "../common/images/scene/CajaMadera.png"
+#define RUTA_CAJA_METAL "../common/images/scene/CajaMetal.png"
+#define RUTA_CAJA_VIDRIO "../common/images/scene/CajaVidrio.png"
+#define RUTA_CERDO "../common/images/scene/CerditoAtacando.png"
+#define RUTA_HUEVOS "../common/images/scene/Monticulo10.png"
+#define RUTA_BANANA "../common/images/scene/Banana.png"
+#define RUTA_CEREZA "../common/images/scene/Cereza.png"
+#define RUTA_MANZANA "../common/images/scene/Manzana.png"
+#define RUTA_CATAPULTA "../common/images/scene/Catapulta.png"
+// Dimensiones de los objetos del lienzo en pixeles
 #define ANCHO_BANANA 21
 #define ALTO_BANANA 21
 #define ANCHO_CAJA_MADERA 42
@@ -59,5 +58,7 @@
 // Pajaros
 #define TIEMPO_GENERACION_MINIMO 100.0
 #define TIEMPO_GENERACION_MAXIMO 1000.0
+//Factor de conversion entre las unidades del modelo y las de la vista
+#define PIXELES_SOBRE_METRO 70
 
 #endif

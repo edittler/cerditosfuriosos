@@ -29,8 +29,10 @@ class InformableSeleccion {
 		/**
 		 * El usuario ha informado que desea editar un nivel.
 		 * @param rutaNivel ruta del archivo del nivel
+		 * @param nivelNuevo true si el nivel ha sido recien creado y false si
+		 * ya existia
 		 */
-		virtual void editarNivel(std::string rutaNivel) = 0;
+		virtual void editarNivel(std::string rutaNivel, bool nivelNuevo) = 0;
 		
 		/**
 		 * @return ruta de una imagen seleccionada por el usuario
