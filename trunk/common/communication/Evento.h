@@ -52,7 +52,13 @@ public:
 	 * indefinido.
 	 * @param evento Tipo de evento que se desea crear.
 	 */
-	explicit Evento(TipoEvento evento = E_INDEFINIDO);
+	Evento(TipoEvento evento = E_INDEFINIDO);
+
+	/**
+	 * Constructor copia.
+	 * @param evento a copiar.
+	 */
+	Evento(const Evento& evento);
 
 	/**
 	 * Constructor que inicializa el evento en modo pedido de lanzamiento de
@@ -96,6 +102,12 @@ public:
 	virtual ~Evento();
 
 	/**
+	 * Operador de asignación.
+	 * @param evento a asignar.
+	 */
+	Evento& operator=(const Evento&);
+
+	/**
 	 * @brief serializa la informacion de la clase a cadena de char.
 	 * @return cadena de char serializados exprasados como un string.
 	 */
@@ -107,6 +119,40 @@ public:
 	 * @param cadena de char a deserializar.
 	 */
 	void deserealizar(const std::string& mensaje);
+
+	/**
+	 * Setea el evento con el tipo especificado.
+	 * @param evento Tipo de evento que se desea crear.
+	 */
+	void set(TipoEvento evento);
+
+	/**
+	 * Setea el evento en modo pedido de lanzamiento de disparo.
+	 * @param tDisparo Tipo de disparo que se quiere realizar.
+	 * @param puntoADisparar Punto2D que establece la ubicación hacia donde se
+	 * quiere disparar.
+	 */
+	void set(TipoDisparo tDisparo, Punto2D puntoADisparar);
+
+	/**
+	 * Setea el evento en modo lanzamiento de pajaro.
+	 * @param tPajaro Tipo de pajaro que se desea lanzar.
+	 * @param puntoInicial Punto2D que establece la posicion desde el cual
+	 * comenzar el lanzamiento.
+	 * @param velInicial Velocidad2D que establece la velocidad desde la cual
+	 * comenzar el lanzamiento.
+	 */
+	void set(TipoPajaro tPajaro, Punto2D puntoInicial, Velocidad2D velInicial);
+
+	/**
+	 * Setea el evento en modo lanzamiento de disparo.
+	 * @param tDisparo Tipo de disparo que se desea lanzar.
+	 * @param puntoInicial Punto2D que establece la posicion desde el cual
+	 * comenzar el lanzamiento.
+	 * @param velInicial Velocidad2D que establece la velocidad desde la cual
+	 * comenzar el lanzamiento.
+	 */
+	void set(TipoDisparo tDisparo, Punto2D puntoInicial, Velocidad2D velInicial);
 
 	TipoEvento getTipoEvento() const;
 

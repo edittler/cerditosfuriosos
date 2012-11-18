@@ -19,6 +19,9 @@ public:
 	 * @return ture si finalizo partida, false caso contrario.
 	 */
 	bool finalizoPartida();
+
+	// TODO Provisorio
+	void lanzarPajaroVerde(Punto2D punto, Velocidad2D velocidad);
 };
 
 #endif /* NIVELSERVER_H_ */

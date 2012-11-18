@@ -24,32 +24,27 @@
 #define TD_HRELOJ		'E'
 
 Evento::Evento(TipoEvento evento) {
-	this->evento = evento;
-	this->pajaro = T_PAJARO_INDEFINIDO;
-	this->disparo = T_DISPARO_INDEFINIDO;
+	this->set(evento);
+}
+
+Evento::Evento(const Evento& evento) {
+	this->evento = evento.evento;
+	this->pajaro = evento.pajaro;
+	this->disparo = evento.disparo;
+	this->punto = evento.punto;
+	this->velocidad = evento.velocidad;
 }
 
 Evento::Evento(TipoDisparo tDisparo, Punto2D puntoADisparar) {
-	this->evento = E_PEDIDO_LANZAR_DISPARO;
-	this->pajaro = T_PAJARO_INDEFINIDO;
-	this->disparo = tDisparo;
-	this->punto = puntoADisparar;
+	this->set(tDisparo, puntoADisparar);
 }
 
 Evento::Evento(TipoPajaro tPajaro, Punto2D puntoInicial, Velocidad2D velInicial) {
-	this->evento = E_LANZAR_PAJARO;
-	this->pajaro = tPajaro;
-	this->disparo = T_DISPARO_INDEFINIDO;
-	this->punto = puntoInicial;
-	this->velocidad	= velInicial;
+	this->set(tPajaro, puntoInicial, velInicial);
 }
 
 Evento::Evento(TipoDisparo tDisparo, Punto2D puntoInicial, Velocidad2D velInicial) {
-	this->evento = E_LANZAR_DISPARO;
-	this->pajaro = T_PAJARO_INDEFINIDO;
-	this->disparo = tDisparo;
-	this->punto = puntoInicial;
-	this->velocidad = velInicial;
+	this->set(tDisparo, puntoInicial, velInicial);
 }
 
 Evento::Evento(std::string eventoSerealizado) {
@@ -59,6 +54,15 @@ Evento::Evento(std::string eventoSerealizado) {
 }
 
 Evento::~Evento() { }
+
+Evento& Evento::operator=(const Evento& evento) {
+	this->evento = evento.evento;
+	this->pajaro = evento.pajaro;
+	this->disparo = evento.disparo;
+	this->punto = evento.punto;
+	this->velocidad = evento.velocidad;
+	return *this;
+}
 
 std::string Evento::serealizar() const {
 	std::ostringstream msj;
@@ -144,6 +148,38 @@ void Evento::deserealizar(const std::string& mensaje) {
 		this->evento = E_INDEFINIDO;
 		break;
 	}
+}
+
+void Evento::set(TipoEvento evento) {
+	this->evento = evento;
+	this->pajaro = T_PAJARO_INDEFINIDO;
+	this->disparo = T_DISPARO_INDEFINIDO;
+	this->punto = Punto2D(0,0);
+	this->velocidad = Velocidad2D(0,0);
+}
+
+void Evento::set(TipoDisparo tDisparo, Punto2D puntoADisparar) {
+	this->evento = E_PEDIDO_LANZAR_DISPARO;
+	this->pajaro = T_PAJARO_INDEFINIDO;
+	this->disparo = tDisparo;
+	this->punto = puntoADisparar;
+	this->velocidad = Velocidad2D(0,0);
+}
+
+void Evento::set(TipoPajaro tPajaro, Punto2D puntoInicial, Velocidad2D velInicial) {
+	this->evento = E_LANZAR_PAJARO;
+	this->pajaro = tPajaro;
+	this->disparo = T_DISPARO_INDEFINIDO;
+	this->punto = puntoInicial;
+	this->velocidad	= velInicial;
+}
+
+void Evento::set(TipoDisparo tDisparo, Punto2D puntoInicial, Velocidad2D velInicial) {
+	this->evento = E_LANZAR_DISPARO;
+	this->pajaro = T_PAJARO_INDEFINIDO;
+	this->disparo = tDisparo;
+	this->punto = puntoInicial;
+	this->velocidad = velInicial;
 }
 
 TipoEvento Evento::getTipoEvento() const {

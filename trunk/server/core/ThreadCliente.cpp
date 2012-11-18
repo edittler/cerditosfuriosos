@@ -83,7 +83,20 @@ void ThreadCliente::correrJuego() {
 	nivel.cargarXML("../common/MiMundo-level1.xml");
 	MensajeServer* msj;
 	for(int i = 0; i < 200; i++) {
-		msj = new MensajeServer(MS_EVENTO);
+		// Si el contador es multipo de 20, lanzo un pajaro
+		if ((i%20) == 0) {
+			// Lanzar pajaro
+			Punto2D p(2.45, 3.45);
+			Velocidad2D v(3, 0.05);
+			nivel.lanzarPajaroVerde(p, v);
+			Evento evPajVerde(T_PAJARO_VERDE, p, v);
+			std::cout << "lanzo pajaro verde" << std::endl;
+			msj = new MensajeServer(evPajVerde);
+			this->socket->enviar(*msj);
+			delete msj;
+		}
+		Evento tick(E_CORRER_TICK);
+		msj = new MensajeServer(tick);
 		nivel.tick(20);
 		this->socket->enviar(*msj);
 		std::cout << "tick " << i << std::endl;

@@ -2,6 +2,7 @@
 #include "model/Escenario.h"
 #include "parser/XMLTypes.h"
 #include "communication/MensajeCliente.h"
+#include "communication/MensajeServer.h"
 #include "communication/RespuestaServer.h"
 #include "communication/Evento.h"
 
@@ -261,6 +262,22 @@ void probarSerializarEvento() {
 	}
 }
 
+void probarSerializacionMensajeServer() {
+	Evento unEvento(E_CORRER_TICK);
+	MensajeServer* msj1 = new MensajeServer(unEvento);
+	std::string sMS = msj1->serealizar();
+	MensajeServer msj2;
+	msj2.deserealizar(sMS);
+	std::string sEvento = unEvento.serealizar();
+	std::cout << unEvento.serealizar() << std::endl;
+	std::cout << msj2.getEvento().serealizar() << std::endl;
+	if (unEvento.serealizar().compare(msj2.getEvento().serealizar()) == 0) {
+		std::cout << "Deserealizar MS evento                         OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar MS evento                         FAIL" << std::endl;
+	}
+}
+
 int main(int argc, char *argv[]) {
 //	probarEscenario();
 //	probarParseoPunto2D();
@@ -268,7 +285,8 @@ int main(int argc, char *argv[]) {
 //	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
-	probarSerializarEvento();
+//	probarSerializarEvento();
+	probarSerializacionMensajeServer();
 //	probarMensajeCliente();
 	return 0;
 }

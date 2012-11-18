@@ -11,7 +11,7 @@
  * Enumerado de los valores que puede adquirir el comando del cliente.
  */
 enum ComandoServer {
-	MS_NO_DEFINIDO,			// Comando indefinido.
+	MS_INDEFINIDO,			// Comando indefinido.
 	MS_CARGAR_NIVEL,		// Cargar nivel, junto con los datos del nivel
 	MS_EVENTO,				// Comando server que indica que se envia un evento.
 	MS_FINALIZAR_NIVEL,		// Finalizar nivel.
@@ -20,15 +20,32 @@ enum ComandoServer {
 
 class MensajeServer: public Mensaje {
 public:
-	MensajeServer(ComandoServer comando = MS_NO_DEFINIDO);
+	/**
+	 * Constructor con parametros.
+	 * @param comando Define el tipo de mensaje que envia el server.
+	 */
+	MensajeServer(ComandoServer comando = MS_INDEFINIDO);
+
+	/**
+	 * Constructor que setea el mensaje con el comando evento.
+	 * @param evento El evento que se desea enviar.
+	 */
+	MensajeServer(Evento evento);
+
 	virtual ~MensajeServer();
 
-	virtual std::string serealizar() const;
-	virtual void deserealizar(const std::string& mensaje);
+	std::string serealizar() const;
+	void deserealizar(const std::string& mensaje);
+
+	void setEvento(Evento evento);
 
 	ComandoServer getComando() const;
 
+	Evento getEvento() const;
+
 private:
+	void deserealizarEvento(const std::string& mensaje);
+
 	// Comando que contiene el mensaje del servidor.
 	ComandoServer comando;
 
@@ -36,7 +53,7 @@ private:
 	std::string datos;
 
 	// Evento que contiene el mensaje del servidor.
-	Evento* evento;
+	Evento evento;
 };
 
 #endif /* MENSAJESERVER_H_ */
