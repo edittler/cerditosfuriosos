@@ -6,6 +6,7 @@
 
 NivelProxy::NivelProxy(Escenario* escenario) : Nivel(escenario) {
 	this->finalizo = false;
+	this->_tick = 0;
 }
 
 NivelProxy::~NivelProxy() {
@@ -26,7 +27,7 @@ void NivelProxy::procesarEvento(Evento evento) {
 	switch (tipo) {
 	case E_CORRER_TICK:
 		this->escenario->correrTick();
-		std::cout << "loop" << std::endl;
+		std::cout << "tick " << this->_tick++ << std::endl;
 		break;
 	case E_LANZAR_PAJARO:
 		this->lanzarPajaro(evento.getTipoPajaro(), evento.getPunto(),

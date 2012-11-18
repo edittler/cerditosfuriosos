@@ -1,38 +1,75 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
+// Common Project Includes.
 #include <Socket.h>
 
+/**
+ * Cliente
+ * Clase que implementa la logica de comunicaciones con el servidor en el modo
+ * multijugador del juego.
+ */
 class Client {
 public:
+	/**
+	 * Constructor por default
+	 * Se conecta al servidor mediante la dirección IP de loopback (localhost)
+	 * y el puerto por default establecido por el server desarrollado.
+	 */
 	Client();
-	Client(const char* ip, unsigned short int port);
+
+	/**
+	 * Constructor con parámetros
+	 * @param ip Dirección IP del server a conectarse.
+	 * @param port Puerto que desea usarse para conectarse.
+	 */
+	Client(std::string ip, Puerto port);
+
+	/**
+	 * Destructor
+	 */
 	virtual ~Client();
 
-	/*
-	 * @brief conecta al ip y puerto especificado.
+	/**
+	 * Se conecta al servidor.
+	 * @return Retorna true si se pudo conectar con el server o false en caso
+	 * contrario.
 	 */
-	void conectar();
+	bool conectar();
 
-	/*
-	 * @brief cierra conexion del socket en forma ordenada
-	 * mediante metodo shutdown.
+	/**
+	 * Cierra conexion con el servidor en forma ordenada mediante el método
+	 * shutdown.
 	 */
 	void desconectar();
 
-	/*
-	 * @brief intercambia mensajes con el server hasta que se
-	 * especifique cerrar la comunicacion.
+	/**
+	 * Muestra las pantallas correspondientes al modo multijugador e intercambia
+	 * mensajes con el servidor para obtener las informaciones solicitadas.
 	 */
-	bool ejecutar();
+	void ejecutar();
 
 private:
 
-	void correrJuego();
+	void crearPartida();
+
+	void unirsePartida();
+
+	void verRecords();
+
+	void correrJuego();  // FIXME Provisorio, no va aca.
+
+	// Socket mediante el cual se realizan las comunicaciones con el server.
 	Socket* socket;
 
+	// Puerto mendiante el cual se realizan las comunicaciones.
+	Puerto port;
+
+	// Dirección IP del server.
 	std::string serverIp;
-	unsigned short int port;
+
+	// Booleanto que especifica si el cliente está corriendo o no.
+	bool corriendo;
 };
 
 #endif /* CLIENT_H_ */

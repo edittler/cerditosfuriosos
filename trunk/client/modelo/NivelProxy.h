@@ -26,6 +26,9 @@ private:
 			Velocidad2D velInicial);
 
 	bool finalizo;
+
+	// Numero de ticks que lleva corriendo el nivel. FIXME provisorio
+	int _tick;
 };
 
 #endif

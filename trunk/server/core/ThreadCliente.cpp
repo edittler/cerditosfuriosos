@@ -91,6 +91,8 @@ void ThreadCliente::correrJuego() {
 			nivel.lanzarPajaroVerde(p, v);
 			Evento evPajVerde(T_PAJARO_VERDE, p, v);
 			std::cout << "lanzo pajaro verde" << std::endl;
+			std::cout << "Posicion\tx= " << p.x << "\ty = " << p.y << std::endl;
+			std::cout << "Velocidad\tx= " << v.x << "\ty = " << v.y << std::endl;
 			msj = new MensajeServer(evPajVerde);
 			this->socket->enviar(*msj);
 			delete msj;
