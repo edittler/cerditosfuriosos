@@ -1,20 +1,29 @@
 #ifndef _LIENZO_H_
 #define _LIENZO_H_
+
+// C++ Library Includes.
 #include <string>
+#include <list>
+
+// GTK+ Library Includes.
 #include <gtkmm/fixed.h>
 #include <gtkmm/eventbox.h>
-#include <list>
+
+// Designer Project Includes.
 #include "InformableSeleccion.h"
 #include "ConstantesDiseniador.h"
+#include "ImagenCerdo.h"
+#include "ImagenCatapulta.h"
+#include "ImagenHuevos.h"
+#include "ImagenSuperficie.h"
 #include "ImagenCajaMadera.h"
 #include "ImagenCajaMetal.h"
 #include "ImagenCajaVidrio.h"
-#include "ImagenCerdo.h"
-#include "ImagenHuevos.h"
+#include "ImagenFruta.h"
 #include "ImagenBanana.h"
 #include "ImagenCereza.h"
 #include "ImagenManzana.h"
-#include "ImagenCatapulta.h"
+
 
 using std::list;
 using std::string;
@@ -96,15 +105,11 @@ class Lienzo : public Gtk::Fixed {
 		Gtk::Image* imagenFondo;
 		list<Gtk::TargetEntry> listaObjetivos;
 		
-		list<ImagenCajaMadera*> cajasMadera;
-		list<ImagenCajaMetal*> cajasMetal;
-		list<ImagenCajaVidrio*> cajasVidrio;
 		list<ImagenCerdo*> cerdos;
-		ImagenHuevos* monticulo;
-		list<ImagenBanana*> bananas;
-		list<ImagenCereza*> cerezas;
-		list<ImagenManzana*> manzanas;
 		list<ImagenCatapulta*> catapultas;
+		ImagenHuevos* monticulo;
+		list<ImagenSuperficie*> superficies;
+		list<ImagenFruta*> frutas;
 		
 		list<ImagenPosicionable*> posicionables;
 		

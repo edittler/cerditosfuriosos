@@ -1,3 +1,4 @@
+// Header Include.
 #include "Lienzo.h"
 
 Lienzo::Lienzo(int ancho,
@@ -21,83 +22,60 @@ Lienzo::Lienzo(int ancho,
 Lienzo::~Lienzo() {}
 
 void Lienzo::eliminarImagen(string id) {
+	// Elimino en la lista de posicionables
 	eliminarPosicionable(id);
-	list<ImagenCerdo*>::iterator iterador = cerdos.begin();
-	while (iterador != cerdos.end()) {
-		if ((*iterador)->getId().compare(id) == 0) {
-			remove(*(*iterador));
-			cerdos.erase(iterador);
+
+	// Recorro la lista de cerdos para eliminarlo en caso de que lo sea.
+	list<ImagenCerdo*>::iterator itCerdo = cerdos.begin();
+	while (itCerdo != cerdos.end()) {
+		if ((*itCerdo)->getId().compare(id) == 0) {
+			remove(*(*itCerdo));
+			cerdos.erase(itCerdo);
 			return;
 		}
-		++iterador;
+		++itCerdo;
 	}
-	if (monticulo->getId().compare(id) == 0) {
-		remove(*monticulo);
-		monticulo = NULL;
-		return;
-	}
-	list<ImagenCajaMadera*>::iterator iteradorTres = cajasMadera.begin();
-	while (iteradorTres != cajasMadera.end()) {
-		if ((*iteradorTres)->getId().compare(id) == 0) {
-			remove(*(*iteradorTres));
-			cajasMadera.erase(iteradorTres);
+
+	// Recorro la lista de catapultas para eliminarla en caso de que lo sea.
+	list<ImagenCatapulta*>::iterator itCatapulta = catapultas.begin();
+	while (itCatapulta != catapultas.end()) {
+		if ((*itCatapulta)->getId().compare(id) == 0) {
+			remove(*(*itCatapulta));
+			catapultas.erase(itCatapulta);
 			return;
 		}
-		++iteradorTres;
+		++itCatapulta;
 	}
-	list<ImagenCajaMetal*>::iterator iteradorCuatro = cajasMetal.begin();
-	while (iteradorCuatro != cajasMetal.end()) {
-		if ((*iteradorCuatro)->getId().compare(id) == 0) {
-			remove(*(*iteradorCuatro));
-			cajasMetal.erase(iteradorCuatro);
+
+	// Verifico si es el monticulo para eliminarlo en caso de que lo sea.
+	if (monticulo != NULL) {
+		if (monticulo->getId().compare(id) == 0) {
+			remove(*monticulo);
+			monticulo = NULL;
 			return;
 		}
-		++iteradorCuatro;
 	}
-	list<ImagenCajaVidrio*>::iterator iteradorCinco = cajasVidrio.begin();
-	while (iteradorCinco != cajasVidrio.end()) {
-		if ((*iteradorCinco)->getId().compare(id) == 0) {
-			remove(*(*iteradorCinco));
-			cajasVidrio.erase(iteradorCinco);
+
+	// Recorro la lista de superficies para eliminarla en caso de que lo sea.
+	list<ImagenSuperficie*>::iterator itSuperficie = superficies.begin();
+	while (itSuperficie != superficies.end()) {
+		if ((*itSuperficie)->getId().compare(id) == 0) {
+			remove(*(*itSuperficie));
+			superficies.erase(itSuperficie);
 			return;
 		}
-		++iteradorCinco;
+		++itSuperficie;
 	}
-	list<ImagenBanana*>::iterator iteradorSeis = bananas.begin();
-	while (iteradorSeis != bananas.end()) {
-		if ((*iteradorSeis)->getId().compare(id) == 0) {
-			remove(*(*iteradorSeis));
-			bananas.erase(iteradorSeis);
+
+	// Recorro la lista de frutas para eliminarla en caso de que lo sea.
+	list<ImagenFruta*>::iterator itFruta = frutas.begin();
+	while (itFruta != frutas.end()) {
+		if ((*itFruta)->getId().compare(id) == 0) {
+			remove(*(*itFruta));
+			frutas.erase(itFruta);
 			return;
 		}
-		++iteradorSeis;
-	}
-	list<ImagenCereza*>::iterator iteradorSiete = cerezas.begin();
-	while (iteradorSiete != cerezas.end()) {
-		if ((*iteradorSiete)->getId().compare(id) == 0) {
-			remove(*(*iteradorSiete));
-			cerezas.erase(iteradorSiete);
-			return;
-		}
-		++iteradorSiete;
-	}
-	list<ImagenManzana*>::iterator iteradorOcho = manzanas.begin();
-	while (iteradorOcho != manzanas.end()) {
-		if ((*iteradorOcho)->getId().compare(id) == 0) {
-			remove(*(*iteradorOcho));
-			manzanas.erase(iteradorOcho);
-			return;
-		}
-		++iteradorOcho;
-	}
-	list<ImagenCatapulta*>::iterator iteradorNueve = catapultas.begin();
-	while (iteradorNueve != catapultas.end()) {
-		if ((*iteradorNueve)->getId().compare(id) == 0) {
-			remove(*(*iteradorNueve));
-			catapultas.erase(iteradorNueve);
-			return;
-		}
-		++iteradorNueve;
+		++itFruta;
 	}
 }
 
@@ -245,7 +223,7 @@ void Lienzo::agregarCajaMadera(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			cajasMadera.push_front(imagen);
+			superficies.push_front(imagen);
 			posicionables.push_front(imagen);
 			put(*imagen, x, y);
 			show_all();
@@ -263,7 +241,7 @@ void Lienzo::agregarCajaMetal(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			cajasMetal.push_front(imagen);
+			superficies.push_front(imagen);
 			posicionables.push_front(imagen);
 			put(*imagen, x, y);
 			show_all();
@@ -281,7 +259,7 @@ void Lienzo::agregarCajaVidrio(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			cajasVidrio.push_front(imagen);
+			superficies.push_front(imagen);
 			posicionables.push_front(imagen);
 			put(*imagen, x, y);
 			show_all();
@@ -299,7 +277,7 @@ void Lienzo::agregarBanana(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			bananas.push_front(imagen);
+			frutas.push_front(imagen);
 			posicionables.push_front(imagen);
 			put(*imagen, x, y);
 			show_all();
@@ -317,7 +295,7 @@ void Lienzo::agregarCereza(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			cerezas.push_front(imagen);
+			frutas.push_front(imagen);
 			posicionables.push_front(imagen);
 			put(*imagen, x, y);
 			show_all();
@@ -335,7 +313,7 @@ void Lienzo::agregarManzana(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			manzanas.push_front(imagen);
+			frutas.push_front(imagen);
 			posicionables.push_front(imagen);
 			put(*imagen, x, y);
 			show_all();
