@@ -284,7 +284,7 @@ std::string Evento::serializarPunto() const {
 	std::ostringstream sPunto;
 	std::string valX, valY;
 	valX = this->floatToString(this->punto.x);
-	valY = this->floatToString(this->punto.x);
+	valY = this->floatToString(this->punto.y);
 	sPunto << valX << '&' << valY << '&';
 	return sPunto.str();
 }
