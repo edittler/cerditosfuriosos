@@ -77,8 +77,9 @@ public:
 	 * lo agrega a la lista de jugadores.
 	 * @param Punto2D especificando la posición del Cerdito.
 	 * @param Punto2D especificando la posición de la Catapulta.
+	 * @param id del jugador asociado al Cerdito y la Catapulta
 	 */
-	void agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta);
+	void agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta, unsigned int id);
 
 	/* @brief Agrega el monticulo.
 	 * El escenario puede contener un único monticulo de huevos. Al intentar
@@ -168,11 +169,23 @@ public:
 	 */
 	bool ganoPartida() const;
 
+	/*
+	 * @brief valida la si la cantidad de jugadores es la correspondiente
+	 * al escenario.
+	 * @return true si la cantidad esta completa, false caso contrario.
+	 */
+	bool jugadoresCompletos();
+
+	/*
+	 * @brief genero id usado para asignarselo al jugador.
+	 * @return id generado
+	 */
+	static unsigned int generarId();
+
 	/***********************
 	 * GETTERS AND SETTERS *
 	 ***********************/
 
-	// FIXME return unsigned int pero alto y ancho son float, arreglar??
 	void setTamanio(float ancho, float alto);
 	float getAlto() const;
 	float getAncho() const;
@@ -182,6 +195,8 @@ public:
 
 	std::string getRutaImagenSuelo() const;
 	void setRutaImagenSuelo(std::string rutaArchivo);
+
+	unsigned int getCantidadJugadores() const;
 
 private:
 	/***************************************************
@@ -207,7 +222,8 @@ private:
 	/*********************************************************
 	 * METODOS PRIVADOS DE OPERACIONES INTERNAS DE ESCENARIO *
 	 *********************************************************/
-	Jugador* getJugador(unsigned int indice);
+	Jugador* getJugador(unsigned int id);
+
 	/*
 	 * @brief Valida que haya cerditos vivos, y elimina aquellos muertos.
 	 * @return true si existe algun cerdito vivo, false en caso contrario.
@@ -229,6 +245,9 @@ private:
 	/**************
 	 * ATTRIBUTES *
 	 **************/
+	// contador de ids para jugadores
+	static unsigned int proximoId;
+
 	/* Aunque no afecta al modelo y el comportamiento de los cuerpos que se
 	 * incluyen en el escenario, se almacenan el ancho y alto del mismo
 	 * que es establecido para usos externos (por ejemplo, la vista)
@@ -242,9 +261,6 @@ private:
 	std::string rutaImagenFondo;
 	std::string rutaImagenSuelo;
 
-	/* Cantidad de jugadores para el cual se va a diseñar el escenario.
-	 */
-	unsigned int cantJugadores;
 
 	/* Flag para indicar si la simulacion está habilitada.
 	 * Si la simulacion no está habilitada, no se pueden lanzar pájaros
@@ -272,6 +288,9 @@ private:
 
 	// Suelo del escenario
 	Suelo* suelo;
+
+	// Cantidad de jugadores para el cual se va a diseñar el escenario.
+	unsigned int cantJugadores;
 
 	// Lista de jugadores
 	std::vector<Jugador*> jugadores;

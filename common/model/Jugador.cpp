@@ -1,7 +1,8 @@
 // Header Include.
 #include "Jugador.h"
 
-Jugador::Jugador(Cerdito* cerdito) {
+Jugador::Jugador(Cerdito* cerdito, unsigned int id) {
+	this->id = id;
 	this->cerdito = cerdito;
 }
 
@@ -19,4 +20,8 @@ bool Jugador::perdio() {
 
 Cerdito* Jugador::getCerdito() {
 	return this->cerdito;
+}
+
+unsigned int Jugador::getId() const {
+	return this->id;
 }
