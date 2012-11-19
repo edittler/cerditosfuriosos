@@ -9,6 +9,7 @@ Lienzo::Lienzo(int ancho,
 	this->ancho = ancho;
 	this->alto = alto;
 	this->informable = informable;
+	monticulo = NULL;
 	agregarFondo(rutaFondo);
 	set_size_request(ancho, alto);
 	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
@@ -30,14 +31,10 @@ void Lienzo::eliminarImagen(string id) {
 		}
 		++iterador;
 	}
-	list<ImagenHuevos*>::iterator iteradorDos = huevos.begin();
-	while (iteradorDos != huevos.end()) {
-		if ((*iteradorDos)->getId().compare(id) == 0) {
-			remove(*(*iteradorDos));
-			huevos.erase(iteradorDos);
-			return;
-		}
-		++iteradorDos;
+	if (monticulo->getId().compare(id) == 0) {
+		remove(*monticulo);
+		monticulo = NULL;
+		return;
 	}
 	list<ImagenCajaMadera*>::iterator iteradorTres = cajasMadera.begin();
 	while (iteradorTres != cajasMadera.end()) {
@@ -136,7 +133,7 @@ void Lienzo::recibirInformacion(
 								agregarManzana(x, y);
 							else {
 								if (recepcion.compare("HUEVOS") == 0)
-									agregarHuevos(x, y);
+									agregarMonticulo(x, y);
 								else {
 									if (recepcion.compare("CATAPULTA") == 0)
 										agregarCatapulta(x, y);
@@ -200,14 +197,14 @@ void Lienzo::agregarCerdo(int x, int y) {
 		informable->mostrarDialogo("Ya ha agregado a todos los jugadores del nivel");
 }
 
-void Lienzo::agregarHuevos(int x, int y) {
-	if (huevos.size() < cantidadJugadores) {
+void Lienzo::agregarMonticulo(int x, int y) {
+	if (monticulo == NULL) {
 		ImagenHuevos* imagen = new ImagenHuevos(x, y);
 		if (!coincidenciaOcupacional(x, y, imagen)) {
 			if (dentroDeEscenario(x, y, imagen)) {
 				copiarFondo(x, y, imagen);
 				manage(imagen);
-				huevos.push_front(imagen);
+				monticulo = imagen;
 				posicionables.push_front(imagen);
 				put(*imagen, x, y);
 				show_all();
@@ -218,7 +215,7 @@ void Lienzo::agregarHuevos(int x, int y) {
 			informable->mostrarDialogo("Coincide ocupacionalmente con otro objeto");
 		delete imagen;
 	} else
-		informable->mostrarDialogo("Ya ha agregado un montículo por cada jugador del nivel");
+		informable->mostrarDialogo("Ya ha agregado un montículo al nivel");
 }
 
 void Lienzo::agregarCatapulta(int x, int y) {
@@ -401,7 +398,7 @@ bool Lienzo::cantidadJugadoresValida() {
 
 bool Lienzo::objetosJugadoresCorrectos() {
 	if (cerdos.size() == catapultas.size()) {
-		if (cerdos.size() == huevos.size())
+		if (monticulo != NULL)
 			return cantidadJugadoresValida();
 	}
 	return false;
@@ -423,7 +420,7 @@ void Lienzo::cargarNivel(string rutaNivel) {
 	 * del archivo e ir agregandolos mediante los metodos:
 	 * 
 	 * void agregarCerdo(float x, float y);
-	 * void agregarHuevos(float x, float y);
+	 * void agregarMonticulo(float x, float y);
 	 * void agregarCatapulta(float x, float y);
 	 * void agregarCajaMadera(float x, float y);
 	 * void agregarCajaMetal(float x, float y);
@@ -447,13 +444,12 @@ void Lienzo::guardarNivel(string rutaNivel) {
 	 * list<ImagenCajaMetal*> cajasMetal;
 	 * list<ImagenCajaVidrio*> cajasVidrio;
 	 * list<ImagenCerdo*> cerdos;
-	 * list<ImagenHuevos*> huevos;
 	 * list<ImagenBanana*> bananas;
 	 * list<ImagenCereza*> cerezas;
 	 * list<ImagenManzana*> manzanas;
-	 * list<ImagenCatapulta*> catapultas;
-	 * 
-	 * guardando cada elemento.
+	 * list<ImagenCatapulta*> catapultas; 
+	 * guardando cada elemento (el monticulo se corresponde con el atributo
+	 * "monticulo")
 	 * 
 	 * Para eso ya contas con saber el tipo de cada elemento (para eso estan
 	 * separados en distintas listas) y todas heredan de una clase que tiene los
@@ -469,11 +465,10 @@ void Lienzo::guardarNivel(string rutaNivel) {
 	 * haya una catapulta y un monticulo por cada uno ya fueron hechas antes de
 	 * que se llame a este metodo.
 	 * 
-	 * Como convencion de a que cerdo pertenece cada catapulta y cada monticulo
-	 * podes adoptar que se corresponden entre si los que se encuentren en la
-	 * misma posicion de su lista correspondiente. Por ejemplo, el primer cerdo
-	 * de la lista "cerdos" es el duenio de la primer catapulta de la lista
-	 * "catapultas" y del primer monticulo de la lista "huevos".
+	 * Como convencion de a que cerdo pertenece cada catapulta podes adoptar que
+	 * se corresponden entre si los que se encuentren en la misma posicion de su
+	 * lista correspondiente. Por ejemplo, el primer cerdo de la lista "cerdos"
+	 * es el duenio de la primer catapulta de la lista.
 	 */
 }
 
@@ -483,10 +478,10 @@ void Lienzo::agregarCerdo(float x, float y) {
 	agregarCerdo(xEntero, yEntero);
 }
 
-void Lienzo::agregarHuevos(float x, float y) {
+void Lienzo::agregarMonticulo(float x, float y) {
 	int xEntero = ((int)((x * PIXELES_SOBRE_METRO)-(ANCHO_HUEVOS / 2)));
 	int yEntero = ((int)((((y * PIXELES_SOBRE_METRO)-alto)*-1)-(ALTO_HUEVOS / 2)));
-	agregarHuevos(xEntero, yEntero);
+	agregarMonticulo(xEntero, yEntero);
 }
 
 void Lienzo::agregarCatapulta(float x, float y) {

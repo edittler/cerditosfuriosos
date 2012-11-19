@@ -100,7 +100,7 @@ class Lienzo : public Gtk::Fixed {
 		list<ImagenCajaMetal*> cajasMetal;
 		list<ImagenCajaVidrio*> cajasVidrio;
 		list<ImagenCerdo*> cerdos;
-		list<ImagenHuevos*> huevos;
+		ImagenHuevos* monticulo;
 		list<ImagenBanana*> bananas;
 		list<ImagenCereza*> cerezas;
 		list<ImagenManzana*> manzanas;
@@ -140,7 +140,7 @@ class Lienzo : public Gtk::Fixed {
 		 * @param x abscisa donde queremos agregar la imagen
 		 * @param y ordenada donde queremos agregar la imagen
 		 */
-		void agregarHuevos(int x, int y);
+		void agregarMonticulo(int x, int y);
 	
 		/**
 		 * Agrega una catapulta en la posicion indicada por los parametros
@@ -223,7 +223,7 @@ class Lienzo : public Gtk::Fixed {
 		 * se carga un nivel desde un archivo.
 		 */
 		void agregarCerdo(float x, float y);
-		void agregarHuevos(float x, float y);
+		void agregarMonticulo(float x, float y);
 		void agregarCatapulta(float x, float y);
 		void agregarCajaMadera(float x, float y);
 		void agregarCajaMetal(float x, float y);
