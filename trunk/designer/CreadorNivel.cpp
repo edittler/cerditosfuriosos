@@ -56,7 +56,7 @@ void CreadorNivel::botonExaminarClickeado() {
 	archivoImagen->set_text(nombreArchivo);
 }
 
-int CreadorNivel::getAnchoEscenario() {
+float CreadorNivel::getAnchoEscenario() {
 	if (selectorTamanio.get_active_text().compare("Chico") == 0)
 		return ANCHO_ESCENARIO_CHICO;
 	if (selectorTamanio.get_active_text().compare("Mediano") == 0)
@@ -64,7 +64,7 @@ int CreadorNivel::getAnchoEscenario() {
 	return ANCHO_ESCENARIO_GRANDE;
 }
 		
-int CreadorNivel::getAltoEscenario() {
+float CreadorNivel::getAltoEscenario() {
 	if (selectorTamanio.get_active_text().compare("Chico") == 0)
 		return ALTO_ESCENARIO_CHICO;
 	if (selectorTamanio.get_active_text().compare("Mediano") == 0)
