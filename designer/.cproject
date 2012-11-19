@@ -27,6 +27,7 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.347994769" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1340108853" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/gtkmm-2.4"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/parser}&quot;"/>
 									<listOptionValue builtIn="false" value="/usr/lib/x86_64-linux-gnu/gtkmm-2.4/include"/>
 									<listOptionValue builtIn="false" value="/usr/include/atkmm-1.6"/>
 									<listOptionValue builtIn="false" value="/usr/include/giomm-2.4"/>
@@ -101,6 +102,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1983057092" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.libs.580817062" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="gtkmm-2.4"/>
+									<listOptionValue builtIn="false" value="common"/>
 									<listOptionValue builtIn="false" value="atkmm-1.6"/>
 									<listOptionValue builtIn="false" value="gdkmm-2.4"/>
 									<listOptionValue builtIn="false" value="giomm-2.4"/>
@@ -121,6 +123,9 @@
 									<listOptionValue builtIn="false" value="fontconfig"/>
 									<listOptionValue builtIn="false" value="gobject-2.0"/>
 									<listOptionValue builtIn="false" value="glib-2.0"/>
+								</option>
+								<option id="gnu.cpp.link.option.paths.479692310" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/Debug}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1747560512" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

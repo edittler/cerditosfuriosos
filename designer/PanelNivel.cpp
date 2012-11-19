@@ -1,4 +1,15 @@
+// Header Include.
 #include "PanelNivel.h"
+
+// C++ Library Includes.
+//#include <string>
+
+// Common Project Includes.
+#include "../common/parser/XMLTypes.h"
+
+// Designer Project Includes.
+#include "ConstantesDiseniador.h"
+#include "CFDTools.h"
 
 PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
 	set_size_request(600, 400);
@@ -56,36 +67,79 @@ void PanelNivel::botonCrearClickeado() {
 		informable->imagenNoSeleccionada();
 		return;
 	}
-	/* 
-	 * Informacion para Eze:
-	 * 
-	 * Aca hay que crear el archivo de un nivel.
-	 * 
-	 * Para agregarlo al mundo que lo contiene contas con la ruta del archivo
-	 * del mundo en el atributo "rutaMundo" de este objeto.
-	 * 
-	 * Para obtener el id del nivel en cuestion, podes preguntarle por el size
-	 * al mapa "idNiveles" y sumarle uno, dado que ahi tenes todos los niveles
-	 * del mundo sobre el que se esta trabajando.
-	 * 
-	 * Para obtener los otros atributos del nivel contas con los siguientes
-	 * metodos:
-	 * 
-	 * creador->getAnchoEscenario()
-	 * creador->getAltoEscenario()
-	 * creador->getDuracion()
-	 * creador->getRutaImagenFondo(): Ya se valida que haya elegido alguna.
-	 * 
-	 * Una vez hecho esto hay que llamar a:
-	 * 
-	 * informable->editarNivel(PARAMETRO, true)
-	 * 
-	 * Donde PARAMETRO es el nombre del archivo xml del nivel que se acaba de
-	 * crear. El segundo parametro sirve para indicar que el nivel es nuevo, lo
-	 * que luego hace que no se cargue un escenario ya existente y que los
-	 * parametros propios de la entrada de los pajaros enemigos tomen valores
-	 * por defecto.
+	/////////////////////////////
+	// Creo el archivo del nivel.
+	/////////////////////////////
+
+	// Creo el nodo del nivel y seteo el atributo duracion.
+	XMLNode* nivelNode = new XMLNode("Nivel");
+	nivelNode->SetAttribute("duracion", creador->getDuracion());
+
+	// Creo el nodo del escenario y seteo sus atributos de dimensiones.
+	XMLNode* escenarioNode = new XMLNode("Escenario");
+	// Convierto los valores flotantes a string.
+	std::string sAncho = cfd::floatToString(creador->getAnchoEscenario());
+	std::string sAlto = cfd::floatToString(creador->getAltoEscenario());
+	// Seteo los atributos del nodo del escenario.
+	escenarioNode->SetAttribute("ancho", sAncho);
+	escenarioNode->SetAttribute("alto", sAlto);
+
+	// Creo el nodo de la imagen del fondo.
+	XMLNode* imageFondoNode = new XMLNode("ImagenFondo");
+	XMLText* imageFondoText = new XMLText(creador->getRutaImagenFondo());
+	imageFondoNode->LinkEndChild(imageFondoText);
+
+	// Creo el nodo de la imagen del suelo.
+	XMLNode* imageSueloNode = new XMLNode("ImagenSuelo");
+	// FIXME(eze) Esperar a que Tomás agrege el suelo para serializarlo en el XML.
+//	XMLText* imageSueloText = new XMLText();
+//	imageSueloNode->LinkEndChild(imageSueloText);
+
+	// Creo el nodo con la cantidad de jugadores.
+	XMLNode* jugadoresNode = new XMLNode("Jugadores");
+	// Convierto el numero de jugadores a string.
+	std::string sJugadores = cfd::intToString(this->cantidadJugadores);
+	XMLText* jugadoresText = new XMLText(sJugadores);
+	jugadoresNode->LinkEndChild(jugadoresText);
+
+	// Linkeo los atributos del Escenario
+	escenarioNode->LinkEndChild(imageFondoNode);
+	escenarioNode->LinkEndChild(imageSueloNode);
+	escenarioNode->LinkEndChild(jugadoresNode);
+
+	// Linkeo el nodo de escenario en el nodo del nivel.
+	nivelNode->LinkEndChild(escenarioNode);
+
+	// Creo un Documento y guardo el archivo.
+	XMLDocument doc;
+	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	doc.LinkEndChild(decl);
+	doc.LinkEndChild(nivelNode);
+	/* FIXME(eze) Cuando esté finalizada la serializacion del mundo, corregir
+	 * con la asignacion del nombre del mundo.
 	 */
+	std::string nivelFileName = "unNivel.xml";
+	doc.SaveFile(nivelFileName);
+
+	//////////////////////////////////
+	// Actualizo el archivo del mundo.
+	//////////////////////////////////
+
+	/* TODO agregar la ruta del nivel al XML del mundo!!!!
+	 *
+	 * Para agregarlo al mundo que lo contiene se cuenta con la ruta del archivo
+	 * del mundo en el atributo "rutaMundo" de este objeto.
+	 *
+	 * Para obtener el id del nivel en cuestion, se puede preguntar por el size
+	 * al mapa "idNiveles" y sumarle uno, dado que ahi estan todos los niveles
+	 * del mundo sobre el que se esta trabajando.
+	 */
+
+	/* Una vez creado el archivo del nivel y actualizar el del mundo, procedo
+	 * a editar el nivel, pasando la ruta del archivo creado y especificando
+	 * que el nivel es nuevo, para que seteen algunos valores por defecto.
+	 */
+	informable->editarNivel(nivelFileName, true);
 }
 
 void PanelNivel::cargarNiveles(std::string rutaMundo) {
