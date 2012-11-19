@@ -166,12 +166,12 @@ void probarMensajeCliente() {
 	MensajeCliente msjVRD;
 	msjVRD.deserealizar(msj);
 	// Creo un mensaje para solicitar unirse a una partida.
-	MensajeCliente msjUP("partida");
+	/*MensajeCliente msjUP("partida");
 	msj.clear();
 	msj = msjUP.serealizar();
 	std::cout << msj;
 	MensajeCliente msjUPD;
-	msjUPD.deserealizar(msj);
+	msjUPD.deserealizar(msj);*/
 }
 
 void probarSerializarEvento() {
@@ -234,13 +234,13 @@ void probarSerializarEvento() {
 	}
 
 	// Serealizo un pajaro indefinido.
-	Evento ePajaroI(T_PAJARO_INDEFINIDO, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
+	Evento ePajaroI(T_PAJARO_INDEFINIDO, Punto2D(2.45, 3.45), Velocidad2D(0.34f, 4.34f));
 	std::string strPajaroInd = ePajaroI.serealizar();
 	if (strPajaroInd.empty())
 		std::cout << "La cadena de pajaro indefinido está vacia" << std::endl;
 
 	// Serealizo un pajaro verde.
-	Evento ePajaroV(T_PAJARO_VERDE, Punto2D(1.2f, 3.4f), Velocidad2D(0.34f, 4.34f));
+	Evento ePajaroV(T_PAJARO_VERDE, Punto2D(2.45, 3.45), Velocidad2D(0.34f, 4.34f));
 	std::string strPajaroV = ePajaroV.serealizar();
 	std::cout << strPajaroV << std::endl;
 	Evento eDesPajaroV(strPajaroV);
@@ -285,7 +285,7 @@ int main(int argc, char *argv[]) {
 //	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
-//	probarSerializarEvento();
+	probarSerializarEvento();
 	probarSerializacionMensajeServer();
 //	probarMensajeCliente();
 	return 0;
