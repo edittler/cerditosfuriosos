@@ -1,8 +1,7 @@
+// Header Include.
 #include "ImagenCereza.h"
 
-ImagenCereza::ImagenCereza(int x, int y) :
-	ImagenPosicionable(RUTA_CEREZA)
-{
+ImagenCereza::ImagenCereza(int x, int y) : ImagenFruta(RUTA_CEREZA) {
 	this->x = x;
 	this->y = y;
 	this->alto = ALTO_CEREZA;
@@ -15,4 +14,4 @@ ImagenCereza::ImagenCereza(int x, int y) :
 	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
-ImagenCereza::~ImagenCereza() {}
+ImagenCereza::~ImagenCereza() { }

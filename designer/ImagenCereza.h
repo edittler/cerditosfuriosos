@@ -1,12 +1,17 @@
 #ifndef _IMAGEN_CEREZA_H_
 #define _IMAGEN_CEREZA_H_
-#include "ImagenPosicionable.h"
+
+// Hierarchy Include.
+#include "ImagenFruta.h"
+
+// Designer Project Includes.
 #include "ConstantesDiseniador.h"
 
 /**
- * Las instancias de esta clase representan a la vista de una cereza sobre un lienzo.
+ * Las instancias de esta clase representan a la vista de una cereza
+ * sobre un lienzo.
  */
-class ImagenCereza : public ImagenPosicionable {
+class ImagenCereza : public ImagenFruta {
 	public:
 		
 		/**

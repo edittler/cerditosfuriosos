@@ -1,8 +1,8 @@
+// Header Include.
 #include "ImagenCajaMetal.h"
 
 ImagenCajaMetal::ImagenCajaMetal(int x, int y) :
-	ImagenPosicionable(RUTA_CAJA_METAL)
-{
+		ImagenSuperficie(RUTA_CAJA_METAL) {
 	this->x = x;
 	this->y = y;
 	this->alto = ALTO_CAJA_METAL;
@@ -15,4 +15,4 @@ ImagenCajaMetal::ImagenCajaMetal(int x, int y) :
 	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
-ImagenCajaMetal::~ImagenCajaMetal() {}
+ImagenCajaMetal::~ImagenCajaMetal() { }

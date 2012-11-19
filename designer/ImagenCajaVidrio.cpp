@@ -1,8 +1,8 @@
+// Header Include.
 #include "ImagenCajaVidrio.h"
 
 ImagenCajaVidrio::ImagenCajaVidrio(int x, int y) :
-	ImagenPosicionable(RUTA_CAJA_VIDRIO)
-{
+		ImagenSuperficie(RUTA_CAJA_VIDRIO) {
 	this->x = x;
 	this->y = y;
 	this->alto = ALTO_CAJA_VIDRIO;
@@ -15,4 +15,4 @@ ImagenCajaVidrio::ImagenCajaVidrio(int x, int y) :
 	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
-ImagenCajaVidrio::~ImagenCajaVidrio() {}
+ImagenCajaVidrio::~ImagenCajaVidrio() { }

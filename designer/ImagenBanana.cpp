@@ -1,8 +1,7 @@
+// Header Include.
 #include "ImagenBanana.h"
 
-ImagenBanana::ImagenBanana(int x, int y) :
-	ImagenPosicionable(RUTA_BANANA)
-{
+ImagenBanana::ImagenBanana(int x, int y) : ImagenFruta(RUTA_BANANA) {
 	this->x = x;
 	this->y = y;
 	this->alto = ALTO_BANANA;
@@ -14,4 +13,4 @@ ImagenBanana::ImagenBanana(int x, int y) :
 	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
-ImagenBanana::~ImagenBanana() {}
+ImagenBanana::~ImagenBanana() { }

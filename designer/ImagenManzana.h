@@ -1,12 +1,16 @@
 #ifndef _IMAGEN_MANZANA_H_
 #define _IMAGEN_MANZANA_H_
-#include "ImagenPosicionable.h"
+
+// Hierarchy Include.
+#include "ImagenFruta.h"
+
+// Designer Project Includes.
 #include "ConstantesDiseniador.h"
 
 /**
  * Las instancias de esta clase representan a la vista de una manzana sobre un lienzo.
  */
-class ImagenManzana : public ImagenPosicionable {
+class ImagenManzana : public ImagenFruta {
 	public:
 		
 		/**
