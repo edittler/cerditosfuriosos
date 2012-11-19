@@ -1,13 +1,17 @@
 #ifndef _IMAGEN_CAJA_VIDRIO_H_
 #define _IMAGEN_CAJA_VIDRIO_H_
-#include "ImagenPosicionable.h"
+
+// Hierarchy Include.
+#include "ImagenSuperficie.h"
+
+// Designer Project Includes.
 #include "ConstantesDiseniador.h"
 
 /**
  * Las instancias de esta clase representan a la vista de una cada de vidrio
  * sobre un lienzo.
  */
-class ImagenCajaVidrio : public ImagenPosicionable {
+class ImagenCajaVidrio : public ImagenSuperficie {
 	public:
 		
 		/**

@@ -1,13 +1,17 @@
 #ifndef _IMAGEN_CAJA_MADERA_H_
 #define _IMAGEN_CAJA_MADERA_H_
-#include "ImagenPosicionable.h"
+
+// Hierarchy Include.
+#include "ImagenSuperficie.h"
+
+// Designer Project Include.
 #include "ConstantesDiseniador.h"
 
 /**
  * Las instancias de esta clase representan a la vista de una cada de madera
  * sobre un lienzo.
  */
-class ImagenCajaMadera : public ImagenPosicionable {
+class ImagenCajaMadera : public ImagenSuperficie {
 	public:
 		
 		/**
