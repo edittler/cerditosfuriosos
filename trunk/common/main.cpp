@@ -11,7 +11,9 @@ void probarEscenario() {
 	// Choque caja madera con pajaro y/o huevo
 	escena.agregarCajaMadera(Punto2D(1,1));
 	escena.agregarMonticulo(Punto2D(5, 5));
-	escena.agregarCerdito(Punto2D(10, 5), Punto2D(15, 5));
+	unsigned int id = Escenario::generarId();
+	escena.agregarCerdito(Punto2D(10, 5), Punto2D(15, 5), id);
+
 	escena.habilitarSimulacion();
 //	escena.lanzarPajaroRojo(Punto2D(1,3),Velocidad2D(0,-10));
 	escena.lanzarHuevo(Punto2D(1,3),Velocidad2D(0,-10), 0);

@@ -247,7 +247,8 @@ void Escenario::agregarSuelo(std::list<Punto2D*>& puntos) {
 	this->suelo = suelo;
 }
 
-void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
+void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta,
+		unsigned int idJugador) {
 	/* Solo puedo agregar un cerdito y su catapulta si la simulación no ha
 	 * comenzado. Si la simulacion ya comenzo, lanzo una excepcion
 	 */
@@ -284,7 +285,7 @@ void Escenario::agregarCerdito(Punto2D posCerdito, Punto2D posCatapulta) {
 	/* El cerdito está asociado a un jugador.
 	 * Creo dicho jugador y le paso el cerdito.
 	 */
-	Jugador* jugador = new Jugador(cerdito);
+	Jugador* jugador = new Jugador(cerdito, idJugador);
 	// Agrego el jugador en la lista de jugadores.
 	this->jugadores.push_back(jugador);
 	/* No agrego al cerdito en la lista de objetos porque lo administra y
@@ -841,6 +842,10 @@ void Escenario::setRutaImagenSuelo(std::string rutaArchivo) {
 	}
 }
 
+unsigned int Escenario::getCantidadJugadores() const {
+	return this->cantJugadores;
+}
+
 void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const {
 	std::cout << "\t=== GUARDANDO ATRIBUTOS ===" << std::endl;
 	// Convierto el ancho y alto en string
@@ -1040,7 +1045,8 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	std::cout << "\tCatapulta\tx= " << puntoCatapulta.x << "\ty= " <<
 			puntoCatapulta.y << std::endl;
 	// Cargo el cerdito
-	this->agregarCerdito(puntoCerdito, puntoCatapulta);
+	unsigned int id = Escenario::generarId();
+	this->agregarCerdito(puntoCerdito, puntoCatapulta, id);
 }
 
 void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
@@ -1248,15 +1254,25 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 	}  // Fin while
 }
 
-Jugador* Escenario::getJugador(unsigned int indice) {
-	Jugador* jugador;
+Jugador* Escenario::getJugador(unsigned int id) {
 	Lock(this->mJugadores);
-	try {
-		jugador = this->jugadores.at(indice);
-	} catch(std::out_of_range& e) {  // indice incorrecto
-		return NULL;
+	std::vector<Jugador*>::iterator it;
+	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+		if ((*it)->getId() == id)
+			return (*it);
 	}
-	return jugador;
+	return NULL;
+}
+
+bool Escenario::jugadoresCompletos() {
+	return (this->jugadores.size() == this->cantJugadores);
+}
+
+unsigned int Escenario::proximoId = 0;
+
+unsigned int Escenario::generarId() {
+	++Escenario::proximoId;
+	return Escenario::proximoId;
 }
 
 bool Escenario::validarCerditosVivos() {

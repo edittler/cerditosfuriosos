@@ -12,7 +12,7 @@ class Jugador {
 public:
 	/* Constructor que recibe el cerdito asociado
 	 */
-	explicit Jugador(Cerdito* cerdito);
+	explicit Jugador(Cerdito* cerdito, unsigned int id);
 
 	virtual ~Jugador();
 
@@ -25,7 +25,11 @@ public:
 
 	Cerdito* getCerdito();
 
+	unsigned int getId() const;
+
 private:
+	unsigned int id;
+
 	// Cerdito asociado al jugador
 	Cerdito* cerdito;
 
