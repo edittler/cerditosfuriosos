@@ -38,12 +38,12 @@ class CreadorNivel : public Gtk::Paned {
 		/**
 		 * @return ancho que tendra el escenario del nivel
 		 */
-		int getAnchoEscenario();
+		float getAnchoEscenario();
 		
 		/**
 		 * @return alto que tendra el escenario del nivel
 		 */
-		int getAltoEscenario();
+		float getAltoEscenario();
 		
 		/**
 		 * @return duracion en segundos del nivel
