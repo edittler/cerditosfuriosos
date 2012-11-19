@@ -1,4 +1,11 @@
+// Header Includes.
 #include "PanelEscenario.h"
+
+// Common Project Includes.
+#include "XMLTypes.h"
+
+// Designer Project Includes.
+#include "CFDTools.h"
 
 PanelEscenario::PanelEscenario(string rutaNivel,
 								InformableSeleccion* informable,
@@ -86,18 +93,25 @@ void PanelEscenario::botonGuardarClickeado() {
 }
 
 void PanelEscenario::cargarCaracteristicasNivel() {
-	/* 
-	 * Informacion para Eze:
-	 * 
-	 * Aca deben cargarse en los atributos correspondientes las caracteristicas
-	 * propias del nivel.
-	 * 
-	 * Para esto contas con el atributo "rutaNivel" que tiene la ruta del archivo
-	 * xml que contiene al nivel en cuestion.
-	 * 
-	 * En el siguiente ejemplo se ve cuales son estas caracteristicas:
+	/* Obtengo desde el archivo XML asociado al nivel, las caracteristicas del
+	 * mismo.
 	 */
-	anchoFlotante = 12;
-	altoFlotante = 9;
-	rutaFondo = "../common/images/scene/Bosque.png";
+	XMLDocument doc;
+	doc.LoadFile(this->rutaNivel);
+	XMLNode* nivelNode = doc.RootElement();
+
+	// Obtengo el nodo del escenario
+	XMLNode* escenarioNode = nivelNode->FirstChildElement("Escenario");
+
+	// Obtengo los atributos de dimensiones del escenario.
+	std::string sAncho = escenarioNode->Attribute("ancho");
+	std::string sAlto = escenarioNode->Attribute("alto");
+
+	// Seteo los atributos de dimensiones
+	anchoFlotante = cfd::stringToFloat(sAncho);
+	altoFlotante = cfd::stringToFloat(sAlto);
+
+	// Obtengo el nodo de la imagen de fondo
+	XMLNode* imageFondoNode = escenarioNode->FirstChildElement("ImagenFondo");
+	rutaFondo = imageFondoNode->GetText();
 }
