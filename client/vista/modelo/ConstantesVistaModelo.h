@@ -65,4 +65,9 @@
 #define VENTANA_WIDTH 600
 #define VENTANA_HEIGHT 400
 
+// MENU
+#define RUTA_FONDO_MENU PATH_IMAGENES "background/Menu.png"
+#define ANCHO_VENTANA 600
+#define ALTO_VENTANA 600
+
 #endif /* CONSTANTESVISTAMODELO_H_ */

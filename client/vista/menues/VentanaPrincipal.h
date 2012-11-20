@@ -10,11 +10,6 @@
 #include "PanelRecords.h"
 #include "InterfazSelectora.h"
 
-// Constantes
-#define ANCHO_VENTANA 600
-#define ALTO_VENTANA 600
-#define RUTA_FONDO "FondoPanelInicial.png"
-
 /**
  * Ventana principal de la aplicacion.
  */
