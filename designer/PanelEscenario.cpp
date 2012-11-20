@@ -88,8 +88,59 @@ void PanelEscenario::botonGuardarClickeado() {
 		informable->mostrarDialogo(mensaje);
 		return;
 	}
+	// Reestablezco el archivo del nivel, reescribiendo los atributos del escenario.
+	this->guardarCaracteristicasEscenario();
 	lienzo->guardarNivel(rutaNivel);
 	entrada->guardarNivel(rutaNivel);
+}
+
+void PanelEscenario::guardarCaracteristicasEscenario() const {
+	// Abro el archivo asociado al nivel
+	XMLDocument doc;
+	doc.LoadFile(this->rutaNivel);
+	// Obtengo el nodo raiz, que en teoria es el llamado Nivel.
+	XMLNode* nivelNode = doc.RootElement();
+
+	// Limpio el nodo de nivel
+	this->limpiarNodoNivel(nivelNode);
+
+	// Creo un nuevo nodo del escenario y cargo los atributos básicos.
+	XMLNode* escenarioNode = new XMLNode("Escenario");
+	// Convierto los valores flotantes a string.
+	std::string sAncho = cfd::floatToString(anchoFlotante);
+	std::string sAlto = cfd::floatToString(altoFlotante);
+	// Seteo los atributos del nodo del escenario.
+	escenarioNode->SetAttribute("ancho", sAncho);
+	escenarioNode->SetAttribute("alto", sAlto);
+
+	// Creo el nodo de la imagen del fondo.
+	XMLNode* imageFondoNode = new XMLNode("ImagenFondo");
+	XMLText* imageFondoText = new XMLText(rutaFondo);
+	imageFondoNode->LinkEndChild(imageFondoText);
+
+	// Creo el nodo de la imagen del suelo.
+	XMLNode* imageSueloNode = new XMLNode("ImagenSuelo");
+	// FIXME(eze) Esperar a que Tomás agrege el suelo para serializarlo en el XML.
+//	XMLText* imageSueloText = new XMLText();
+//	imageSueloNode->LinkEndChild(imageSueloText);
+
+	// Creo el nodo con la cantidad de jugadores.
+	XMLNode* jugadoresNode = new XMLNode("Jugadores");
+	// Convierto el numero de jugadores a string.
+	std::string sJugadores = cfd::intToString(cantidadJugadores);
+	XMLText* jugadoresText = new XMLText(sJugadores);
+	jugadoresNode->LinkEndChild(jugadoresText);
+
+	// Linkeo los atributos del Escenario
+	escenarioNode->LinkEndChild(imageFondoNode);
+	escenarioNode->LinkEndChild(imageSueloNode);
+	escenarioNode->LinkEndChild(jugadoresNode);
+
+	// Linkeo el nodo de escenario en el nodo del nivel.
+	nivelNode->LinkEndChild(escenarioNode);
+
+	// Guardo el documento.
+	doc.SaveFile();
 }
 
 void PanelEscenario::cargarCaracteristicasNivel() {
@@ -98,10 +149,10 @@ void PanelEscenario::cargarCaracteristicasNivel() {
 	 */
 	XMLDocument doc;
 	doc.LoadFile(this->rutaNivel);
-	XMLNode* nivelNode = doc.RootElement();
+	const XMLNode* nivelNode = doc.RootElement();
 
 	// Obtengo el nodo del escenario
-	XMLNode* escenarioNode = nivelNode->FirstChildElement("Escenario");
+	const XMLNode* escenarioNode = nivelNode->FirstChildElement("Escenario");
 
 	// Si el nodo es nulo, seteo las dimenciones en tamaño medio y salgo
 	if (escenarioNode == 0) {
@@ -119,6 +170,32 @@ void PanelEscenario::cargarCaracteristicasNivel() {
 	altoFlotante = cfd::stringToFloat(sAlto);
 
 	// Obtengo el nodo de la imagen de fondo
-	XMLNode* imageFondoNode = escenarioNode->FirstChildElement("ImagenFondo");
+	const XMLNode* imageFondoNode = escenarioNode->FirstChildElement("ImagenFondo");
 	rutaFondo = imageFondoNode->GetText();
+}
+
+void PanelEscenario::limpiarNodoNivel(XMLNode* nodo) const {
+	// Obtengo el nodo del escenario
+	XMLNode* escenarioNode = nodo->FirstChildElement("Escenario");
+
+	/* Mientras el nodo escenario no sea nulo, itero hasta eliminar todos los
+	 * nodos llamados "Escenario"
+	 */
+	while (escenarioNode != 0) {
+		XMLNode* nextNode = escenarioNode->NextSiblingElement("Escenario");
+		nodo->RemoveChild(escenarioNode);
+		escenarioNode = nextNode;
+	}
+
+	// Obtengo el nodo de la Linea de entrada derecha
+	XMLNode* lineaNode = nodo->FirstChildElement("LineaEntradaDerecha");
+
+	/* Mientras el nodo de linea de entrada no sea nulo, itero hasta eliminar
+	 * todos los nodos llamados "LineaEntradaDerecha"
+	 */
+	while (lineaNode != 0) {
+		XMLNode* nextNode = lineaNode->NextSiblingElement("LineaEntradaDerecha");
+		nodo->RemoveChild(lineaNode);
+		lineaNode = nextNode;
+	}
 }
