@@ -1,8 +1,8 @@
+// Header Include.
 #include "ImagenCatapulta.h"
 
 ImagenCatapulta::ImagenCatapulta(int x, int y) :
-	ImagenPosicionable(RUTA_CATAPULTA)
-{
+		ImagenPosicionable(RUTA_CATAPULTA) {
 	this->x = x;
 	this->y = y;
 	this->alto = ALTO_CATAPULTA;
@@ -15,4 +15,14 @@ ImagenCatapulta::ImagenCatapulta(int x, int y) :
 	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
-ImagenCatapulta::~ImagenCatapulta() {}
+ImagenCatapulta::~ImagenCatapulta() { }
+
+XMLNode* ImagenCatapulta::serialize(const int altoEscenario) const {
+	// Serializo la posicion de la catapulta
+	XMLNode* punto = this->serializarCoordenadas(altoEscenario);
+	// Creo el nodo para la catapulta
+	XMLNode* nodo = new XMLNode("Catapulta");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}

@@ -161,8 +161,8 @@ void Lienzo::agregarCerdo(int x, int y) {
 			if (dentroDeEscenario(x, y, imagen)) {
 				copiarFondo(x, y, imagen);
 				manage(imagen);
-				cerdos.push_front(imagen);
-				posicionables.push_front(imagen);
+				cerdos.push_back(imagen);
+				posicionables.push_back(imagen);
 				put(*imagen, x, y);
 				show_all();
 				return;
@@ -183,7 +183,7 @@ void Lienzo::agregarMonticulo(int x, int y) {
 				copiarFondo(x, y, imagen);
 				manage(imagen);
 				monticulo = imagen;
-				posicionables.push_front(imagen);
+				posicionables.push_back(imagen);
 				put(*imagen, x, y);
 				show_all();
 				return;
@@ -203,8 +203,8 @@ void Lienzo::agregarCatapulta(int x, int y) {
 			if (dentroDeEscenario(x, y, imagen)) {
 				copiarFondo(x, y, imagen);
 				manage(imagen);
-				catapultas.push_front(imagen);
-				posicionables.push_front(imagen);
+				catapultas.push_back(imagen);
+				posicionables.push_back(imagen);
 				put(*imagen, x, y);
 				show_all();
 				return;
@@ -223,8 +223,8 @@ void Lienzo::agregarCajaMadera(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			superficies.push_front(imagen);
-			posicionables.push_front(imagen);
+			superficies.push_back(imagen);
+			posicionables.push_back(imagen);
 			put(*imagen, x, y);
 			show_all();
 			return;
@@ -241,8 +241,8 @@ void Lienzo::agregarCajaMetal(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			superficies.push_front(imagen);
-			posicionables.push_front(imagen);
+			superficies.push_back(imagen);
+			posicionables.push_back(imagen);
 			put(*imagen, x, y);
 			show_all();
 			return;
@@ -259,8 +259,8 @@ void Lienzo::agregarCajaVidrio(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			superficies.push_front(imagen);
-			posicionables.push_front(imagen);
+			superficies.push_back(imagen);
+			posicionables.push_back(imagen);
 			put(*imagen, x, y);
 			show_all();
 			return;
@@ -277,8 +277,8 @@ void Lienzo::agregarBanana(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			frutas.push_front(imagen);
-			posicionables.push_front(imagen);
+			frutas.push_back(imagen);
+			posicionables.push_back(imagen);
 			put(*imagen, x, y);
 			show_all();
 			return;
@@ -295,8 +295,8 @@ void Lienzo::agregarCereza(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			frutas.push_front(imagen);
-			posicionables.push_front(imagen);
+			frutas.push_back(imagen);
+			posicionables.push_back(imagen);
 			put(*imagen, x, y);
 			show_all();
 			return;
@@ -313,8 +313,8 @@ void Lienzo::agregarManzana(int x, int y) {
 		if (dentroDeEscenario(x, y, imagen)) {
 			copiarFondo(x, y, imagen);
 			manage(imagen);
-			frutas.push_front(imagen);
-			posicionables.push_front(imagen);
+			frutas.push_back(imagen);
+			posicionables.push_back(imagen);
 			put(*imagen, x, y);
 			show_all();
 			return;
@@ -410,6 +410,39 @@ void Lienzo::cargarNivel(string rutaNivel) {
 }
 
 void Lienzo::guardarNivel(string rutaNivel) {
+	// Abro el archivo del nivel
+	XMLDocument doc;
+	bool fileOpen = doc.LoadFile(rutaNivel);
+	if (!fileOpen)
+		return;
+
+	// Obtengo el nodo raiz, que en teoría es el llamado Nivel.
+	XMLNode* root = doc.RootElement();
+	// Obtento el nodo Escenario
+	XMLNode* nodoEscenario = root->FirstChildElement("Escenario");
+	// Si el nodo no existe, salgo del metodo sin guardar nada
+	if (nodoEscenario == 0)
+		return;
+
+	// Agrego el nodo del suelo
+	XMLNode* nodoSuelo = new XMLNode("Suelo");
+	nodoEscenario->LinkEndChild(nodoSuelo);
+
+	/* Serializo los cerdos junto con las catapultas y los agrego al nodo del
+	 * escenario.
+	 */
+	XMLNode* nodoCerdos = this->XMLSerializarCerdos();
+	nodoEscenario->LinkEndChild(nodoCerdos);
+
+	// Serializo el montículo de huevos y lo agrego al nodo del escenario.
+	XMLNode* nodoMonticulo = this->monticulo->serialize(this->alto);
+	nodoEscenario->LinkEndChild(nodoMonticulo);
+
+	// TODO Seguir cargando los demás objetos.
+
+	// Guardo el documento
+	doc.SaveFile();
+
 	/*
 	 * Informacion para Eze: Este metodo se encargaria de guardar los objetos
 	 * del escenario en el archivo xml.
@@ -502,4 +535,25 @@ void Lienzo::agregarManzana(float x, float y) {
 	int xEntero = ((int)((x * PIXELES_SOBRE_METRO)-(ANCHO_MANZANA / 2)));
 	int yEntero = ((int)((((y * PIXELES_SOBRE_METRO)-alto)*-1)-(ALTO_MANZANA / 2)));
 	agregarManzana(xEntero, yEntero);
+}
+
+XMLNode* Lienzo::XMLSerializarCerdos() const {
+	// Creo el nodo Cerditos
+	XMLNode* nodoCerditos = new XMLNode("Cerditos");
+	// Recorro la lista de cerdos y catapultas para ir serilizando.
+	list<ImagenCerdo*>::const_iterator itCerdo = cerdos.begin();
+	list<ImagenCatapulta*>::const_iterator itCatapulta = catapultas.begin();
+	while ((itCerdo != cerdos.end()) && (itCatapulta != catapultas.end())) {
+		// Serializo el cerdo
+		XMLNode* nodoCerdo = (*itCerdo)->serialize(this->alto);
+		// Serializo la catapulta y linkeo el nodo en el cerdito
+		XMLNode* nodoCatapulta = (*itCatapulta)->serialize(this->alto);
+		nodoCerdo->LinkEndChild(nodoCatapulta);
+		// Linkeo el cerdo en el nodo de cerdos.
+		nodoCerditos->LinkEndChild(nodoCerdo);
+		// Incremento los iteradores
+		itCerdo++;
+		itCatapulta++;
+	}
+	return nodoCerditos;
 }

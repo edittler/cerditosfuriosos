@@ -1,3 +1,4 @@
+// Header Include.
 #include "ImagenHuevos.h"
 
 ImagenHuevos::ImagenHuevos(int x, int y) :
@@ -15,4 +16,14 @@ ImagenHuevos::ImagenHuevos(int x, int y) :
 	drag_source_set_icon(imagenFija->get_pixbuf());
 }
 
-ImagenHuevos::~ImagenHuevos() {}
+ImagenHuevos::~ImagenHuevos() { }
+
+XMLNode* ImagenHuevos::serialize(const int altoEscenario) const {
+	// Serializo la posicion de la imagen
+	XMLNode* punto = this->serializarCoordenadas(altoEscenario);
+	// Creo el nodo para la imagen
+	XMLNode* nodo = new XMLNode("MonticuloHuevos");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}
