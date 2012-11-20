@@ -14,6 +14,10 @@ void NivelServer::tick(int milisegundos) {
 	this->escenario->correrTick();
 }
 
+bool NivelServer::comienzoPartida() {
+	return this->escenario->jugadoresCompletos();
+}
+
 bool NivelServer::finalizoPartida() {
 	return this->escenario->finalizoPartida();
 }

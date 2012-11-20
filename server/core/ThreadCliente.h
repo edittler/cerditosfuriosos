@@ -5,11 +5,12 @@
 #include "../../common/thread/Thread.h"
 
 // Common Project Includes.
-#include "../../common/communication/Socket.h"
-#include "../../common/communication/ColaEventos.h"
+#include "../../common/communication/ThreadEnviar.h"
+#include "../../common/communication/ThreadRecibir.h"
 
 // Forward Class Declaration
 class Server;
+class ThreadPartida;
 
 /**
  * @class ThreadCliente
@@ -21,6 +22,27 @@ public:
 
 	virtual ~ThreadCliente();
 
+	void setPartida(ThreadPartida* partida);
+
+	/*
+	 * @brief relaciona a un jugador dentro del escenario con
+	 * un cliente conectado.
+	 * @param id del jugador
+	 */
+	void asignarJugador(unsigned int id);
+
+	/*
+	 * @brief encola mensajes para ser enviados asincronicamente
+	 * @param m mensaje
+	 */
+	void enviar(Mensaje* m);
+
+	/*
+	 * @brief recibe mensajes asincronicamente en una cola
+	 * @return mensaje
+	 */
+	Mensaje* recibir();
+
 protected:
 	void* run();
 
@@ -31,13 +53,23 @@ private:
 	// Flag que indica si el cliente está conectado.
 	bool conectado;
 
+	// id del jugador manejado por el cliente dentro de la partida
+	unsigned int idJugador;
+
 	// Socket mediante el cual realiza comunciaciones con el cliente.
 	Socket* socket;
+
+	// Referencia a la partida conectada
+	ThreadPartida* threadPartida;
 
 	// Referencia del servidor
 	Server& server;
 
-	ColaEventos* colaEventos;
+	ColaProtegida<Evento*> colaEventos;
+
+	// threads para envio y recibo de mensajes
+	ThreadEnviar* tEnviar;
+	ThreadRecibir* tRecibir;
 };
 
 #endif /* THREADCLIENTE_H_ */
