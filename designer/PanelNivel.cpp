@@ -1,12 +1,6 @@
 // Header Include.
 #include "PanelNivel.h"
 
-// C++ Library Includes.
-//#include <string>
-
-// Common Project Includes.
-#include "../common/parser/XMLTypes.h"
-
 // Designer Project Includes.
 #include "ConstantesDiseniador.h"
 #include "CFDTools.h"
@@ -15,7 +9,8 @@ PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
 	set_size_request(600, 400);
 	this->rutaMundo = rutaMundo;
 	this->informable = informable;
-	cargarNiveles(rutaMundo);
+	// Una vez seteada la ruta del mundo, cargo sus caracteristicas
+	this->cargarCaracteristicasMundo();
 	// Cargo el selector
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 20));
 	selector = new SelectorNiveles(idNiveles);
@@ -57,9 +52,8 @@ PanelNivel::~PanelNivel() {
 	delete botonCrear;
 }
 
-void PanelNivel::botonEditarClickeado() {
-	if (idNiveles.size() > 0)
-		informable->editarNivel(selector->getRutaNivelSeleccionado(), false);
+int PanelNivel::getCantidadJugadores() const{
+	return cantidadJugadores;
 }
 
 void PanelNivel::botonCrearClickeado() {
@@ -115,10 +109,15 @@ void PanelNivel::botonCrearClickeado() {
 	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
 	doc.LinkEndChild(decl);
 	doc.LinkEndChild(nivelNode);
-	/* FIXME(eze) Cuando esté finalizada la serializacion del mundo, corregir
-	 * con la asignacion del nombre del mundo.
-	 */
-	std::string nivelFileName = "unNivel.xml";
+
+	// Con el nombre del mundo, genero el nombre del mundo.
+	int numNivel = this->idNiveles.size() + 1;
+	// Genero la ruta.
+	std::string nivelFileName = RUTA_CARPETA_MUNDOS + nombreMundo + "-level";
+	// Agrego a la ruta el numero de nivel y la extencion
+	std::string sNumNivel = cfd::intToString(numNivel);
+	nivelFileName += sNumNivel + ".xml";
+	// Guardo el archivo del nivel
 	doc.SaveFile(nivelFileName);
 
 	//////////////////////////////////
@@ -142,7 +141,58 @@ void PanelNivel::botonCrearClickeado() {
 	informable->editarNivel(nivelFileName, true);
 }
 
-void PanelNivel::cargarNiveles(std::string rutaMundo) {
+void PanelNivel::botonEditarClickeado() {
+	if (idNiveles.size() > 0)
+		informable->editarNivel(selector->getRutaNivelSeleccionado(), false);
+}
+
+void PanelNivel::cargarCaracteristicasMundo() {
+	// Abro el archivo del mundo
+	XMLDocument doc;
+	bool seCargo = doc.LoadFile(rutaMundo);
+	// Si no se cargo, salgo.
+	if (!seCargo)
+		return;
+	// Obtengo el nodo raiz, que debe ser el llamado "Mundo"
+	XMLNode* root = doc.RootElement();
+
+	// Obtengo el nodo Nombre y cargo el atributo
+	const XMLNode* nodoNombre = root->FirstChildElement("Nombre");
+	if (nodoNombre != 0) {
+		this->nombreMundo = nodoNombre->GetText();
+	}
+
+	// Obtengo el nodo Jugadores y cargo el atributo
+	const XMLNode* nodoJugadores = root->FirstChildElement("Jugadores");
+	if (nodoJugadores != 0) {
+		std::string sJugadores = nodoJugadores->GetText();
+		this->cantidadJugadores = cfd::stringToInt(sJugadores);
+	}
+
+	// Obtengo el nodo Niveles y cargo los niveles.
+	const XMLNode* nodoNiveles = root->FirstChildElement("Niveles");
+	if (nodoNiveles != 0)
+		this->cargarNiveles(nodoNiveles);
+}
+
+void PanelNivel::cargarNiveles(const XMLNode* nodoNiveles) {
+	// Inicializo el contador de niveles
+	int i = 1;
+	// Cargo el primer nodo de nivel
+	const XMLNode* nodoNivel = nodoNiveles->FirstChildElement("Nivel");
+	// Mientras el nodo de nivel no es nulo, cargo los niveles.
+	while (nodoNivel != 0) {
+		// Obtengo el nodo con la ruta de archivo del nivel.
+		const XMLNode* nodoRuta = nodoNivel->FirstChildElement("Ruta");
+		// Si el nodo ruta no es nulo, cargo el nivel en la tabla
+		if (nodoRuta != 0) {
+			idNiveles[i] = nodoRuta->GetText();
+			i++;  // Incremento el contador de niveles cargados
+		}
+		nodoNivel->NextSiblingElement("Nivel");
+	}
+	// TODO(eze) Probar si anda.
+
 	/*
 	 * Informacion para Eze:
 	 * 
@@ -155,12 +205,7 @@ void PanelNivel::cargarNiveles(std::string rutaMundo) {
 	 * La idea de esto es poder acceder a ese atributo en el futuro sin tener
 	 * que abrir el xml de nuevo.
 	 */
-	idNiveles[1] = "unNivel.xml";
-	idNiveles[2] = "nivel_2.xml";
-	idNiveles[3] = "nivel_3.xml";
-	cantidadJugadores = 2;
-}
-
-int PanelNivel::getCantidadJugadores() {
-	return cantidadJugadores;
+//	idNiveles[1] = "unNivel.xml";
+//	idNiveles[2] = "nivel_2.xml";
+//	idNiveles[3] = "nivel_3.xml";
 }
