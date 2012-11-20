@@ -22,7 +22,7 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = ../common/communication ../common/model ../common/parser ../common/thread core modelo
+SUBDIRS = ../common/Box2D/include ../common/communication ../common/model ../common/parser ../common/thread core modelo
 
 # Declaracion de objetos externos
 EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))
