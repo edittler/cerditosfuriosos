@@ -155,7 +155,7 @@ void PanelNivel::cargarNiveles(std::string rutaMundo) {
 	 * La idea de esto es poder acceder a ese atributo en el futuro sin tener
 	 * que abrir el xml de nuevo.
 	 */
-	idNiveles[1] = "nivel_1.xml";
+	idNiveles[1] = "unNivel.xml";
 	idNiveles[2] = "nivel_2.xml";
 	idNiveles[3] = "nivel_3.xml";
 	cantidadJugadores = 2;

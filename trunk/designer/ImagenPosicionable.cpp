@@ -89,30 +89,3 @@ XMLNode* ImagenPosicionable::serializarCoordenadas(
 	nodo->SetAttribute("y", cfd::floatToString(fY));
 	return nodo;
 }
-/*
-void ImagenPosicionable::hidratarCoordenadas(const XMLNode* nodo) {
-	// Obtengo el nombre del nodo
-	std::string nombre = nodo->ValueStr(); */
-	/* Comparo el nombre obtenido con el que se requiere.
-	 * Si no es igual, asigno los valores 0 a los flotantes.
-	 */
-/*	if (nombre.compare("Punto2D") != 0) {
-		x = 0;
-		y = 0;
-	} else {
-		// Verifico si contiene el atributo x. Si no lo posee, asigno el valor 0.
-		if (nodo->Attribute("x") == 0) {
-			x = 0;
-		}
-		// Verifico si contiene el atributo y. Si no lo posee, asigno el valor 0.
-		if (nodo->Attribute("y") == 0) {
-			y = 0;
-		}
-		// Obtengo el atributo x e y
-		std::string atributoX = nodo->Attribute("x");
-		std::string atributoY = nodo->Attribute("y");
-		// Los convierto a flotante y los asigno a los parametros.
-		x = cfd::stringToFloat(atributoX);
-		y = cfd::stringToFloat(atributoY);
-	}
-}*/

@@ -4,6 +4,7 @@
 // C++ Library Includes.
 #include <string>
 #include <list>
+#include <map>
 
 // GTK+ Library Includes.
 #include <gtkmm/fixed.h>
@@ -45,22 +46,22 @@ public:
 			InformableSeleccion* informable);
 
 	/**
+	 * Destructor.
+	 */
+	virtual ~Lienzo();
+
+	/**
 	 * @param rutaNivel cargaremos los objetos pertenecientes a un nivel que
 	 * se quiere editar
 	 */
-	void cargarNivel(string rutaNivel);
+	void cargarNivel(const string rutaNivel);
 
 	/**
 	 * @param rutaNivel guardaremos los objetos pertenecientes al nivel ya
 	 * editado
 	 */
-	void guardarNivel(string rutaNivel);
+	void guardarNivel(const string rutaNivel) const;
 
-	/**
-	 * Destructor.
-	 */
-	virtual ~Lienzo();
-	
 	/**
 	 * @param id identificador de la imagen contenida en este lienzo que se
 	 * quiere eliminar
@@ -71,13 +72,13 @@ public:
 	 * @return true si la cantidad de jugadores agregados es la
 	 * correspondiente al nivel y false en el caso contrario
 	 */
-	bool cantidadJugadoresValida();
+	bool cantidadJugadoresValida() const;
 	
 	/**
 	 * @return true si por cada cerdo hay una catapulta y un monticulo y
 	 * false en el caso contrario
 	 */
-	bool objetosJugadoresCorrectos();
+	bool objetosJugadoresCorrectos() const;
 
 protected:
 	/**
@@ -91,7 +92,14 @@ protected:
 								guint info,
 								guint time);
 
+	void setTamanio(const int ancho, const int alto);
+
 private:
+	/**
+	 * Se le pasa la ruta de una imagen y la escala para ponerla de fondo.
+	 */
+	void agregarFondo(const string rutaImagen);
+
 	/**
 	 * Le copia el fondo a una imagen posicionable.
 	 * @param x abscisa a partir de la cual queremos copiar el fondo
@@ -100,11 +108,6 @@ private:
 	 * copiaremos el fondo
 	 */
 	void copiarFondo(int x, int y, ImagenPosicionable* imagen);
-
-	/**
-	 * Se le pasa la ruta de una imagen y la escala para ponerla de fondo.
-	 */
-	void agregarFondo(string rutaImagen);
 
 	/**
 	 * @param id identificador del posicionable contenido en este lienzo que
@@ -120,18 +123,18 @@ private:
 	void agregarCerdo(int x, int y);
 
 	/**
-	 * Agrega un monticulo en la posicion indicada por los parametros
-	 * @param x abscisa donde queremos agregar la imagen
-	 * @param y ordenada donde queremos agregar la imagen
-	 */
-	void agregarMonticulo(int x, int y);
-	
-	/**
 	 * Agrega una catapulta en la posicion indicada por los parametros
 	 * @param x abscisa donde queremos agregar la imagen
 	 * @param y ordenada donde queremos agregar la imagen
 	 */
 	void agregarCatapulta(int x, int y);
+	
+	/**
+	 * Agrega un monticulo en la posicion indicada por los parametros
+	 * @param x abscisa donde queremos agregar la imagen
+	 * @param y ordenada donde queremos agregar la imagen
+	 */
+	void agregarMonticulo(int x, int y);
 	
 	/**
 	 * Agrega una caja de madera en la posicion indicada por los parametros
@@ -207,8 +210,8 @@ private:
 	 * se carga un nivel desde un archivo.
 	 */
 	void agregarCerdo(float x, float y);
-	void agregarMonticulo(float x, float y);
 	void agregarCatapulta(float x, float y);
+	void agregarMonticulo(float x, float y);
 	void agregarCajaMadera(float x, float y);
 	void agregarCajaMetal(float x, float y);
 	void agregarCajaVidrio(float x, float y);
@@ -219,6 +222,14 @@ private:
 	/*
 	 * Los siguientes métodos son los de serialización e hidratación.
 	 */
+	void XMLCargarCerdos(const XMLNode* nodoCerdos);
+	void XMLCargarCerdo(const XMLNode* nodoCerdo);
+	void XMLCargarMonticulo(const XMLNode* nodoMonticulo);
+	void XMLCargarSuperficies(const XMLNode* nodoSuperficies);
+	void XMLCargarFrutas(const XMLNode* nodoFrutas);
+
+	void hidratarCoordenadas(const XMLNode* nodo, float& x, float& y);
+
 	XMLNode* XMLSerializarCerdos() const;
 	XMLNode* XMLSerializarSuperficies() const;
 	XMLNode* XMLSerializarFrutas() const;
@@ -242,6 +253,43 @@ private:
 	list<ImagenFruta*> frutas;
 
 	list<ImagenPosicionable*> posicionables;
+
+	/*********************
+	 * PARSER ATTRIBUTES *
+	 *********************/
+	// Definicion de valores para superficies
+	static enum SuperficieValues {
+		supNoDefinida,
+		supCajaVidrio,
+		supCajaMadera,
+		supCajaMetal
+	} supValues;
+
+	// Definición del mapa de superficies
+	typedef std::map<std::string, SuperficieValues> SuperficiesMap;
+
+	// Mapa asociado a los strings de valores enumerados de Superficies.
+	static SuperficiesMap mapSuperficies;
+
+	// Definicion de valores para frutas
+	static enum FrutasValues {
+		fruNoDefinida,
+		fruManzana,
+		fruBanana,
+		fruCereza
+	} fruValues;
+
+	// Definición del mapa de frutas
+	typedef std::map<std::string, FrutasValues> FrutasMap;
+
+	// Mapa asociado a los strings de valores enumerados de Frutas.
+	static FrutasMap mapFrutas;
+
+	/*************************************************
+	 * Funciones privadas para inicializar los mapas *
+	 *************************************************/
+	static SuperficiesMap inicializarMapaSuperficies();
+	static FrutasMap inicializarMapaFrutas();
 };
 
 #endif
