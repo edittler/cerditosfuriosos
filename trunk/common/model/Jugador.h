@@ -27,6 +27,9 @@ public:
 
 	unsigned int getId() const;
 
+	bool estaConectado();
+	void setConectado(bool conectado);
+
 private:
 	unsigned int id;
 
@@ -35,6 +38,9 @@ private:
 
 	// Puntaje del jugador
 	Puntaje puntaje;
+
+	// flag para indicar si hay un cliente manejandolo
+	bool conectado;
 };
 
 #endif /* JUGADOR_H_ */
