@@ -205,6 +205,14 @@ public:
 	 */
 	unsigned int getIdJugadorNoConectado();
 
+	/*
+	 * @brief establece como "no concectado" a un jugador, utilizado
+	 * para partidas multijugador en el caso particular donde un cliente
+	 * abandone la partida.
+	 * @param id del jugador
+	 */
+	void setJugadorNoConectado(unsigned int id);
+
 private:
 	/***************************************************
 	 * METODOS PRIVADOS DE SERIALIZACION E HIDRATACION *
