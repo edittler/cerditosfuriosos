@@ -4,9 +4,7 @@
         <ImagenFondo>../common/images/background/Bosque.png</ImagenFondo>
         <ImagenSuelo>../common/images/background/SueloBosque.png</ImagenSuelo>
         <Jugadores>1</Jugadores>
-        <Suelo>
-            <y>10</y>
-        </Suelo>
+        <Suelo> </Suelo>
         <Cerditos>
             <Cerdito>
                 <Punto2D x="1" y="0.6"></Punto2D>
@@ -71,13 +69,12 @@
             </Cereza>
         </Frutas>
     </Escenario>
-    <LineaEntrada tiempoGeneracion="250" probabilidad="80">
-        <PuntoInicial x="1023" y="300"></PuntoInicial>
-        <PuntoFinal x="1023" y="300"></PuntoFinal>
-    </LineaEntrada>
-    <ProbabilidadesPajaros>
-        <PajaroRojo probabilidad="50"></PajaroRojo>
-        <PajaroVerde probabilidad="30"></PajaroVerde>
-        <PajaroAzul probabilidad="15"></PajaroAzul>
-    </ProbabilidadesPajaros>
+    <LineaEntradaDerecha tiempoGeneracion="250" probabilidad="80">
+        <Posicion x="11" yInicial="1" yFinal="7"></Posicion>
+        <ProbabilidadesPajaros>
+            <PajaroRojo probabilidad="50"></PajaroRojo>
+            <PajaroVerde probabilidad="30"></PajaroVerde>
+            <PajaroAzul probabilidad="15"></PajaroAzul>
+        </ProbabilidadesPajaros>
+    </LineaEntradaDerecha>
 </Nivel>
