@@ -8,7 +8,7 @@
 #include <list>
 
 // Common Project Includes.
-#include "../../common/communication/ColaEventos.h"
+#include "../../common/communication/ColaProtegida.h"
 
 // Server Project Includes.
 #include "DefinicionesServidor.h"
@@ -24,6 +24,33 @@ public:
 	ThreadPartida(Partida* partida, ThreadCliente* cliente);
 	virtual ~ThreadPartida();
 
+	/*
+	 * @brief comienza la partida
+	 */
+	void comenzarPartida();
+
+	/*
+	 * @brief une cliente a partida.
+	 * @param cliente a agregar.
+	 */
+	void unirseAPartida(ThreadCliente* cliente);
+
+	/*
+	 * @brief pausa partida.
+	 */
+	void pausarPartida();
+
+	/*
+	 * @brief finaliza partida.
+	 */
+	void finalizarPartida();
+
+
+	void* run();
+
+	unsigned int getId();
+
+private:
 	/**
 	 * Agrega un jugador a la partida.
 	 * @param cliente que se desea agregar.
@@ -32,29 +59,19 @@ public:
 	 */
 	bool agregarJugador(ThreadCliente* cliente);
 
-	/*
-	 * @brief comienza la partida
-	 */
-	void comenzarPartida();
+	// identificador de la partida.
+	unsigned int id;
 
-	/*
-	 * @brief finaliza partida
-	 */
-	void finalizarPartida();
-
-
-	void* run();
-
-private:
-	// agregar mutex
+	// TODO agregar mutex
 	Partida* partida;
 
 	/* Cola de eventos que se va usar para que los clientes carguen eventos.
 	 * Su implementación ya contempla un mutex para protegerlo.
 	 */
-	ColaEventos eventos;
+	ColaProtegida<Evento*> eventos;
 
 	ClientesConectados jugadores;
+
 };
 
 #endif /* THREADPARTIDA_H_ */

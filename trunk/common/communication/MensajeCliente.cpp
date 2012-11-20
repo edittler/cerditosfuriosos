@@ -45,6 +45,7 @@ std::string MensajeCliente::serealizar() const {
 		msj << C_CREAR_PARTIDA << '|';
 		// Agrego el ID del mundo.
 		msj << this->id << '|';
+		// TODO pregunta se tendria que enviar el nombre de la partida creada??
 		break;
 	case MC_VER_PARTIDAS:
 		msj << C_VER_PARTIDAS << '|';
@@ -125,6 +126,10 @@ ComandoCliente MensajeCliente::getComando() const {
 
 std::string MensajeCliente::getID() const {
 	return id;
+}
+
+std::string MensajeCliente::getNombrePartida() const {
+	return this->nombre;
 }
 
 Evento MensajeCliente::getEvento() const {

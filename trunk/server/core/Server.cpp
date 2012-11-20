@@ -24,6 +24,7 @@ Server::~Server() {
 
 	PartidasDisponibles::iterator itPa;
 	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
+		itPa->second->join();
 		delete itPa->second;
 	}
 
@@ -49,11 +50,11 @@ void Server::apagar() {
 }
 
 void Server::crearPartida(Partida* partida, ThreadCliente* cliente) {
-	unsigned int id = 0;  // FIXME generar id
 	ThreadPartida* tPartida = new ThreadPartida(partida, cliente);
 
-	std::pair<unsigned int, ThreadPartida*> p(id, tPartida);
+	std::pair<unsigned int, ThreadPartida*> p(partida->getId(), tPartida);
 	this->partidasDisponibles.insert(p);
+	cliente->setPartida(tPartida);
 
 	tPartida->start();
 }

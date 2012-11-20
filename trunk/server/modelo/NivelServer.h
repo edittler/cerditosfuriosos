@@ -14,6 +14,8 @@ public:
 	 */
 	void tick(int milisegundos);
 
+	bool comienzoPartida();
+
 	/*
 	 * @brief valida que el modelo sigue ejecutandose.
 	 * @return ture si finalizo partida, false caso contrario.

@@ -1,12 +1,15 @@
 #ifndef PARTIDA_H_
 #define PARTIDA_H_
 
+#include "../modelo/NivelServer.h"
+
 // C++ Library Includes.
 #include <string>
 
 enum EstadoPartida {
 	CREANDO,
 	EJECUTANDO,
+	ESPERANDO_JUGADOR,
 	PAUSADO,
 	FINALIZADO
 };
@@ -16,11 +19,40 @@ public:
 	Partida(unsigned int id, std::string nombre);
 	virtual ~Partida();
 
+	/*
+	 * @brief valida que la partida pueda comenzar a ejecutarse
+	 * @return true si se puede, false caso contrario.
+	 */
+	bool comienzo();
+
+	/*
+	 * @brief valida que la partida haya finalizado.
+	 * @return true si finalizo, false caso contrario.
+	 */
 	bool finalizo();
 
+	void setRutaMundo(std::string path);
+
+	void cargarSiguienteNivel();
+
+	/*
+	 * @brief devuelve el id del primer jugador que se encuentro
+	 * no conectado hacia un cliente.
+	 * @return id del jugador, en caso de que todos los jugadores
+	 * se encuentren conectados devuelve 0.
+	 */
+	unsigned int getIdJugadorNoConectado();
+
 	EstadoPartida getEstado();
+	void setEstado(EstadoPartida estado);
+
+	unsigned int getId();
+	static unsigned int generarId();
 
 private:
+	// generador de ids.
+	static unsigned int proximoId;
+
 	// ID de la partida
 	unsigned int id;
 
@@ -35,7 +67,10 @@ private:
 	std::string rutaMundo;
 
 	// Nivel que está corriendo la partida
-//	nivel;
+	NivelServer* nivel;
+
+	// contador de niveles
+	unsigned int contadorNiveles;
 };
 
 #endif /* PARTIDA_H_ */
