@@ -856,6 +856,11 @@ unsigned int Escenario::getIdJugadorNoConectado() {
 	return 0;
 }
 
+void Escenario::setJugadorNoConectado(unsigned int id) {
+	Jugador* j = getJugador(id);
+	j->setConectado(false);
+}
+
 void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const {
 	std::cout << "\t=== GUARDANDO ATRIBUTOS ===" << std::endl;
 	// Convierto el ancho y alto en string
