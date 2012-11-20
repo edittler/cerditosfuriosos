@@ -48,19 +48,9 @@ public:
 	bool porcentajesPajarosValidos() const;
 
 	/**
-	 * @return coordenada x inicial de la linea de entrada de pajaros
-	 */
-	float getXInicioLineaEntrada() const;
-
-	/**
 	 * @return coordenada y inicial de la linea de entrada de pajaros
 	 */
 	float getYInicioLineaEntrada() const;
-
-	/**
-	 * @return coordenada x final de la linea de entrada de pajaros
-	 */
-	float getXFinalLineaEntrada() const;
 
 	/**
 	 * @return coordenada y final de la linea de entrada de pajaros
@@ -109,10 +99,9 @@ public:
 private:
 	XMLNode* XMLSerializarProbabilidadesPajaros() const;
 
-	Gtk::SpinButton* xInicial;
-	Gtk::SpinButton* yInicial;
+	float xLineaEntrada;
 
-	Gtk::SpinButton* xFinal;
+	Gtk::SpinButton* yInicial;
 	Gtk::SpinButton* yFinal;
 
 	Gtk::SpinButton* tiempoGeneracion;
