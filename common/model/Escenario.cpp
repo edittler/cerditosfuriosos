@@ -846,6 +846,16 @@ unsigned int Escenario::getCantidadJugadores() const {
 	return this->cantJugadores;
 }
 
+unsigned int Escenario::getIdJugadorNoConectado() {
+	Lock(this->mJugadores);
+	std::vector<Jugador*>::iterator it;
+	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+		if (!(*it)->estaConectado())
+			return (*it)->getId();
+	}
+	return 0;
+}
+
 void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const {
 	std::cout << "\t=== GUARDANDO ATRIBUTOS ===" << std::endl;
 	// Convierto el ancho y alto en string

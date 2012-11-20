@@ -198,6 +198,13 @@ public:
 
 	unsigned int getCantidadJugadores() const;
 
+	/*
+	 * @brief devuelve el id del primer jugador encontrado que
+	 * no haya sido conectado a un cliente.
+	 * @return id del jugador
+	 */
+	unsigned int getIdJugadorNoConectado();
+
 private:
 	/***************************************************
 	 * METODOS PRIVADOS DE SERIALIZACION E HIDRATACION *
