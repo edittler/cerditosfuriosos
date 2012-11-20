@@ -1,4 +1,8 @@
+// Header Include.
 #include "ImagenPosicionable.h"
+
+// Designer Project Includes.
+#include "CFDTools.h"
 
 int ImagenPosicionable::contadorInstancias = 0;
 
@@ -65,10 +69,50 @@ void ImagenPosicionable::setFondo(const Glib::RefPtr< Gdk::Pixbuf >& fondo) {
 	contenedorFondo->show_all();
 }
 
-float ImagenPosicionable::getXFlotante() {
-	return (x+(((float)ancho) / 2))/PIXELES_SOBRE_METRO;
+float ImagenPosicionable::getXFlotante() const {
+	float posXCentrada = ((float)x) + (((float)ancho) / 2);
+	return (posXCentrada/PIXELES_SOBRE_METRO);
 }
 
-float ImagenPosicionable::getYFlotante(int alto) {
-	return (alto-(y+(((float)this->alto) / 2)))/PIXELES_SOBRE_METRO;
+float ImagenPosicionable::getYFlotante(const int altoEscenario) const {
+	float posYCentrada = ((float)y) + (((float)alto) / 2);
+	float posYReal = ((float)altoEscenario) - posYCentrada;
+	return (posYReal)/PIXELES_SOBRE_METRO;
 }
+
+XMLNode* ImagenPosicionable::serializarCoordenadas(
+		const int altoEscenario) const {
+	XMLNode* nodo = new XMLNode("Punto2D");
+	float fX = this->getXFlotante();
+	float fY = this->getYFlotante(altoEscenario);
+	nodo->SetAttribute("x", cfd::floatToString(fX));
+	nodo->SetAttribute("y", cfd::floatToString(fY));
+	return nodo;
+}
+/*
+void ImagenPosicionable::hidratarCoordenadas(const XMLNode* nodo) {
+	// Obtengo el nombre del nodo
+	std::string nombre = nodo->ValueStr(); */
+	/* Comparo el nombre obtenido con el que se requiere.
+	 * Si no es igual, asigno los valores 0 a los flotantes.
+	 */
+/*	if (nombre.compare("Punto2D") != 0) {
+		x = 0;
+		y = 0;
+	} else {
+		// Verifico si contiene el atributo x. Si no lo posee, asigno el valor 0.
+		if (nodo->Attribute("x") == 0) {
+			x = 0;
+		}
+		// Verifico si contiene el atributo y. Si no lo posee, asigno el valor 0.
+		if (nodo->Attribute("y") == 0) {
+			y = 0;
+		}
+		// Obtengo el atributo x e y
+		std::string atributoX = nodo->Attribute("x");
+		std::string atributoY = nodo->Attribute("y");
+		// Los convierto a flotante y los asigno a los parametros.
+		x = cfd::stringToFloat(atributoX);
+		y = cfd::stringToFloat(atributoY);
+	}
+}*/
