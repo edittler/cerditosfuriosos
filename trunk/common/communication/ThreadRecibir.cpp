@@ -2,22 +2,26 @@
 
 ThreadRecibir::ThreadRecibir(Socket* socket) {
 	this->socket = socket;
+	this->terminado = false;
 }
 
 ThreadRecibir::~ThreadRecibir() {
+	this->terminado = true;
 	while (!mensajes.estaVacia()) {
-		MensajeCliente* m = mensajes.obtenerFrente();
+		Mensaje* m = mensajes.obtenerFrente();
 		delete m;
 	}
 }
 
-MensajeCliente* ThreadRecibir::getMensaje() {
-	return this->mensajes.obtenerFrente();
+Mensaje* ThreadRecibir::getMensaje() {
+	if (!mensajes.estaVacia())
+		return this->mensajes.obtenerFrente();
+	return NULL;
 }
 
 void* ThreadRecibir::run() {
 	while (!terminado) {
-		MensajeCliente* m = new MensajeCliente();
+		Mensaje* m = new MensajeCliente();
 		this->socket->recibir(*m);
 		mensajes.encolar(m);
 	}

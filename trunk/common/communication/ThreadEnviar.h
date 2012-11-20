@@ -1,18 +1,18 @@
 #ifndef THREADENVIAR_H_
 #define THREADENVIAR_H_
 
-#include <Thread.h>
+#include "../thread/Thread.h"
 
-#include "../../common/communication/ColaProtegida.h"
-#include "../../common/communication/RespuestaServer.h"
-#include "../../common/communication/Socket.h"
+#include "ColaProtegida.h"
+#include "RespuestaServer.h"
+#include "Socket.h"
 
 class ThreadEnviar: public Thread {
 public:
 	ThreadEnviar(Socket* socket);
 	virtual ~ThreadEnviar();
 
-	void agregarMensaje(RespuestaServer* mensaje);
+	void agregarMensaje(Mensaje* mensaje);
 
 	void* run();
 
@@ -22,7 +22,7 @@ private:
 	bool terminado;
 
 	// cola de mensajes a enviar.
-	ColaProtegida<RespuestaServer*> mensajes;
+	ColaProtegida<Mensaje*> mensajes;
 
 	Socket* socket;
 };

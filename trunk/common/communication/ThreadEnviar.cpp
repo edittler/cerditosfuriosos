@@ -2,24 +2,28 @@
 
 ThreadEnviar::ThreadEnviar(Socket* socket) {
 	this->socket = socket;
+	this->terminado = false;
 }
 
 ThreadEnviar::~ThreadEnviar() {
+	this->terminado = true;
 	while (!mensajes.estaVacia()) {
-		RespuestaServer* m = mensajes.obtenerFrente();
+		Mensaje* m = mensajes.obtenerFrente();
 		delete m;
 	}
 }
 
-void ThreadEnviar::agregarMensaje(RespuestaServer* mensaje) {
+void ThreadEnviar::agregarMensaje(Mensaje* mensaje) {
 	this->mensajes.encolar(mensaje);
 }
 
 void* ThreadEnviar::run() {
 	while (!terminado) {
-		RespuestaServer* m = mensajes.obtenerFrente();
-		this->socket->enviar(*m);
-		delete m;
+		if (!mensajes.estaVacia()) {
+			Mensaje* m = mensajes.obtenerFrente();
+			this->socket->enviar(*m);
+			delete m;
+		}
 	}
 
 	return NULL;
