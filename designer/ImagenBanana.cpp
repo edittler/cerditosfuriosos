@@ -14,3 +14,13 @@ ImagenBanana::ImagenBanana(int x, int y) : ImagenFruta(RUTA_BANANA) {
 }
 
 ImagenBanana::~ImagenBanana() { }
+
+XMLNode* ImagenBanana::serialize(const int altoEscenario) const {
+	// Serializo la posicion de la imagen
+	XMLNode* punto = this->serializarCoordenadas(altoEscenario);
+	// Creo el nodo para la imagen
+	XMLNode* nodo = new XMLNode("Banana");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}

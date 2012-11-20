@@ -1,14 +1,15 @@
 #ifndef IMAGENSUPERFICIE_H_
 #define IMAGENSUPERFICIE_H_
 
-// Hierarchy Include.
+// Hierarchy Includes.
 #include "ImagenPosicionable.h"
+#include "ImagenSerializable.h"
 
 /**
  * Las instancias de esta clase representan a la vista de una superficie
  * sobre un lienzo.
  */
-class ImagenSuperficie: public ImagenPosicionable {
+class ImagenSuperficie: public ImagenPosicionable, public ImagenSerializable {
 public:
 	/**
 	 * Destructor.

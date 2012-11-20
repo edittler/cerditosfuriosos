@@ -15,3 +15,13 @@ ImagenManzana::ImagenManzana(int x, int y) : ImagenFruta(RUTA_MANZANA) {
 }
 
 ImagenManzana::~ImagenManzana() { }
+
+XMLNode* ImagenManzana::serialize(const int altoEscenario) const {
+	// Serializo la posicion de la imagen
+	XMLNode* punto = this->serializarCoordenadas(altoEscenario);
+	// Creo el nodo para la imagen
+	XMLNode* nodo = new XMLNode("Manzana");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}

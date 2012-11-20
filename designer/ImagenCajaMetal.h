@@ -12,19 +12,26 @@
  * sobre un lienzo.
  */
 class ImagenCajaMetal : public ImagenSuperficie {
-	public:
-	
-		/**
-		 * Constructor.
-		 * @param x abscisa de la esquina superior derecha de la imagen
-		 * @param y ordenada de la esquina superior derecha de la imagen
-		 */
-		ImagenCajaMetal(int x, int y);
-		
-		/**
-		 * Destructor.
-		 */
-		virtual ~ImagenCajaMetal();
+public:
+
+	/**
+	 * Constructor.
+	 * @param x abscisa de la esquina superior derecha de la imagen
+	 * @param y ordenada de la esquina superior derecha de la imagen
+	 */
+	ImagenCajaMetal(int x, int y);
+
+	/**
+	 * Destructor.
+	 */
+	virtual ~ImagenCajaMetal();
+
+	/**
+	 * Serializa la imagen.
+	 * @param alto del escenario en el que se va a serializar el objeto.
+	 * @return nodo con el objeto serializado.
+	 */
+	XMLNode* serialize(const int altoEscenario) const;
 };
 
 #endif

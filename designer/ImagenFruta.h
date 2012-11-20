@@ -3,12 +3,13 @@
 
 // Hierarchy Include.
 #include "ImagenPosicionable.h"
+#include "ImagenSerializable.h"
 
 /**
  * Las instancias de esta clase representan a la vista de una fruta
  * sobre un lienzo.
  */
-class ImagenFruta: public ImagenPosicionable {
+class ImagenFruta: public ImagenPosicionable, public ImagenSerializable {
 public:
 	/**
 	 * Destructor.

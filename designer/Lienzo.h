@@ -220,6 +220,8 @@ private:
 	 * Los siguientes métodos son los de serialización e hidratación.
 	 */
 	XMLNode* XMLSerializarCerdos() const;
+	XMLNode* XMLSerializarSuperficies() const;
+	XMLNode* XMLSerializarFrutas() const;
 	
 	/*************
 	 * ATRIBUTOS *
