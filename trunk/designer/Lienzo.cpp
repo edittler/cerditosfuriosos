@@ -424,6 +424,13 @@ void Lienzo::guardarNivel(string rutaNivel) {
 	if (nodoEscenario == 0)
 		return;
 
+	/* TODO Este código funciona muy bien cuando se crea un nuevo nivel.
+	 * Hay que ver que ocurre en el caso que se edita el nivel, si se borran
+	 * los nodos antiguos de cerditos, catapultas, superficies y frutas.
+	 * Para ese caso, lo que habría que hacer es respaldar los atributos
+	 * y reescribir el archivo XML.
+	 */
+
 	// Agrego el nodo del suelo
 	XMLNode* nodoSuelo = new XMLNode("Suelo");
 	nodoEscenario->LinkEndChild(nodoSuelo);
@@ -438,49 +445,16 @@ void Lienzo::guardarNivel(string rutaNivel) {
 	XMLNode* nodoMonticulo = this->monticulo->serialize(this->alto);
 	nodoEscenario->LinkEndChild(nodoMonticulo);
 
-	// TODO Seguir cargando los demás objetos.
+	// Serializo las superficies y las agrego al nodo del escenario.
+	XMLNode* nodoSuperficies = this->XMLSerializarSuperficies();
+	nodoEscenario->LinkEndChild(nodoSuperficies);
+
+	// Serializo las frutas y las agrego al nodo del escenario.
+	XMLNode* nodoFrutas = this->XMLSerializarFrutas();
+	nodoEscenario->LinkEndChild(nodoFrutas);
 
 	// Guardo el documento
 	doc.SaveFile();
-
-	/*
-	 * Informacion para Eze: Este metodo se encargaria de guardar los objetos
-	 * del escenario en el archivo xml.
-	 * 
-	 * Para eso recibe la ruta del mismo como parametro.
-	 * 
-	 * Habria que recorrer las siguientes listas:
-	 * 
-	 * list<ImagenCajaMadera*> cajasMadera;
-	 * list<ImagenCajaMetal*> cajasMetal;
-	 * list<ImagenCajaVidrio*> cajasVidrio;
-	 * list<ImagenCerdo*> cerdos;
-	 * list<ImagenBanana*> bananas;
-	 * list<ImagenCereza*> cerezas;
-	 * list<ImagenManzana*> manzanas;
-	 * list<ImagenCatapulta*> catapultas; 
-	 * guardando cada elemento (el monticulo se corresponde con el atributo
-	 * "monticulo")
-	 * 
-	 * Para eso ya contas con saber el tipo de cada elemento (para eso estan
-	 * separados en distintas listas) y todas heredan de una clase que tiene los
-	 * metodos getXFlotante y getYFlotante que ya te devuelven las coordenadas
-	 * que tendria el objeto dentro del modelo.
-	 * 
-	 * A getYFlotante le tenes que pasar como parametro el atributo de este
-	 * lienzo llamado "alto", dado que como visualmente se usa un eje Y que va
-	 * desde arriba hacia abajo, para convertir de la ordenada entera a la
-	 * flotante del modelo hay que restarle a ese valor en un momento.
-	 * 
-	 * Las validaciones en cuanto a que haya un cerdo por cada jugador y a que
-	 * haya una catapulta y un monticulo por cada uno ya fueron hechas antes de
-	 * que se llame a este metodo.
-	 * 
-	 * Como convencion de a que cerdo pertenece cada catapulta podes adoptar que
-	 * se corresponden entre si los que se encuentren en la misma posicion de su
-	 * lista correspondiente. Por ejemplo, el primer cerdo de la lista "cerdos"
-	 * es el duenio de la primer catapulta de la lista.
-	 */
 }
 
 void Lienzo::agregarCerdo(float x, float y) {
@@ -540,7 +514,7 @@ void Lienzo::agregarManzana(float x, float y) {
 XMLNode* Lienzo::XMLSerializarCerdos() const {
 	// Creo el nodo Cerditos
 	XMLNode* nodoCerditos = new XMLNode("Cerditos");
-	// Recorro la lista de cerdos y catapultas para ir serilizando.
+	// Recorro la lista de cerdos y catapultas para ir serializando.
 	list<ImagenCerdo*>::const_iterator itCerdo = cerdos.begin();
 	list<ImagenCatapulta*>::const_iterator itCatapulta = catapultas.begin();
 	while ((itCerdo != cerdos.end()) && (itCatapulta != catapultas.end())) {
@@ -556,4 +530,36 @@ XMLNode* Lienzo::XMLSerializarCerdos() const {
 		itCatapulta++;
 	}
 	return nodoCerditos;
+}
+
+XMLNode* Lienzo::XMLSerializarSuperficies() const {
+	// Creo el nodo Superficies
+	XMLNode* nodoSuperficies = new XMLNode("Superficies");
+	// Recorro la lista de superficies para ir serializando.
+	list<ImagenSuperficie*>::const_iterator itSuperficie = superficies.begin();
+	while (itSuperficie != superficies.end()) {
+		// Serializo la superficie
+		XMLNode* nodoSuperficie = (*itSuperficie)->serialize(this->alto);
+		// Linkeo la superficie en el nodo de superficies.
+		nodoSuperficies->LinkEndChild(nodoSuperficie);
+		// Incremento el iterador.
+		itSuperficie++;
+	}
+	return nodoSuperficies;
+}
+
+XMLNode* Lienzo::XMLSerializarFrutas() const {
+	// Creo el nodo Superficies
+	XMLNode* nodoFrutas = new XMLNode("Frutas");
+	// Recorro la lista de frutas para ir serializando.
+	list<ImagenFruta*>::const_iterator itFruta = frutas.begin();
+	while (itFruta != frutas.end()) {
+		// Serializo la fruta
+		XMLNode* nodoFruta = (*itFruta)->serialize(this->alto);
+		// Linkeo la superficie en el nodo de superficies.
+		nodoFrutas->LinkEndChild(nodoFruta);
+		// Incremento el iterador.
+		itFruta++;
+	}
+	return nodoFrutas;
 }

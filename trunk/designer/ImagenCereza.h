@@ -12,19 +12,26 @@
  * sobre un lienzo.
  */
 class ImagenCereza : public ImagenFruta {
-	public:
-		
-		/**
-		 * Constructor.
-		 * @param x abscisa de la esquina superior derecha de la imagen
-		 * @param y ordenada de la esquina superior derecha de la imagen
-		 */
-		ImagenCereza(int x, int y);
-		
-		/**
-		 * Destructor.
-		 */
-		virtual ~ImagenCereza();
+public:
+
+	/**
+	 * Constructor.
+	 * @param x abscisa de la esquina superior derecha de la imagen
+	 * @param y ordenada de la esquina superior derecha de la imagen
+	 */
+	ImagenCereza(int x, int y);
+
+	/**
+	 * Destructor.
+	 */
+	virtual ~ImagenCereza();
+
+	/**
+	 * Serializa la imagen.
+	 * @param alto del escenario en el que se va a serializar el objeto.
+	 * @return nodo con el objeto serializado.
+	 */
+	XMLNode* serialize(const int altoEscenario) const;
 };
 
 #endif

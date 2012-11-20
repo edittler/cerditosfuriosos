@@ -102,7 +102,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1983057092" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.libs.580817062" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="gtkmm-2.4"/>
-									<listOptionValue builtIn="false" value="common"/>
 									<listOptionValue builtIn="false" value="atkmm-1.6"/>
 									<listOptionValue builtIn="false" value="gdkmm-2.4"/>
 									<listOptionValue builtIn="false" value="giomm-2.4"/>
@@ -123,6 +122,7 @@
 									<listOptionValue builtIn="false" value="fontconfig"/>
 									<listOptionValue builtIn="false" value="gobject-2.0"/>
 									<listOptionValue builtIn="false" value="glib-2.0"/>
+									<listOptionValue builtIn="false" value="common"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.479692310" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/Debug}&quot;"/>

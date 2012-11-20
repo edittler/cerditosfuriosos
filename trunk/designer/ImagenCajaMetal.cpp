@@ -16,3 +16,13 @@ ImagenCajaMetal::ImagenCajaMetal(int x, int y) :
 }
 
 ImagenCajaMetal::~ImagenCajaMetal() { }
+
+XMLNode* ImagenCajaMetal::serialize(const int altoEscenario) const {
+	// Serializo la posicion de la imagen
+	XMLNode* punto = this->serializarCoordenadas(altoEscenario);
+	// Creo el nodo para la imagen
+	XMLNode* nodo = new XMLNode("CajaMetal");
+	// Agrego el nodo del Punto2D
+	nodo->LinkEndChild(punto);
+	return nodo;
+}
