@@ -1,6 +1,9 @@
 // Header Include.
 #include "Lienzo.h"
 
+// Designer Projet Includes.
+#include "CFDTools.h"
+
 Lienzo::Lienzo(int ancho,
 				int alto,
 				int cantidadJugadores,
@@ -19,7 +22,126 @@ Lienzo::Lienzo(int ancho,
 		&Lienzo::recibirInformacion));
 }
 
-Lienzo::~Lienzo() {}
+Lienzo::~Lienzo() { }
+
+void Lienzo::cargarNivel(const string rutaNivel) {
+	/*
+	 * TODO Informacion para Eze:
+	 *
+	 * Este metodo se encargaria de cargar un nivel que ya se empezo a editar.
+	 *
+	 * La ruta del mismo es el parametro de este metodo.
+	 *
+	 * Sobrecargue los metodos para agregar a todos los objetos para que reciban
+	 * los valores flotantes del modelo, los pasen a las coordenadas del
+	 * diseñador y se agreguen automaticamente.
+	 *
+	 * Entonces habria que ir recorriendo a todos los objetos que se extraigan
+	 * del archivo e ir agregandolos mediante los metodos:
+	 *
+	 * void agregarCerdo(float x, float y);
+	 * void agregarMonticulo(float x, float y);
+	 * void agregarCatapulta(float x, float y);
+	 * void agregarCajaMadera(float x, float y);
+	 * void agregarCajaMetal(float x, float y);
+	 * void agregarCajaVidrio(float x, float y);
+	 * void agregarBanana(float x, float y);
+	 * void agregarCereza(float x, float y);
+	 * void agregarManzana(float x, float y);
+	 */
+	// Abro el archivo del nivel
+	XMLDocument doc;
+	bool fileOpen = doc.LoadFile(rutaNivel);
+	if (!fileOpen)
+		return;
+
+	/* Obtengo el nodo raiz, que en teoría es el llamado Nivel. No realizo
+	 * esta validación. Lo cargo como un nodo constante porque no debe ser
+	 * modificado.
+	 */
+	const XMLNode* root = doc.RootElement();
+	// Obtento el nodo Escenario
+	const XMLNode* nodoEscenario = root->FirstChildElement("Escenario");
+	// Si el nodo no existe, salgo del metodo sin cargar nada
+	if (nodoEscenario == 0)
+		return;
+
+	// Obtengo el nodo de los cerditos
+	const XMLNode* nodoCerditos = nodoEscenario->FirstChildElement("Cerditos");
+	// Si el nodo no es nulo, cargo los cerditos
+	if (nodoCerditos != 0) {
+		this->XMLCargarCerdos(nodoCerditos);
+	}
+
+	// Obtengo el nodo del monticulo
+	const XMLNode* nodoMonticulo = nodoEscenario->FirstChildElement("MonticuloHuevos");
+	// Si el nodo no es nulo, cargo el monticulo
+	if (nodoMonticulo != 0) {
+		this->XMLCargarMonticulo(nodoMonticulo);
+	}
+
+	// Obtengo el nodo de las superficies
+	const XMLNode* nodoSuperficies = nodoEscenario->FirstChildElement("Superficies");
+	// Si el nodo no es nulo, cargo las superficies
+	if (nodoSuperficies != 0) {
+		this->XMLCargarSuperficies(nodoSuperficies);
+	}
+
+	// Obtengo el nodo de las frutas
+	const XMLNode* nodoFrutas = nodoEscenario->FirstChildElement("Frutas");
+	// Si el nodo no es nulo, cargo las frutas
+	if (nodoFrutas != 0) {
+		this->XMLCargarFrutas(nodoFrutas);
+	}
+}
+
+void Lienzo::guardarNivel(const string rutaNivel) const {
+	// Abro el archivo del nivel
+	XMLDocument doc;
+	bool fileOpen = doc.LoadFile(rutaNivel);
+	if (!fileOpen)
+		return;
+
+	// Obtengo el nodo raiz, que en teoría es el llamado Nivel.
+	XMLNode* root = doc.RootElement();
+	// Obtento el nodo Escenario
+	XMLNode* nodoEscenario = root->FirstChildElement("Escenario");
+	// Si el nodo no existe, salgo del metodo sin guardar nada
+	if (nodoEscenario == 0)
+		return;
+
+	/* TODO Este código funciona muy bien cuando se crea un nuevo nivel.
+	 * Hay que ver que ocurre en el caso que se edita el nivel, si se borran
+	 * los nodos antiguos de cerditos, catapultas, superficies y frutas.
+	 * Para ese caso, lo que habría que hacer es respaldar los atributos
+	 * y reescribir el archivo XML.
+	 */
+
+	// Agrego el nodo del suelo
+	XMLNode* nodoSuelo = new XMLNode("Suelo");
+	nodoEscenario->LinkEndChild(nodoSuelo);
+
+	/* Serializo los cerdos junto con las catapultas y los agrego al nodo del
+	 * escenario.
+	 */
+	XMLNode* nodoCerdos = this->XMLSerializarCerdos();
+	nodoEscenario->LinkEndChild(nodoCerdos);
+
+	// Serializo el montículo de huevos y lo agrego al nodo del escenario.
+	XMLNode* nodoMonticulo = this->monticulo->serialize(this->alto);
+	nodoEscenario->LinkEndChild(nodoMonticulo);
+
+	// Serializo las superficies y las agrego al nodo del escenario.
+	XMLNode* nodoSuperficies = this->XMLSerializarSuperficies();
+	nodoEscenario->LinkEndChild(nodoSuperficies);
+
+	// Serializo las frutas y las agrego al nodo del escenario.
+	XMLNode* nodoFrutas = this->XMLSerializarFrutas();
+	nodoEscenario->LinkEndChild(nodoFrutas);
+
+	// Guardo el documento
+	doc.SaveFile();
+}
 
 void Lienzo::eliminarImagen(string id) {
 	// Elimino en la lista de posicionables
@@ -79,6 +201,18 @@ void Lienzo::eliminarImagen(string id) {
 	}
 }
 
+bool Lienzo::cantidadJugadoresValida() const {
+	return (cerdos.size() == cantidadJugadores);
+}
+
+bool Lienzo::objetosJugadoresCorrectos() const {
+	if (cerdos.size() == catapultas.size()) {
+		if (monticulo != NULL)
+			return cantidadJugadoresValida();
+	}
+	return false;
+}
+
 void Lienzo::recibirInformacion(
 								const Glib::RefPtr<Gdk::DragContext>& context,
 								int x,
@@ -129,12 +263,19 @@ void Lienzo::recibirInformacion(
 	}
 }
 
-void Lienzo::agregarFondo(string rutaImagen) {
+void Lienzo::agregarFondo(const string rutaImagen) {
 	Glib::RefPtr<Gdk::Pixbuf> buffer;
 	buffer = Gdk::Pixbuf::create_from_file(rutaImagen);
 	buffer = buffer->scale_simple(ancho, alto, Gdk::INTERP_BILINEAR);
 	imagenFondo = manage(new Gtk::Image(buffer));
 	put(*imagenFondo, 0, 0);
+}
+
+void Lienzo::copiarFondo(int x, int y, ImagenPosicionable* imagen) {
+	Glib::RefPtr<Gdk::Pixbuf> buffer = imagenFondo->get_pixbuf();
+	Glib::RefPtr<Gdk::Pixbuf> fondo = Gdk::Pixbuf::create_subpixbuf(buffer,
+			x, y, imagen->ancho, imagen->alto);
+	imagen->setFondo(fondo);
 }
 
 void Lienzo::eliminarPosicionable(string id) {
@@ -146,12 +287,6 @@ void Lienzo::eliminarPosicionable(string id) {
 		}
 		++iterador;
 	}
-}
-
-void Lienzo::copiarFondo(int x, int y, ImagenPosicionable* imagen) {
-	Glib::RefPtr<Gdk::Pixbuf> buffer = imagenFondo->get_pixbuf();
-	Glib::RefPtr<Gdk::Pixbuf> fondo = Gdk::Pixbuf::create_subpixbuf(buffer, x, y, imagen->ancho, imagen->alto);
-	imagen->setFondo(fondo);
 }
 
 void Lienzo::agregarCerdo(int x, int y) {
@@ -345,7 +480,8 @@ void Lienzo::moverObjeto(string id, int x, int y) {
 	}
 }
 
-bool Lienzo::coincidenciaOcupacional(int x, int y, ImagenPosicionable* imagen) {
+bool Lienzo::coincidenciaOcupacional(int x, int y,
+		ImagenPosicionable* imagen) {
 	bool condicion;
 	list<ImagenPosicionable*>::iterator iterador = posicionables.begin();
 	while (iterador != posicionables.end()) {
@@ -368,93 +504,6 @@ bool Lienzo::dentroDeEscenario(int x, int y, ImagenPosicionable* imagen) {
 	if (x+imagen->ancho < ancho)
 		return (y+imagen->alto < alto);
 	return false;
-}
-
-bool Lienzo::cantidadJugadoresValida() {
-	return (cerdos.size() == cantidadJugadores);
-}
-
-bool Lienzo::objetosJugadoresCorrectos() {
-	if (cerdos.size() == catapultas.size()) {
-		if (monticulo != NULL)
-			return cantidadJugadoresValida();
-	}
-	return false;
-}
-
-void Lienzo::cargarNivel(string rutaNivel) {
-	/* 
-	 * Informacion para Eze:
-	 * 
-	 * Este metodo se encargaria de cargar un nivel que ya se empezo a editar.
-	 * 
-	 * La ruta del mismo es el parametro de este metodo.
-	 * 
-	 * Sobrecargue los metodos para agregar a todos los objetos para que reciban
-	 * los valores flotantes del modelo, los pasen a las coordenadas del
-	 * diseñador y se agreguen automaticamente.
-	 * 
-	 * Entonces habria que ir recorriendo a todos los objetos que se extraigan
-	 * del archivo e ir agregandolos mediante los metodos:
-	 * 
-	 * void agregarCerdo(float x, float y);
-	 * void agregarMonticulo(float x, float y);
-	 * void agregarCatapulta(float x, float y);
-	 * void agregarCajaMadera(float x, float y);
-	 * void agregarCajaMetal(float x, float y);
-	 * void agregarCajaVidrio(float x, float y);
-	 * void agregarBanana(float x, float y);
-	 * void agregarCereza(float x, float y);
-	 * void agregarManzana(float x, float y);
-	 */
-}
-
-void Lienzo::guardarNivel(string rutaNivel) {
-	// Abro el archivo del nivel
-	XMLDocument doc;
-	bool fileOpen = doc.LoadFile(rutaNivel);
-	if (!fileOpen)
-		return;
-
-	// Obtengo el nodo raiz, que en teoría es el llamado Nivel.
-	XMLNode* root = doc.RootElement();
-	// Obtento el nodo Escenario
-	XMLNode* nodoEscenario = root->FirstChildElement("Escenario");
-	// Si el nodo no existe, salgo del metodo sin guardar nada
-	if (nodoEscenario == 0)
-		return;
-
-	/* TODO Este código funciona muy bien cuando se crea un nuevo nivel.
-	 * Hay que ver que ocurre en el caso que se edita el nivel, si se borran
-	 * los nodos antiguos de cerditos, catapultas, superficies y frutas.
-	 * Para ese caso, lo que habría que hacer es respaldar los atributos
-	 * y reescribir el archivo XML.
-	 */
-
-	// Agrego el nodo del suelo
-	XMLNode* nodoSuelo = new XMLNode("Suelo");
-	nodoEscenario->LinkEndChild(nodoSuelo);
-
-	/* Serializo los cerdos junto con las catapultas y los agrego al nodo del
-	 * escenario.
-	 */
-	XMLNode* nodoCerdos = this->XMLSerializarCerdos();
-	nodoEscenario->LinkEndChild(nodoCerdos);
-
-	// Serializo el montículo de huevos y lo agrego al nodo del escenario.
-	XMLNode* nodoMonticulo = this->monticulo->serialize(this->alto);
-	nodoEscenario->LinkEndChild(nodoMonticulo);
-
-	// Serializo las superficies y las agrego al nodo del escenario.
-	XMLNode* nodoSuperficies = this->XMLSerializarSuperficies();
-	nodoEscenario->LinkEndChild(nodoSuperficies);
-
-	// Serializo las frutas y las agrego al nodo del escenario.
-	XMLNode* nodoFrutas = this->XMLSerializarFrutas();
-	nodoEscenario->LinkEndChild(nodoFrutas);
-
-	// Guardo el documento
-	doc.SaveFile();
 }
 
 void Lienzo::agregarCerdo(float x, float y) {
@@ -511,6 +560,155 @@ void Lienzo::agregarManzana(float x, float y) {
 	agregarManzana(xEntero, yEntero);
 }
 
+void Lienzo::XMLCargarCerdos(const XMLNode* nodoCerdos) {
+	// Obtengo el nodo que contiene el primer cerdito
+	const XMLNode* cerdito = nodoCerdos->FirstChildElement("Cerdito");
+	// Mientras el nodo del cerdito no sea nulo, cargar el cerdito.
+	while (cerdito != 0) {
+		this->XMLCargarCerdo(cerdito);
+		cerdito = cerdito->NextSiblingElement("Cerdito");
+	}
+}
+
+void Lienzo::XMLCargarCerdo(const XMLNode* nodoCerdo) {
+	// Obtengo la posicion del cerdito.
+	const XMLNode* posCerdito = nodoCerdo->FirstChildElement("Punto2D");
+	/* Si existe el nodo Punto2D, lo hidrato y agrego el cerdito.
+	 * Caso contrario, no agrego el cerdito.
+	 */
+	if (posCerdito != 0) {
+		float x, y;
+		this->hidratarCoordenadas(posCerdito, x, y);
+		this->agregarCerdo(x, y);
+	}
+
+	// Obtengo el nodo de la catapulta.
+	const XMLNode* catapulta = nodoCerdo->FirstChildElement("Catapulta");
+	/* Si existe el nodo Catapulta, busco el nodo Punto2D y la agrego.
+	 * Caso contrario no agrego nada.
+	 */
+	if (catapulta != 0) {
+		// Obtengo la posicion de la catapulta.
+		const XMLNode* posCatapulta = catapulta->FirstChildElement("Punto2D");
+		/* Si existe el nodo Punto2D, lo hidrato y agrego la catapulta.
+		 * Caso contrario, no agrego nada.
+		 */
+		if (posCatapulta != 0) {
+			float x, y;
+			this->hidratarCoordenadas(posCatapulta, x, y);
+			this->agregarCatapulta(x, y);
+		}
+	}
+}
+
+void Lienzo::XMLCargarMonticulo(const XMLNode* nodoMonticulo) {
+	// Obtengo la posicion del monticulo.
+	const XMLNode* posMonticulo = nodoMonticulo->FirstChildElement("Punto2D");
+	/* Si existe el nodo Punto2D, lo hidrato y agrego el Monticulo.
+	 * Caso contrario, no agrego el monticulo.
+	 */
+	if (posMonticulo != 0) {
+		float x, y;
+		this->hidratarCoordenadas(posMonticulo, x, y);
+		this->agregarMonticulo(x, y);
+	}
+}
+
+void Lienzo::XMLCargarSuperficies(const XMLNode* nodoSuperficies) {
+	// Cargo el primer nodo de superficie
+	const XMLNode* supNode = nodoSuperficies->FirstChildElement();
+	// Mientras el nodo de superficie no es nulo, la hidrato y agrego
+	while (supNode != 0) {
+		// Obtengo el nodo de Punto2D de la superficie
+		const XMLNode* puntoNode = supNode->FirstChildElement("Punto2D");
+		// Si el nodo del punto no es nulo, cargo la superficie
+		if (puntoNode != 0) {
+			// Hidrato las coordenadas
+			float x, y;
+			this->hidratarCoordenadas(puntoNode, x, y);
+			// Obtengo el nombre del nodo de superficie
+			std::string supName = supNode->ValueStr();
+			switch (mapSuperficies[supName]) {
+			case supCajaVidrio:
+				this->agregarCajaVidrio(x, y);
+				break;
+			case supCajaMadera:
+				this->agregarCajaMadera(x, y);
+				break;
+			case supCajaMetal:
+				this->agregarCajaMetal(x, y);
+				break;
+			default:
+				// No realizo nada.
+				break;
+			}  // Fin switch
+		}  // Fin if nodo punto no nulo
+		// Obtengo el siguiente nodo de superficie
+		supNode = supNode->NextSiblingElement();
+	}  // Fin while
+}
+
+void Lienzo::XMLCargarFrutas(const XMLNode* nodoFrutas) {
+	// Cargo el primer nodo de fruta
+	const XMLNode* fruNode = nodoFrutas->FirstChildElement();
+	// Mientras el nodo de fruta no es nulo, la hidrato y agrego
+	while (fruNode != 0) {
+		// Obtengo el nodo de Punto2D de la fruta
+		const XMLNode* puntoNode = fruNode->FirstChildElement("Punto2D");
+		// Si el nodo del punto no es nulo, cargo la fruta
+		if (puntoNode != 0) {
+			// Hidrato las coordenadas
+			float x, y;
+			this->hidratarCoordenadas(puntoNode, x, y);
+			// Obtengo el nombre del nodo de fruta
+			std::string fruName = fruNode->ValueStr();
+			switch (mapFrutas[fruName]) {
+			case fruManzana:
+				this->agregarManzana(x, y);
+				break;
+			case fruBanana:
+				this->agregarBanana(x, y);
+				break;
+			case fruCereza:
+				this->agregarCereza(x, y);
+				break;
+			default:
+				std::cout << "\tNodo de Fruta no válido" << std::endl;
+				break;
+			}  // Fin switch
+		}  // Fin if nodo punto no nulo
+		// Obtengo el siguiente nodo de fruta
+		fruNode = fruNode->NextSiblingElement();
+	}  // Fin while
+}
+
+void Lienzo::hidratarCoordenadas(const XMLNode* nodo, float& x, float& y) {
+	// Obtengo el nombre del nodo
+	std::string nombre = nodo->ValueStr();
+	/* Comparo el nombre obtenido con el que se requiere.
+	 * Si no es igual, asigno los valores 0 a los flotantes.
+	 */
+	if (nombre.compare("Punto2D") != 0) {
+		x = 0;
+		y = 0;
+	} else {
+		// Verifico si contiene el atributo x. Si no lo posee, asigno el valor 0.
+		if (nodo->Attribute("x") == 0) {
+			x = 0;
+		}
+		// Verifico si contiene el atributo y. Si no lo posee, asigno el valor 0.
+		if (nodo->Attribute("y") == 0) {
+			y = 0;
+		}
+		// Obtengo el atributo x e y
+		std::string atributoX = nodo->Attribute("x");
+		std::string atributoY = nodo->Attribute("y");
+		// Los convierto a flotante y los asigno a los parametros.
+		x = cfd::stringToFloat(atributoX);
+		y = cfd::stringToFloat(atributoY);
+	}
+}
+
 XMLNode* Lienzo::XMLSerializarCerdos() const {
 	// Creo el nodo Cerditos
 	XMLNode* nodoCerditos = new XMLNode("Cerditos");
@@ -563,3 +761,24 @@ XMLNode* Lienzo::XMLSerializarFrutas() const {
 	}
 	return nodoFrutas;
 }
+
+Lienzo::SuperficiesMap Lienzo::inicializarMapaSuperficies() {
+	SuperficiesMap supMap;
+	supMap["CajaVidrio"] = supCajaVidrio;
+	supMap["CajaMadera"] = supCajaMadera;
+	supMap["CajaMetal"] = supCajaMetal;
+	return supMap;
+}
+
+Lienzo::SuperficiesMap Lienzo::mapSuperficies(Lienzo::
+		inicializarMapaSuperficies());
+
+Lienzo::FrutasMap Lienzo::inicializarMapaFrutas() {
+	FrutasMap fruMap;
+	fruMap["Manzana"] = fruManzana;
+	fruMap["Banana"] = fruBanana;
+	fruMap["Cereza"] = fruCereza;
+	return fruMap;
+}
+
+Lienzo::FrutasMap Lienzo::mapFrutas(Lienzo::inicializarMapaFrutas());

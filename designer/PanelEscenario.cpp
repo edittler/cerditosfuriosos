@@ -103,6 +103,13 @@ void PanelEscenario::cargarCaracteristicasNivel() {
 	// Obtengo el nodo del escenario
 	XMLNode* escenarioNode = nivelNode->FirstChildElement("Escenario");
 
+	// Si el nodo es nulo, seteo las dimenciones en tamaño medio y salgo
+	if (escenarioNode == 0) {
+		anchoFlotante = ANCHO_ESCENARIO_MEDIANO;
+		altoFlotante = ALTO_ESCENARIO_MEDIANO;
+		return;
+	}
+
 	// Obtengo los atributos de dimensiones del escenario.
 	std::string sAncho = escenarioNode->Attribute("ancho");
 	std::string sAlto = escenarioNode->Attribute("alto");

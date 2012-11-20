@@ -23,7 +23,6 @@
  */
 class ImagenPosicionable : public Gtk::EventBox {
 public:
-
 	/**
 	 * Destructor.
 	 */
@@ -86,7 +85,6 @@ protected:
 	ImagenPosicionable(const char* ruta);
 
 	XMLNode* serializarCoordenadas(const int altoEscenario) const;
-//	void hidratarCoordenadas(const XMLNode* nodo);
 
 	/**
 	 * Coordenadas del objeto en el lienzo que integra.
