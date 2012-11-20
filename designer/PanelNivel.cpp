@@ -64,7 +64,6 @@ void PanelNivel::botonCrearClickeado() {
 	/////////////////////////////
 	// Creo el archivo del nivel.
 	/////////////////////////////
-
 	// Creo el nodo del nivel y seteo el atributo duracion.
 	XMLNode* nivelNode = new XMLNode("Nivel");
 	nivelNode->SetAttribute("duracion", creador->getDuracion());
@@ -120,19 +119,8 @@ void PanelNivel::botonCrearClickeado() {
 	// Guardo el archivo del nivel
 	doc.SaveFile(nivelFileName);
 
-	//////////////////////////////////
 	// Actualizo el archivo del mundo.
-	//////////////////////////////////
-
-	/* TODO agregar la ruta del nivel al XML del mundo!!!!
-	 *
-	 * Para agregarlo al mundo que lo contiene se cuenta con la ruta del archivo
-	 * del mundo en el atributo "rutaMundo" de este objeto.
-	 *
-	 * Para obtener el id del nivel en cuestion, se puede preguntar por el size
-	 * al mapa "idNiveles" y sumarle uno, dado que ahi estan todos los niveles
-	 * del mundo sobre el que se esta trabajando.
-	 */
+	this->actualizarArchivoMundo(nivelFileName);
 
 	/* Una vez creado el archivo del nivel y actualizar el del mundo, procedo
 	 * a editar el nivel, pasando la ruta del archivo creado y especificando
@@ -189,23 +177,36 @@ void PanelNivel::cargarNiveles(const XMLNode* nodoNiveles) {
 			idNiveles[i] = nodoRuta->GetText();
 			i++;  // Incremento el contador de niveles cargados
 		}
-		nodoNivel->NextSiblingElement("Nivel");
+		nodoNivel = nodoNivel->NextSiblingElement("Nivel");
 	}
-	// TODO(eze) Probar si anda.
+}
 
-	/*
-	 * Informacion para Eze:
-	 * 
-	 * Aca hay que cargar en el mapa "idNiveles" que es atributo de este objeto
-	 * los niveles del mundo para poder acceder a la ruta del archivo a partir
-	 * del id del nivel.
-	 * 
-	 * Tambien debe cargarse en el atributo cantidadJugadores la cantidad de
-	 * jugadores del mundo al cual pertenecen los niveles que se estan cargando.
-	 * La idea de esto es poder acceder a ese atributo en el futuro sin tener
-	 * que abrir el xml de nuevo.
-	 */
-//	idNiveles[1] = "unNivel.xml";
-//	idNiveles[2] = "nivel_2.xml";
-//	idNiveles[3] = "nivel_3.xml";
+void PanelNivel::actualizarArchivoMundo(const std::string rutaNivel) const {
+	// Abro el archivo del mundo
+	XMLDocument doc;
+	bool seCargo = doc.LoadFile(rutaMundo);
+	// Si no se cargo, salgo.
+	if (!seCargo)
+		return;
+	// Obtengo el nodo raiz, que debe ser el llamado "Mundo"
+	XMLNode* root = doc.RootElement();
+
+	// Obtengo el nodo Niveles y cargo el nivel
+	XMLNode* nodoNiveles = root->FirstChildElement("Niveles");
+	// Si el nodo Niveles es nulo, salgo.
+	if (nodoNiveles == 0)
+		return;
+
+	// Creo el nodo del ruta
+	XMLNode* nodoRuta = new XMLNode("Ruta");
+	XMLText* textRuta = new XMLText(rutaNivel);
+	nodoRuta->LinkEndChild(textRuta);
+
+	// Creo el nodo del nivel y linkeo la ruta
+	XMLNode* nodoNivel = new XMLNode("Nivel");
+	nodoNivel->LinkEndChild(nodoRuta);
+
+	// Linkeo el nodo del nivel a Niveles y guardo el documento
+	nodoNiveles->LinkEndChild(nodoNivel);
+	doc.SaveFile();
 }

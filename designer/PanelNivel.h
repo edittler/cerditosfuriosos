@@ -63,6 +63,13 @@ private:
 	 */
 	void cargarNiveles(const XMLNode* nodoNiveles);
 
+	/**
+	 * Actualiza el archivo del mundo agregando el nivel recien creado y la ruta
+	 * del archivo donde se almacenará.
+	 * @param rutaNivel ruta del archivo de nivel.
+	 */
+	void actualizarArchivoMundo(const std::string rutaNivel) const;
+
 	InformableSeleccion* informable;
 	SelectorNiveles* selector;
 	CreadorNivel* creador;
