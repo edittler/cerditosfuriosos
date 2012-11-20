@@ -25,30 +25,6 @@ Lienzo::Lienzo(int ancho,
 Lienzo::~Lienzo() { }
 
 void Lienzo::cargarNivel(const string rutaNivel) {
-	/*
-	 * TODO Informacion para Eze:
-	 *
-	 * Este metodo se encargaria de cargar un nivel que ya se empezo a editar.
-	 *
-	 * La ruta del mismo es el parametro de este metodo.
-	 *
-	 * Sobrecargue los metodos para agregar a todos los objetos para que reciban
-	 * los valores flotantes del modelo, los pasen a las coordenadas del
-	 * diseñador y se agreguen automaticamente.
-	 *
-	 * Entonces habria que ir recorriendo a todos los objetos que se extraigan
-	 * del archivo e ir agregandolos mediante los metodos:
-	 *
-	 * void agregarCerdo(float x, float y);
-	 * void agregarMonticulo(float x, float y);
-	 * void agregarCatapulta(float x, float y);
-	 * void agregarCajaMadera(float x, float y);
-	 * void agregarCajaMetal(float x, float y);
-	 * void agregarCajaVidrio(float x, float y);
-	 * void agregarBanana(float x, float y);
-	 * void agregarCereza(float x, float y);
-	 * void agregarManzana(float x, float y);
-	 */
 	// Abro el archivo del nivel
 	XMLDocument doc;
 	bool fileOpen = doc.LoadFile(rutaNivel);
