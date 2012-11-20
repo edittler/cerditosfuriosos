@@ -86,13 +86,6 @@ void Lienzo::guardarNivel(const string rutaNivel) const {
 	if (nodoEscenario == 0)
 		return;
 
-	/* TODO Este código funciona muy bien cuando se crea un nuevo nivel.
-	 * Hay que ver que ocurre en el caso que se edita el nivel, si se borran
-	 * los nodos antiguos de cerditos, catapultas, superficies y frutas.
-	 * Para ese caso, lo que habría que hacer es respaldar los atributos
-	 * y reescribir el archivo XML.
-	 */
-
 	// Agrego el nodo del suelo
 	XMLNode* nodoSuelo = new XMLNode("Suelo");
 	nodoEscenario->LinkEndChild(nodoSuelo);

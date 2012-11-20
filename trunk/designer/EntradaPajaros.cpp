@@ -135,7 +135,7 @@ int EntradaPajaros::getProbabilidadPajaroAzul() const {
 
 void EntradaPajaros::cargarNivel(const std::string rutaNivel) {
 	/*
-	 * Informacion para Eze:
+	 * TODO Informacion para Eze:
 	 * 
 	 * Aca se cargan de un nivel cuya ruta se pasa por parametro los valores
 	 * correspondientes a la entrada de los pajaros, que estan en los siguientes
@@ -174,9 +174,6 @@ void EntradaPajaros::guardarNivel(const std::string rutaNivel) const {
 
 	// Creo el nodo posicion y le seteo los atributos
 	XMLNode* nodoPosicion = new XMLNode("Posicion");
-	/* FIXME Corregir por atributo x correspondiente que equivale al ancho del
-	 * escenario.
-	 */
 	nodoPosicion->SetAttribute("x", xLineaEntrada);
 	nodoPosicion->SetAttribute("yInicial", yInicial->get_value_as_int());
 	nodoPosicion->SetAttribute("yFinal", yFinal->get_value_as_int());

@@ -1,4 +1,12 @@
+// Header Include.
 #include "PanelMundo.h"
+
+// Common Project Includes.
+#include "XMLTypes.h"
+
+// Designer Project Includes.
+#include "CFDTools.h"
+#include "ConstantesDiseniador.h"
 
 PanelMundo::PanelMundo() {
 	set_size_request(600, 400);
@@ -62,28 +70,44 @@ void PanelMundo::botonCrearClickeado() {
 		informable->nombreSeleccionadoYaExistente();
 		return;
 	}
-	/*
-	 * Informacion para Eze:
-	 * 
-	 * Aca se debe crear un nuevo mundo.
-	 * 
-	 * Llamando a:
-	 * - creador->getNombreElegido(): Se obtiene un string con el nombre del
-	 * mundo seleccionado por el usuario (ya validado mas arriba en este metodo)
-	 * 
-	 * - creador->getCantidadJugadores(): Se obtiene un entero con la cantidad
-	 * de jugadores que el usuario selecciono para el mundo.
-	 * 
-	 * Una vez que se creo el archivo, hay que enviar el siguiente mensaje:
-	 * 
-	 * - informable->editarMundo(PARAMETRO)
-	 * El parametro debe ser la ruta del archivo creado.
-	 */ 
+
+	// Creo el nodo del nombre
+	XMLNode* nodoNombre = new XMLNode("Nombre");
+	XMLText* textNombre = new XMLText(creador->getNombreElegido());
+	nodoNombre->LinkEndChild(textNombre);
+
+	// Creo el nodo de la cantidad de jugadores
+	XMLNode* nodoJugadores = new XMLNode("Jugadores");
+	std::string sJugadores = cfd::intToString(creador->getCantidadJugadores());
+	XMLText* textJugadores = new XMLText(sJugadores);
+	nodoJugadores->LinkEndChild(textJugadores);
+
+	// Creo el nodo de niveles vacío
+	XMLNode* nodoNiveles = new XMLNode("Niveles");
+
+	// Creo el nodo del mundo y linkeo los hijos
+	XMLNode* nodoMundo = new XMLNode("Mundo");
+	nodoMundo->LinkEndChild(nodoNombre);
+	nodoMundo->LinkEndChild(nodoJugadores);
+	nodoMundo->LinkEndChild(nodoNiveles);
+
+	// Creo un Documento XML
+	XMLDocument doc;
+	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	doc.LinkEndChild(decl);
+	doc.LinkEndChild(nodoMundo);
+
+	// Establezco la ruta donde guardar el XML y lo guardo.
+	std::string ruta = RUTA_CARPETA_MUNDOS + creador->getNombreElegido() + ".xml";
+	doc.SaveFile(ruta);
+
+	//Ahora procedo a editar el mundo recien creado
+	informable->editarMundo(ruta);
 }
 
 void PanelMundo::cargarNombreMundos() {
 	/*
-	 * Informacion para Eze:
+	 * TODO Informacion para Eze:
 	 * 
 	 * Aca se deben cargar todos los mundos creados en el mapa "nombreMundos",
 	 * que es atributo de este objeto. El mismo debe permitir acceder a la ruta
