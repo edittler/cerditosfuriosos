@@ -1,8 +1,8 @@
+// Header Include.
 #include "EntradaPajaros.h"
 
 EntradaPajaros::EntradaPajaros(float anchoEscenario, float altoEscenario):
-	Frame("ENTRADA DE LOS PÁJAROS")
-{
+	Frame("ENTRADA DE LOS PÁJAROS") {
 	float maximoX = (anchoEscenario-1);
 	float maximoY = (altoEscenario-1);
 	// Ajustes
@@ -33,11 +33,11 @@ EntradaPajaros::EntradaPajaros(float anchoEscenario, float altoEscenario):
 	probabilidadGeneracion = new Gtk::SpinButton(*ajusteGeneracion);
 	probabilidadGeneracion->set_value(50.0);
 	probabilidadRojo = new Gtk::SpinButton(*ajusteRojo);
-	probabilidadRojo->set_value(34.0);
+	probabilidadRojo->set_value(50.0);  // Es el más común.
 	probabilidadVerde = new Gtk::SpinButton(*ajusteVerde);
-	probabilidadVerde->set_value(33.0);
+	probabilidadVerde->set_value(30.0);
 	probabilidadAzul = new Gtk::SpinButton(*ajusteAzul);
-	probabilidadAzul->set_value(33.0);
+	probabilidadAzul->set_value(20.0);  // Es el menos común.
 	// Contenedores
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 0));
 	Gtk::HBox* cajaHorizontalDos = manage(new Gtk::HBox(false, 0));
@@ -124,53 +124,53 @@ EntradaPajaros::~EntradaPajaros() {
 	delete probabilidadAzul;
 }
 
-bool EntradaPajaros::lineaEntradaValida() {
+bool EntradaPajaros::lineaEntradaValida() const {
 	return (yFinal->get_value_as_int() >= yInicial->get_value_as_int());
 }
 
-bool EntradaPajaros::porcentajesPajarosValidos() {
+bool EntradaPajaros::porcentajesPajarosValidos() const {
 	return ((probabilidadRojo->get_value_as_int()+
 			probabilidadVerde->get_value_as_int()+
 			probabilidadAzul->get_value_as_int()) == 100);
 }
 
-float EntradaPajaros::getXInicioLineaEntrada() {
+float EntradaPajaros::getXInicioLineaEntrada() const {
 	return xInicial->get_value();
 }		
 		
-float EntradaPajaros::getYInicioLineaEntrada() {
+float EntradaPajaros::getYInicioLineaEntrada() const {
 	return yInicial->get_value();
 }		
 		
-float EntradaPajaros::getXFinalLineaEntrada() {
+float EntradaPajaros::getXFinalLineaEntrada() const {
 	return xFinal->get_value();
 }		
 		
-float EntradaPajaros::getYFinalLineaEntrada() {
+float EntradaPajaros::getYFinalLineaEntrada() const {
 	return yFinal->get_value();
 }		
 		
-int EntradaPajaros::getTiempoGeneracion() {
+int EntradaPajaros::getTiempoGeneracion() const {
 	return tiempoGeneracion->get_value_as_int();
 }		
 		
-int EntradaPajaros::getProbabilidadGeneracion() {
+int EntradaPajaros::getProbabilidadGeneracion() const {
 	return probabilidadGeneracion->get_value_as_int();
 }		
 		
-int EntradaPajaros::getProbabilidadPajaroRojo() {
+int EntradaPajaros::getProbabilidadPajaroRojo() const {
 	return probabilidadRojo->get_value_as_int();
 }
 		
-int EntradaPajaros::getProbabilidadPajaroVerde() {
+int EntradaPajaros::getProbabilidadPajaroVerde() const {
 	return probabilidadVerde->get_value_as_int();
 }
 
-int EntradaPajaros::getProbabilidadPajaroAzul() {
+int EntradaPajaros::getProbabilidadPajaroAzul() const {
 	return probabilidadAzul->get_value_as_int();
 }
 
-void EntradaPajaros::cargarNivel(std::string rutaNivel) {
+void EntradaPajaros::cargarNivel(const std::string rutaNivel) {
 	/*
 	 * Informacion para Eze:
 	 * 
@@ -193,29 +193,61 @@ void EntradaPajaros::cargarNivel(std::string rutaNivel) {
 	 */
 }
 
-void EntradaPajaros::guardarNivel(std::string rutaNivel) {
-	/*
-	 * Informacion para Eze:
-	 * 
-	 * Aca se guardan en un archivo xml cuya ruta se pasa por parametro los
-	 * valores correspondientes a la entrada de los pajaros, que estan en los
-	 * siguientes widgets:
-	 * 
-	 * Gtk::SpinButton* xInicial;
-	 * Gtk::SpinButton* yInicial;
-	 * Gtk::SpinButton* xFinal;
-	 * Gtk::SpinButton* yFinal;
-	 * Gtk::SpinButton* tiempoGeneracion;
-	 * Gtk::SpinButton* probabilidadGeneracion;
-	 * Gtk::SpinButton* probabilidadRojo;
-	 * Gtk::SpinButton* probabilidadVerde;
-	 * Gtk::SpinButton* probabilidadAzul;
-	 * 
-	 * Para obtener de cada uno su correspondiente valor contas con los metodos:
-	 * ->get_value_as_int() : En caso de que lo necesites como entero
-	 * ->get_value() : En caso de que lo necesites como double
-	 * 
-	 * No hay que realizar ninguna validacion dado que si se llama a este metodo
-	 * es porque ya todos los valores son validos.
+void EntradaPajaros::guardarNivel(const std::string rutaNivel) const {
+	// Abro el archivo del nivel
+	XMLDocument doc;
+	bool fileOpen = doc.LoadFile(rutaNivel);
+	if (!fileOpen)
+		return;
+
+	// Obtengo el nodo raiz, que en teoría es el llamado Nivel. No lo valido.
+	XMLNode* root = doc.RootElement();
+
+	// Creo el nodo LineaEntrada
+	XMLNode* nodoLinea = new XMLNode("LineaEntradaDerecha");
+	// El tiempo de generacion y la probabilidad como atributos.
+	nodoLinea->SetAttribute("tiempoGeneracion",
+			tiempoGeneracion->get_value_as_int());
+	nodoLinea->SetAttribute("probabilidad",
+			probabilidadGeneracion->get_value_as_int());
+
+	// Creo el nodo posicion y le seteo los atributos
+	XMLNode* nodoPosicion = new XMLNode("Posicion");
+	/* FIXME Corregir por atributo x correspondiente que equivale al ancho del
+	 * escenario.
 	 */
+	nodoPosicion->SetAttribute("x", xInicial->get_value_as_int());
+	nodoPosicion->SetAttribute("yInicial", yInicial->get_value_as_int());
+	nodoPosicion->SetAttribute("yFinal", yFinal->get_value_as_int());
+	nodoLinea->LinkEndChild(nodoPosicion);
+
+	// Cargo el nodo de las probabilidades de pajaros.
+	XMLNode* nodoProbabilidades = this->XMLSerializarProbabilidadesPajaros();
+	nodoLinea->LinkEndChild(nodoProbabilidades);
+
+	// Cargo el nodo de linea de entrada al nodo del nivel
+	root->LinkEndChild(nodoLinea);
+
+	// Guardo el documento
+	doc.SaveFile();
+}
+
+XMLNode* EntradaPajaros::XMLSerializarProbabilidadesPajaros() const {
+	// Creo el nodo que contendrá todas las probabilidades.
+	XMLNode* nodoProbabilidades = new XMLNode("ProbabilidadesPajaros");
+	// Creo los nodos de probabilidad de cada pajaro y seteo su atributo
+	XMLNode* nodoPajRojo = new XMLNode("PajaroRojo");
+	nodoPajRojo->SetAttribute("probabilidad",
+			probabilidadRojo->get_value_as_int());
+	XMLNode* nodoPajVerde = new XMLNode("PajaroVerde");
+	nodoPajVerde->SetAttribute("probabilidad",
+			probabilidadVerde->get_value_as_int());
+	XMLNode* nodoPajAzul = new XMLNode("PajaroAzul");
+	nodoPajAzul->SetAttribute("probabilidad",
+			probabilidadAzul->get_value_as_int());
+	// Linkeo todos estos nodos en el nodo de probabilidades.
+	nodoProbabilidades->LinkEndChild(nodoPajRojo);
+	nodoProbabilidades->LinkEndChild(nodoPajVerde);
+	nodoProbabilidades->LinkEndChild(nodoPajAzul);
+	return nodoProbabilidades;
 }
