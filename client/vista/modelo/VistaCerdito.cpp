@@ -8,8 +8,7 @@
 #include "VistaEscenario.h"
 
 VistaCerdito::VistaCerdito(VistaEscenario* escenario, Cerdito* cerdito):
-	VistaCuerpo(escenario, cerdito, RUTA_CERDITO)
-{
+	VistaCuerpo(escenario, cerdito, RUTA_CERDITO) {
 	// FIXME el registro y la eliminacion del observador podria refactorizarse
 	// y pasare al constructor y destructor de VistaCuerpo. Idem para todas las vistas.
 

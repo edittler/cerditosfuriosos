@@ -5,7 +5,7 @@
 
 class ImagenException: public std::exception {
 public:
-	ImagenException(const std::string mensaje) throw() {
+	explicit ImagenException(const std::string mensaje) throw() {
 		this->msj = mensaje;
 	}
 

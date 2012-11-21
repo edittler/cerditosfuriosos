@@ -8,8 +8,7 @@
 #include "VistaEscenario.h"
 
 VistaCatapulta::VistaCatapulta(VistaEscenario* escenario, Catapulta* catapulta):
-	VistaCuerpo(escenario, catapulta, RUTA_CATAPULTA)
-{
+	VistaCuerpo(escenario, catapulta, RUTA_CATAPULTA) {
 	// FIXME el registro y la eliminacion del observador podria refactorizarse
 	// y pasare al constructor y destructor de VistaCuerpo. Idem para todas las vistas.
 

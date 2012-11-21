@@ -4,7 +4,7 @@
 // Forward Includes.
 #include "VistaCuerpo.h"
 
-//Project Includes.
+// Project Includes.
 #include "VistaCerdito.h"
 #include "VistaCatapulta.h"
 #include "VistaMonticulo.h"
@@ -210,13 +210,13 @@ void VistaEscenario::seLanzoHuevoReloj(HuevoReloj* huevo) {
 }
 
 void VistaEscenario::monticuloDestruido() {
-
+	// TODO(alguien) : implementar
 }
 
 /* Metodo que será usado en el caso de que el escenario tenga un único cerdito.
  */
 void VistaEscenario::cerditoMatado() {
-
+	// TODO(alguien) : implementar
 }
 
 /* Método que será usado en el caso multijugador, donde el escenario tiene
@@ -224,15 +224,15 @@ void VistaEscenario::cerditoMatado() {
  * El parámetro es el nombre del jugador al que corresponde el cerdito matado.
  */
 void VistaEscenario::cerditoMatado(unsigned int idJugador) {
-
+	// TODO(alguien) : implementar
 }
 
 void VistaEscenario::partidaGanada() {
-
+	// TODO(alguien) : implementar
 }
 
 void VistaEscenario::partidaPerdida() {
-
+	// TODO(alguien) : implementar
 }
 
 int VistaEscenario::getAncho() const {
@@ -246,7 +246,7 @@ void VistaEscenario::iniciarImagenFondo() {
 	Glib::RefPtr<Gdk::Pixbuf> buf;
 	try {
 		buf = Gdk::Pixbuf::create_from_file(this->escenario->getRutaImagenFondo());
-	} catch (Glib::Exception& e) {
+	} catch(Glib::Exception& e) {
 		throw ImagenException("Error al cargar imagen de fondo.");
 	}
 	// escalo imagen

@@ -9,8 +9,7 @@
 
 VistaPajaroRojo::VistaPajaroRojo(VistaEscenario* escenario,
 		PajaroRojo* pajaro) : VistaCuerpo(escenario, pajaro,
-		RUTA_PAJARO_ROJO_IZQ)
-{
+		RUTA_PAJARO_ROJO_IZQ) {
 	// Registro el observador en el modelo.
 	pajaro->registrarObservador(this);
 	// Obtengo la velocidad en x y selecciono la imagen a usar

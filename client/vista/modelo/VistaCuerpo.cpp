@@ -56,7 +56,7 @@ void VistaCuerpo::iniciarImagen(const char* path) {
 	Glib::RefPtr<Gdk::Pixbuf> buf;
 	try {
 		buf = Gdk::Pixbuf::create_from_file(path);
-	} catch (Glib::Exception& e) {
+	} catch(Glib::Exception& e) {
 		throw ImagenException("Error al cargar imagen del cuerpo.");
 	}
 	this->ancho = buf->get_width();
