@@ -31,27 +31,27 @@ public:
 	/**
 	 * Devuelve un string que identifica univocamente a esta instancia.
 	 */
-	virtual std::string getId();
+	std::string getId() const;
 
 	/**
 	 * @return abscisa de la esquina superior derecha de la imagen
 	 */
-	virtual int getX();
+	int getX() const;
 
 	/**
 	 * @return ordenada de la esquina superior derecha de la imagen
 	 */
-	virtual int getY();
+	int getY() const;
 
 	/**
 	 * @param x abscisa de la esquina superior derecha de la imagen
 	 */
-	virtual void setX(int x);
+	void setX(const int x);
 
 	/**
 	 * @param y ordenada de la esquina superior derecha de la imagen
 	 */
-	virtual void setY(int y);
+	void setY(const int y);
 
 	// Dimensiones de la imagen en pixeles
 	int alto;
@@ -82,7 +82,7 @@ protected:
 	 * Constructor.
 	 * @param ruta donde se encuentra el archivo con la imagen
 	 */
-	ImagenPosicionable(const char* ruta);
+	explicit ImagenPosicionable(const char* ruta);
 
 	XMLNode* serializarCoordenadas(const int altoEscenario) const;
 

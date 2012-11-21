@@ -20,7 +20,7 @@ PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
 	cajaAuxiliarUno->set_layout(Gtk::BUTTONBOX_CENTER);
 	cajaAuxiliarUno->pack_start(*botonEditar, Gtk::PACK_SHRINK);
 	cajaHorizontalUno->pack_start(*cajaAuxiliarUno, Gtk::PACK_SHRINK);
-	Gtk::Frame* cuadroEditar = manage(new Gtk::Frame("Edite un nivel ya existente"));
+	Gtk::Frame* cuadroEditar = manage(new Gtk::Frame("Edite un nivel existente"));
 	cuadroEditar->add(*cajaHorizontalUno);
 	// Cargo el creador
 	Gtk::HBox* cajaHorizontalDos = manage(new Gtk::HBox(false, 20));
@@ -52,7 +52,7 @@ PanelNivel::~PanelNivel() {
 	delete botonCrear;
 }
 
-int PanelNivel::getCantidadJugadores() const{
+int PanelNivel::getCantidadJugadores() const {
 	return cantidadJugadores;
 }
 
@@ -85,8 +85,8 @@ void PanelNivel::botonCrearClickeado() {
 	// Creo el nodo de la imagen del suelo.
 	XMLNode* imageSueloNode = new XMLNode("ImagenSuelo");
 	// FIXME(eze) Esperar a que Tomás agrege el suelo para serializarlo en el XML.
-//	XMLText* imageSueloText = new XMLText();
-//	imageSueloNode->LinkEndChild(imageSueloText);
+// 	XMLText* imageSueloText = new XMLText();
+// 	imageSueloNode->LinkEndChild(imageSueloText);
 
 	// Creo el nodo con la cantidad de jugadores.
 	XMLNode* jugadoresNode = new XMLNode("Jugadores");
@@ -105,7 +105,7 @@ void PanelNivel::botonCrearClickeado() {
 
 	// Creo un Documento y guardo el archivo.
 	XMLDocument doc;
-	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	XMLDeclaration* decl = new XMLDeclaration("1.0", "UTF-8", "");
 	doc.LinkEndChild(decl);
 	doc.LinkEndChild(nivelNode);
 

@@ -99,6 +99,8 @@ public:
 private:
 	XMLNode* XMLSerializarProbabilidadesPajaros() const;
 
+	void XMLCargarProbabilidadesPajaros(const XMLNode* nodoPajaros);
+
 	float xLineaEntrada;
 
 	Gtk::SpinButton* yInicial;

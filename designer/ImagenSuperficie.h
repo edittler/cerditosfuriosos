@@ -21,7 +21,7 @@ protected:
 	 * Constructor.
 	 * @param ruta donde se encuentra el archivo con la imagen.
 	 */
-	ImagenSuperficie(const char* ruta);
+	explicit ImagenSuperficie(const char* ruta);
 };
 
 #endif /* IMAGENSUPERFICIE_H_ */

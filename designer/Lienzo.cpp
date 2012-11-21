@@ -50,14 +50,16 @@ void Lienzo::cargarNivel(const string rutaNivel) {
 	}
 
 	// Obtengo el nodo del monticulo
-	const XMLNode* nodoMonticulo = nodoEscenario->FirstChildElement("MonticuloHuevos");
+	const XMLNode* nodoMonticulo = nodoEscenario->
+			FirstChildElement("MonticuloHuevos");
 	// Si el nodo no es nulo, cargo el monticulo
 	if (nodoMonticulo != 0) {
 		this->XMLCargarMonticulo(nodoMonticulo);
 	}
 
 	// Obtengo el nodo de las superficies
-	const XMLNode* nodoSuperficies = nodoEscenario->FirstChildElement("Superficies");
+	const XMLNode* nodoSuperficies = nodoEscenario->
+			FirstChildElement("Superficies");
 	// Si el nodo no es nulo, cargo las superficies
 	if (nodoSuperficies != 0) {
 		this->XMLCargarSuperficies(nodoSuperficies);

@@ -1,6 +1,7 @@
 #include "SelectorMundos.h"
 
-SelectorMundos::SelectorMundos(std::map<std::string, std::string> nombreMundos) {
+SelectorMundos::SelectorMundos(std::map<std::string,
+		std::string> nombreMundos) {
 	set_policy(Gtk::POLICY_AUTOMATIC , Gtk::POLICY_ALWAYS);
 	this->nombreMundos = nombreMundos;
 	// Comienza la carga de los botones de los mundos

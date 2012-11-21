@@ -65,10 +65,12 @@ PanelEscenario::~PanelEscenario() {
 
 void PanelEscenario::botonGuardarClickeado() {
 	bool escenarioValido = true;
-	std::string mensaje("Antes de poder guardar debe realizar las siguientes correciones:\n");
+	std::string mensaje("Antes de poder guardar debe realizar las siguientes "
+			"correciones:\n");
 	if (!(entrada->lineaEntradaValida())) {
 		escenarioValido = false;
-		mensaje += "- La línea de entrada de pajaros no tiene puntos de inicio y fin válidos\n";
+		mensaje += "- La línea de entrada de pajaros no tiene puntos de inicio "
+				"y fin válidos\n";
 	}
 	if (!(entrada->porcentajesPajarosValidos())) {
 		escenarioValido = false;
@@ -88,7 +90,9 @@ void PanelEscenario::botonGuardarClickeado() {
 		informable->mostrarDialogo(mensaje);
 		return;
 	}
-	// Reestablezco el archivo del nivel, reescribiendo los atributos del escenario.
+	/* Reestablezco el archivo del nivel, reescribiendo los atributos del
+	 * escenario.
+	 */
 	this->guardarCaracteristicasEscenario();
 	lienzo->guardarNivel(rutaNivel);
 	entrada->guardarNivel(rutaNivel);
@@ -170,7 +174,8 @@ void PanelEscenario::cargarCaracteristicasNivel() {
 	altoFlotante = cfd::stringToFloat(sAlto);
 
 	// Obtengo el nodo de la imagen de fondo
-	const XMLNode* imageFondoNode = escenarioNode->FirstChildElement("ImagenFondo");
+	const XMLNode* imageFondoNode = escenarioNode->
+			FirstChildElement("ImagenFondo");
 	rutaFondo = imageFondoNode->GetText();
 }
 

@@ -93,7 +93,7 @@ void PanelMundo::botonCrearClickeado() {
 
 	// Creo un Documento XML
 	XMLDocument doc;
-	XMLDeclaration* decl = new XMLDeclaration( "1.0", "UTF-8", "");
+	XMLDeclaration* decl = new XMLDeclaration("1.0", "UTF-8", "");
 	doc.LinkEndChild(decl);
 	doc.LinkEndChild(nodoMundo);
 
@@ -101,7 +101,7 @@ void PanelMundo::botonCrearClickeado() {
 	std::string ruta = RUTA_CARPETA_MUNDOS + creador->getNombreElegido() + ".xml";
 	doc.SaveFile(ruta);
 
-	//Ahora procedo a editar el mundo recien creado
+	// Ahora procedo a editar el mundo recien creado
 	informable->editarMundo(ruta);
 }
 
@@ -115,7 +115,7 @@ void PanelMundo::cargarNombreMundos() {
 	 * 
 	 * A continuacion hay un ejemplo hecho para que se pueda probar el codigo:
 	 */
-	nombreMundos[std::string("Mundo 1")] = std::string("mundo_1.xml");
+	nombreMundos[std::string("Mundo 1")] = std::string("mundos/El Mundo.xml");
 	nombreMundos[std::string("Mundo 2")] = std::string("mundo_2.xml");
 	nombreMundos[std::string("Mundo 3")] = std::string("mundo_3.xml");
 }

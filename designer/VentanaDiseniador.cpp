@@ -33,7 +33,8 @@ void VentanaDiseniador::nombreSeleccionadoVacio() {
 }
 		
 void VentanaDiseniador::nombreSeleccionadoYaExistente() {
-	Gtk::MessageDialog dialogo(*this, "El nombre elegido para el mundo ya pertenece a otro, por favor elija uno nuevo");
+	Gtk::MessageDialog dialogo(*this, "El nombre elegido para el mundo ya "
+			"pertenece a otro, por favor elija uno nuevo");
 	dialogo.run();
 }
 
@@ -68,6 +69,7 @@ void VentanaDiseniador::mostrarDialogo(std::string mensaje) {
 }
 
 void VentanaDiseniador::imagenNoSeleccionada() {
-	Gtk::MessageDialog dialogo(*this, "Por favor seleccione una imagen para el fondo del escenario");
+	Gtk::MessageDialog dialogo(*this, "Por favor seleccione una imagen para el "
+			"fondo del escenario");
 	dialogo.run();
 }

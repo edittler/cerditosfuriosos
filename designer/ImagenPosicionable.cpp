@@ -27,33 +27,34 @@ ImagenPosicionable::ImagenPosicionable(const char* ruta): Gtk::EventBox() {
 								&ImagenPosicionable::imagen_arrastrada));
 }
 
-std::string ImagenPosicionable::getId() {
-	return id;
-}
-
-ImagenPosicionable::~ImagenPosicionable() {}
+ImagenPosicionable::~ImagenPosicionable() { }
 
 void ImagenPosicionable::imagen_arrastrada(
 								const Glib::RefPtr<Gdk::DragContext>& context,
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)id.c_str(), id.length());
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)id.c_str(), id.length());
 }
 
-int ImagenPosicionable::getX() {
+std::string ImagenPosicionable::getId() const {
+	return id;
+}
+
+int ImagenPosicionable::getX() const {
 	return x;
 }
 
-int ImagenPosicionable::getY() {
+int ImagenPosicionable::getY() const {
 	return y;
 }
 
-void ImagenPosicionable::setX(int x) {
+void ImagenPosicionable::setX(const int x) {
 	this->x = x;
 }
 		
-void ImagenPosicionable::setY(int y) {
+void ImagenPosicionable::setY(const int y) {
 	this->y = y;
 }
 

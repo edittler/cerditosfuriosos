@@ -1,6 +1,8 @@
+// Header Include.
 #include "CreadorNivel.h"
 
-CreadorNivel::CreadorNivel(int idProximoNivel, InformableSeleccion* informable) {
+CreadorNivel::CreadorNivel(int idProximoNivel,
+		InformableSeleccion* informable) {
 	this->idProximoNivel = idProximoNivel;
 	this->informable = informable;
 	// Widgets sin funcionalidad

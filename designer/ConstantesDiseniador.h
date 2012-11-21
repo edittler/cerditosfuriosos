@@ -61,7 +61,7 @@
 // Pajaros
 #define TIEMPO_GENERACION_MINIMO 100.0
 #define TIEMPO_GENERACION_MAXIMO 1000.0
-//Factor de conversion entre las unidades del modelo y las de la vista
+// Factor de conversion entre las unidades del modelo y las de la vista
 #define PIXELES_SOBRE_METRO 70
 
 #endif

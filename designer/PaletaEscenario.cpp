@@ -1,10 +1,10 @@
+// Header Includes.
 #include "PaletaEscenario.h"
 
 PaletaEscenario::PaletaEscenario():
-	itemsJugador("ITEMS JUGADOR"),
-	itemsCajas("ITEMS CAJAS"),
-	itemsFrutas("ITEMS FRUTAS")
-{
+		itemsJugador("ITEMS JUGADOR"),
+		itemsCajas("ITEMS CAJAS"),
+		itemsFrutas("ITEMS FRUTAS") {
 	cajaItemsJugador = manage(new Gtk::VBox(false, 0));
 	cajaItemsCajas = manage(new Gtk::VBox(false, 0));
 	cajaItemsFrutas = manage(new Gtk::VBox(false, 0));
@@ -38,15 +38,24 @@ PaletaEscenario::PaletaEscenario():
 	itemCereza.drag_source_set(listaObjetivos);
 	itemManzana.drag_source_set(listaObjetivos);
 	itemCatapulta.drag_source_set(listaObjetivos);
-	itemCerdo.drag_source_set_icon(Gtk::Image(RUTA_CERDO).get_pixbuf()->scale_simple(ANCHO_CERDO, ALTO_CERDO, Gdk::INTERP_BILINEAR));
-	itemCajaMadera.drag_source_set_icon(Gtk::Image(RUTA_CAJA_MADERA).get_pixbuf()->scale_simple(ANCHO_CAJA_MADERA, ALTO_CAJA_MADERA, Gdk::INTERP_BILINEAR));
-	itemCajaMetal.drag_source_set_icon(Gtk::Image(RUTA_CAJA_METAL).get_pixbuf()->scale_simple(ANCHO_CAJA_METAL, ALTO_CAJA_METAL, Gdk::INTERP_BILINEAR));
-	itemCajaVidrio.drag_source_set_icon(Gtk::Image(RUTA_CAJA_VIDRIO).get_pixbuf()->scale_simple(ANCHO_CAJA_VIDRIO, ANCHO_CAJA_VIDRIO, Gdk::INTERP_BILINEAR));
-	itemHuevos.drag_source_set_icon(Gtk::Image(RUTA_HUEVOS).get_pixbuf()->scale_simple(ANCHO_HUEVOS, ANCHO_HUEVOS, Gdk::INTERP_BILINEAR));
-	itemBanana.drag_source_set_icon(Gtk::Image(RUTA_BANANA).get_pixbuf()->scale_simple(ANCHO_BANANA, ANCHO_BANANA, Gdk::INTERP_BILINEAR));
-	itemCereza.drag_source_set_icon(Gtk::Image(RUTA_CEREZA).get_pixbuf()->scale_simple(ANCHO_CEREZA, ANCHO_CEREZA, Gdk::INTERP_BILINEAR));
-	itemManzana.drag_source_set_icon(Gtk::Image(RUTA_MANZANA).get_pixbuf()->scale_simple(ANCHO_MANZANA, ANCHO_MANZANA, Gdk::INTERP_BILINEAR));
-	itemCatapulta.drag_source_set_icon(Gtk::Image(RUTA_CATAPULTA).get_pixbuf()->scale_simple(ANCHO_CATAPULTA, ANCHO_CATAPULTA, Gdk::INTERP_BILINEAR));
+	itemCerdo.drag_source_set_icon(Gtk::Image(RUTA_CERDO).get_pixbuf()->
+			scale_simple(ANCHO_CERDO, ALTO_CERDO, Gdk::INTERP_BILINEAR));
+	itemCajaMadera.drag_source_set_icon(Gtk::Image(RUTA_CAJA_MADERA).get_pixbuf()->
+			scale_simple(ANCHO_CAJA_MADERA, ALTO_CAJA_MADERA, Gdk::INTERP_BILINEAR));
+	itemCajaMetal.drag_source_set_icon(Gtk::Image(RUTA_CAJA_METAL).get_pixbuf()->
+			scale_simple(ANCHO_CAJA_METAL, ALTO_CAJA_METAL, Gdk::INTERP_BILINEAR));
+	itemCajaVidrio.drag_source_set_icon(Gtk::Image(RUTA_CAJA_VIDRIO).get_pixbuf()->
+			scale_simple(ANCHO_CAJA_VIDRIO, ANCHO_CAJA_VIDRIO, Gdk::INTERP_BILINEAR));
+	itemHuevos.drag_source_set_icon(Gtk::Image(RUTA_HUEVOS).get_pixbuf()->
+			scale_simple(ANCHO_HUEVOS, ANCHO_HUEVOS, Gdk::INTERP_BILINEAR));
+	itemBanana.drag_source_set_icon(Gtk::Image(RUTA_BANANA).get_pixbuf()->
+			scale_simple(ANCHO_BANANA, ANCHO_BANANA, Gdk::INTERP_BILINEAR));
+	itemCereza.drag_source_set_icon(Gtk::Image(RUTA_CEREZA).get_pixbuf()->
+			scale_simple(ANCHO_CEREZA, ANCHO_CEREZA, Gdk::INTERP_BILINEAR));
+	itemManzana.drag_source_set_icon(Gtk::Image(RUTA_MANZANA).get_pixbuf()->
+			scale_simple(ANCHO_MANZANA, ANCHO_MANZANA, Gdk::INTERP_BILINEAR));
+	itemCatapulta.drag_source_set_icon(Gtk::Image(RUTA_CATAPULTA).get_pixbuf()->
+			scale_simple(ANCHO_CATAPULTA, ANCHO_CATAPULTA, Gdk::INTERP_BILINEAR));
 	// Agrego los grupos y los items
 	agregarItems();
 	show_all_children();
@@ -57,7 +66,8 @@ void PaletaEscenario::boton_cerdo_arrastrado(
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CERDO", 5);
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)"CERDO", 5);
 }
 
 void PaletaEscenario::boton_catapulta_arrastrado(
@@ -65,7 +75,8 @@ void PaletaEscenario::boton_catapulta_arrastrado(
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CATAPULTA", 9);
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)"CATAPULTA", 9);
 }
 
 void PaletaEscenario::boton_huevos_arrastrado(
@@ -81,7 +92,8 @@ void PaletaEscenario::boton_caja_madera_arrastrado(
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CAJA_MADERA", 11);
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)"CAJA_MADERA", 11);
 }
 
 void PaletaEscenario::boton_caja_metal_arrastrado(
@@ -89,7 +101,8 @@ void PaletaEscenario::boton_caja_metal_arrastrado(
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CAJA_METAL", 10);
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)"CAJA_METAL", 10);
 }
 
 void PaletaEscenario::boton_caja_vidrio_arrastrado(
@@ -97,7 +110,8 @@ void PaletaEscenario::boton_caja_vidrio_arrastrado(
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)"CAJA_VIDRIO", 11);
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)"CAJA_VIDRIO", 11);
 }
 
 void PaletaEscenario::boton_banana_arrastrado(
@@ -121,7 +135,8 @@ void PaletaEscenario::boton_manzana_arrastrado(
 								Gtk::SelectionData& selection_data,
 								guint info,
 								guint time) {
-	selection_data.set(selection_data.get_target(), 8, (const guchar*)"MANZANA", 7);
+	selection_data.set(selection_data.get_target(), 8,
+			(const guchar*)"MANZANA", 7);
 }
 
 void PaletaEscenario::agregarItems() {
