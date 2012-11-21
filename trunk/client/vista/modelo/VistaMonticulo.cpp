@@ -4,8 +4,9 @@
 // Forward Include
 #include "VistaEscenario.h"
 
-VistaMonticulo::VistaMonticulo(VistaEscenario* escenario, Monticulo* monticulo) :
-		VistaCuerpo(escenario, monticulo, RUTA_MONTICULO_COMPLETO) {
+VistaMonticulo::VistaMonticulo(VistaEscenario* escenario,
+		Monticulo* monticulo) : VistaCuerpo(escenario,
+		monticulo, RUTA_MONTICULO_COMPLETO) {
 	monticulo->registrarObservador(this);
 }
 
