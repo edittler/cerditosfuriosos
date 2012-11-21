@@ -8,6 +8,9 @@
 #include "CFDTools.h"
 #include "ConstantesDiseniador.h"
 
+// Constante de la ruta del archivo donde se almacenan todos los mundos
+#define RUTA_MUNDOS "mundos.xml"
+
 PanelMundo::PanelMundo() {
 	set_size_request(600, 400);
 	cargarNombreMundos();
@@ -20,8 +23,7 @@ PanelMundo::PanelMundo() {
 	Gtk::VBox* cajaVertical = manage(new Gtk::VBox(true, 30));
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 20));
 	Gtk::HBox* cajaHorizontalDos = manage(new Gtk::HBox(false, 20));
-	Gtk::Frame* cuadroEditar = manage(new Gtk::Frame(
-												"Edite un mundo ya existente"));
+	Gtk::Frame* cuadroEditar = manage(new Gtk::Frame("Edite un mundo existente"));
 	Gtk::Frame* cuadroCrear = manage(new Gtk::Frame("Cree un mundo nuevo"));
 	cajaHorizontalUno->pack_start(*selector);
 	Gtk::HButtonBox* cajaAuxiliarUno = manage(new Gtk::HButtonBox());
@@ -101,21 +103,110 @@ void PanelMundo::botonCrearClickeado() {
 	std::string ruta = RUTA_CARPETA_MUNDOS + creador->getNombreElegido() + ".xml";
 	doc.SaveFile(ruta);
 
+	// Actualizo la lista de mundos
+	this->actualizarArchivoMundos(ruta);
+
 	// Ahora procedo a editar el mundo recien creado
 	informable->editarMundo(ruta);
 }
 
 void PanelMundo::cargarNombreMundos() {
-	/*
-	 * TODO Informacion para Eze:
-	 * 
-	 * Aca se deben cargar todos los mundos creados en el mapa "nombreMundos",
-	 * que es atributo de este objeto. El mismo debe permitir acceder a la ruta
-	 * del archivo de cada mundo a partir del nombre del mismo.
-	 * 
-	 * A continuacion hay un ejemplo hecho para que se pueda probar el codigo:
+	/* En el directorio donde se encuentra el ejecutable, se almacenará un
+	 * archivo donde se encuentran todos los mundos que ha creado el diseñador.
+	 * Ese archivo se llamará "mundos.xml"
 	 */
-	nombreMundos[std::string("Mundo 1")] = std::string("mundos/El Mundo.xml");
-	nombreMundos[std::string("Mundo 2")] = std::string("mundo_2.xml");
-	nombreMundos[std::string("Mundo 3")] = std::string("mundo_3.xml");
+	XMLDocument doc;
+	bool seAbrio = doc.LoadFile(RUTA_MUNDOS);
+	// Si el archivo no existe, lo creo y salgo sin cargar mundos
+	if (!seAbrio) {
+		this->crearArchivoMundos();
+		return;
+	}
+
+	// Obtengo el nodo raiz
+	XMLNode* root = doc.RootElement();
+	// Si es nulo, salgo sin realizar nada
+	if (root == 0)
+		return;
+
+	// Obtengo el primer nodo del mundo
+	const XMLNode* nodoMundo = root->FirstChildElement("Mundo");
+	// Mientras el nodo de mundo no es nulo, cargo los mundos.
+	while (nodoMundo != 0) {
+		// Obtengo el nodo con el nombre del Mundo.
+		const XMLNode* nodoNombre = nodoMundo->FirstChildElement("Nombre");
+		std::string nombreMundo = nodoNombre->GetText();
+		// Obtengo el atributo de la cantidad de jugadores
+		int cantJugadores;
+		const char* aCJ = nodoMundo->Attribute("cantJugadores", &cantJugadores);
+		if (aCJ != 0) {
+			std::string sCantJug = cfd::intToString(cantJugadores);
+			nombreMundo += " (" + sCantJug;
+			// Si la cantidad de jugadores es 1
+			if (cantJugadores == 1) {
+				nombreMundo += " jugador)";
+			} else {
+				nombreMundo += " jugadores)";
+			}
+		}
+		// Obtengo el nodo con la ruta de archivo del mundo.
+		const XMLNode* nodoRuta = nodoMundo->FirstChildElement("Ruta");
+		// Si los nodos no son nulos, cargo el mundo a la tabla
+		if ((nodoNombre != 0) && (nodoRuta != 0)) {
+			nombreMundos[nombreMundo] = nodoRuta->GetText();
+		}
+		// Obtengo el siguiente nodo Mundo
+		nodoMundo = nodoMundo->NextSiblingElement("Mundo");
+	}
+}
+
+void PanelMundo::crearArchivoMundos() const {
+	// Creo el nodo Mundos
+	XMLNode* nodoMundos = new XMLNode("Mundos");
+	// Creo un Documento y guardo el archivo.
+	XMLDocument doc;
+	XMLDeclaration* decl = new XMLDeclaration("1.0", "UTF-8", "");
+	doc.LinkEndChild(decl);
+	doc.LinkEndChild(nodoMundos);
+	doc.SaveFile(RUTA_MUNDOS);
+}
+
+void PanelMundo::actualizarArchivoMundos(const std::string rutaMundo) const {
+	// Abro el archivo de los mundos
+	XMLDocument doc;
+	bool seAbrio = doc.LoadFile(RUTA_MUNDOS);
+	// Si el archivo no existe, salgo
+	if (!seAbrio)
+		return;
+
+	// Obtengo el nodo raiz
+	XMLNode* root = doc.RootElement();
+	// Si es nulo, salgo sin realizar nada
+	if (root == 0)
+		return;
+
+	// Creo el nodo asociado al mundo
+	XMLNode* nodoMundo = new XMLNode("Mundo");
+	// Agrego el atributo de la cantidad de jugadores
+	nodoMundo->SetAttribute("cantJugadores", creador->getCantidadJugadores());
+
+	// Creo el nodo asociado al nombre del mundo
+	XMLNode* nodoNombre = new XMLNode("Nombre");
+	XMLText* textNombre = new XMLText(creador->getNombreElegido());
+	nodoNombre->LinkEndChild(textNombre);
+
+	// Creo el nodo asociado a al ruta del archivo que almacena el mundo
+	XMLNode* nodoRuta = new XMLNode("Ruta");
+	XMLText* textRuta = new XMLText(rutaMundo);
+	nodoRuta->LinkEndChild(textRuta);
+
+	// Linkeo los nodos de nombre y ruta al del mundo
+	nodoMundo->LinkEndChild(nodoNombre);
+	nodoMundo->LinkEndChild(nodoRuta);
+
+	// Linkeo el nodo del nuevo mundo al nodo de mundos
+	root->LinkEndChild(nodoMundo);
+
+	// Guardo el archivo
+	doc.SaveFile();
 }
