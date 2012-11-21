@@ -1,17 +1,24 @@
 // Header Include.
 #include "EntradaPajaros.h"
 
+// Constantes de probabilidades de pájaros por defecto
+#define PROBABILIDAD_PAJARO_ROJO	50.0f
+#define PROBABILIDAD_PAJARO_VERDE	30.0f
+#define PROBABILIDAD_PAJARO_AZUL	20.0f
+
 EntradaPajaros::EntradaPajaros(float anchoEscenario, float altoEscenario):
 	Frame("ENTRADA DE LOS PÁJAROS") {
 	xLineaEntrada = anchoEscenario;
 	float maximoY = (altoEscenario-1);
 	// Ajustes
-	Gtk::Adjustment* ajusteYInicial = manage(new Gtk::Adjustment(1.0, 1.0, maximoY));
+	Gtk::Adjustment* ajusteYInicial = manage(new Gtk::Adjustment(1.0, 1.0,
+			maximoY));
 	Gtk::Adjustment* ajusteYFinal = manage(new Gtk::Adjustment(1.0, 0.0, maximoY));
 	Gtk::Adjustment* ajusteTiempo = manage(new Gtk::Adjustment(1.0, 
 													TIEMPO_GENERACION_MINIMO,
 													TIEMPO_GENERACION_MAXIMO));
-	Gtk::Adjustment* ajusteGeneracion = manage(new Gtk::Adjustment(1.0, 0.0, 100.0));
+	Gtk::Adjustment* ajusteGeneracion = manage(new Gtk::Adjustment(1.0, 0.0,
+			100.0));
 	Gtk::Adjustment* ajusteRojo = manage(new Gtk::Adjustment(0.0, 0.0, 100.0));
 	Gtk::Adjustment* ajusteVerde = manage(new Gtk::Adjustment(0.0, 0.0, 100.0));
 	Gtk::Adjustment* ajusteAzul = manage(new Gtk::Adjustment(0.0, 0.0, 100.0));
@@ -26,11 +33,11 @@ EntradaPajaros::EntradaPajaros(float anchoEscenario, float altoEscenario):
 	probabilidadGeneracion = new Gtk::SpinButton(*ajusteGeneracion);
 	probabilidadGeneracion->set_value(50.0);
 	probabilidadRojo = new Gtk::SpinButton(*ajusteRojo);
-	probabilidadRojo->set_value(34.0);
+	probabilidadRojo->set_value(PROBABILIDAD_PAJARO_ROJO);
 	probabilidadVerde = new Gtk::SpinButton(*ajusteVerde);
-	probabilidadVerde->set_value(33.0);
+	probabilidadVerde->set_value(PROBABILIDAD_PAJARO_VERDE);
 	probabilidadAzul = new Gtk::SpinButton(*ajusteAzul);
-	probabilidadAzul->set_value(33.0);
+	probabilidadAzul->set_value(PROBABILIDAD_PAJARO_AZUL);
 	// Contenedores
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 0));
 	Gtk::HBox* cajaHorizontalDos = manage(new Gtk::HBox(false, 0));
@@ -50,21 +57,27 @@ EntradaPajaros::EntradaPajaros(float anchoEscenario, float altoEscenario):
 	cajaHorizontalTres->pack_start(*etiquetaTres);
 	cajaHorizontalTres->pack_start(*tiempoGeneracion);
 	cajaHorizontalTres->pack_start(*etiquetaCuatro);
-	Gtk::Label* etiquetaCinco = manage(new Gtk::Label("Probabilidad generación: "));
+	Gtk::Label* etiquetaCinco = manage(new Gtk::Label(
+			"Probabilidad generación: "));
 	cajaHorizontalCuatro->pack_start(*etiquetaCinco);
 	cajaHorizontalCuatro->pack_start(*probabilidadGeneracion);
-	Gtk::Label* etiquetaSeis = manage(new Gtk::Label("Probabilidad pájaro rojo: "));
+	Gtk::Label* etiquetaSeis = manage(new Gtk::Label(
+			"Probabilidad pájaro rojo: "));
 	cajaHorizontalCinco->pack_start(*etiquetaSeis);
 	cajaHorizontalCinco->pack_start(*probabilidadRojo);
-	Gtk::Label* etiquetaSiete = manage(new Gtk::Label("Probabilidad pájaro verde: "));
+	Gtk::Label* etiquetaSiete = manage(new Gtk::Label(
+			"Probabilidad pájaro verde: "));
 	cajaHorizontalSeis->pack_start(*etiquetaSiete);
 	cajaHorizontalSeis->pack_start(*probabilidadVerde);
-	Gtk::Label* etiquetaOcho = manage(new Gtk::Label("Probabilidad pájaro azul: "));
+	Gtk::Label* etiquetaOcho = manage(new Gtk::Label(
+			"Probabilidad pájaro azul: "));
 	cajaHorizontalSiete->pack_start(*etiquetaOcho);
 	cajaHorizontalSiete->pack_start(*probabilidadAzul);
 	Gtk::Frame* cuadroEntrada = manage(new Gtk::Frame("Línea de entrada"));
-	Gtk::Frame* cuadroGeneracion = manage(new Gtk::Frame("Parámetros de generación"));
-	Gtk::Frame* cuadroPajaros = manage(new Gtk::Frame("Probabilidades de los pájaros"));
+	Gtk::Frame* cuadroGeneracion = manage(new Gtk::Frame(
+			"Parámetros de generación"));
+	Gtk::Frame* cuadroPajaros = manage(new Gtk::Frame(
+			"Probabilidades de los pájaros"));
 	Gtk::VBox* cajaVerticalUno = manage(new Gtk::VBox(false, 10));
 	cajaVerticalUno->pack_start(*cajaHorizontalUno);
 	cajaVerticalUno->pack_start(*cajaHorizontalDos);
@@ -134,24 +147,53 @@ int EntradaPajaros::getProbabilidadPajaroAzul() const {
 }
 
 void EntradaPajaros::cargarNivel(const std::string rutaNivel) {
-	/*
-	 * TODO Informacion para Eze:
-	 * 
-	 * Aca se cargan de un nivel cuya ruta se pasa por parametro los valores
-	 * correspondientes a la entrada de los pajaros, que estan en los siguientes
-	 * widgets:
-	 * 
-	 * Gtk::SpinButton* yInicial;
-	 * Gtk::SpinButton* yFinal;
-	 * Gtk::SpinButton* tiempoGeneracion;
-	 * Gtk::SpinButton* probabilidadGeneracion;
-	 * Gtk::SpinButton* probabilidadRojo;
-	 * Gtk::SpinButton* probabilidadVerde;
-	 * Gtk::SpinButton* probabilidadAzul;
-	 * 
-	 * Para setearle a cada uno su correspondiente valor les podes invocar:
-	 * ->set_value(float);
-	 */
+	// Abro el archivo del nivel
+	XMLDocument doc;
+	bool fileOpen = doc.LoadFile(rutaNivel);
+	if (!fileOpen)
+		return;
+
+	// Obtengo el nodo raiz, que en teoría es el llamado Nivel. No lo valido.
+	const XMLNode* root = doc.RootElement();
+
+	// Obtengo el nodo de Linea de entrada derecha
+	const XMLNode* nodoLinea = root->FirstChildElement("LineaEntradaDerecha");
+	// Si el nodo no existe, salgo sin cargar nada
+	if (nodoLinea == 0)
+		return;
+	// Obtengo los atributos de generacion
+	double tiempGeneracion, probGeneracion;
+	const char* aTG = nodoLinea->Attribute("tiempoGeneracion", &tiempGeneracion);
+	const char* aPG = nodoLinea->Attribute("probabilidad", &probGeneracion);
+	// Si el atributo "tiempoGeneracion" existe, lo cargo.
+	if (aTG != 0)
+		this->tiempoGeneracion->set_value(tiempGeneracion);
+	// Si el atributo "probabilidad" existe, lo cargo.
+	if (aPG != 0)
+		this->probabilidadGeneracion->set_value(probGeneracion);
+
+	// Obtengo el nodo de posicion y cargo los atributos de posicion.
+	const XMLNode* nodoPosicion = nodoLinea->FirstChildElement("Posicion");
+	// Si el nodo no es nulo, cargo los atributos
+	if (nodoPosicion != 0) {
+		double posYInicial, posYFinal;
+		const char* aYI = nodoPosicion->Attribute("yInicial", &posYInicial);
+		const char* aYF = nodoPosicion->Attribute("yFinal", &posYFinal);
+		// Si el atributo "yInicial" existe, lo cargo.
+		if (aYI != 0)
+			this->yInicial->set_value(posYInicial);
+		// Si el atributo "yFinal" existe, lo cargo.
+		if (aYF != 0)
+			this->yFinal->set_value(posYFinal);
+	}
+
+	// Obtengo el nodo de probabilidades de pajaros y cargo los atributos dados.
+	const XMLNode* nodoProbabilidades = nodoLinea->
+			FirstChildElement("ProbabilidadesPajaros");
+	// Si el nodo no es nulo, cargo las probabilidades de pájaros.
+	if (nodoProbabilidades != 0) {
+		this->XMLCargarProbabilidadesPajaros(nodoProbabilidades);
+	}
 }
 
 void EntradaPajaros::guardarNivel(const std::string rutaNivel) const {
@@ -208,4 +250,40 @@ XMLNode* EntradaPajaros::XMLSerializarProbabilidadesPajaros() const {
 	nodoProbabilidades->LinkEndChild(nodoPajVerde);
 	nodoProbabilidades->LinkEndChild(nodoPajAzul);
 	return nodoProbabilidades;
+}
+
+void EntradaPajaros::XMLCargarProbabilidadesPajaros(
+		const XMLNode* nodoPajaros) {
+	// Obtengo el nodo del pajaro rojo.
+	const XMLNode* nodoPajaro = nodoPajaros->FirstChildElement("PajaroRojo");
+	// Si el nodo no es nulo, cargo la probabilidad
+	if (nodoPajaro != 0) {
+		double probPaj;
+		const char* aP = nodoPajaro->Attribute("probabilidad", &probPaj);
+		// Si el atributo no es nulo, lo cargo
+		if (aP != 0)
+			this->probabilidadRojo->set_value(probPaj);
+	}
+	
+	// Obtengo el nodo del pajaro verde.
+	nodoPajaro = nodoPajaros->FirstChildElement("PajaroVerde");
+	// Si el nodo no es nulo, cargo la probabilidad
+	if (nodoPajaro != 0) {
+		double probPaj;
+		const char* aP = nodoPajaro->Attribute("probabilidad", &probPaj);
+		// Si el atributo no es nulo, lo cargo
+		if (aP != 0)
+			this->probabilidadVerde->set_value(probPaj);
+	}
+	
+	// Obtengo el nodo del pajaro azul.
+	nodoPajaro = nodoPajaros->FirstChildElement("PajaroAzul");
+	// Si el nodo no es nulo, cargo la probabilidad
+	if (nodoPajaro != 0) {
+		double probPaj;
+		const char* aP = nodoPajaro->Attribute("probabilidad", &probPaj);
+		// Si el atributo no es nulo, lo cargo
+		if (aP != 0)
+			this->probabilidadAzul->set_value(probPaj);
+	}
 }

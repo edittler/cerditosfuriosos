@@ -21,7 +21,7 @@ protected:
 	 * Constructor.
 	 * @param ruta donde se encuentra el archivo con la imagen.
 	 */
-	ImagenFruta(const char* ruta);
+	explicit ImagenFruta(const char* ruta);
 };
 
 #endif /* IMAGENFRUTA_H_ */
