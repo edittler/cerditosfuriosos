@@ -29,11 +29,19 @@ void ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 	}
 
 	if (partida->getEstado() == ESPERANDO_JUGADOR) {  // esperando a nuevo jugador
+		// TODO Enviar XML actual del nivel.
 		this->agregarJugador(cliente);
 	}
 
 	// TODO se podria agregar logica extrea si no puede agregarse cliente a partida.
 	// por ejemplo puede lanzarse una excepcion
+}
+
+void ThreadPartida::abanonarPartida(ThreadCliente* cliente) {
+	this->eliminarJugador(cliente);
+
+	if (partida->getEstado() ==  EJECUTANDO)
+		partida->setEstado(PAUSADO);
 }
 
 void ThreadPartida::pausarPartida() {
@@ -65,12 +73,37 @@ void* ThreadPartida::run() {
 				std::cout << "ThreadPartida, estado = EJECUTANDO" << std::endl;
 				// procesa mensajes recibidos
 				ClientesConectados::iterator it;
+				// procesa mensajes de cada cliente conectado
 				for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
+					// procesa hasta un maximo de mensajes por cliente
 					for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
-						// TODO implementar
-						// recibe mensaje si es NULL break;
-						// si necesita reenviar a demas jugadores encolar para enviar
-						// si se desconecto jugador pausar partida
+						Mensaje* m = (*it)->recibir();
+						if (m == NULL)
+							break;
+
+						// el mensaje recibido debe ser del tipo MensajeCliente
+						MensajeCliente* msj = dynamic_cast<MensajeCliente*>(m);
+						if (msj == NULL)
+							continue;
+
+						// solo procesa el comando EVENTO, los demas tipos de comandos
+						// son procesados en ThreadCliente.
+						if (msj->getComando()) {
+							Evento e = msj->getEvento();
+							switch (e.getTipoEvento()) {
+								case E_PEDIDO_LANZAR_DISPARO: {
+									// TODO crear disparo en Escenario.
+									// TODO enviar E_LANZAR_DISPARO a demas clientes conetados
+									Evento nuevoEvento(e.getTipoDisparo(), e.getPunto(), e.getVelocidad());
+									MensajeServer* r = new MensajeServer(nuevoEvento);
+									break; }
+								default:
+									// el unico mensaje proveniente del cliente que es procesado es el
+									// pedido de disparo. No deberia llegar otro tipo de mensaje,
+									// si llegara a suceder se ignora.
+									break;
+							}
+						}
 					}
 				}
 
@@ -120,6 +153,17 @@ bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 		cliente->asignarJugador(id);
 		jugadores.push_back(cliente);
 		return true;
+	}
+	return false;
+}
+
+bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
+	ClientesConectados::iterator it;
+	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+		if ((*it)->getJugadorAsignado() == cliente->getJugadorAsignado()) {
+			jugadores.remove(cliente);
+			// TODO liberar id jugador en el escenario.
+		}
 	}
 	return false;
 }

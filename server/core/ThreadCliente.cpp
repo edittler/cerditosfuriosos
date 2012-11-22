@@ -45,6 +45,10 @@ void ThreadCliente::asignarJugador(unsigned int id) {
 	this->idJugador = id;
 }
 
+unsigned int ThreadCliente::getJugadorAsignado() {
+	return this->idJugador;
+}
+
 void ThreadCliente::enviar(Mensaje* m) {
 	this->tEnviar->agregarMensaje(m);
 }
@@ -112,8 +116,13 @@ void* ThreadCliente::run() {
 		case MC_EVENTO:
 			std::cout << "El cliente comunico un evento." << std::endl;
 			break;
+		case MC_ABANDONAR_PARTIDA:
+			std::cout << "El cliente quiere abandonar la partida." << std::endl;
+			this->threadPartida->abanonarPartida(this);
+			break;
 		case MC_DESCONECTAR:
 			std::cout << "El cliente se va a desconectar." << std::endl;
+			this->threadPartida->abanonarPartida(this);
 			this->conectado = false;
 			break;
 		default:
