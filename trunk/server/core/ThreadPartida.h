@@ -36,6 +36,11 @@ public:
 	void unirseAPartida(ThreadCliente* cliente);
 
 	/*
+	 * @brief elimina cliente de la partida.
+	 * @param cliente a eliminar
+	 */
+	void abanonarPartida(ThreadCliente* cliente);
+	/*
 	 * @brief pausa partida.
 	 */
 	void pausarPartida();
@@ -51,16 +56,20 @@ public:
 	unsigned int getId();
 
 private:
-	/**
-	 * Agrega un jugador a la partida.
+	/*
+	 * @brief Agrega un jugador a la partida.
 	 * @param cliente que se desea agregar.
 	 * @return Retorna true si se pudo agregar el cliente o false en caso
 	 * contrario.
 	 */
 	bool agregarJugador(ThreadCliente* cliente);
 
-	// identificador de la partida.
-	unsigned int id;
+	/*
+	 * @brief elimina a un jugador de la partida
+	 * @param cliente a eliminar
+	 * @return true si puedo eliminar, false caso contrario.
+	 */
+	bool eliminarJugador(ThreadCliente* cliente);
 
 	// TODO agregar mutex
 	Partida* partida;

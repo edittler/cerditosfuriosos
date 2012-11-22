@@ -32,6 +32,12 @@ public:
 	void asignarJugador(unsigned int id);
 
 	/*
+	 * @brief
+	 * @return devuelve el id del jugador manejado por el cliente
+	 */
+	unsigned int getJugadorAsignado();
+
+	/*
 	 * @brief encola mensajes para ser enviados asincronicamente
 	 * @param m mensaje
 	 */
