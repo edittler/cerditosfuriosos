@@ -53,7 +53,7 @@ void PanelUnJugador::cargarNiveles(string ruta) {
 	 * accederlas a partir del id de los mismos.
 	 */
 	if (ruta.compare("mundo_1.xml") == 0) {
-		niveles[1] = "nivel_1_1.xml";
+		niveles[1] = "../common/MiMundo-level1.xml";
 		niveles[2] = "nivel_1_2.xml";
 		
 	}

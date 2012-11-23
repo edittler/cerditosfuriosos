@@ -16,9 +16,10 @@
 #include "controlador/Juego.h"
 #include "controlador/MouseListener.h"
 #include "vista/modelo/ConstantesVistaModelo.h"
+#include "vista/menues/VentanaPrincipal.h"
 
 
-int maind(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
 	VentanaCliente ventana;
 
@@ -35,7 +36,7 @@ int maind(int argc, char *argv[]) {
 	return 0;
 }
 
-int main(int argc, char **argv) {
+int main_core(int argc, char **argv) {
 	Client* c = new Client("127.0.0.1", 5555);
 	c->conectar();
 	c->ejecutar();
@@ -44,5 +45,12 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
+int maingtk(int argc, char *argv[]) {
+  Gtk::Main kit(argc, argv);
+
+  VentanaPrincipal ventana;
+  Gtk::Main::run(ventana);
+  return 0;
+}
 
 

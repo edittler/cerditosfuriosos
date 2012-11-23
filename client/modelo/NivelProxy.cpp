@@ -18,6 +18,10 @@ void NivelProxy::tick(int milisegundos) {
 	escenario->correrTick();
 }
 
+void NivelProxy::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
+	// TODO, enviar info al server
+}
+
 bool NivelProxy::finalizoPartida() {
 	return finalizo;
 }

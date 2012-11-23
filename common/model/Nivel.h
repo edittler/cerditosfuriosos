@@ -5,7 +5,10 @@
 
 class Nivel {
 public:
+	Nivel();
+
 	Nivel(Escenario* escenario);
+
 	virtual ~Nivel();
 
 	/*
@@ -13,6 +16,8 @@ public:
 	 * @param valor del tick a avanzar (en milisegundos)
 	 */
 	virtual void tick(int milisegundos) = 0;
+
+	virtual void lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) = 0;
 
 	/*
 	 * @brief valida que el modelo sigue ejecutandose.
@@ -25,6 +30,8 @@ public:
 	 * @param direccion del XML a cargar.
 	 */
 	virtual void cargarXML(std::string path);
+
+	float getAlto() const;
 
 	Escenario* getEscenario();
 

@@ -47,7 +47,7 @@ void* Juego::run() {
 
 				// Inicio la vista
 				ventana->agregarContenedor(*vista);
-				ventana->setMouseListener(new MouseListener(nivel->getEscenario()));
+				ventana->setMouseListener(new MouseListener(*nivel));
 
 				int i = 0;
 				while (!nivel->finalizoPartida() && this->ejecutando) {

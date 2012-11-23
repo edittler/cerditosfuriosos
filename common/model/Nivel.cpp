@@ -32,3 +32,7 @@ void Nivel::cargarXML(std::string path) {
 Escenario* Nivel::getEscenario() {
 	return this->escenario;
 }
+
+float Nivel::getAlto() const {
+	return this->escenario->getAlto();
+}
