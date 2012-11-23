@@ -57,7 +57,7 @@ public:
 	 */
 	void recibir(Mensaje& mensaje);
 
-	bool estaConectado() const;
+	bool estaConectado();
 
 protected:
 	// Inicializa los atributos del socket.

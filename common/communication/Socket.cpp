@@ -172,3 +172,7 @@ void Socket::recibir(Mensaje& mensaje) {
 	delete[] buffer;
 	mensaje.deserealizar(s);
 }
+
+bool Socket::estaConectado() {
+	return this->conectado;
+}

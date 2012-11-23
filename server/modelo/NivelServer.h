@@ -14,6 +14,8 @@ public:
 	 */
 	void tick(int milisegundos);
 
+	void lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j);
+
 	bool comienzoPartida();
 
 	/*

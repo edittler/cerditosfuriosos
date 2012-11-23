@@ -14,6 +14,10 @@ void NivelServer::tick(int milisegundos) {
 	this->escenario->correrTick();
 }
 
+void NivelServer::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
+	// TODO implementar
+}
+
 bool NivelServer::comienzoPartida() {
 	return this->escenario->jugadoresCompletos();
 }
