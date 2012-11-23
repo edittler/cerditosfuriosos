@@ -5,7 +5,7 @@
 
 class NivelServer: public Nivel {
 public:
-	NivelServer(Escenario* escenario);
+	NivelServer();
 	virtual ~NivelServer();
 
 	/*
@@ -22,7 +22,7 @@ public:
 	 * @brief valida que el modelo sigue ejecutandose.
 	 * @return ture si finalizo partida, false caso contrario.
 	 */
-	bool finalizoPartida();
+	bool finalizoPartida() const;
 
 	// TODO Provisorio
 	void lanzarPajaroVerde(Punto2D punto, Velocidad2D velocidad);

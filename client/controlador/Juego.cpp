@@ -9,9 +9,9 @@
 #include "../modelo/NivelLocal.h"
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
-Juego::Juego(Escenario* escenario, VentanaCliente* ventana) {
+Juego::Juego(VentanaCliente* ventana) {
 	this->ejecutando = true;
-	this->nivel = new NivelLocal(escenario, 250);
+	this->nivel = new NivelLocal();
 	this->ventana = ventana;
 	this->vista = NULL;
 	this->estado = SPLASH;

@@ -11,19 +11,22 @@ Simulador::Simulador(int pAzul, int pRojo, int pVerde) {
 
 Simulador::~Simulador() { }
 
-//int Simulador::generarHuevo() {
-//	int nroGenerado = rand() % 4;
-//
-//	if (nroGenerado < HB_PROBABILIDAD) {
-//		return HUEVO_BLANCO;
-//	} else if (nroGenerado - HB_PROBABILIDAD  < HC_PROBABILIDAD) {
-//		return HUEVO_CODORNIZ;
-//	} else if (nroGenerado - HB_PROBABILIDAD - HC_PROBABILIDAD < HP_PROBABILIDAD) {
-//		return HUEVO_POCHE;
-//	}
-//
-//	return HUEVO_RELOJ;
-//}
+int Simulador::generarHuevo() {
+	int random = rand() % 100;
+
+	if (random < HB_PROBABILIDAD) {
+		return HUEVO_BLANCO;
+	} else if (random - HB_PROBABILIDAD  < HC_PROBABILIDAD) {
+		return HUEVO_CODORNIZ;
+	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD < HP_PROBABILIDAD) {
+		return HUEVO_POCHE;
+	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD - HP_PROBABILIDAD
+			< HR_PROBABILIDAD) {
+		return HUEVO_RELOJ;
+	}
+
+	return HUEVO_BLANCO;
+}
 
 int Simulador::generarPajaro() {
 	int nroGenerado = rand() % 100;
@@ -36,7 +39,6 @@ int Simulador::generarPajaro() {
 			  probabilidadPajaroVerde) {
 		return PAJARO_VERDE;
 	}
-
 	return NO_PAJARO;
 }
 

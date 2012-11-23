@@ -23,10 +23,7 @@ int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
 	VentanaCliente ventana;
 
-	// begin -- Inicializacion de escenario.
-	Escenario escenario;
-
-	Juego juego(&escenario, &ventana);
+	Juego juego(&ventana);
 	juego.start();
 
 	Gtk::Main::run(ventana);

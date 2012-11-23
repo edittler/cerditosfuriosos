@@ -6,7 +6,7 @@ public:
 	Simulador(int pAzul, int pRojo, int pVerde);
 	virtual ~Simulador();
 
-//	int generarHuevo();
+	int generarHuevo();
 
 	/*
 	 * @brief devuelve un identificador de pajaro segun las probabilidades

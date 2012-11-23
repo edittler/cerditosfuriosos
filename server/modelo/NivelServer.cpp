@@ -1,7 +1,7 @@
 // Header Include.
 #include "NivelServer.h"
 
-NivelServer::NivelServer(Escenario* escenario) : Nivel(escenario) {
+NivelServer::NivelServer() {
 	// TODO Auto-generated constructor stub
 
 }
@@ -22,7 +22,7 @@ bool NivelServer::comienzoPartida() {
 	return this->escenario->jugadoresCompletos();
 }
 
-bool NivelServer::finalizoPartida() {
+bool NivelServer::finalizoPartida() const {
 	return this->escenario->finalizoPartida();
 }
 

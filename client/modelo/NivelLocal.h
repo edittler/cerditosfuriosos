@@ -12,14 +12,14 @@ public:
 	 * @param escenario en el cual se correran ticks.
 	 * @param tiempo minimo de generacion de pajaros.
 	 */
-	NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo);
+	NivelLocal();
 	virtual ~NivelLocal();
 
 	void tick(int milisegundos);
 
 	void lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j);
 
-	bool finalizoPartida();
+	bool finalizoPartida() const;
 
 	/*
 	 * @brief genera un pajaro segun las probabilidades establecidas,

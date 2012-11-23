@@ -2,12 +2,13 @@
 #include <exception>
 #include "../parser/XMLTypes.h"
 
-Nivel::Nivel(Escenario* escenario) {
-    // TODO carga del escenario y las probabilidades para el simulador
-    this->escenario = escenario;
+Nivel::Nivel() {
+	escenario = new Escenario();
 }
 
-Nivel::~Nivel() { }
+Nivel::~Nivel() {
+	delete escenario;
+}
 
 void Nivel::cargarXML(std::string path) {
 	XMLDocument doc;

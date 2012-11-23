@@ -8,7 +8,7 @@ Partida::Partida(unsigned int id, std::string nombre) {
 	this->id = id;
 	this->nombre = nombre;
 	this->estado = CREANDO;
-	this->nivel = new NivelServer(new Escenario(1));  // FIXME el Escenario deberia levantarse de XML
+	this->nivel = new NivelServer();  // FIXME el Escenario deberia levantarse de XML
 	this->contadorNiveles = 0;
 }
 

@@ -7,8 +7,6 @@ class Nivel {
 public:
 	Nivel();
 
-	Nivel(Escenario* escenario);
-
 	virtual ~Nivel();
 
 	/*
@@ -23,7 +21,7 @@ public:
 	 * @brief valida que el modelo sigue ejecutandose.
 	 * @return ture si finalizo partida, false caso contrario.
 	 */
-	virtual bool finalizoPartida() = 0;
+	virtual bool finalizoPartida() const = 0;
 
 	/*
 	 * @brief hidrata el modelo desde un XML.

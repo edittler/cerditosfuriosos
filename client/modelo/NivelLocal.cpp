@@ -1,15 +1,14 @@
 #include "NivelLocal.h"
 #include "Constantes.h"
 
-NivelLocal::NivelLocal(Escenario* escenario, int tiempoGeneracionMinimo) : Nivel(escenario) {
-    this->tiempoGeneracionMinimo = tiempoGeneracionMinimo;
+NivelLocal::NivelLocal() {
+    this->tiempoGeneracionMinimo = 250;
     this->tiempoAcumulado = 0;
-    
     simulador = new Simulador(20, 50, 10);
 }
 
 NivelLocal::~NivelLocal() {
-    delete simulador;
+	delete simulador;
 }
 
 void NivelLocal::tick(int milisegundos) {	
@@ -24,10 +23,28 @@ void NivelLocal::tick(int milisegundos) {
 }
 
 void NivelLocal::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
-	escenario->lanzarHuevo(p, v, j);
+	int huevo = simulador->generarHuevo();
+
+	switch (huevo) {
+	case HUEVO_BLANCO:
+		this->escenario->lanzarHuevoBlanco(p, v, j);
+		break;
+	case HUEVO_CODORNIZ:
+		this->escenario->lanzarHuevosCodorniz(p, v, j);
+		break;
+	case HUEVO_POCHE:
+		this->escenario->lanzarHuevoPoche(p, v, j);
+		break;
+	case HUEVO_RELOJ:
+		this->escenario->lanzarHuevoReloj(p, v, j);
+		break;
+	default:
+		this->lanzarHuevo(p, v, j);
+		break;
+	}
 }
 
-bool NivelLocal::finalizoPartida() {
+bool NivelLocal::finalizoPartida() const {
 	return escenario->finalizoPartida();
 }
 

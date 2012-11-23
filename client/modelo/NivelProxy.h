@@ -9,14 +9,14 @@
 
 class NivelProxy: public Nivel {
 public:
-	NivelProxy(Escenario* escenario);
+	NivelProxy();
 	virtual ~NivelProxy();
 
 	void tick(int milisegundos);
 
 	void lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j);
 
-	bool finalizoPartida();
+	bool finalizoPartida() const;
 
 	void procesarEvento(Evento evento);
 

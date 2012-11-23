@@ -644,8 +644,8 @@ void Escenario::lanzarPajaroAzul(Punto2D p, Velocidad2D v) {
 	}
 }
 
-void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial,
-		unsigned int j) {
+void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
+		unsigned int id) {
 	/* Verifico si la simulacion ya está habilitada.
 	 * Caso contrario, lanzo una excepción.
 	 */
@@ -655,29 +655,11 @@ void Escenario::lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial,
 	}
 
 	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
-	Jugador* jugador = this->getJugador(j);
+	Jugador* jugador = this->getJugador(id);
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
 	}
 
-	int random = rand() % 100;
-
-	std::cout<< "\t random: " << random << std::endl;
-
-	if (random < HB_PROBABILIDAD) {
-		this->lanzarHuevoBlanco(posInicial, velInicial, j, jugador);
-	} else if (random - HB_PROBABILIDAD  < HC_PROBABILIDAD) {
-		this->lanzarHuevosCodorniz(posInicial, velInicial, j, jugador);
-	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD < HP_PROBABILIDAD) {
-		this->lanzarHuevoPoche(posInicial, velInicial, j, jugador);
-	} else if (random - HB_PROBABILIDAD - HC_PROBABILIDAD - HP_PROBABILIDAD
-			< HR_PROBABILIDAD) {
-		this->lanzarHuevoReloj(posInicial, velInicial, j, jugador);
-	}
-}
-
-void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
-		unsigned int id, Jugador* jugador) {
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -702,7 +684,20 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
 }
 
 void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v,
-		unsigned int id, Jugador* jugador) {
+		unsigned int id) {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo.");
+	}
+
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(id);
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -740,7 +735,20 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v,
 }
 
 void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v,
-		unsigned int id, Jugador* jugador) {
+		unsigned int id) {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo.");
+	}
+
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(id);
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -764,7 +772,20 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v,
 }
 
 void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
-		unsigned int id, Jugador* jugador) {
+		unsigned int id) {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (!this->simulacionHabilitada) {
+		throw SimulacionException("La simulación no está habilitada,"
+				"no se puede lanzar Huevo.");
+	}
+
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(id);
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -1239,25 +1260,25 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 				std::cout << "\tHuevoBlanco\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-				this->lanzarHuevoBlanco(p, v, jugadorID, jugador);
+				this->lanzarHuevoBlanco(p, v, jugadorID);
 				break;
 			case disHuevoCodorniz:
 				std::cout << "\tHuevoCodorniz\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-				this->lanzarHuevosCodorniz(p, v, jugadorID, jugador);
+				this->lanzarHuevosCodorniz(p, v, jugadorID);
 				break;
 			case disHuevoPoche:
 				std::cout << "\tHuevoPoche\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-				this->lanzarHuevoPoche(p, v, jugadorID, jugador);
+				this->lanzarHuevoPoche(p, v, jugadorID);
 				break;
 			case disHuevoReloj:
 				std::cout << "\tHuevoReloj\tJugador: " << jugadorID << std::endl;
 				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
 				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
-				this->lanzarHuevoReloj(p, v, jugadorID, jugador);
+				this->lanzarHuevoReloj(p, v, jugadorID);
 				break;
 			default:
 				std::cout << "\tNodo de Disparo no válido" << std::endl;
