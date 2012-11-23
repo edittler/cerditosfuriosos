@@ -3,6 +3,7 @@
 
 // C++ Library Includes.
 #include <iostream>
+#include <unistd.h>
 
 // Common Project Includes.
 #include "../../common/model/Escenario.h"
