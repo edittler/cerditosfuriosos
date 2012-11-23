@@ -1,13 +1,7 @@
-# Makefile del Diseñador
+# Makefile de las dependencias de vistas de menues del cliente.
 
 # CONFIGURACION
 ################
-# Instruccion make con flag para ocultar el salto a otros directorios.
-MAKE = make --no-print-directory
-
-# Nombre del ejecutable principal.
-main_target = main
-
 # Flags para el compilador C/C++ en modo ansi.
 CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
 
@@ -19,25 +13,28 @@ GTKFLAGS = `pkg-config gtkmm-2.4 --cflags --libs`
 
 # Si la compilacion se ejecuta en modo DEBUG, agrego los flags correspondientes
 ifdef DEBUG
-CXXFLAGS += -g -O0
+CXXFLAGS += -O0 -g
 else
-CXXFLAS += -O3
+CXXFLAGS += -O3
 endif
-
-# Declaracion de objetos externos
-EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))
 
 # Compilador C++ a usar
 CXX = g++
 
+# Archivos a compilar, excluyendo main y test
+archivos = $(filter-out main.cpp test.cpp, $(wildcard *.cpp))
+
+# Subdirectorio de inclusiones externas a agregar
+SUBDIRSINCLUDE =
+
 # Inclusion de las cabeceras de los subdirectorios
-I-SUBDIRS = $(addprefix -I, $(SUBDIRS))
+I-INCLUDES = $(addprefix -I, $(SUBDIRSINCLUDE))
 
 # Binarios a generar
 bin = $(archivos:.cpp=.o)
 
 # Archivos a limpiar
-robjs = $(wildcard *.o $(main_target) test)
+robjs = $(wildcard *.o main test)
 
 # Descomentar para ver los mensajes del compilador
 #verbose = si
@@ -49,35 +46,24 @@ old := $(LD)
 ifdef verbose
 RM := $(RM) -v
 else
-CC =       @echo "  Compilando  $@"; $(occ)
-CXX =      @echo "  Compilando  $@"; $(ocxx)
-CCDEPEND = @echo "  Compilando dependencias externas"
-RM =       @echo "  Limpiando"; $(orm)
-LD =       @echo "  LD  $@"; $(old)
+CC =  @echo "  Compilando  $@"; $(occ)
+CXX = @echo "  Compilando  $@"; $(ocxx)
+RM =  @echo "  Limpiando"; $(orm)
+LD =  @echo "  LD  $@"; $(old)
 endif
 
 
 # REGLAS
 #########
 
-all: main
+all: binaries
 
-subdirs:
-	$(CCDEPEND)
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir; \
-	done
+binaries: $(bin)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(GTKFLAGS) $(I-INCLUDES) -c $<
 	
-main: subdirs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) *.cpp $(GTKFLAGS) -o $(main_target)
-
-test: subdirs
-	$(CXX) $(CXXFLAGS) $(I-SUBDIRS) $(EXTERNOBJS) test.cpp -o test
-
-clean: 
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) clean -C $$dir; \
-	done
+clean:
 	$(RM); rm -f $(robjs)
 
-.PHONY: all
+.PHONY: clean all binaries
