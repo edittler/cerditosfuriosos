@@ -63,6 +63,17 @@ void* ThreadCliente::run() {
 	this->tRecibir->start();
 
 	while (conectado) {
+		// valido que el cliente no haya desconectado
+		if (!this->socket->estaConectado()) {
+			this->conectado = false;
+
+			// si esta dentro de una partida lo notifico.
+			if (this->threadPartida == NULL) {
+				this->threadPartida->abanonarPartida(this);
+			}
+			break;
+		}
+
 		MensajeCliente* m = NULL;
 		while (m == NULL) {
 			Mensaje* msj = tRecibir->getMensaje();
