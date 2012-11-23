@@ -23,6 +23,13 @@ void* ThreadRecibir::run() {
 	while (!terminado) {
 		Mensaje* m = new MensajeCliente();
 		this->socket->recibir(*m);
+
+		// valido que no se haya cerrado la conexion
+		if (this->socket->estaConectado()) {
+			this->terminado = true;
+			break;
+		}
+
 		mensajes.encolar(m);
 	}
 
