@@ -22,7 +22,10 @@ CXXFLAS += -O3
 endif
 
 # Subdirectorio de dependencias externas a compilar
-SUBDIRS = ../common/Box2D/include ../common/communication ../common/model ../common/parser ../common/thread core modelo
+SUBDIRS = ../common/communication ../common/model ../common/parser ../common/thread core modelo
+
+# Subdirectorio de inclusiones externas a agregar
+SUBDIRSINCLUDE = ../common/Box2D/include ../common/communication ../common/model ../common/parser ../common/thread core modelo
 
 # Declaracion de objetos externos
 EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))
@@ -31,7 +34,7 @@ EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $
 CXX = g++
 
 # Inclusion de las cabeceras de los subdirectorios
-I-SUBDIRS = $(addprefix -I, $(SUBDIRS))
+I-SUBDIRS = $(addprefix -I, $(SUBDIRSINCLUDE))
 
 # Directorio de la liberia de Box2D
 BOX2DLIBDIR = ../common/Box2D/lib
