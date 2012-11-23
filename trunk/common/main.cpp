@@ -16,8 +16,6 @@ void probarEscenario() {
 
 	escena.habilitarSimulacion();
 //	escena.lanzarPajaroRojo(Punto2D(1,3),Velocidad2D(0,-10));
-	escena.lanzarHuevo(Punto2D(1,3),Velocidad2D(0,-10), 0);
-	escena.lanzarHuevo(Punto2D(5,10),Velocidad2D(0,-10), 0);
 
 	// choque en y de pajaro y huevo (en 4ta iteracion)
 //	escena.lanzarPajaroRojo(Punto2D(10, 15), Velocidad2D(0, -20));
@@ -280,6 +278,30 @@ void probarSerializacionMensajeServer() {
 	}
 }
 
+void probarXMLString() {
+	std::cout << " === PROBANDO OBTENER XML EN UN STRING ===" << std::endl;
+	// Declaro y cargo el documento XML.
+	XMLDocument doc;
+	std::string fileName = "MiMundo-level1.xml";
+	bool cargoArchivo = doc.LoadFile(fileName);
+	// Si no se cargo, lanzo error.
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+		return;
+	}
+	TiXmlPrinter printer;
+	printer.SetIndent("");
+	printer.SetLineBreak("");
+	doc.Accept(&printer);
+	std::string xml = printer.CStr();
+	std::cout << "Tamaño string xml: " << xml.size() << std::endl;
+	std::cout << "XML:\n" << xml;
+
+	XMLDocument doc1;
+	doc.Parse(xml.c_str(), 0, TIXML_ENCODING_UTF8);
+	doc.SaveFile("xmlstring.xml");
+}
+
 int main(int argc, char *argv[]) {
 //	probarEscenario();
 //	probarParseoPunto2D();
@@ -287,8 +309,9 @@ int main(int argc, char *argv[]) {
 //	probarCargaXMLEscenario();  // No incluye pajaros ni disparos.
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
-	probarSerializarEvento();
-	probarSerializacionMensajeServer();
+//	probarSerializarEvento();
+//	probarSerializacionMensajeServer();
 //	probarMensajeCliente();
+	probarXMLString();
 	return 0;
 }

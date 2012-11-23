@@ -151,8 +151,7 @@ void* ThreadCliente::run() {
 }
 
 void ThreadCliente::correrJuego() {
-	Escenario escena;
-	NivelServer nivel(&escena);
+	NivelServer nivel;
 	nivel.cargarXML("../common/MiMundo-level1.xml");
 	MensajeServer* msj;
 	for(int i = 0; i < 200; i++) {

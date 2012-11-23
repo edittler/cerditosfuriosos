@@ -154,7 +154,7 @@ void Client::correrJuego() {
 	 * lo cree al hidratarse.
 	 */
 	Escenario escenario;
-	NivelProxy nivel(&escenario);
+	NivelProxy nivel;
 	nivel.cargarXML("../common/MiMundo-level1.xml");
 
 	MensajeServer* msjServer;

@@ -20,7 +20,7 @@ enum EstadosJuego {
 
 class Juego: public Thread {
 public:
-	Juego(Escenario* escenario, VentanaCliente* ventana);
+	Juego(VentanaCliente* ventana);
 	virtual ~Juego();
 
 	void finalizarJuego();

@@ -149,15 +149,17 @@ public:
 	 */
 	void lanzarPajaroAzul(Punto2D posInicial, Velocidad2D velInicial);
 
-	/* @brief Agrega un Huevo especifiando el tipo segun su probabilidad
-	 * al escenario y lo lanza.
-	 * @param Punto2D especificando la posición inicial del lanzamiento.
-	 * @param Velocidad2D especificando la velocidad inicial del lanzamiento.
-	 * @param Jugador que va a lanzar el disparo. Tiene que ser un valor mayor
-	 * 			o igual que 0.
-	 */
-	void lanzarHuevo(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int j);
+	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id);
+
+	void lanzarHuevosCodorniz(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id);
+
+	void lanzarHuevoPoche(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id);
+
+	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
+			unsigned int id);
 
 	/* @brief Chequea que si la partida ha finalizado.
 	 * @return true si la partida finalizo, false caso contrario.
@@ -246,16 +248,6 @@ private:
 	bool validarCerditosVivos();
 	void limpiarCuerposInvalidos();
 	void notificarPosicionesAObservadores();
-
-	// Metodos privados segun el tipo de huevo a lanzar.
-	void lanzarHuevoBlanco(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int id, Jugador* jugador);
-	void lanzarHuevosCodorniz(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int id, Jugador* jugador);
-	void lanzarHuevoPoche(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int id, Jugador* jugador);
-	void lanzarHuevoReloj(Punto2D posInicial, Velocidad2D velInicial,
-			unsigned int id, Jugador* jugador);
 
 	/**************
 	 * ATTRIBUTES *

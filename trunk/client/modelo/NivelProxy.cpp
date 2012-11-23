@@ -4,7 +4,7 @@
 // C++ Library Includes.
 #include <iostream>
 
-NivelProxy::NivelProxy(Escenario* escenario) : Nivel(escenario) {
+NivelProxy::NivelProxy() {
 	this->finalizo = false;
 	this->_tick = 0;
 }
@@ -22,7 +22,7 @@ void NivelProxy::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
 	// TODO, enviar info al server
 }
 
-bool NivelProxy::finalizoPartida() {
+bool NivelProxy::finalizoPartida() const {
 	return finalizo;
 }
 
