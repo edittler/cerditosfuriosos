@@ -23,6 +23,10 @@ void NivelLocal::tick(int milisegundos) {
     escenario->correrTick();
 }
 
+void NivelLocal::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
+	escenario->lanzarHuevo(p, v, j);
+}
+
 bool NivelLocal::finalizoPartida() {
 	return escenario->finalizoPartida();
 }

@@ -4,11 +4,11 @@
 #include <gdk/gdkevents.h>
 #include <gtkmm/widget.h>
 
-#include "Escenario.h"
+#include "Nivel.h"
 
 class MouseListener {
 public:
-	MouseListener(Escenario* escenario);
+	MouseListener(Nivel& nivel);
 	virtual ~MouseListener();
 
 	/*
@@ -24,7 +24,7 @@ public:
 	virtual bool onClick(GdkEventButton* event);
 
 protected:
-	Escenario* escenario;
+	Nivel& nivel;
 };
 
 #endif /* MOUSELISTENER_H_ */

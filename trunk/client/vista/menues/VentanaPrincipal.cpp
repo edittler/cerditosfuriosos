@@ -6,7 +6,8 @@ VentanaPrincipal::VentanaPrincipal() {
 	set_border_width(0);
 	set_resizable(false);
 	set_position(Gtk::WIN_POS_CENTER_ALWAYS);
-
+//	std::string rutaFondo = "../../";
+//	rutaFondo += RUTA_FONDO_MENU;
 	panelInicial = new PanelInicial(ANCHO_VENTANA, ALTO_VENTANA, RUTA_FONDO_MENU,
 																		this);
 	panelUnJugador = NULL;
