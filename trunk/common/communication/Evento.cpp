@@ -12,6 +12,10 @@
 #define TE_LANZAR_HUEVO			'H'
 #define TE_FIN_NIVEL			'F'
 
+// DEFINICIONES DE CHAR A USAR COMO DELIMITADORES
+#define E_DELIMITADOR_PARAMETRO '%'
+#define E_DELIMITADOR_NUMERO '&'
+
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL TIPO DE PAJARO.
 #define TP_ROJO		'R'
 #define TP_VERDE	'V'
@@ -33,10 +37,6 @@ Evento::Evento(const Evento& evento) {
 	this->disparo = evento.disparo;
 	this->punto = evento.punto;
 	this->velocidad = evento.velocidad;
-}
-
-Evento::Evento(TipoDisparo tDisparo, Punto2D puntoADisparar) {
-	this->set(tDisparo, puntoADisparar);
 }
 
 Evento::Evento(TipoPajaro tPajaro, Punto2D puntoInicial, Velocidad2D velInicial) {
@@ -73,19 +73,21 @@ std::string Evento::serealizar() const {
 		 * la serializacion del disparo.
 		 */
 		if (this->disparo != T_DISPARO_INDEFINIDO) {
-			msj << TE_PEDIDO_LANZAR_DIS << '%' << this->serializarDisparo();
+			msj << TE_PEDIDO_LANZAR_DIS << E_DELIMITADOR_PARAMETRO <<
+					this->serializarDisparo();
 		}
 		break;
 	case E_CORRER_TICK:
 		// Agrego el identificador.
-		msj << TE_CORRER_TICK << '%';
+		msj << TE_CORRER_TICK << E_DELIMITADOR_PARAMETRO;
 		break;
 	case E_LANZAR_PAJARO:
 		/* Si el pajaro no es indefinido, agrego el identificador y
 		 * la serializacion del pajaro.
 		 */
 		if (this->pajaro != T_PAJARO_INDEFINIDO) {
-			msj << TE_LANZAR_PAJARO << '%' << this->serializarPajaro();
+			msj << TE_LANZAR_PAJARO << E_DELIMITADOR_PARAMETRO <<
+					this->serializarPajaro();
 		}
 		break;
 	case E_LANZAR_DISPARO:
@@ -93,12 +95,13 @@ std::string Evento::serealizar() const {
 		 * la serializacion del disparo.
 		 */
 		if (this->disparo != T_DISPARO_INDEFINIDO) {
-			msj << TE_LANZAR_HUEVO << '%' << this->serializarDisparo();
+			msj << TE_LANZAR_HUEVO << E_DELIMITADOR_PARAMETRO <<
+					this->serializarDisparo();
 		}
 		break;
 	case E_FIN_NIVEL:
 		// Agrego el identificador.
-		msj << TE_FIN_NIVEL << '%';
+		msj << TE_FIN_NIVEL << E_DELIMITADOR_PARAMETRO;
 		break;
 	default:
 		// Para el caso por defaul, no realizo nada.
@@ -119,7 +122,7 @@ void Evento::deserealizar(const std::string& mensaje) {
 	/* Verifico si en la segunda posicion se encuentra el delimitador.
 	 * Si no se encuentra, cargo el mensaje como no definido.
 	 */
-	if (msj[1] != '%') {
+	if (msj[1] != E_DELIMITADOR_PARAMETRO) {
 		this->evento = E_INDEFINIDO;
 		return;
 	}
@@ -155,14 +158,6 @@ void Evento::set(TipoEvento evento) {
 	this->pajaro = T_PAJARO_INDEFINIDO;
 	this->disparo = T_DISPARO_INDEFINIDO;
 	this->punto = Punto2D(0,0);
-	this->velocidad = Velocidad2D(0,0);
-}
-
-void Evento::set(TipoDisparo tDisparo, Punto2D puntoADisparar) {
-	this->evento = E_PEDIDO_LANZAR_DISPARO;
-	this->pajaro = T_PAJARO_INDEFINIDO;
-	this->disparo = tDisparo;
-	this->punto = puntoADisparar;
 	this->velocidad = Velocidad2D(0,0);
 }
 
@@ -221,16 +216,16 @@ std::string Evento::serializarDisparo() const {
 	// De acuerdo al tipo de disparo, realizo la serializacion adecuada.
 	switch (this->disparo) {
 	case T_HUEVO_BLANCO:
-		msj << TD_HBLANCO << '%';		// Agrego el identificador de disparo.
+		msj << TD_HBLANCO << E_DELIMITADOR_PARAMETRO;
 		break;
 	case T_HUEVO_CODORNIZ:
-		msj << TD_HCODORNIZ << '%';		// Agrego el identificador de disparo.
+		msj << TD_HCODORNIZ << E_DELIMITADOR_PARAMETRO;
 		break;
 	case T_HUEVO_POCHE:
-		msj << TD_HPOCHE << '%';		// Agrego el identificador de disparo.
+		msj << TD_HPOCHE << E_DELIMITADOR_PARAMETRO;
 		break;
 	case T_HUEVO_RELOJ:
-		msj << TD_HRELOJ << '%';		// Agrego el identificador de disparo.
+		msj << TD_HRELOJ << E_DELIMITADOR_PARAMETRO;
 		break;
 	default:
 		// Para el caso por defaul, no realizo nada.
@@ -240,11 +235,8 @@ std::string Evento::serializarDisparo() const {
 	 * o inicial de disparo.
 	 */
 	if (this->disparo != T_DISPARO_INDEFINIDO) {
-		msj << this->serializarPunto() << '%';
-		// Si el evento es LANZAR_DISPARO, debo cargar la velocidad
-		if (this->evento == E_LANZAR_DISPARO) {
-			msj << this->serializarVelocidad() << '%';
-		}
+		msj << this->serializarPunto() << E_DELIMITADOR_PARAMETRO;
+		msj << this->serializarVelocidad() << E_DELIMITADOR_PARAMETRO;
 	}
 	// Retorna el string.
 	return msj.str();
@@ -255,13 +247,13 @@ std::string Evento::serializarPajaro() const {
 	// De acuerdo al tipo de pajaro, realizo la serializacion adecuada.
 	switch (this->pajaro) {
 	case T_PAJARO_ROJO:
-		msj << TP_ROJO << '%';		// Agrego el identificador de pajaro.
+		msj << TP_ROJO << E_DELIMITADOR_PARAMETRO;
 		break;
 	case T_PAJARO_VERDE:
-		msj << TP_VERDE << '%';		// Agrego el identificador de pajaro.
+		msj << TP_VERDE << E_DELIMITADOR_PARAMETRO;
 		break;
 	case T_PAJARO_AZUL:
-		msj << TP_AZUL << '%';		// Agrego el identificador de pajaro.
+		msj << TP_AZUL << E_DELIMITADOR_PARAMETRO;
 		break;
 	default:
 		// Para el caso por defaul, no realizo nada.
@@ -272,9 +264,9 @@ std::string Evento::serializarPajaro() const {
 	 */
 	if (this->pajaro != T_PAJARO_INDEFINIDO) {
 		// Agrego la posicion inicial de lanzamiento del pajaro
-		msj << this->serializarPunto() << '%';
+		msj << this->serializarPunto() << E_DELIMITADOR_PARAMETRO;
 		// Agrego la velocidad inicial de lanzamiento del pajaro
-		msj << this->serializarVelocidad() << '%';
+		msj << this->serializarVelocidad() << E_DELIMITADOR_PARAMETRO;
 	}
 	// Retorna el string.
 	return msj.str();
@@ -285,7 +277,7 @@ std::string Evento::serializarPunto() const {
 	std::string valX, valY;
 	valX = this->floatToString(this->punto.x);
 	valY = this->floatToString(this->punto.y);
-	sPunto << valX << '&' << valY << '&';
+	sPunto << valX << E_DELIMITADOR_NUMERO << valY << E_DELIMITADOR_NUMERO;
 	return sPunto.str();
 }
 
@@ -294,7 +286,7 @@ std::string Evento::serializarVelocidad() const {
 	std::string valX, valY;
 	valX = this->floatToString(this->velocidad.x);
 	valY = this->floatToString(this->velocidad.y);
-	sVelocidad << valX << '&' << valY << '&';
+	sVelocidad << valX << E_DELIMITADOR_NUMERO << valY << E_DELIMITADOR_NUMERO;
 	return sVelocidad.str();
 }
 
@@ -324,24 +316,22 @@ void Evento::decodificarDisparo(const std::string& mensaje) {
 	char c = msj[i];
 	std::string cadena;
 	cadena.clear();
-	while ((c != '%') && (c != '\0')) {
+	while ((c != E_DELIMITADOR_PARAMETRO) && (c != '\0')) {
 		cadena += c;
 		i++;
 		c = msj[i];
 	}
 	this->decodificarPunto(cadena);
-	// Si el tipo de evento es lanzamiento de disparo, decodifico la velocidad.
-	if (this->evento == E_LANZAR_DISPARO) {
-		cadena.clear();
+	// Decodifico la velocidad.
+	cadena.clear();
+	i++;
+	c = msj[i];
+	while ((c != E_DELIMITADOR_PARAMETRO) && (c != '\0')) {
+		cadena += c;
 		i++;
 		c = msj[i];
-		while ((c != '%') && (c != '\0')) {
-			cadena += c;
-			i++;
-			c = msj[i];
-		}
-		this->decodificarVelocidad(cadena);
 	}
+	this->decodificarVelocidad(cadena);
 }
 
 void Evento::decodificarPajaro(const std::string& mensaje) {
@@ -367,7 +357,7 @@ void Evento::decodificarPajaro(const std::string& mensaje) {
 	char c = msj[i];
 	std::string cadena;
 	cadena.clear();
-	while ((c != '%') && (c != '\0')) {
+	while ((c != E_DELIMITADOR_PARAMETRO) && (c != '\0')) {
 		cadena += c;
 		i++;
 		c = msj[i];
@@ -377,7 +367,7 @@ void Evento::decodificarPajaro(const std::string& mensaje) {
 	cadena.clear();
 	i++;
 	c = msj[i];
-	while ((c != '%') && (c != '\0')) {
+	while ((c != E_DELIMITADOR_PARAMETRO) && (c != '\0')) {
 		cadena += c;
 		i++;
 		c = msj[i];
@@ -389,14 +379,14 @@ void Evento::decodificarPunto(const std::string& mensaje) {
 	// Obtengo el atributo x
 	std::string sX;
 	int i = 0;
-	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+	while ((mensaje[i] != E_DELIMITADOR_NUMERO) && (mensaje[i] != '\0')) {
 		sX += mensaje[i];
 		i++;
 	}
 	// Obtengo el atributo y
 	std::string sY;
 	i++;
-	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+	while ((mensaje[i] != E_DELIMITADOR_NUMERO) && (mensaje[i] != '\0')) {
 		sY += mensaje[i];
 		i++;
 	}
@@ -408,14 +398,14 @@ void Evento::decodificarVelocidad(const std::string& mensaje) {
 	// Obtengo el atributo x
 	std::string sX;
 	int i = 0;
-	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+	while ((mensaje[i] != E_DELIMITADOR_NUMERO) && (mensaje[i] != '\0')) {
 		sX += mensaje[i];
 		i++;
 	}
 	// Obtengo el atributo y
 	std::string sY;
 	i++;
-	while ((mensaje[i] != '&') && (mensaje[i] != '\0')) {
+	while ((mensaje[i] != E_DELIMITADOR_NUMERO) && (mensaje[i] != '\0')) {
 		sY += mensaje[i];
 		i++;
 	}
