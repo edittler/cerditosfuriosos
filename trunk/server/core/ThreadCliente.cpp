@@ -63,13 +63,13 @@ void* ThreadCliente::run() {
 	this->tRecibir->start();
 
 	while (conectado) {
-		// valido que el cliente no haya desconectado
+		// valido que el cliente no se haya desconectado
 		if (!this->socket->estaConectado()) {
 			this->conectado = false;
 
 			// si esta dentro de una partida lo notifico.
-			if (this->threadPartida == NULL) {
-				this->threadPartida->abanonarPartida(this);
+			if (this->threadPartida != NULL) {
+				this->threadPartida->abandonarPartida(this);
 			}
 			break;
 		}
@@ -85,61 +85,101 @@ void* ThreadCliente::run() {
 		// Declaro el puntero a la respuesta a enviar.
 		RespuestaServer* r = NULL;
 		switch (comandoCli) {
-		case MC_VER_RECORDS:
+		case MC_VER_RECORDS: {
 			std::cout << "El cliente quiere ver la tabla de records." << std::endl;
 			/* TODO enviar la tabla de records.
 			 */
 			r = new RespuestaServer(RS_TABLA_RECORDS, "Tabla de records.");
 			this->socket->enviar(*r);
-			break;
+			break; }
+
+		case MC_VER_MUNDOS: {
+			std::cout << "El cliente quiere ver la lista de mundos." << std::endl;
+			std::string mensaje;
+			std::list<std::string> listaMundos = server.getMundosDisponibles();
+
+			// serializo lista para agregar al formato usado para la comunicacion
+			std::list<std::string>::iterator it;
+			for (it = listaMundos.begin(); it != listaMundos.end(); ++it) {
+				mensaje.append(*it); mensaje.push_back('%');
+			}
+
+			// encolo mensaje para envio
+			r = new RespuestaServer(RS_LISTA_MUNDOS, mensaje);
+			tEnviar->agregarMensaje(r);
+		break; }
+
 		case MC_CREAR_PARTIDA: {
 			std::cout << "El cliente quiere crear una partida." << std::endl;
-
-			// TODO enviar la lista de mundos
-			r = new RespuestaServer(RS_LISTA_MUNDOS, "Lista de Mundos...");
-			this->socket->enviar(*r);
-
 			// Se crea una partida con el nombre especificado y se registra
 			// en el server.
 			unsigned int id = Partida::generarId();
-			// TODO debe pasarse alguna informacion para saber de que XML levantar el Escenario
-			// seria el atributo id de MensajeCliente????
 			Partida* partida = new Partida(id, m->getNombrePartida());
-			partida->setRutaMundo(m->getID());
+
+			// cargo XML correspondiente a la partida seleccionada
+			std::string pathXML = server.getPathXMLMundo(m->getID());
+			partida->setRutaMundo(pathXML);
+			partida->cargarNiveles();
+
 			partida->cargarSiguienteNivel();
 			this->server.crearPartida(partida, this);
 			std::cout << "El cliente creo una partida satisfactoriamente." << std::endl;
 			break; }
-		case MC_VER_PARTIDAS:
+
+		case MC_VER_PARTIDAS: {
 			std::cout << "El cliente quiere ver partidas existentes." << std::endl;
-			/* TODO enviar la lista de partidas
-			 */
-			r = new RespuestaServer(RS_LISTA_PARTIDAS, "Lista de partidas disponibles");
-			this->socket->enviar(*r);
-			break;
-		case MC_UNIRSE_PARTIDA:
-			std::cout << "El cliente quiere unirse a una partida." << std::endl;
-			/* TODO intentar agregar el cliente a la partida y enviar resultado
-			 */
-			r = new RespuestaServer(RS_UNIRSE_PARTIDA_OK, "Hubo un error al unirse a una partida");
+			std::string mensaje;
+			std::list<std::string> list = server.getPartidasDisponibles();
+
+			// serializo lista para agregar al formato usado para la comunicacion
+			std::list<std::string>::iterator it;
+			for (it = list.begin(); it != list.end(); ++it) {
+				mensaje.append(*it); mensaje.push_back('%');
+			}
+
+			// encolo mensaje para envio
+			r = new RespuestaServer(RS_LISTA_PARTIDAS, mensaje);
 			this->tEnviar->agregarMensaje(r);
+			break; }
+
+		case MC_UNIRSE_PARTIDA: {
+			std::cout << "El cliente quiere unirse a una partida." << std::endl;
+
+			// intentar agregar el cliente a la partida y enviar resultado
+			if (this->threadPartida->unirseAPartida(this)) {  // se unio correctamnete
+				// setea automaticamente el comando RS_UNIRSE_PARTIDA
+				r = new RespuestaServer(this->idJugador);
+				this->tEnviar->agregarMensaje(r);
+			} else {  // no se unio correctamente
+				r = new RespuestaServer(RS_UNIRSE_PARTIDA_ERROR);
+				this->tEnviar->agregarMensaje(r);
+			}
+
 			this->correrJuego();
-			break;
-		case MC_EVENTO:
+			break; }
+
+		case MC_EVENTO: {
 			std::cout << "El cliente comunico un evento." << std::endl;
-			break;
-		case MC_ABANDONAR_PARTIDA:
+
+			// TODO los eventos deberian ingresarse a una cola dentro del ThreadCliente y el
+			// ThreadPartida deberia leerlo desde ahi
+
+			break; }
+
+		case MC_ABANDONAR_PARTIDA: {
 			std::cout << "El cliente quiere abandonar la partida." << std::endl;
-			this->threadPartida->abanonarPartida(this);
-			break;
-		case MC_DESCONECTAR:
+			this->threadPartida->abandonarPartida(this);
+			break; }
+
+		case MC_DESCONECTAR: {
 			std::cout << "El cliente se va a desconectar." << std::endl;
-			this->threadPartida->abanonarPartida(this);
+			this->threadPartida->abandonarPartida(this);
 			this->conectado = false;
-			break;
-		default:
+			break; }
+
+		default: {
 			std::cout << "El cliente envió un comando inválido" << std::endl;
-			break;
+			break; }
 		}
 		if (r != NULL)
 			delete r;
