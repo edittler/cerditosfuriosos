@@ -14,14 +14,19 @@
 #define C_ABANDONAR_PARTIDA	'A'
 #define C_DESCONECTAR		'D'
 
+// DEFINICIONES DE CHAR A USAR COMO DELIMITADORES
+#define MC_DELIMITADOR_PARAMETRO '|'
+
 MensajeCliente::MensajeCliente(ComandoCliente comando) {
-	this->comando = comando;
-	this->id.clear();
+	this->set(comando);
 }
 
-MensajeCliente::MensajeCliente(ComandoCliente comando, std::string id) {
-	this->comando = comando;
-	this->id = id;
+MensajeCliente::MensajeCliente(std::string idMundo, std::string nombrePartida) {
+	this->set(idMundo, nombrePartida);
+}
+
+MensajeCliente::MensajeCliente(std::string idPartida) {
+	this->set(idPartida);
 }
 
 MensajeCliente::MensajeCliente(Evento evento) {
@@ -36,33 +41,36 @@ std::string MensajeCliente::serealizar() const {
 	// De acuerdo al comando, realizo la serializacion adecuada.
 	switch (this->comando) {
 	case MC_VER_RECORDS:
-		msj << C_VER_RECORDS << '|';
+		msj << C_VER_RECORDS << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_VER_MUNDOS:
-		msj << C_VER_MUNDOS << '|';
+		msj << C_VER_MUNDOS << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_CREAR_PARTIDA:
-		msj << C_CREAR_PARTIDA << '|';
+		msj << C_CREAR_PARTIDA << MC_DELIMITADOR_PARAMETRO;
 		// Agrego el ID del mundo.
-		msj << this->id << '|';
-		// TODO pregunta se tendria que enviar el nombre de la partida creada??
+		msj << this->id << MC_DELIMITADOR_PARAMETRO;
+		// Agrego el nombre elegido para la partida
+		msj << this->nombre << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_VER_PARTIDAS:
-		msj << C_VER_PARTIDAS << '|';
+		msj << C_VER_PARTIDAS << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_UNIRSE_PARTIDA:
-		msj << C_UNIRSE_PARTIDA << '|';
+		msj << C_UNIRSE_PARTIDA << MC_DELIMITADOR_PARAMETRO;
 		// Agrego el ID de partida.
-		msj << this->id << '|';
+		msj << this->id << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_EVENTO:
-		msj << C_EVENTO << '|' << this->evento.serealizar() << '|';
+		msj << C_EVENTO << MC_DELIMITADOR_PARAMETRO;
+		// Agrego el evento;
+		msj << this->evento.serealizar() << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_ABANDONAR_PARTIDA:
-		msj << C_ABANDONAR_PARTIDA << '|';
+		msj << C_ABANDONAR_PARTIDA << MC_DELIMITADOR_PARAMETRO;
 		break;
 	case MC_DESCONECTAR:
-		msj << C_DESCONECTAR << '|';
+		msj << C_DESCONECTAR << MC_DELIMITADOR_PARAMETRO;
 		break;
 	default:
 		// Para el caso por defaul, no realizo nada.
@@ -79,7 +87,7 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 	/* Verifico si en la segunda posicion se encuentra el delimitador.
 	 * Si no se encuentra, cargo el mensaje como no definido.
 	 */
-	if (msj[1] != '|') {
+	if (msj[1] != MC_DELIMITADOR_PARAMETRO) {
 		this->comando = MC_INDEFINIDO;
 		return;
 	}
@@ -94,8 +102,8 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 		break;
 	case C_CREAR_PARTIDA:
 		this->comando = MC_CREAR_PARTIDA;
-		// Deserealizo el id del mundo selecionado para crear partida
-		this->decodificarID(mensaje);
+		// Deserealizo el id del mundo y nombre de la partida.
+		this->decodificarParametros(mensaje);
 		break;
 	case C_VER_PARTIDAS:
 		this->comando = MC_VER_PARTIDAS;
@@ -103,7 +111,7 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 	case C_UNIRSE_PARTIDA:
 		this->comando = MC_UNIRSE_PARTIDA;
 		// Deserealizar el ID de la partida
-		this->decodificarID(mensaje);
+		this->decodificarParametros(mensaje);
 		break;
 	case C_ABANDONAR_PARTIDA:
 		this->comando = MC_ABANDONAR_PARTIDA;
@@ -113,11 +121,37 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 		break;
 	case C_EVENTO:
 		this->comando = MC_EVENTO;
+		this->deserealizarEvento(mensaje);
 		break;
 	default:
 		this->comando = MC_INDEFINIDO;
 		break;
 	}
+}
+
+void MensajeCliente::set(ComandoCliente comando) {
+	this->comando = comando;
+	this->id.clear();
+	this->nombre.clear();
+}
+
+void MensajeCliente::set(std::string idMundo, std::string nombrePartida) {
+	this->comando = MC_CREAR_PARTIDA;
+	this->id = idMundo;
+	this->nombre = nombrePartida;
+}
+
+void MensajeCliente::set(std::string idPartida) {
+	this->comando = MC_UNIRSE_PARTIDA;
+	this->id = idPartida;
+	this->nombre.clear();
+}
+
+void MensajeCliente::set(Evento evento) {
+	this->comando = MC_EVENTO;
+	this->id.clear();
+	this->nombre.clear();
+	this->evento = evento;
 }
 
 ComandoCliente MensajeCliente::getComando() const {
@@ -136,17 +170,29 @@ Evento MensajeCliente::getEvento() const {
 	return evento;
 }
 
-void MensajeCliente::decodificarID(const std::string& mensaje) {
+void MensajeCliente::decodificarParametros(const std::string& mensaje) {
 	const char* msj = mensaje.c_str();
-	std::string sID;
+	std::string tmp;
 	int i = 2;
 	char c = msj[i];
-	while((c != '|') && (c != '\0')) {
-		sID += c;
+	while((c != MC_DELIMITADOR_PARAMETRO) && (c != '\0')) {
+		tmp += c;
 		i++;
 		c = msj[i];
 	}
-	this->id = sID;
+	this->id = tmp;
+	// Si el comando es CREAR_PARTIDA, decodifico el nombre de la partida
+	if (this->comando == MC_CREAR_PARTIDA) {
+		i++;
+		c = msj[i];
+		tmp.clear();
+		while((c != MC_DELIMITADOR_PARAMETRO) && (c != '\0')) {
+			tmp += c;
+			i++;
+			c = msj[i];
+		}
+		this->nombre = tmp;
+	}
 }
 
 void MensajeCliente::deserealizarEvento(const std::string& mensaje) {
@@ -154,7 +200,7 @@ void MensajeCliente::deserealizarEvento(const std::string& mensaje) {
 	std::string sEvento;
 	int i = 2;
 	char c = msj[i];
-	while((c != '|') && (c != '\0')) {
+	while((c != MC_DELIMITADOR_PARAMETRO) && (c != '\0')) {
 		sEvento += c;
 		i++;
 		c = msj[i];
