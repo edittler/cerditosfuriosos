@@ -9,12 +9,15 @@
 #include "../modelo/NivelLocal.h"
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
-Juego::Juego(VentanaCliente* ventana) {
+Juego::Juego(VentanaPrincipal* ventana) {
 	this->ejecutando = true;
 	this->nivel = new NivelLocal();
 	this->ventana = ventana;
 	this->vista = NULL;
 	this->estado = SPLASH;
+
+	ventana->panelUnJugador->botonSeleccionar->signal_clicked().connect(
+							sigc::mem_fun(*this, &Juego::botonUnJugador));
 }
 
 Juego::~Juego() {
@@ -33,10 +36,11 @@ void* Juego::run() {
 				Gtk::Image imagen(SPLASH_IMAGEN);
 				ventana->agregarContenedor(imagen);
 				sleep(WAIT);
+				ventana->volverAMenuPrincipal();
 				this->estado = MENU;
 			break; }
 			case MENU: {
-				this->estado = GAMEPLAY;
+				
 			break; }
 			case GAMEPLAY: {
 				// Creo la vista y le asocio el escenario del modelo
@@ -47,11 +51,7 @@ void* Juego::run() {
 
 				// Inicio la vista
 				ventana->agregarContenedor(*vista);
-
-				Punto2D p = nivel->getPosicionCatapulta(1);
-				MouseListener* mListener = new MouseListener(*nivel, p.x, p.y + 0.5);
-
-				ventana->setMouseListener(mListener);
+				ventana->setMouseListener(new MouseListener(*nivel));
 
 				int i = 0;
 				while (!nivel->finalizoPartida() && this->ejecutando) {
@@ -87,4 +87,10 @@ void* Juego::run() {
 		}
 	}
 	return NULL;
+}
+
+void Juego::botonUnJugador() {
+//	std::string rutaNivelSeleccionado = ventana->panelUnJugador->
+//													getRutaNivelSeleccionado();
+	estado = GAMEPLAY;
 }

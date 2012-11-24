@@ -6,7 +6,7 @@
 #include <../../common/thread/Thread.h>
 #include <Escenario.h>
 #include <Nivel.h>
-#include "../vista/VentanaCliente.h"
+#include "../vista/menues/VentanaPrincipal.h"
 #include "../vista/modelo/VistaEscenario.h"
 
 enum EstadosJuego {
@@ -27,11 +27,13 @@ public:
 
 	void* run();
 private:
+
+	void botonUnJugador();
 	bool ejecutando;
 
 	Nivel* nivel;
 
-	VentanaCliente* ventana;
+	VentanaPrincipal* ventana;
 	VistaEscenario* vista;
 
 	EstadosJuego estado;

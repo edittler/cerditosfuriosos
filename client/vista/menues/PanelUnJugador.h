@@ -31,76 +31,81 @@
  * y un nivel para jugar.
  */
 class PanelUnJugador : public PanelImagenFondo {
-	public:
+public:
+
+	/**
+	 * Constructor.
+	 */
+	PanelUnJugador(int ancho,
+			int alto,
+			string ruta,
+			InterfazSelectora* interfaz);
+
+	/**
+	 * Destructor.
+	 */
+	virtual ~PanelUnJugador();
 	
-		/**
-		 * Constructor.
-		 */
-		PanelUnJugador(int ancho,
-						int alto,
-						string ruta,
-						InterfazSelectora* interfaz);
-		
-		/**
-		 * Destructor.
-		 */
-		virtual ~PanelUnJugador();
-	
-	private:
-	
-		/**
-		 * El boton de seleccionar ha sido clickeado.
-		 */
-		void botonSeleccionarClickeado();
-	
-		/**
-		 * Carga los nombres de los mundos y la ruta de los archivos
-		 * correspondientes en un mapa.
-		 */
-		void cargarMundos();
-		
-		/**
-		 * Carga los id de los niveles de un mundo y la ruta de los archivos
-		 * correspondientes en un mapa.
-		 * @param ruta ruta del mundo cuyos niveles queremos cargar
-		 */
-		void cargarNiveles(string ruta);
-		
-		/**
-		 * Vacia el mapa de niveles para introducir los correspondientes a un
-		 * mundo distinto.
-		 */
-		void vaciarMapaNiveles();
-		
-		/**
-		 * Actualiza los niveles mostrados para que el usuario seleccione.
-		 */
-		void mundoSeleccionadoCambiado();
-		
-		/**
-		 * Conecta los botones de seleccion de mundo a la senial que actualiza
-		 * los niveles mostrados.
-		 */
-		void conectarBotonesMundo();
-		
-		/**
-		 * Agrega los widgets de este contenedor.
-		 */
-		void agregarComponentes();
-		
-		/**
-		 * El usuario indico que desea volver al menu principal.
-		 */
-		void botonVolverClickeado();
-	
-		InterfazSelectora* interfazSelectora;
-		SeleccionadorMultiple* selectorMundos;
-		SeleccionadorMultiple* selectorNiveles;
-		Gtk::Button* botonSeleccionar;
-		Gtk::Button* botonVolver;
-		
-		std::map<string, string> mundos;
-		std::map<int, string> niveles;
+
+	std::string getRutaNivelSeleccionado() const;
+
+
+	Gtk::Button* botonSeleccionar;
+
+private:
+
+	/**
+	 * El boton de seleccionar ha sido clickeado.
+	 */
+	void botonSeleccionarClickeado();
+
+	/**
+	 * Carga los nombres de los mundos y la ruta de los archivos
+	 * correspondientes en un mapa.
+	 */
+	void cargarMundos();
+
+	/**
+	 * Carga los id de los niveles de un mundo y la ruta de los archivos
+	 * correspondientes en un mapa.
+	 * @param ruta ruta del mundo cuyos niveles queremos cargar
+	 */
+	void cargarNiveles(string ruta);
+
+	/**
+	 * Vacia el mapa de niveles para introducir los correspondientes a un
+	 * mundo distinto.
+	 */
+	void vaciarMapaNiveles();
+
+	/**
+	 * Actualiza los niveles mostrados para que el usuario seleccione.
+	 */
+	void mundoSeleccionadoCambiado();
+
+	/**
+	 * Conecta los botones de seleccion de mundo a la senial que actualiza
+	 * los niveles mostrados.
+	 */
+	void conectarBotonesMundo();
+
+	/**
+	 * Agrega los widgets de este contenedor.
+	 */
+	void agregarComponentes();
+
+	/**
+	 * El usuario indico que desea volver al menu principal.
+	 */
+	void botonVolverClickeado();
+
+	InterfazSelectora* interfazSelectora;
+	SeleccionadorMultiple* selectorMundos;
+	SeleccionadorMultiple* selectorNiveles;
+	Gtk::Button* botonVolver;
+
+	std::map<string, string> mundos;
+	std::map<int, string> niveles;
 };
 
 #endif
