@@ -8,7 +8,7 @@
 
 class MouseListener {
 public:
-	MouseListener(Nivel& nivel);
+	MouseListener(Nivel& nivel, float x, float y);
 	virtual ~MouseListener();
 
 	/*
@@ -25,6 +25,8 @@ public:
 
 protected:
 	Nivel& nivel;
+	float x;
+	float y;
 };
 
 #endif /* MOUSELISTENER_H_ */

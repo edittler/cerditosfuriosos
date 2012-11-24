@@ -4,13 +4,17 @@
 // C++ Library Includes.
 #include <iostream>
 
+// Common Project Includes.
+#include "../../common/communication/MensajeCliente.h"
+
 NivelProxy::NivelProxy() {
+	escenario = new Escenario();
 	this->finalizo = false;
 	this->_tick = 0;
 }
 
 NivelProxy::~NivelProxy() {
-	// TODO Auto-generated destructor stub
+	delete escenario;
 }
 
 
@@ -73,6 +77,10 @@ void NivelProxy::lanzarPajaro(TipoPajaro tPajaro, Punto2D posInicial,
 
 void NivelProxy::lanzarHuevo(TipoDisparo tDisparo, Punto2D posInicial,
 		Velocidad2D velInicial) {
+	// Creo el evento
+
+	// Creo el mensaje del cliente
+	MensajeCliente mensaje;
 	switch (tDisparo) {
 	case T_HUEVO_BLANCO:
 		// TODO implementar.

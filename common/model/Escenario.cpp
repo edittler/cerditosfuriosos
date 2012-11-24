@@ -867,6 +867,15 @@ unsigned int Escenario::getCantidadJugadores() const {
 	return this->cantJugadores;
 }
 
+Punto2D Escenario::getPosicionCatapulta(unsigned int idJugador) {
+	// Si el jugador es nulo, es porque no existe. Lanzo una excepcion.
+	Jugador* jugador = this->getJugador(idJugador);
+	if (jugador == NULL) {
+		throw NoExisteJugadorException();
+	}
+	return jugador->getCerdito()->getCatapulta()->getPosicion();
+}
+
 unsigned int Escenario::getIdJugadorNoConectado() {
 	Lock(this->mJugadores);
 	std::vector<Jugador*>::iterator it;
