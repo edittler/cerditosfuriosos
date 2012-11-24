@@ -49,9 +49,11 @@ void* Juego::run() {
 				// hidrato escenario
 				this->nivel->cargarXML("../common/MiMundo-level1.xml");
 
+				Punto2D p = nivel->getPosicionCatapulta(1);
+				MouseListener mListener(*nivel);
 				// Inicio la vista
 				ventana->agregarContenedor(*vista);
-				ventana->setMouseListener(new MouseListener(*nivel));
+				ventana->setMouseListener(&mListener);
 
 				int i = 0;
 				while (!nivel->finalizoPartida() && this->ejecutando) {

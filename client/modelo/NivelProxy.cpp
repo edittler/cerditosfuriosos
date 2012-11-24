@@ -7,8 +7,9 @@
 // Common Project Includes.
 #include "../../common/communication/MensajeCliente.h"
 
-NivelProxy::NivelProxy() {
+NivelProxy::NivelProxy(unsigned int idJugador) {
 	escenario = new Escenario();
+	this->idJugador = idJugador;
 	this->finalizo = false;
 	this->_tick = 0;
 }
