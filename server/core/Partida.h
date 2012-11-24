@@ -49,7 +49,16 @@ public:
 	unsigned int getId();
 	static unsigned int generarId();
 
+	std::string getNombre() const;
+
+	/*
+	 * @brief carga todos los niveles correspondientes al mundo
+	 * indicado en this->rutaMundo.
+	 */
+	void cargarNiveles();
+
 private:
+
 	// generador de ids.
 	static unsigned int proximoId;
 
@@ -68,6 +77,9 @@ private:
 
 	// Nivel que está corriendo la partida
 	NivelServer* nivel;
+
+	// mapa con path de niveles
+	std::map<int, std::string> idNiveles;
 
 	// contador de niveles
 	unsigned int contadorNiveles;

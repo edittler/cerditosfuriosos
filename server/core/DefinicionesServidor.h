@@ -24,6 +24,9 @@ typedef std::map<std::string, ListaRecords> TablaRecords;
 // Lista de clientes conectados
 typedef std::list<ThreadCliente*> ClientesConectados;
 
+// Lista de mundos disponibles
+typedef std::map<std::string, std::string> MundosDisponibles;
+
 // Mapa de Partidas disponibles
 /**
  * FIXME El ID de la partida se debería cambiar por un string para poder

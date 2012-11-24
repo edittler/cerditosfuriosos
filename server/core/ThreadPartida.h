@@ -32,14 +32,15 @@ public:
 	/*
 	 * @brief une cliente a partida.
 	 * @param cliente a agregar.
+	 * @return true si pudo agregar, false caso contrario.
 	 */
-	void unirseAPartida(ThreadCliente* cliente);
+	bool unirseAPartida(ThreadCliente* cliente);
 
 	/*
 	 * @brief elimina cliente de la partida.
 	 * @param cliente a eliminar
 	 */
-	void abanonarPartida(ThreadCliente* cliente);
+	void abandonarPartida(ThreadCliente* cliente);
 	/*
 	 * @brief pausa partida.
 	 */
@@ -54,6 +55,7 @@ public:
 	void* run();
 
 	unsigned int getId();
+	std::string getNombrePartida() const;
 
 private:
 	/*

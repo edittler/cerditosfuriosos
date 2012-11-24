@@ -8,7 +8,7 @@ Partida::Partida(unsigned int id, std::string nombre) {
 	this->id = id;
 	this->nombre = nombre;
 	this->estado = CREANDO;
-	this->nivel = new NivelServer();  // FIXME el Escenario deberia levantarse de XML
+	this->nivel = new NivelServer();
 	this->contadorNiveles = 0;
 }
 
@@ -23,17 +23,12 @@ bool Partida::finalizo() {
 }
 
 void Partida::setRutaMundo(std::string path) {
-	// TODO al pasarse directamente el id manejado dentro de MensajeCliente
-	// tal vez sea necesario realizar algun parseo para averiguar al path local del xml.
-	// Ejemplo: id = "mundosDificiles_mundo4" se parsearia a "../../common/mundosDificiles/mundo4"
 	this->rutaMundo = path;
 }
 
 void Partida::cargarSiguienteNivel() {
-	// TODO implementacion provisoria
-	// Segun el contador de niveles se deberia cargar el xml adecuado.
-	this->nivel->cargarXML("../common/MiMundo-level1.xml");
 	++this->contadorNiveles;
+	this->nivel->cargarXML(idNiveles[contadorNiveles]);
 }
 
 unsigned int Partida::getIdJugadorNoConectado() {
@@ -57,4 +52,39 @@ unsigned int Partida::proximoId = 0;
 unsigned int Partida::generarId() {
 	++Partida::proximoId;
 	return Partida::proximoId;
+}
+
+std::string Partida::getNombre() const {
+	return this->nombre;
+}
+
+void Partida::cargarNiveles() {
+	XMLDocument doc;
+	// abro XML correspondiente al mundo
+	bool cargoArchivo = doc.LoadFile(this->rutaMundo);
+	// Si no se cargo, lanzo error.
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+		return;
+	}
+
+	// obtengo nodos 'Niveles'
+	const XMLNode* nodo = doc.RootElement();
+	nodo = nodo->FirstChildElement("Niveles");
+
+	// Inicializo el contador de niveles
+	int i = 1;
+	// Cargo el primer nodo de nivel
+	const XMLNode* nodoNivel = nodo->FirstChildElement("Nivel");
+	// Mientras el nodo de nivel no es nulo, cargo los niveles.
+	while (nodoNivel != 0) {
+		// Obtengo el nodo con la ruta de archivo del nivel.
+		const XMLNode* nodoRuta = nodoNivel->FirstChildElement("Ruta");
+		// Si el nodo ruta no es nulo, cargo el nivel en la tabla
+		if (nodoRuta != 0) {
+			this->idNiveles[i] = nodoRuta->GetText();
+			i++;  // Incremento el contador de niveles cargados
+		}
+		nodoNivel = nodoNivel->NextSiblingElement("Nivel");
+	}
 }

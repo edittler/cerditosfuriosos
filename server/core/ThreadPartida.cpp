@@ -20,24 +20,22 @@ void ThreadPartida::comenzarPartida() {
 	}
 }
 
-void ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
+bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 	if (partida->comienzo())  // ya hay la cantidad de jugadores necesarios
-		return;
+		return false;
 
 	if (partida->getEstado() == CREANDO) {  // se esta creando.
-		this->agregarJugador(cliente);
+		return this->agregarJugador(cliente);
 	}
 
 	if (partida->getEstado() == ESPERANDO_JUGADOR) {  // esperando a nuevo jugador
 		// TODO Enviar XML actual del nivel.
-		this->agregarJugador(cliente);
+		return this->agregarJugador(cliente);
 	}
-
-	// TODO se podria agregar logica extrea si no puede agregarse cliente a partida.
-	// por ejemplo puede lanzarse una excepcion
+	return false;
 }
 
-void ThreadPartida::abanonarPartida(ThreadCliente* cliente) {
+void ThreadPartida::abandonarPartida(ThreadCliente* cliente) {
 	this->eliminarJugador(cliente);
 
 	if (partida->getEstado() ==  EJECUTANDO)
@@ -77,6 +75,10 @@ void* ThreadPartida::run() {
 				for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
 					// procesa hasta un maximo de mensajes por cliente
 					for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
+
+						// FIXME en lugar de leer de los ThreadRecibir se deberia
+						// leer de la cola de eventos guardada en el ThreadCliente
+
 						Mensaje* m = (*it)->recibir();
 						if (m == NULL)
 							break;
@@ -143,6 +145,10 @@ void* ThreadPartida::run() {
 
 unsigned int ThreadPartida::getId() {
 	return this->partida->getId();
+}
+
+std::string ThreadPartida::getNombrePartida() const {
+	return this->partida->getNombre();
 }
 
 bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
