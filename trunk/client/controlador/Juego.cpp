@@ -50,7 +50,7 @@ void* Juego::run() {
 				this->nivel->cargarXML("../common/MiMundo-level1.xml");
 
 				Punto2D p = nivel->getPosicionCatapulta(1);
-				MouseListener mListener(*nivel);
+				MouseListener mListener(*nivel, p.x, p.y + 0.4);
 				// Inicio la vista
 				ventana->agregarContenedor(*vista);
 				ventana->setMouseListener(&mListener);
