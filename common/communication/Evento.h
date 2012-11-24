@@ -15,8 +15,8 @@
  */
 enum TipoEvento {
 	E_INDEFINIDO,			// Evento indefinido.
-	E_PEDIDO_LANZAR_DISPARO,	// Pedido de lanzamiento de huevo.
-	E_CORRER_TICK,			// Correr un tick. TODO ver si envia el XML o no.
+	E_PEDIDO_LANZAR_DISPARO,	// Pedido de lanzamiento de huevo. FIXME Por la forma en que se implemento el server, no es necesario
+	E_CORRER_TICK,			// Correr un tick.
 	E_LANZAR_PAJARO,		// Lanzamiento de pajaro.
 	E_LANZAR_DISPARO,		// Lanzamiento de huevo.
 	E_FIN_NIVEL				// Fin de nivel.
@@ -50,9 +50,10 @@ public:
 	/**
 	 * Constructor con parámetro por default que inicializa en un evento
 	 * indefinido.
+	 * Útil para usar en eventos simples como E_CORRER_TICK y E_FIN_NIVEL.
 	 * @param evento Tipo de evento que se desea crear.
 	 */
-	Evento(TipoEvento evento = E_INDEFINIDO);
+	explicit Evento(TipoEvento evento = E_INDEFINIDO);
 
 	/**
 	 * Constructor copia.
@@ -61,16 +62,8 @@ public:
 	Evento(const Evento& evento);
 
 	/**
-	 * Constructor que inicializa el evento en modo pedido de lanzamiento de
-	 * disparo.
-	 * @param tDisparo Tipo de disparo que se quiere realizar.
-	 * @param puntoADisparar Punto2D que establece la ubicación hacia donde se
-	 * quiere disparar.
-	 */
-	Evento(TipoDisparo tDisparo, Punto2D puntoADisparar);
-
-	/**
 	 * Constructor que inicializa el evento en modo lanzamiento de pajaro.
+	 * Por defecto establece el comando E_LANZAR_PAJARO.
 	 * @param tPajaro Tipo de pajaro que se desea lanzar.
 	 * @param puntoInicial Punto2D que establece la posicion desde el cual
 	 * comenzar el lanzamiento.
@@ -81,6 +74,9 @@ public:
 
 	/**
 	 * Constructor que inicializa el evento en modo lanzamiento de disparo.
+	 * Por defecto establece el comando E_LANZAR_DISPARO.
+	 * Útil cuando el cliente quiere lanzar un disparo o el server quiere
+	 * avisar a los clientes sobre un lanzamiento.
 	 * @param tDisparo Tipo de disparo que se desea lanzar.
 	 * @param puntoInicial Punto2D que establece la posicion desde el cual
 	 * comenzar el lanzamiento.
@@ -122,20 +118,14 @@ public:
 
 	/**
 	 * Setea el evento con el tipo especificado.
+	 * Útil para usar en eventos simples como E_CORRER_TICK y E_FIN_NIVEL.
 	 * @param evento Tipo de evento que se desea crear.
 	 */
 	void set(TipoEvento evento);
 
 	/**
-	 * Setea el evento en modo pedido de lanzamiento de disparo.
-	 * @param tDisparo Tipo de disparo que se quiere realizar.
-	 * @param puntoADisparar Punto2D que establece la ubicación hacia donde se
-	 * quiere disparar.
-	 */
-	void set(TipoDisparo tDisparo, Punto2D puntoADisparar);
-
-	/**
 	 * Setea el evento en modo lanzamiento de pajaro.
+	 * Por defecto establece el comando E_LANZAR_PAJARO.
 	 * @param tPajaro Tipo de pajaro que se desea lanzar.
 	 * @param puntoInicial Punto2D que establece la posicion desde el cual
 	 * comenzar el lanzamiento.
@@ -146,6 +136,9 @@ public:
 
 	/**
 	 * Setea el evento en modo lanzamiento de disparo.
+	 * Por defecto establece el comando E_LANZAR_DISPARO.
+	 * Útil cuando el cliente quiere lanzar un disparo o el server quiere
+	 * avisar a los clientes sobre un lanzamiento.
 	 * @param tDisparo Tipo de disparo que se desea lanzar.
 	 * @param puntoInicial Punto2D que establece la posicion desde el cual
 	 * comenzar el lanzamiento.
