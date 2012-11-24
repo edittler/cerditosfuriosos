@@ -30,21 +30,33 @@ enum ComandoCliente {
 class MensajeCliente: public Mensaje {
 public:
 	/**
-	 * Constructor con parametros.
-	 * @param comando Comando con el que se quiere inicializar el mensaje.
+	 * Constructor que setea el mensaje con un comando especificado.
+	 * Útil para usar con los comandos simples como MC_VER_RECORDS, MC_VER_MUNDOS,
+	 * MC_VER_PARTIDAS, MC_ABANDONAR_PARTIDA, MC_DESCONECTAR.
+	 * @param comando a enviar.
 	 */
 	explicit MensajeCliente(ComandoCliente comando = MC_INDEFINIDO);
 
 	/**
-	 * Constructor con parametros.
-	 * @param comando comando que se va a enviar.
-	 * @param id string con el identificador del mundo o la partida.
+	 * Constructor que setea el mensaje con un identificador del mundo y
+	 * un nombre de la partida que desea crear.
+	 * Se asigna automáticamente el comando MC_CREAR_PARTIDA.
+	 * @param idMundo seleccionado para crear la partida.
+	 * @param nombrePartida elegido para la nueva partida.
 	 */
-	MensajeCliente(ComandoCliente comando, std::string id);
+	MensajeCliente(std::string idMundo, std::string nombrePartida);
 
 	/**
-	 * Constructor con parametros.
-	 * @param evento Evento con el que se quiere inicializar el mensaje.
+	 * Constructor que setea el mensaje con un identificador de la partida
+	 * a la que desea unirse.
+	 * Se asigna automáticamente el comando MC_UNIRSE_PARTIDA.
+	 * @param idPartida a la que desea unirse.
+	 */
+	MensajeCliente(std::string idPartida);
+
+	/**
+	 * Constructor que setea el mensaje con un evento especificado.
+	 * Se asigna automáticamente el comando MC_EVENTO.
 	 */
 	MensajeCliente(Evento evento);
 
@@ -54,15 +66,46 @@ public:
 	virtual ~MensajeCliente();
 
 	/**
-	 * Serializa el mensaje en un string.
-	 * @return String con el mensaje serializado.
+	 * Serializa el evento en un string.
+	 * @return String con el evento serializado.
 	 */
 	std::string serealizar() const;
 
 	/**
-	 *
+	 *Deserealiza el evento a partir de un string especificado.
+	 *@param mensaje string con el evento serealizado.
 	 */
 	void deserealizar(const std::string& mensaje);
+
+	/**
+	 * Setea el mensaje con un comando especificado.
+	 * Útil para usar con los comandos simples como MC_VER_RECORDS, MC_VER_MUNDOS,
+	 * MC_VER_PARTIDAS, MC_ABANDONAR_PARTIDA, MC_DESCONECTAR.
+	 * @param comando a enviar.
+	 */
+	void set(ComandoCliente comando);
+
+	/**
+	 * Setea el mensaje con un identificador del mundo y un nombre de la partida.
+	 * Se asigna automáticamente el comando MC_CREAR_PARTIDA.
+	 * @param idMundo seleccionado para crear la partida.
+	 * @param nombrePartida elegido para la nueva partida.
+	 */
+	void set(std::string idMundo, std::string nombrePartida);
+
+	/**
+	 * Setea el mensaje con un identificador de la partida a la que desea unirse.
+	 * Se asigna automáticamente el comando MC_UNIRSE_PARTIDA.
+	 * @param idPartida seleccionado para unirse.
+	 */
+	void set(std::string idPartida);
+
+	/**
+	 * Setea el mensaje con un evento especificado.
+	 * Se asigna automáticamente el comando MC_EVENTO.
+	 * @param evento a enviar.
+	 */
+	void set(Evento evento);
 
 	/**
 	 * Permite obtener el comando que tiene cargado el Mensaje.
@@ -77,8 +120,18 @@ public:
 	Evento getEvento() const;
 
 private:
-	void decodificarID(const std::string& mensaje);
+	/**
+	 * Decodifida el ID que puede contener el mensaje.
+	 * Además, si el mensaje contiene el comando MC_CREAR_PARTIDA, decodifica
+	 * el nombre de la partida elegido.
+	 * @param mensaje el mismo string que recibió el metodo deserealizar.
+	 */
+	void decodificarParametros(const std::string& mensaje);
 
+	/**
+	 * Decodifica el evento que puede contener el mensaje.
+	 * @param mensaje el mismo string que recibió el metodo deserealizar.
+	 */
 	void deserealizarEvento(const std::string& mensaje);
 
 	// Comando que tiene cargado el mensaje del cliente.

@@ -151,29 +151,6 @@ void probarReanudarXMLEscenario() {
 	}
 }
 
-void probarMensajeCliente() {
-	// Creo un mensaje no definido
-//	MensajeCliente msjND;
-	std::string msj; // = msjND.serealizar();
-//	std::cout << "Mensaje NoDefinido: " << msj;
-//	MensajeCliente msjNDD;
-//	msjNDD.deserealizar(msj);
-	// Creo un mensaje para solicitar ver records.
-	MensajeCliente msjVR(MC_VER_RECORDS);
-	msj.clear();
-	msj = msjVR.serealizar();
-	std::cout << msj;
-	MensajeCliente msjVRD;
-	msjVRD.deserealizar(msj);
-	// Creo un mensaje para solicitar unirse a una partida.
-	/*MensajeCliente msjUP("partida");
-	msj.clear();
-	msj = msjUP.serealizar();
-	std::cout << msj;
-	MensajeCliente msjUPD;
-	msjUPD.deserealizar(msj);*/
-}
-
 void probarSerializarEvento() {
 	// Serializo un evento no definido
 	Evento eNoDefinido;
@@ -189,13 +166,13 @@ void probarSerializarEvento() {
 	}
 
 	// Serealizo un pedido de disparo indefinido.
-	Evento ePedidoDisparoInd(T_DISPARO_INDEFINIDO, Punto2D(1.2, 3.4));
+	Evento ePedidoDisparoInd(T_DISPARO_INDEFINIDO, Punto2D(1.2, 3.4), Velocidad2D(3.43, 5.67));
 	std::string strPedidoDisparoIn = ePedidoDisparoInd.serealizar();
 	if (strPedidoDisparoIn.empty())
 		std::cout << "La cadena de pedido de disparo indefinido está vacia" << std::endl;
 
 	// Serealizo un pedido de disparo de huevo blanco.
-	Evento ePedidoDisparoHB(T_HUEVO_BLANCO, Punto2D(1.2f, 3.4f));
+	Evento ePedidoDisparoHB(T_HUEVO_BLANCO, Punto2D(1.2f, 3.4f), Velocidad2D(3.43, 5.67));
 	std::string strPedidoDisparoHB = ePedidoDisparoHB.serealizar();
 	std::cout << strPedidoDisparoHB << std::endl;
 	Evento eDesPedidoDisparoHB(strPedidoDisparoHB);
@@ -262,6 +239,75 @@ void probarSerializarEvento() {
 	}
 }
 
+void probarSerializarMensajeCliente() {
+	// Creo un mensaje no definido
+	MensajeCliente msjND;
+	std::string msj = msjND.serealizar();
+	if (msj[0] == '\n')
+			std::cout << "La cadena de mensaje indefinido está vacia" << std::endl;
+
+	// Creo un mensaje para solicitar ver records.
+	MensajeCliente msjVR(MC_VER_RECORDS);
+	msj = msjVR.serealizar();
+	std::cout << msj;
+	MensajeCliente msjVRD;
+	msjVRD.deserealizar(msj);
+	if (msjVRD.serealizar().compare(msjVR.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje ver records               OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje ver records               FAIL" << std::endl;
+	}
+
+	// Creo un mensaje para solicitar ver los mundos disponibles.
+	MensajeCliente msjVM(MC_VER_MUNDOS);
+	msj = msjVM.serealizar();
+	std::cout << msj;
+	MensajeCliente msjVMD;
+	msjVMD.deserealizar(msj);
+	if (msjVMD.serealizar().compare(msjVM.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje ver mundos                OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje ver mundos                FAIL" << std::endl;
+	}
+
+	// Creo un mensaje para solicitar crear una partida.
+	MensajeCliente msjCP("El Mundo", "La Banda de los Cerditos Locos");
+	msj = msjCP.serealizar();
+	std::cout << msj;
+	MensajeCliente msjCPD;
+	msjCPD.deserealizar(msj);
+	if (msjCPD.serealizar().compare(msjCP.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje crear partida             OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje crear partida             FAIL" << std::endl;
+	}
+
+	// Creo un mensaje para solicitar unirse a una partida.
+	MensajeCliente msjUP("La Banda de los Cerditos Locos");
+	msj = msjUP.serealizar();
+	std::cout << msj;
+	MensajeCliente msjUPD;
+	msjUPD.deserealizar(msj);
+	if (msjUPD.serealizar().compare(msjUP.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje unirse partida            OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje unirse partida             FAIL" << std::endl;
+	}
+
+	// Creo un mensaje para enviar un evento
+	Evento pedidoDisparo(T_HUEVO_BLANCO, Punto2D(1.2f, 3.4f), Velocidad2D(3.43, 5.67));
+	MensajeCliente msjE(pedidoDisparo);
+	msj = msjE.serealizar();
+	std::cout << msj;
+	MensajeCliente msjED;
+	msjED.deserealizar(msj);
+	if (msjED.serealizar().compare(msjE.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje con evento                 OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje con evento                 FAIL" << std::endl;
+	}
+}
+
 void probarSerializacionMensajeServer() {
 	Evento unEvento(E_CORRER_TICK);
 	MensajeServer* msj1 = new MensajeServer(unEvento);
@@ -310,8 +356,8 @@ int main(int argc, char *argv[]) {
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
 //	probarSerializarEvento();
+	probarSerializarMensajeCliente();
 //	probarSerializacionMensajeServer();
-//	probarMensajeCliente();
-	probarXMLString();
+//	probarXMLString();
 	return 0;
 }
