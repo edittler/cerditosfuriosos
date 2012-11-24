@@ -21,7 +21,7 @@
 
 int main(int argc, char *argv[]) {
 	Gtk::Main kit(argc, argv);
-	VentanaCliente ventana;
+	VentanaPrincipal ventana;
 
 	Juego juego(&ventana);
 	juego.start();

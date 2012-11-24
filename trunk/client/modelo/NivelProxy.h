@@ -9,7 +9,7 @@
 
 class NivelProxy: public Nivel {
 public:
-	NivelProxy();
+	NivelProxy(unsigned int idJugador);
 	virtual ~NivelProxy();
 
 	void tick(int milisegundos);
@@ -26,6 +26,8 @@ private:
 
 	void lanzarHuevo(TipoDisparo tDisparo, Punto2D posInicial,
 			Velocidad2D velInicial);
+
+	unsigned int idJugador;
 
 	bool finalizo;
 
