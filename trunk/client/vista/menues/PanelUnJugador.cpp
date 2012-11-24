@@ -18,8 +18,8 @@ PanelUnJugador::PanelUnJugador(int ancho,
 												niveles);
 	agregarComponentes();
 	// Seniales
-	botonSeleccionar->signal_clicked().connect(sigc::mem_fun(*this,
-								&PanelUnJugador::botonSeleccionarClickeado));
+//	botonSeleccionar->signal_clicked().connect(sigc::mem_fun(*this,
+//								&PanelUnJugador::botonSeleccionarClickeado));
 	botonVolver->signal_clicked().connect(sigc::mem_fun(*this,
 										&PanelUnJugador::botonVolverClickeado));
 }
@@ -54,26 +54,26 @@ void PanelUnJugador::cargarNiveles(string ruta) {
 	 */
 	if (ruta.compare("mundo_1.xml") == 0) {
 		niveles[1] = "../common/MiMundo-level1.xml";
-		niveles[2] = "nivel_1_2.xml";
+		niveles[2] = "../common/MiMundo-level1.xml";
 		
 	}
 	if (ruta.compare("mundo_2.xml") == 0) {
-		niveles[1] = "nivel_2_1.xml";
-		niveles[2] = "nivel_2_2.xml";
-		niveles[3] = "nivel_2_3.xml";
-		niveles[4] = "nivel_2_4.xml";
+		niveles[1] = "../common/MiMundo-level1.xml";
+		niveles[2] = "../common/MiMundo-level1.xml";
+		niveles[3] = "../common/MiMundo-level1.xml";
+		niveles[4] = "../common/MiMundo-level1.xml";
 	}
 	if (ruta.compare("mundo_3.xml") == 0) {
-		niveles[1] = "nivel_3_1.xml";
-		niveles[2] = "nivel_3_2.xml";
-		niveles[3] = "nivel_3_3.xml";
+		niveles[1] = "../common/MiMundo-level1.xml";
+		niveles[2] = "../common/MiMundo-level1.xml";
+		niveles[3] = "../common/MiMundo-level1.xml";
 	}
 	if (ruta.compare("mundo_4.xml") == 0) {
-		niveles[1] = "nivel_5_1.xml";
-		niveles[2] = "nivel_5_2.xml";
-		niveles[3] = "nivel_5_3.xml";
-		niveles[4] = "nivel_5_4.xml";
-		niveles[5] = "nivel_5_4.xml";
+		niveles[1] = "../common/MiMundo-level1.xml";
+		niveles[2] = "../common/MiMundo-level1.xml";
+		niveles[3] = "../common/MiMundo-level1.xml";
+		niveles[4] = "../common/MiMundo-level1.xml";
+		niveles[5] = "../common/MiMundo-level1.xml";
 	}
 }
 
@@ -117,5 +117,9 @@ void PanelUnJugador::botonVolverClickeado() {
 
 
 void PanelUnJugador::botonSeleccionarClickeado() {
-	
+
+}
+
+std::string PanelUnJugador::getRutaNivelSeleccionado() const {
+	return selectorNiveles->getOpcionSeleccionada();
 }

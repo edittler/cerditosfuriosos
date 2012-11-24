@@ -2,7 +2,7 @@
 #define _VISTA_ESCENARIO_H_
 
 // Hierarchy Include.
-#include "ObservadorEscenario.h"
+#include "../../../common/model/ObservadorEscenario.h"
 
 //C++ Library Includes.
 #include <list>
