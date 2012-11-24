@@ -24,18 +24,28 @@ enum RespuestaServidor {
 class RespuestaServer: public Mensaje {
 public:
 	/**
-	 * Constructor con parametros.
-	 * @param tipo Tipo de respuesta que se va a crear.
+	 * Constructor que setea el mensaje RespuestaServidor con el tipo especificado.
+	 * Útil para usar en comandos sencillos como RS_UNIRSE_PARTIDA_ERROR.
+	 * @param tipo de respuesta que se va a enviar
 	 */
 	RespuestaServer(RespuestaServidor tipo = RS_INDEFINIDA);
 
 	/**
-	 * Constructor con parametros
-	 * @param tipo Tipo de respuesta que se va a crear.
-	 * @param datos Los datos que se van a enviar en la respuesta, como la tabla
-	 * de records, la lista de mundos, la lista de partidas ya creadas.
+	 * Constructor que setea el mensaje RespuestaServidor con el tipo
+	 * especificado y los datos establecidos.
+	 * Útil para usar en comandos como RS_TABLA_RECORDS, RS_LISTA_MUNDOS,
+	 * RS_LISTA_PARTIDAS.
+	 * @param tipo de respuesta que se va a enviar.
+	 * @param datos que se van a enviar.
 	 */
 	RespuestaServer(RespuestaServidor tipo, const std::string& datos);
+
+	/**
+	 * Constructor que setea el mensaje RespuestaServidor con el tipo
+	 * RS_UNIRSE_PARTIDA_OK y el id del jugador especificado.
+	 * @param idJugador a enviar.
+	 */
+	RespuestaServer(unsigned int idJugador);
 
 	virtual ~RespuestaServer();
 
@@ -52,6 +62,30 @@ public:
 	 */
 	void deserealizar(const std::string& mensaje);
 
+	/**
+	 * Setea el mensaje RespuestaServidor con el tipo especificado.
+	 * Útil para usar en comandos sencillos como RS_UNIRSE_PARTIDA_ERROR.
+	 * @param tipo de respuesta que se va a enviar
+	 */
+	void set(RespuestaServidor tipo);
+
+	/**
+	 * Setea el mensaje RespuestaServidor con el tipo especificado y los datos
+	 * establecidos
+	 * Útil para usar en comandos como RS_TABLA_RECORDS, RS_LISTA_MUNDOS,
+	 * RS_LISTA_PARTIDAS.
+	 * @param tipo de respuesta que se va a enviar.
+	 * @param datos que se van a enviar.
+	 */
+	void set(RespuestaServidor tipo, const std::string& datos);
+
+	/**
+	 * Setea el mensaje RespuestaServidor con el tipo RS_UNIRSE_PARTIDA_OK y
+	 * el id del jugador especificado.
+	 * @param idJugador a enviar.
+	 */
+	void set(unsigned int idJugador);
+
 	RespuestaServidor getTipoRespuesta() const;
 
 	std::string getDatos() const;
@@ -59,11 +93,19 @@ public:
 private:
 	void decodificarDatos(const std::string& mensaje);
 
+	void decodificarIDJugador(const std::string& mensaje);
+
 	// Tipo de respuesta que envia el server.
 	RespuestaServidor tipo;
 
-	// String que contiene los datos
+	/**
+	 * String que contiene datos enviados.
+	 * Será usado cuando se envian los comandos RS_TABLA_RECORDS,
+	 * RS_LISTA_MUNDOS, RS_LISTA_PARTIDAS.
+	 */
 	std::string datos;
+
+	unsigned int idJugador;
 };
 
 #endif /* RESPUESTASERVER_H_ */

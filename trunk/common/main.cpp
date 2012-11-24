@@ -308,10 +308,55 @@ void probarSerializarMensajeCliente() {
 	}
 }
 
-void probarSerializacionMensajeServer() {
+void probarSerializarRespuestaServer() {
+	// Creo un mensaje no definido
+	RespuestaServer msjND;
+	std::string msj = msjND.serealizar();
+	if (msj[0] == '\n')
+			std::cout << "La cadena de mensaje indefinido está vacia" << std::endl;
+
+	// Creo un mensaje para enviar ver records.
+	RespuestaServer msjTR(RS_TABLA_RECORDS, "HiperSuperDuperTablaDeRecords");
+	msj = msjTR.serealizar();
+	std::cout << msj;
+	RespuestaServer msjTRD;
+	msjTRD.deserealizar(msj);
+	if (msjTRD.serealizar().compare(msjTR.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje tabla records             OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje tabla records             FAIL" << std::endl;
+	}
+
+	// Creo un mensaje para enviar respuesta afirmativa ante pedido de unirse a partida.
+	RespuestaServer msjUPO(2);
+	msj = msjUPO.serealizar();
+	std::cout << msj;
+	RespuestaServer msjUPOD;
+	msjUPOD.deserealizar(msj);
+	if (msjUPOD.serealizar().compare(msjUPO.serealizar()) == 0) {
+		std::cout << "Deserealizar unirse partida ok                 OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar unirse partida ok                 FAIL" << std::endl;
+	}
+
+	// Creo un mensaje para enviar una respuesta negativa ante pedido de unirse a partida.
+	RespuestaServer msjUPE(RS_UNIRSE_PARTIDA_ERROR);
+	msj = msjUPE.serealizar();
+	std::cout << msj;
+	RespuestaServer msjUPED;
+	msjUPED.deserealizar(msj);
+	if (msjUPED.serealizar().compare(msjUPE.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje unirse partida error      OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje unirse partida error      FAIL" << std::endl;
+	}
+}
+
+void probarSerializarMensajeServer() {
 	Evento unEvento(E_CORRER_TICK);
 	MensajeServer* msj1 = new MensajeServer(unEvento);
 	std::string sMS = msj1->serealizar();
+	std::cout << sMS;
 	MensajeServer msj2;
 	msj2.deserealizar(sMS);
 	std::string sEvento = unEvento.serealizar();
@@ -321,6 +366,47 @@ void probarSerializacionMensajeServer() {
 		std::cout << "Deserealizar MS evento                         OK" << std::endl;
 	} else {
 		std::cout << "Deserealizar MS evento                         FAIL" << std::endl;
+	}
+
+	MensajeServer msjND;
+	std::string msj = msjND.serealizar();
+	if (msj[0] == '\n') {
+		std::cout << "Deserealizar mensaje no definido               OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje no definido               FAIL" << std::endl;
+	}
+
+	MensajeServer msjCN("El archivo hiper xml del nivel");
+	msj = msjCN.serealizar();
+	std::cout << msj;
+	MensajeServer msjCND;
+	msjCND.deserealizar(msj);
+	if (msjCND.serealizar().compare(msjCN.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje Cargar Nivel              OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje Cargar Nivel              FAIL" << std::endl;
+	}
+
+	MensajeServer msjPP(MS_PAUSAR_PARTIDA);
+	msj = msjPP.serealizar();
+	std::cout << msj;
+	MensajeServer msjPPD;
+	msjPPD.deserealizar(msj);
+	if (msjPPD.serealizar().compare(msjPP.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje pausar partida            OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje pausar partida            FAIL" << std::endl;
+	}
+
+	MensajeServer msjFP(MS_FINALIZAR_PARTIDA);
+	msj = msjFP.serealizar();
+	std::cout << msj;
+	MensajeServer msjFPD;
+	msjFPD.deserealizar(msj);
+	if (msjFPD.serealizar().compare(msjFP.serealizar()) == 0) {
+		std::cout << "Deserealizar mensaje finalizar partida            OK" << std::endl;
+	} else {
+		std::cout << "Deserealizar mensaje finalizar partida            FAIL" << std::endl;
 	}
 }
 
@@ -356,8 +442,9 @@ int main(int argc, char *argv[]) {
 //	probarRestaurarXMLEscenario();  // Incluye pajaros y disparos.
 //	probarReanudarXMLEscenario();
 //	probarSerializarEvento();
-	probarSerializarMensajeCliente();
-//	probarSerializacionMensajeServer();
+//	probarSerializarMensajeCliente();
+//	probarSerializarRespuestaServer();
+	probarSerializarMensajeServer();
 //	probarXMLString();
 	return 0;
 }

@@ -15,7 +15,7 @@
 #define C_DESCONECTAR		'D'
 
 // DEFINICIONES DE CHAR A USAR COMO DELIMITADORES
-#define MC_DELIMITADOR_PARAMETRO '|'
+#define MC_DELIMITADOR '|'
 
 MensajeCliente::MensajeCliente(ComandoCliente comando) {
 	this->set(comando);
@@ -41,36 +41,36 @@ std::string MensajeCliente::serealizar() const {
 	// De acuerdo al comando, realizo la serializacion adecuada.
 	switch (this->comando) {
 	case MC_VER_RECORDS:
-		msj << C_VER_RECORDS << MC_DELIMITADOR_PARAMETRO;
+		msj << C_VER_RECORDS << MC_DELIMITADOR;
 		break;
 	case MC_VER_MUNDOS:
-		msj << C_VER_MUNDOS << MC_DELIMITADOR_PARAMETRO;
+		msj << C_VER_MUNDOS << MC_DELIMITADOR;
 		break;
 	case MC_CREAR_PARTIDA:
-		msj << C_CREAR_PARTIDA << MC_DELIMITADOR_PARAMETRO;
+		msj << C_CREAR_PARTIDA << MC_DELIMITADOR;
 		// Agrego el ID del mundo.
-		msj << this->id << MC_DELIMITADOR_PARAMETRO;
+		msj << this->id << MC_DELIMITADOR;
 		// Agrego el nombre elegido para la partida
-		msj << this->nombre << MC_DELIMITADOR_PARAMETRO;
+		msj << this->nombre << MC_DELIMITADOR;
 		break;
 	case MC_VER_PARTIDAS:
-		msj << C_VER_PARTIDAS << MC_DELIMITADOR_PARAMETRO;
+		msj << C_VER_PARTIDAS << MC_DELIMITADOR;
 		break;
 	case MC_UNIRSE_PARTIDA:
-		msj << C_UNIRSE_PARTIDA << MC_DELIMITADOR_PARAMETRO;
+		msj << C_UNIRSE_PARTIDA << MC_DELIMITADOR;
 		// Agrego el ID de partida.
-		msj << this->id << MC_DELIMITADOR_PARAMETRO;
+		msj << this->id << MC_DELIMITADOR;
 		break;
 	case MC_EVENTO:
-		msj << C_EVENTO << MC_DELIMITADOR_PARAMETRO;
+		msj << C_EVENTO << MC_DELIMITADOR;
 		// Agrego el evento;
-		msj << this->evento.serealizar() << MC_DELIMITADOR_PARAMETRO;
+		msj << this->evento.serealizar() << MC_DELIMITADOR;
 		break;
 	case MC_ABANDONAR_PARTIDA:
-		msj << C_ABANDONAR_PARTIDA << MC_DELIMITADOR_PARAMETRO;
+		msj << C_ABANDONAR_PARTIDA << MC_DELIMITADOR;
 		break;
 	case MC_DESCONECTAR:
-		msj << C_DESCONECTAR << MC_DELIMITADOR_PARAMETRO;
+		msj << C_DESCONECTAR << MC_DELIMITADOR;
 		break;
 	default:
 		// Para el caso por defaul, no realizo nada.
@@ -87,7 +87,7 @@ void MensajeCliente::deserealizar(const std::string& mensaje) {
 	/* Verifico si en la segunda posicion se encuentra el delimitador.
 	 * Si no se encuentra, cargo el mensaje como no definido.
 	 */
-	if (msj[1] != MC_DELIMITADOR_PARAMETRO) {
+	if (msj[1] != MC_DELIMITADOR) {
 		this->comando = MC_INDEFINIDO;
 		return;
 	}
@@ -175,7 +175,7 @@ void MensajeCliente::decodificarParametros(const std::string& mensaje) {
 	std::string tmp;
 	int i = 2;
 	char c = msj[i];
-	while((c != MC_DELIMITADOR_PARAMETRO) && (c != '\0')) {
+	while((c != MC_DELIMITADOR) && (c != '\0')) {
 		tmp += c;
 		i++;
 		c = msj[i];
@@ -186,7 +186,7 @@ void MensajeCliente::decodificarParametros(const std::string& mensaje) {
 		i++;
 		c = msj[i];
 		tmp.clear();
-		while((c != MC_DELIMITADOR_PARAMETRO) && (c != '\0')) {
+		while((c != MC_DELIMITADOR) && (c != '\0')) {
 			tmp += c;
 			i++;
 			c = msj[i];
@@ -200,7 +200,7 @@ void MensajeCliente::deserealizarEvento(const std::string& mensaje) {
 	std::string sEvento;
 	int i = 2;
 	char c = msj[i];
-	while((c != MC_DELIMITADOR_PARAMETRO) && (c != '\0')) {
+	while((c != MC_DELIMITADOR) && (c != '\0')) {
 		sEvento += c;
 		i++;
 		c = msj[i];

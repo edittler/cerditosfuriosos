@@ -14,6 +14,13 @@ float stringToFloat(std::string cadena) {
 	return valor;
 }
 
+std::string floatToString(float valor) {
+	std::ostringstream val;
+	val.imbue(std::locale("C"));
+	val << valor;
+	return val.str();
+}
+
 int stringToInt(std::string cadena) {
 	std::istringstream val(cadena);
 	val.imbue(std::locale("C"));
@@ -22,14 +29,22 @@ int stringToInt(std::string cadena) {
 	return valor;
 }
 
-std::string floatToString(float valor) {
+std::string intToString(int valor) {
 	std::ostringstream val;
 	val.imbue(std::locale("C"));
 	val << valor;
 	return val.str();
 }
 
-std::string intToString(int valor) {
+unsigned int stringToUint(std::string cadena) {
+	std::istringstream val(cadena);
+	val.imbue(std::locale("C"));
+	unsigned int valor;
+	val >> valor;
+	return valor;
+}
+
+std::string uintToString(unsigned int valor) {
 	std::ostringstream val;
 	val.imbue(std::locale("C"));
 	val << valor;
