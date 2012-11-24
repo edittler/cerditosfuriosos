@@ -4,10 +4,12 @@
 NivelLocal::NivelLocal() {
     this->tiempoGeneracionMinimo = 250;
     this->tiempoAcumulado = 0;
+    escenario = new Escenario();
     simulador = new Simulador(20, 50, 10);
 }
 
 NivelLocal::~NivelLocal() {
+	delete escenario;
 	delete simulador;
 }
 

@@ -200,6 +200,8 @@ public:
 
 	unsigned int getCantidadJugadores() const;
 
+	Punto2D getPosicionCatapulta(unsigned int idJugador);
+
 	/*
 	 * @brief devuelve el id del primer jugador encontrado que
 	 * no haya sido conectado a un cliente.

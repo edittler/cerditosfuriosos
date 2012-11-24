@@ -47,7 +47,11 @@ void* Juego::run() {
 
 				// Inicio la vista
 				ventana->agregarContenedor(*vista);
-				ventana->setMouseListener(new MouseListener(*nivel));
+
+				Punto2D p = nivel->getPosicionCatapulta(1);
+				MouseListener* mListener = new MouseListener(*nivel, p.x, p.y + 0.5);
+
+				ventana->setMouseListener(mListener);
 
 				int i = 0;
 				while (!nivel->finalizoPartida() && this->ejecutando) {

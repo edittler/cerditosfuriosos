@@ -33,6 +33,8 @@ public:
 
 	Escenario* getEscenario();
 
+	Punto2D getPosicionCatapulta(unsigned int idJugador);
+
 protected:
 	Escenario* escenario;
 };

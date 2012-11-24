@@ -1,7 +1,10 @@
 #include "MouseListener.h"
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
-MouseListener::MouseListener(Nivel& nivel) : nivel(nivel) { }
+MouseListener::MouseListener(Nivel& nivel, float x, float y) : nivel(nivel) {
+	this->x = x;
+	this->y = y;
+}
 
 MouseListener::~MouseListener() { }
 
@@ -19,13 +22,11 @@ bool MouseListener::onClick(GdkEventButton* event) {
 	float xf = event->x / AJUSTE_ESCALA_VISTA;
 	float yf = nivel.getAlto() - event->y / AJUSTE_ESCALA_VISTA;
 
-	float x0 = 1.3, y0 = 1.3;  // FIXME se tiene que tomar posicion de la catapulta
-
 	// Calculo velocidades iniciales.
 	float Vx = DISPARO_VELOCIDAD_X;
-	float t = (xf - x0) / Vx;
-	float Vy = (yf - y0) / t - GRAVEDAD_Y * t / 2;
+	float t = (xf - x) / Vx;
+	float Vy = (yf - y) / t - GRAVEDAD_Y * t / 2;
 
-	nivel.lanzarHuevo(Punto2D(x0, y0), Velocidad2D(Vx, Vy), 1);
+	nivel.lanzarHuevo(Punto2D(x, y), Velocidad2D(Vx, Vy), 1);
 	return true;
 }

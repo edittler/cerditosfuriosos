@@ -2,9 +2,7 @@
 #include <exception>
 #include "../parser/XMLTypes.h"
 
-Nivel::Nivel() {
-	escenario = new Escenario();
-}
+Nivel::Nivel() { }
 
 Nivel::~Nivel() {
 	delete escenario;
@@ -36,4 +34,8 @@ Escenario* Nivel::getEscenario() {
 
 float Nivel::getAlto() const {
 	return this->escenario->getAlto();
+}
+
+Punto2D Nivel::getPosicionCatapulta(unsigned int idJugador) {
+	return escenario->getPosicionCatapulta(idJugador);
 }

@@ -2,12 +2,11 @@
 #include "NivelServer.h"
 
 NivelServer::NivelServer() {
-	// TODO Auto-generated constructor stub
-
+	escenario = new Escenario();
 }
 
 NivelServer::~NivelServer() {
-	// TODO Auto-generated destructor stub
+	delete escenario;
 }
 
 void NivelServer::tick(int milisegundos) {
