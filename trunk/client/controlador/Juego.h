@@ -1,11 +1,12 @@
-#ifndef SIMULADORPROVISORIO_H_
-#define SIMULADORPROVISORIO_H_
+#ifndef JUEGO_H_
+#define JUEGO_H_
 
-#include <unistd.h>
+// Common Project Includes.
+#include "../../common/thread/Thread.h"
+#include "../../common/model/Nivel.h"
 
-#include <../../common/thread/Thread.h>
-#include <Escenario.h>
-#include <Nivel.h>
+// Client Project Includes.
+#include "../core/Client.h"
 #include "../vista/menues/VentanaPrincipal.h"
 #include "../vista/modelo/VistaEscenario.h"
 
@@ -20,22 +21,55 @@ enum EstadosJuego {
 
 class Juego: public Thread {
 public:
-	Juego(VentanaPrincipal* ventana);
+	/**
+	 * Constructor
+	 * @param ventana que manipula el juego para visualizarse.
+	 */
+	Juego(VentanaPrincipal& ventana);
+
+	/**
+	 * Destructor
+	 */
 	virtual ~Juego();
 
+	/**
+	 * Finaliza la ejecución del juego
+	 */
 	void finalizarJuego();
 
+protected:
+	/**
+	 * Metodo que contiene la funcionalidad que ejecuta el thread del juego
+	 */
 	void* run();
+
 private:
+	void inicialSenialesBotones();
 
 	void botonUnJugador();
+
+	void botonMultijugador();
+
+	void botonSalir();
+
+	// Booleano que especifica si el juego se está ejecutando.
 	bool ejecutando;
 
+	/* bool que especifica si se está corriendo un juego local o remoto
+	 * (multijugador).
+	 */
+	bool local;
+
+	// Ventana que tiene asociado el juego.
+	VentanaPrincipal& ventana;
+
+	// Nivel que está ejecutando el juego.
 	Nivel* nivel;
 
-	VentanaPrincipal* ventana;
+	// Vista del escenario asociado al nivel que está corriendo el juego.
 	VistaEscenario* vista;
 
+	// Estado del juego.
 	EstadosJuego estado;
 };
 
