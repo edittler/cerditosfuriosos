@@ -38,6 +38,12 @@ public:
 	unsigned int getJugadorAsignado();
 
 	/*
+	 * @brief desencola un evento recibido del cliente
+	 * @return evento
+	 */
+//	Evento popEvento();
+
+	/*
 	 * @brief encola mensajes para ser enviados asincronicamente
 	 * @param m mensaje
 	 */
@@ -71,7 +77,7 @@ private:
 	// Referencia del servidor
 	Server& server;
 
-	ColaProtegida<Evento*> colaEventos;
+//	ColaProtegida<Evento*> colaEventos;
 
 	// threads para envio y recibo de mensajes
 	ThreadEnviar* tEnviar;

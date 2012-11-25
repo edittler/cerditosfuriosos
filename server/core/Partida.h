@@ -43,6 +43,12 @@ public:
 	 */
 	unsigned int getIdJugadorNoConectado();
 
+	/*
+	 * @brief setea como no conectado a un jugador del escenario.
+	 * @param id del jugador a desconectar
+	 */
+	void setIdJugadorNoConectado(unsigned int id);
+
 	EstadoPartida getEstado();
 	void setEstado(EstadoPartida estado);
 

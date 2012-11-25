@@ -56,6 +56,13 @@ public:
 	void crearPartida(Partida* partida, ThreadCliente* cliente);
 
 	/*
+	 * @brief agrega el @cliente a la partida @idPartida
+	 * @param id de la partida
+	 * @param cliente a unir
+	 */
+	bool unirseAPartida(unsigned int idPartida, ThreadCliente* cliente);
+
+	/*
 	 * @brief obtiene una lista de los nombres de mundos disponibles
 	 * @return	lista de nombres de mundos
 	 */
@@ -73,6 +80,12 @@ public:
 	 * @return lista.
 	 */
 	std::list<std::string> getPartidasDisponibles() const;
+
+	/*
+	 * @brief devuelve la tabla de records asociada al @nivel
+	 * @param nivel del cual se quieren ver los records
+	 */
+	ListaRecords getTablaRecords(std::string nivel);
 
 private:
 
@@ -102,7 +115,7 @@ private:
 	MundosDisponibles mundosDiponibles;
 
 	/* Tabla de records */
-//	TablaRecords* records;
+	TablaRecords* records;
 
 	/* Partidas creadas */
 	PartidasDisponibles partidasDisponibles;

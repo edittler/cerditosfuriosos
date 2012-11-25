@@ -10,6 +10,7 @@
 #include "MensajeServer.h"
 #include "RespuestaServer.h"
 #include "MensajeCliente.h"
+#include "CFTools.h"
 
 // Server Project Includes.
 #include "Server.h"
@@ -32,10 +33,10 @@ ThreadCliente::~ThreadCliente() {
 	delete this->tEnviar;
 	delete this->tRecibir;
 
-	while (!colaEventos.estaVacia()) {
-		Evento* e = colaEventos.obtenerFrente();
-		delete e;
-	}
+//	while (!colaEventos.estaVacia()) {
+//		Evento* e = colaEventos.obtenerFrente();
+//		delete e;
+//	}
 }
 
 void ThreadCliente::setPartida(ThreadPartida* partida) {
@@ -49,6 +50,10 @@ void ThreadCliente::asignarJugador(unsigned int id) {
 unsigned int ThreadCliente::getJugadorAsignado() {
 	return this->idJugador;
 }
+
+//Evento ThreadCliente::popEvento() {
+//	return this->colaEventos.obtenerFrente();
+//}
 
 void ThreadCliente::enviar(Mensaje* m) {
 	this->tEnviar->agregarMensaje(m);
@@ -87,9 +92,18 @@ void* ThreadCliente::run() {
 		switch (comandoCli) {
 		case MC_VER_RECORDS: {
 			std::cout << "El cliente quiere ver la tabla de records." << std::endl;
-			/* TODO enviar la tabla de records.
-			 */
-			r = new RespuestaServer(RS_TABLA_RECORDS, "Tabla de records.");
+			// Obtengo records de un mundo
+			ListaRecords lista = server.getTablaRecords(m->getID());
+
+			// serializo lista para agregar al formato usado para la comunicacion
+			std::string mensaje;
+			ListaRecords::iterator it;
+			for (it = lista.begin(); it != lista.end(); ++it) {
+				mensaje.append((*it).first); mensaje.push_back('%');
+				mensaje.append(cft::intToString((*it).second)); mensaje.push_back('%');
+			}
+
+			r = new RespuestaServer(RS_TABLA_RECORDS, mensaje);
 			this->socket->enviar(*r);
 			break; }
 
@@ -144,9 +158,13 @@ void* ThreadCliente::run() {
 
 		case MC_UNIRSE_PARTIDA: {
 			std::cout << "El cliente quiere unirse a una partida." << std::endl;
+			// obtengo id del mensaje y paso a unsigned int
+			std::string respuesta = m->getID();
+			int pos = respuesta.find_first_of(':');
+			unsigned int id = cft::stringToUint(respuesta.substr(0, pos));
 
 			// intentar agregar el cliente a la partida y enviar resultado
-			if (this->threadPartida->unirseAPartida(this)) {  // se unio correctamnete
+			if (this->server.unirseAPartida(id, this)) {  // se unio correctamnete
 				// setea automaticamente el comando RS_UNIRSE_PARTIDA
 				r = new RespuestaServer(this->idJugador);
 				this->tEnviar->agregarMensaje(r);
@@ -163,6 +181,8 @@ void* ThreadCliente::run() {
 
 			// TODO los eventos deberian ingresarse a una cola dentro del ThreadCliente y el
 			// ThreadPartida deberia leerlo desde ahi
+			Evento evento = m->getEvento();
+//			this->colaEventos.encolar(evento);
 
 			break; }
 
@@ -186,6 +206,9 @@ void* ThreadCliente::run() {
 
 		delete m;
 	}
+
+	// FIXME Una vez terminado el loop el cliente se desconecto de la aplicacion
+	// deberia eliminarse de la lista de ClientesConectados del server.
 
 	return NULL;
 }
