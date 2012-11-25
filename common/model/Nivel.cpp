@@ -4,9 +4,7 @@
 
 Nivel::Nivel() { }
 
-Nivel::~Nivel() {
-	delete escenario;
-}
+Nivel::~Nivel() { }
 
 void Nivel::cargarXML(std::string path) {
 	XMLDocument doc;
