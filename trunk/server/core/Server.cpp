@@ -1,3 +1,6 @@
+// Libraries Includes
+#include <stdexcept>
+
 // Header Include.
 #include "Server.h"
 #include "../modelo/ConstantesServer.h"
@@ -61,6 +64,16 @@ void Server::crearPartida(Partida* partida, ThreadCliente* cliente) {
 	tPartida->start();
 }
 
+bool Server::unirseAPartida(unsigned int idPartida, ThreadCliente* cliente) {
+	ThreadPartida* partida = NULL;
+	try {  // valido que sea un idPartida valido
+		partida = this->partidasDisponibles.at(idPartida);
+	} catch (std::out_of_range& e) {
+		return false;
+	}
+	return partida->unirseAPartida(cliente);
+}
+
 std::list<std::string> Server::getMundosDisponibles() const {
 	std::list<std::string> list;
 	MundosDisponibles::const_iterator it;
@@ -82,6 +95,10 @@ std::list<std::string> Server::getPartidasDisponibles() const {
 		list.push_back(nombre);
 	}
 	return list;
+}
+
+ListaRecords Server::getTablaRecords(std::string nivel) {
+	return this->records->at(nivel);
 }
 
 void Server::cargarInformacionMundos() {

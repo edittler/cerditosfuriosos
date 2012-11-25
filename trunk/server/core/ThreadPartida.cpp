@@ -79,33 +79,22 @@ void* ThreadPartida::run() {
 						// FIXME en lugar de leer de los ThreadRecibir se deberia
 						// leer de la cola de eventos guardada en el ThreadCliente
 
-						Mensaje* m = (*it)->recibir();
-						if (m == NULL)
-							break;
-
-						// el mensaje recibido debe ser del tipo MensajeCliente
-						MensajeCliente* msj = dynamic_cast<MensajeCliente*>(m);
-						if (msj == NULL)
-							continue;
-
 						// solo procesa el comando EVENTO, los demas tipos de comandos
 						// son procesados en ThreadCliente.
-						if (msj->getComando()) {
-							Evento e = msj->getEvento();
-							switch (e.getTipoEvento()) {
-								case E_PEDIDO_LANZAR_DISPARO: {
-									// TODO crear disparo en Escenario.
-									// TODO enviar E_LANZAR_DISPARO a demas clientes conetados
-									Evento nuevoEvento(e.getTipoDisparo(), e.getPunto(), e.getVelocidad());
-									MensajeServer* r = new MensajeServer(nuevoEvento);
-									break; }
-								default:
-									// el unico mensaje proveniente del cliente que es procesado es el
-									// pedido de disparo. No deberia llegar otro tipo de mensaje,
-									// si llegara a suceder se ignora.
-									break;
-							}
-						}
+//						Evento e = (*it)->popEvento();
+//						switch (e.getTipoEvento()) {
+//							case E_PEDIDO_LANZAR_DISPARO: {
+//								// TODO crear disparo en Escenario.
+//								// TODO enviar E_LANZAR_DISPARO a demas clientes conetados
+//								Evento nuevoEvento(e.getTipoDisparo(), e.getPunto(), e.getVelocidad());
+//								MensajeServer* r = new MensajeServer(nuevoEvento);
+//								break; }
+//							default:
+//								// el unico mensaje proveniente del cliente que es procesado es el
+//								// pedido de disparo. No deberia llegar otro tipo de mensaje,
+//								// si llegara a suceder se ignora.
+//								break;
+//						}
 					}
 				}
 
@@ -166,9 +155,10 @@ bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-		if ((*it)->getJugadorAsignado() == cliente->getJugadorAsignado()) {
+		unsigned int idADesconectar = cliente->getJugadorAsignado();
+		if ((*it)->getJugadorAsignado() == idADesconectar) {
 			jugadores.remove(cliente);
-			// TODO liberar id jugador en el escenario.
+			this->partida->setIdJugadorNoConectado(idADesconectar);
 		}
 	}
 	return false;
