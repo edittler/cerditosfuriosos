@@ -49,14 +49,71 @@ public:
 	 */
 	void ejecutar();
 
+	/**
+	 * Retorna un puntero del socket
+	 * @return puntero del socket usado para conexiones.
+	 */
+	Socket* getSocket() const;
+
+	/**
+	 * Retorna el ID del jugador que le fue asignado al cliente.
+	 * @return ID del jugador
+	 */
+	unsigned int getIDJugdor() const;
+
+	/**
+	 * Retorna el estado de conexion del cliente.
+	 * @return true si el cliente está conectado, false en caso contrario.
+	 */
+	bool conectado() const;
+
+	/**
+	 * Retorna el estado de la partida, si es que se inició una.
+	 * @return true si la partida esta corriendo, false en caso contrario.
+	 */
+	bool corriendoPartida() const;
+
+
+	/**
+	 * Metodo que se llama al seleccionar el botón para crear una partida.
+	 * Envía un mensaje al servidor solicitando los mundos disponibles y los
+	 * lista por pantalla.
+	 */
+	void botonCrearPartida();
+
+	/**
+	 * Método que se llama al seleccionar el botón para unirse a una partida.
+	 * Envía un mensaje al servidor solicitando las partidas disponibles para
+	 * unirse y los lista por pantalla.
+	 */
+	void botonUnirsePartida();
+
+	/**
+	 * Método que se llama al seleccional el botón para ver los records.
+	 * Evía un mensaje al servidor solicitando los records y
+	 * los lista por pantalla.
+	 */
+	void botonVerRecords();
+
+	/**
+	 * Método que se llama al haber seleccionado un mundo para crear la partida.
+	 * Se debe pasar por parametro el id del mundo elegido y el nombre elegido
+	 * para la partida. TODO, o bien, si el cliente controla la vista, el panel
+	 * de creacion de partida debe proveer métodos de consultas de
+	 * estos atributos requeridos.
+	 *
+	 */
+	void botonMundoSeleccionado(std::string idMundo, std::string nombrePartida);
+
+	/**
+	 * Método que se llama al haber seleccionado una partida a la cual unirse.
+	 * Se debe pasar por parámetro el id de la partida. TODO, o bien,
+	 * si el cliente controla la vista, el panel de creacion de partida debe
+	 * proveer métodos de consulta de este atributo requerido.
+	 */
+	void botonPartidaSeleccionada(const std::string idPartida);
+
 private:
-
-	void crearPartida();
-
-	void unirsePartida();
-
-	void verRecords();
-
 	void correrJuego();  // FIXME Provisorio, no va aca.
 
 	// Socket mediante el cual se realizan las comunicaciones con el server.
@@ -68,8 +125,11 @@ private:
 	// Dirección IP del server.
 	std::string serverIp;
 
-	// Booleanto que especifica si el cliente está corriendo o no.
-	bool corriendo;
+	// ID del jugador que es asignado al cliente.
+	unsigned int idJugador;
+
+	// Booleano que especifica si la partida está corriendo
+	bool _corriendoPartida;
 };
 
 #endif /* CLIENT_H_ */

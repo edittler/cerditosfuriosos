@@ -27,6 +27,9 @@ Client::Client(std::string ip, Puerto port) {
 }
 
 Client::~Client() {
+	// Si el socket se encuentra conectado, lo desconecto.
+	if (socket->estaConectado())
+		socket->desconectar();
 	delete socket;
 }
 
@@ -39,7 +42,7 @@ void Client::desconectar() {
 	socket->desconectar();
 }
 
-void Client::ejecutar() {
+//void Client::ejecutar() {
 	/* En modo multijugador se debe crear una ventana con 3 opciones:
 	 * CREAR PARTIDA, UNIRSE A PARTIDA, VER RECORDS, REGRESAR AL MENU PRINCIPAL.
 	 * Regresar al menú principal, implica desconectarse del servidor.
@@ -48,18 +51,18 @@ void Client::ejecutar() {
 	/* Inicializo el comando que se establecerá segun los botones que pulse
 	 * el cliente.
 	 */
-	ComandoCliente comando = MC_INDEFINIDO;
+//	ComandoCliente comando = MC_INDEFINIDO;
 
 	/* Mientras el comando sea distinto de DESCONECTAR, repito la secuencia del
 	 * modo multijugador.
 	 */
-	while (comando != MC_DESCONECTAR) {
+//	while (comando != MC_DESCONECTAR) {
 		/* Dibujo la pantalla de selección de opciones y espero la selección
 		 */
 		// FIXME Provisoriamente, establezco que voy a unirme a la partida.
-		comando = MC_UNIRSE_PARTIDA;
+//		comando = MC_UNIRSE_PARTIDA;
 
-		switch (comando) {
+/*		switch (comando) {
 		case MC_CREAR_PARTIDA:
 			this->crearPartida();
 			break;
@@ -79,41 +82,53 @@ void Client::ejecutar() {
 			break;
 		}
 	}
+}*/
+
+Socket* Client::getSocket() const {
+	return this->socket;
 }
 
-void Client::crearPartida() {
-	// Envío un mensaje al servidor solicitando la creacion de la partida.
-	MensajeCliente* m = new MensajeCliente(MC_CREAR_PARTIDA);
-	socket->enviar(*m);
-	std::cout << "Mensajes enviado: Crear Partida" << std::endl;
+unsigned int Client::getIDJugdor() const {
+	return this->idJugador;
+}
+
+bool Client::conectado() const {
+	return this->socket->estaConectado();
+}
+
+bool Client::corriendoPartida() const {
+	return this->_corriendoPartida;
+}
+
+void Client::botonCrearPartida() {
+	/* Envío un mensaje al servidor solicitando la lista de mundos para poder
+	 * crear una partida.
+	 */
+	MensajeCliente m(MC_VER_MUNDOS);
+	socket->enviar(m);
+	std::cout << "Mensajes enviado: Ver Mundos" << std::endl;
+
 	// Espero respuesta del servidor con la lista de mundos.
-	RespuestaServer* r =  new RespuestaServer();
-	socket->recibir(*r);
-	std::cout << "Mensajes recibido: " << r->getDatos() << std::endl;
+	RespuestaServer r;
+	socket->recibir(r);
+	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
 	/* TODO debo decodificar la lista de mundos, crear una pantalla donde
 	 * cada mundo disponible tenga un botón y luego de la seleccion debo enviar
 	 * nuevamente el mensaje CREAR_PARTIDA especificando el mundo seleccionado.
 	 */
 
-	delete m;
-	delete r;
 }
 
-void Client::unirsePartida() {
-	// FIXME implementacion prueba
-
-	ComandoServer comando = MS_INDEFINIDO;
-	// Booleano que indica si el usuario quiere regresar
-	bool regresar = false;
-
-	while (!regresar) {
-		// Envío un mensaje que solicita unirse a partida
-		MensajeCliente m(MC_UNIRSE_PARTIDA);
+void Client::botonUnirsePartida() {
+		/* Envío un mensaje que solicita la lista de partidas a para poder
+		 * unirse.
+		 */
+		MensajeCliente m(MC_VER_PARTIDAS);
 		socket->enviar(m);
-		std::cout << "Mensajes enviado: Unirse a Partida" << std::endl;
-		// Espero una respuesta del server con una lista de partidas disponibles.
+		std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
 
+		// Espero una respuesta del server con una lista de partidas disponibles.
 		RespuestaServer r;
 		socket->recibir(r);
 		std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
@@ -128,12 +143,9 @@ void Client::unirsePartida() {
 		/* FIXME provisoriamente ejecuto correrJuego que contiene un demo.
 		 * y establezco como true regresar.
 		 */
-		this->correrJuego();
-		regresar = true;
-	}
 }
 
-void Client::verRecords() {
+void Client::botonVerRecords() {
 	MensajeCliente m(MC_VER_RECORDS);
 	socket->enviar(m);
 	std::cout << "Mensajes enviado: Ver Records" << std::endl;
