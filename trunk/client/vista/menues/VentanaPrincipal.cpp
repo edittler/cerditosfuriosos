@@ -30,6 +30,8 @@ VentanaPrincipal::~VentanaPrincipal() {
 		delete panelUnirsePartida;
 	if (panelRecords != NULL)
 		delete panelRecords;
+	if (panelRecords != NULL)
+		delete panelCrearPartida;
 	delete panelUnJugador;
 	delete contenedor;
 }
@@ -93,4 +95,16 @@ void VentanaPrincipal::setMouseListener(MouseListener* listener) {
 	gdk_threads_enter();
 		listener->cargarEventos(contenedor);
 	gdk_threads_leave();
+}
+
+void VentanaPrincipal::modoCrearPartida(std::string nombreMundos) {
+	if (get_child() != panelCrearPartida) {
+		remove();
+		if (panelCrearPartida == NULL)
+			panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA,
+										ALTO_VENTANA, RUTA_FONDO_MENU, this);
+		panelCrearPartida->cargarMundos(nombreMundos);
+		add(*panelCrearPartida);
+		show_all_children();
+	}
 }

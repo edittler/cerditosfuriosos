@@ -9,6 +9,7 @@
 #include "PanelMultijugador.h"
 #include "PanelUnirsePartida.h"
 #include "PanelRecords.h"
+#include "PanelCrearPartida.h"
 #include "InterfazSelectora.h"
 #include "../modelo/VistaEscenario.h"
 #include "../../controlador/MouseListener.h"
@@ -34,6 +35,7 @@ public:
 	virtual void modoMultijugador();
 	virtual void unirseAPartida();
 	virtual void verRecords();
+	virtual void modoCrearPartida(std::string nombreMundos);
 
 	/**
 	 * El usuario va a jugar a un nivel, carga la vista del escenario.
@@ -51,6 +53,7 @@ public:
 	PanelMultijugador* panelMultijugador;
 	PanelUnirsePartida* panelUnirsePartida;
 	PanelRecords* panelRecords;
+	PanelCrearPartida* panelCrearPartida;
 
 private:
 
