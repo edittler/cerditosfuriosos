@@ -59,6 +59,8 @@ public:
 
 	bool estaConectado();
 
+	bool estaEnlazado();
+
 protected:
 	// Inicializa los atributos del socket.
 	void inicializar();

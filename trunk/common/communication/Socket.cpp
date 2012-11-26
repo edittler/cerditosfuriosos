@@ -176,3 +176,7 @@ void Socket::recibir(Mensaje& mensaje) {
 bool Socket::estaConectado() {
 	return this->conectado;
 }
+
+bool Socket::estaEnlazado() {
+	return this->enlazado;
+}

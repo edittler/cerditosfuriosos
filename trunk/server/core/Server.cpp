@@ -37,11 +37,18 @@ Server::~Server() {
 }
 
 void Server::prender() {
-	// Establezco que el servidor está encendido.
-	encendido = true;
 	// Habilito el socket para conectarse y escuchar conexiones.
 	socket->enlazar();
 	socket->escucharConexiones(MAX_CONEXION_ESPERA);
+
+	// si el puerto esta ocupado no prende el server
+	if (!socket->estaEnlazado()) {
+		return;
+	}
+
+	// Establezco que el servidor está encendido.
+	encendido = true;
+
 	// Comienzo el thread para aceptar clientes
 	this->start();
 }
@@ -168,6 +175,8 @@ void* Server::run() {
 
 		if (socket == NULL)
 			continue;
+
+		std::cout << "\tSe conecto un cliente..." << std::endl;
 
 		ThreadCliente* cliente = new ThreadCliente(*this, socket);
 		this->clientesConectados.push_back(cliente);
