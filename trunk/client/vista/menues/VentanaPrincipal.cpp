@@ -9,12 +9,16 @@ VentanaPrincipal::VentanaPrincipal() {
 	gdk_threads_init();
 	contenedor = new Gtk::EventBox();
 	add(*contenedor);
-	panelInicial = NULL;
+	panelInicial = new PanelInicial(ANCHO_VENTANA, ALTO_VENTANA,
+														RUTA_FONDO_MENU, this);
 	panelUnJugador = new PanelUnJugador(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
-	panelMultijugador = NULL;
-	panelUnirsePartida = NULL;
-	panelRecords = NULL;
+	panelMultijugador = new PanelMultijugador(ANCHO_VENTANA, ALTO_VENTANA,
+														RUTA_FONDO_MENU, this);
+	panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
+														RUTA_FONDO_MENU, this);
+	panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
+			RUTA_FONDO_MENU, this);
 }
 
 VentanaPrincipal::~VentanaPrincipal() {
