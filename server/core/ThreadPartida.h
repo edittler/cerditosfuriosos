@@ -74,6 +74,19 @@ private:
 	 */
 	bool eliminarJugador(ThreadCliente* cliente);
 
+	/*
+	 * @brief recibe mensajes enviados por los clientes y los
+	 * procesa. Si fuese necesario reenvia o informa dicho
+	 * mensaje a demas clientes conectados.
+	 */
+	void procesarMensajesClientes();
+
+	/*
+	 * @brief procesa los eventos generados posteriores a correr
+	 * un tick en el esceneario y los notifica a los clientes.
+	 */
+	void procesarMensajesParaClientes();
+
 	Mutex mPartida;
 	Partida* partida;
 

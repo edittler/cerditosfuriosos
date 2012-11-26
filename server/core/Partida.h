@@ -67,6 +67,10 @@ public:
 	static unsigned int generarId();
 
 	std::string getNombre() const;
+	NivelServer* getNivel() const;
+
+	bool hayEventos();
+	Evento obtenerEvento();
 
 	/*
 	 * @brief carga todos los niveles correspondientes al mundo
@@ -100,6 +104,9 @@ private:
 
 	// contador de niveles
 	unsigned int contadorNiveles;
+
+	// cola de eventos
+	ColaProtegida<Evento> colaEventos;
 };
 
 #endif /* PARTIDA_H_ */

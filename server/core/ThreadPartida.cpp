@@ -1,6 +1,7 @@
 #include "ThreadPartida.h"
 #include "MensajeServer.h"
 #include "ConstantesClientServer.h"
+#include "../modelo/ConstantesServer.h"
 #include "Lock.h"
 #include "log/Log.h"
 
@@ -78,37 +79,20 @@ void* ThreadPartida::run() {
 
 			case EJECUTANDO: {
 				LOG_INFO("estado = EJECUTANDO")
-				// procesa mensajes recibidos
-				ClientesConectados::iterator it;
 				// procesa mensajes de cada cliente conectado
-				for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
-					// procesa hasta un maximo de mensajes por cliente
-					for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
+				this->procesarMensajesClientes();
 
-						// FIXME en lugar de leer de los ThreadRecibir se deberia
-						// leer de la cola de eventos guardada en el ThreadCliente
-
-						// solo procesa el comando EVENTO, los demas tipos de comandos
-						// son procesados en ThreadCliente.
-//						Evento e = (*it)->popEvento();
-//						switch (e.getTipoEvento()) {
-//							case E_PEDIDO_LANZAR_DISPARO: {
-//								// TODO crear disparo en Escenario.
-//								// TODO enviar E_LANZAR_DISPARO a demas clientes conetados
-//								Evento nuevoEvento(e.getTipoDisparo(), e.getPunto(), e.getVelocidad());
-//								MensajeServer* r = new MensajeServer(nuevoEvento);
-//								break; }
-//							default:
-//								// el unico mensaje proveniente del cliente que es procesado es el
-//								// pedido de disparo. No deberia llegar otro tipo de mensaje,
-//								// si llegara a suceder se ignora.
-//								break;
-//						}
-					}
+				// Corre tick del escenario y envia mensaje E_CORRER_TICK
+				this->partida->getNivel()->tick(SERVER_TICK_MSEG);
+				ClientesConectados::iterator it;
+				Evento e(E_CORRER_TICK);
+				MensajeServer* m = new MensajeServer(e);
+				for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+					(*it)->enviar(m);
 				}
 
-				// TODO corre tick
-				// TODO enviar mensajes posteriores a ticks (Lanzamiento Pajaro, fin de partida)
+				// procesa mensajes posteriores a ticks (Lanzamiento Pajaro, fin de partida)
+				this->procesarMensajesParaClientes();
 				break; }
 
 			case ESPERANDO_JUGADOR: {
@@ -177,4 +161,54 @@ bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
 		}
 	}
 	return false;
+}
+
+void ThreadPartida::procesarMensajesClientes() {
+	ClientesConectados::iterator it;
+	for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
+		// procesa hasta un maximo de mensajes por cliente
+		for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
+			// solo procesa el comando EVENTO, los demas tipos de comandos
+			// son procesados en ThreadCliente.
+			Evento e = (*it)->popEvento();
+			switch (e.getTipoEvento()) {
+				case E_PEDIDO_LANZAR_DISPARO: {
+					// instancia disparo en escenario
+					this->partida->getNivel()->lanzarHuevo(e.getTipoDisparo(),
+							e.getPunto(), e.getVelocidad(), (*it)->getJugadorAsignado());
+
+					// enviar E_LANZAR_DISPARO a TODOS los clientes conetados
+					// (incluyendose a el mismo)
+					Evento nuevoEvento(e.getTipoDisparo(), e.getPunto(), e.getVelocidad());
+					MensajeServer* r = new MensajeServer(nuevoEvento);
+					for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
+						(*it)->enviar(r);
+					}
+
+					break; }
+				default:
+					// el unico mensaje proveniente del cliente que es procesado es el
+					// pedido de disparo. No deberia llegar otro tipo de mensaje,
+					// si llegara a suceder se ignoraria.
+					break;
+			}
+		}
+	}
+}
+
+void ThreadPartida::procesarMensajesParaClientes() {
+	for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
+		// valido que haya eventos para procesar.
+		if (!this->partida->hayEventos())
+			break;
+
+		Evento e = this->partida->obtenerEvento();
+
+		// informo del evento a todos los clientes conectados
+		MensajeServer* m = new MensajeServer(e);
+		ClientesConectados::iterator it;
+		for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+			(*it)->enviar(m);
+		}
+	}
 }

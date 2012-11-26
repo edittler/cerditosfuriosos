@@ -175,17 +175,12 @@ void* ThreadCliente::run() {
 				this->tEnviar->agregarMensaje(r);
 			}
 
-			this->correrJuego();
 			break; }
 
 		case MC_EVENTO: {
 			LOG_INFO("El cliente comunico un evento.")
-
-			// TODO los eventos deberian ingresarse a una cola dentro del ThreadCliente y el
-			// ThreadPartida deberia leerlo desde ahi
 			Evento evento = m->getEvento();
-//			this->colaEventos.encolar(evento);
-
+			this->colaEventos.encolar(evento);
 			break; }
 
 		case MC_ABANDONAR_PARTIDA: {
@@ -211,35 +206,4 @@ void* ThreadCliente::run() {
 	// deberia eliminarse de la lista de ClientesConectados del server.
 
 	return NULL;
-}
-
-void ThreadCliente::correrJuego() {
-	NivelServer nivel;
-	nivel.cargarXML("../common/MiMundo-level1.xml");
-	MensajeServer* msj;
-	for(int i = 0; i < 200; i++) {
-		// Si el contador es multipo de 20, lanzo un pajaro
-		if ((i%20) == 0) {
-			// Lanzar pajaro
-			Punto2D p(2.45, 3.45);
-			Velocidad2D v(3, 0.05);
-			nivel.lanzarPajaroVerde(p, v);
-			Evento evPajVerde(T_PAJARO_VERDE, p, v);
-			std::cout << "lanzo pajaro verde" << std::endl;
-			std::cout << "Posicion\tx= " << p.x << "\ty = " << p.y << std::endl;
-			std::cout << "Velocidad\tx= " << v.x << "\ty = " << v.y << std::endl;
-			msj = new MensajeServer(evPajVerde);
-			this->tEnviar->agregarMensaje(msj);
-		}
-		Evento tick(E_CORRER_TICK);
-		msj = new MensajeServer(tick);
-		nivel.tick(20);
-		this->tEnviar->agregarMensaje(msj);
-		std::cout << "tick " << i << std::endl;
-		usleep(30000);
-	}
-
-	msj = new MensajeServer(MS_FINALIZAR_PARTIDA);
-	this->socket->enviar(*msj);
-	delete msj;
 }
