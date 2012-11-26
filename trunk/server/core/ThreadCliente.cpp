@@ -23,7 +23,7 @@ ThreadCliente::ThreadCliente(Server& servidor, Socket* socket) :
 	this->socket = socket;
 	this->idJugador = -1;
 
-	this->tEnviar = new ThreadEnviar(socket);
+	this->tEnviar = new ThreadEnviar(*socket);
 	this->tRecibir = new ThreadRecibir(socket);
 }
 

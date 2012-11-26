@@ -3,13 +3,17 @@
 
 // Common Project Includes.
 #include <Socket.h>
+#include "ColaProtegida.h"
+#include "Evento.h"
+#include "../../common/thread/Thread.h"
+#include "../../common/thread/Mutex.h"
 
 /**
  * Cliente
  * Clase que implementa la logica de comunicaciones con el servidor en el modo
  * multijugador del juego.
  */
-class Client {
+class Client : public Thread{
 public:
 	/**
 	 * Constructor por default
@@ -53,13 +57,15 @@ public:
 	 * Retorna un puntero del socket
 	 * @return puntero del socket usado para conexiones.
 	 */
-	Socket* getSocket() const;
+	Socket& getSocket() const;
 
 	/**
 	 * Retorna el ID del jugador que le fue asignado al cliente.
 	 * @return ID del jugador
 	 */
 	unsigned int getIDJugdor() const;
+
+	ColaProtegida<Evento>& getColaEvento();
 
 	/**
 	 * Retorna el estado de conexion del cliente.
@@ -71,8 +77,11 @@ public:
 	 * Retorna el estado de la partida, si es que se inició una.
 	 * @return true si la partida esta corriendo, false en caso contrario.
 	 */
-	bool corriendoPartida() const;
+	bool corriendoPartida();
 
+	bool partidaPausada();
+
+	bool partidaFinalizada();
 
 	/**
 	 * Metodo que se llama al seleccionar el botón para crear una partida.
@@ -113,8 +122,15 @@ public:
 	 */
 	void botonPartidaSeleccionada(const std::string idPartida);
 
+protected:
+	/**
+	 * Método que se corre mientras sea necesario recibir mensajes del servidor
+	 * cuando se está ejecutando una partida.
+	 */
+	void* run();
+
 private:
-	void correrJuego();  // FIXME Provisorio, no va aca.
+//	void correrJuego();  // FIXME Provisorio, no va aca.
 
 	// Socket mediante el cual se realizan las comunicaciones con el server.
 	Socket* socket;
@@ -128,8 +144,19 @@ private:
 	// ID del jugador que es asignado al cliente.
 	unsigned int idJugador;
 
-	// Booleano que especifica si la partida está corriendo
+	// Booleano que especifica si la partida está corriendo o pausada
 	bool _corriendoPartida;
+
+	// Booleano que especifica si la partida finalizo
+	bool _partidaFinalizada;
+
+	// Cola de eventos
+	ColaProtegida<Evento> colaEventos;
+
+	/* Mutex para protejer los accesos a booleanos de consulta de estado de
+	 * partida.
+	 */
+	Mutex mBoolsPartida;
 };
 
 #endif /* CLIENT_H_ */
