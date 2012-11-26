@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Nivel duracion="50">
+    <Escenario ancho="13" alto="10">
+        <ImagenFondo>/home/tomas/Escritorio/CerditosFuriosos/common/images/background/Bosque.png</ImagenFondo>
+        <ImagenSuelo />
+        <Jugadores>2</Jugadores>
+        <Suelo />
+        <Cerditos>
+            <Cerdito>
+                <Punto2D x="2.57143" y="1.95714" />
+                <Catapulta>
+                    <Punto2D x="1.55714" y="3.6" />
+                </Catapulta>
+            </Cerdito>
+            <Cerdito>
+                <Punto2D x="6.3" y="2.31429" />
+                <Catapulta>
+                    <Punto2D x="4.65714" y="3.28571" />
+                </Catapulta>
+            </Cerdito>
+        </Cerditos>
+        <MonticuloHuevos>
+            <Punto2D x="4.22143" y="1.43571" />
+        </MonticuloHuevos>
+        <Superficies>
+            <CajaMadera>
+                <Punto2D x="8.85714" y="8.01429" />
+            </CajaMadera>
+            <CajaMetal>
+                <Punto2D x="9.08571" y="6.9" />
+            </CajaMetal>
+            <CajaMadera>
+                <Punto2D x="8.91429" y="5.37143" />
+            </CajaMadera>
+            <CajaMetal>
+                <Punto2D x="9.08571" y="3.28571" />
+            </CajaMetal>
+        </Superficies>
+        <Frutas>
+            <Banana>
+                <Punto2D x="7.06429" y="6.10714" />
+            </Banana>
+            <Cereza>
+                <Punto2D x="2.82143" y="6.75" />
+            </Cereza>
+            <Manzana>
+                <Punto2D x="3.46429" y="5.06429" />
+            </Manzana>
+        </Frutas>
+    </Escenario>
+    <LineaEntradaDerecha tiempoGeneracion="450" probabilidad="50">
+        <Posicion x="13" yInicial="1" yFinal="9" />
+        <ProbabilidadesPajaros>
+            <PajaroRojo probabilidad="50" />
+            <PajaroVerde probabilidad="30" />
+            <PajaroAzul probabilidad="20" />
+        </ProbabilidadesPajaros>
+    </LineaEntradaDerecha>
+</Nivel>
