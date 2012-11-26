@@ -44,7 +44,7 @@ public:
 	 * de string
 	 * @return string
 	 */
-	std::string getXMLPartida();
+	std::string getXMLNivel();
 
 	/*
 	 * @brief devuelve el id del primer jugador que se encuentro

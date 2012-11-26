@@ -11,6 +11,7 @@
 #include "RespuestaServer.h"
 #include "MensajeCliente.h"
 #include "CFTools.h"
+#include "log/Log.h"
 
 // Server Project Includes.
 #include "Server.h"
@@ -62,14 +63,14 @@ void* ThreadCliente::run() {
 	this->tEnviar->start();
 	this->tRecibir->start();
 
-	std::cout << "\tThreadCliente: inicializando..." << std::endl;
+	LOG_INFO("inicializando...")
 
 	while (conectado) {
 		// valido que el cliente no se haya desconectado
 		if (!this->socket->estaConectado()) {
 			this->conectado = false;
 
-			std::cout << "\tThreadCliente: finalizado por desconexion del cliente..." << std::endl;
+			LOG_INFO("finalizado por desconexion del cliente...")
 
 			// si esta dentro de una partida lo notifico.
 			if (this->threadPartida != NULL) {
@@ -84,7 +85,7 @@ void* ThreadCliente::run() {
 			m = dynamic_cast<MensajeCliente*>(msj);
 		}
 
-		std::cout << "\tThreadCliente: mensaje recibido..." << std::endl;
+		LOG_INFO("mensaje recibido...")
 
 		// Obtengo el comando que envio el cliente
 		ComandoCliente comandoCli = m->getComando();
@@ -92,7 +93,7 @@ void* ThreadCliente::run() {
 		Mensaje* r = NULL;
 		switch (comandoCli) {
 		case MC_VER_RECORDS: {
-			std::cout << "El cliente quiere ver la tabla de records." << std::endl;
+			LOG_INFO("El cliente quiere ver la tabla de records.")
 			// Obtengo records de un mundo
 			ListaRecords lista = server.getTablaRecords(m->getID());
 
@@ -109,7 +110,7 @@ void* ThreadCliente::run() {
 			break; }
 
 		case MC_VER_MUNDOS: {
-			std::cout << "El cliente quiere ver la lista de mundos." << std::endl;
+			LOG_INFO("El cliente quiere ver la lista de mundos.")
 			std::string mensaje;
 			std::list<std::string> listaMundos = server.getMundosDisponibles();
 
@@ -125,7 +126,7 @@ void* ThreadCliente::run() {
 		break; }
 
 		case MC_CREAR_PARTIDA: {
-			std::cout << "El cliente quiere crear una partida." << std::endl;
+			LOG_INFO("El cliente quiere crear una partida.")
 			// Se crea una partida con el nombre especificado y se registra
 			// en el server.
 			unsigned int id = Partida::generarId();
@@ -138,11 +139,11 @@ void* ThreadCliente::run() {
 
 			partida->cargarSiguienteNivel();
 			this->server.crearPartida(partida, this);
-			std::cout << "El cliente creo una partida satisfactoriamente." << std::endl;
+			LOG_INFO("El cliente creo una partida satisfactoriamente.")
 			break; }
 
 		case MC_VER_PARTIDAS: {
-			std::cout << "El cliente quiere ver partidas existentes." << std::endl;
+			LOG_INFO("El cliente quiere ver partidas existentes.")
 			std::string mensaje;
 			std::list<std::string> list = server.getPartidasDisponibles();
 
@@ -158,7 +159,7 @@ void* ThreadCliente::run() {
 			break; }
 
 		case MC_UNIRSE_PARTIDA: {
-			std::cout << "El cliente quiere unirse a una partida." << std::endl;
+			LOG_INFO("El cliente quiere unirse a una partida.")
 			// obtengo id del mensaje y paso a unsigned int
 			std::string respuesta = m->getID();
 			int pos = respuesta.find_first_of(':');
@@ -178,7 +179,7 @@ void* ThreadCliente::run() {
 			break; }
 
 		case MC_EVENTO: {
-			std::cout << "El cliente comunico un evento." << std::endl;
+			LOG_INFO("El cliente comunico un evento.")
 
 			// TODO los eventos deberian ingresarse a una cola dentro del ThreadCliente y el
 			// ThreadPartida deberia leerlo desde ahi
@@ -188,18 +189,18 @@ void* ThreadCliente::run() {
 			break; }
 
 		case MC_ABANDONAR_PARTIDA: {
-			std::cout << "El cliente quiere abandonar la partida." << std::endl;
+			LOG_INFO("El cliente quiere abandonar la partida.")
 			this->threadPartida->abandonarPartida(this);
 			break; }
 
 		case MC_DESCONECTAR: {
-			std::cout << "El cliente se va a desconectar." << std::endl;
+			LOG_INFO("El cliente se va a desconectar.")
 			this->threadPartida->abandonarPartida(this);
 			this->conectado = false;
 			break; }
 
 		default: {
-			std::cout << "El cliente envió un comando inválido" << std::endl;
+			LOG_INFO("El cliente envió un comando inválido")
 			break; }
 		}
 
