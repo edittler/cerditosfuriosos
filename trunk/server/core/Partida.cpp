@@ -76,6 +76,18 @@ std::string Partida::getNombre() const {
 	return this->nombre;
 }
 
+NivelServer* Partida::getNivel() const {
+	return this->nivel;
+}
+
+bool Partida::hayEventos() {
+	return !this->colaEventos.estaVacia();
+}
+
+Evento Partida::obtenerEvento() {
+	return this->colaEventos.obtenerFrente();
+}
+
 void Partida::cargarNiveles() {
 	XMLDocument doc;
 	// abro XML correspondiente al mundo
