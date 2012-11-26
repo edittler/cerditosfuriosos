@@ -31,7 +31,7 @@ void Partida::cargarSiguienteNivel() {
 	this->nivel->cargarXML(idNiveles[contadorNiveles]);
 }
 
-std::string Partida::getXMLPartida() {
+std::string Partida::getXMLNivel() {
 	XMLDocument doc;
 	bool cargoArchivo = doc.LoadFile(idNiveles[contadorNiveles]);
 	if (cargoArchivo == false) {

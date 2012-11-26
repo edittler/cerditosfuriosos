@@ -2,6 +2,7 @@
 #include "MensajeServer.h"
 #include "ConstantesClientServer.h"
 #include "Lock.h"
+#include "log/Log.h"
 
 ThreadPartida::ThreadPartida(Partida* partida, ThreadCliente* cliente) {
 	this->partida = partida;
@@ -17,7 +18,7 @@ void ThreadPartida::comenzarPartida() {
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		MensajeServer* m = new MensajeServer(MS_CARGAR_NIVEL);
 		Lock(this->mPartida);
-		m->set(this->partida->getXMLPartida());
+		m->set(this->partida->getXMLNivel());
 		(*it)->enviar(m);
 	}
 }
@@ -33,7 +34,7 @@ bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 	if (partida->getEstado() == ESPERANDO_JUGADOR) {  // esperando a nuevo jugador
 		MensajeServer* m = new MensajeServer(MS_CARGAR_NIVEL);
 		Lock(this->mPartida);
-		m->set(this->partida->getXMLPartida());
+		m->set(this->partida->getXMLNivel());
 		return this->agregarJugador(cliente);
 	}
 	return false;
@@ -67,7 +68,7 @@ void* ThreadPartida::run() {
 	while (!partida->finalizo()) {
 		switch (partida->getEstado()) {
 			case CREANDO: {
-				std::cout << "ThreadPartida, estado = CREANDO" << std::endl;
+				LOG_INFO("estado = CREANDO")
 				Lock(this->mPartida);
 				if (partida->comienzo()) {
 					this->comenzarPartida();
@@ -76,7 +77,7 @@ void* ThreadPartida::run() {
 				break; }
 
 			case EJECUTANDO: {
-				std::cout << "ThreadPartida, estado = EJECUTANDO" << std::endl;
+				LOG_INFO("estado = EJECUTANDO")
 				// procesa mensajes recibidos
 				ClientesConectados::iterator it;
 				// procesa mensajes de cada cliente conectado
@@ -111,14 +112,14 @@ void* ThreadPartida::run() {
 				break; }
 
 			case ESPERANDO_JUGADOR: {
-				std::cout << "ThreadPartida, estado = ESPERANDO_JUGADOR" << std::endl;
+				LOG_INFO("estado = ESPERANDO_JUGADOR")
 				// TODO esperar jugador faltante y renaudar partida.
 				Lock(this->mPartida);
 				this->partida->setEstado(EJECUTANDO);
 				break;}
 
 			case PAUSADO: {
-				std::cout << "ThreadPartida, estado = PAUSADO" << std::endl;
+				LOG_INFO("estado = PAUSADO")
 				// TODO enviar notificacion de pausado a todos los clientes.
 				this->pausarPartida();
 				// TODO solo se pausaria una partida si falta un jugador se pasa al estado
@@ -128,7 +129,7 @@ void* ThreadPartida::run() {
 				break; }
 
 			case FINALIZADO: {
-				std::cout << "ThreadPartida, estado = FINALIZADO" << std::endl;
+				LOG_INFO("estado = FINALIZADO")
 				// TODO actualizar records
 				// TODO enviar notificacion de finalizado a todos los clientes
 				// en caso de que se necesario.

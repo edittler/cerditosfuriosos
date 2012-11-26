@@ -5,6 +5,7 @@
 #include "Server.h"
 #include "../modelo/ConstantesServer.h"
 #include "../../common/communication/CFTools.h"
+#include "log/Log.h"
 
 Server::Server() {
 	this->encendido = false;
@@ -43,7 +44,7 @@ bool Server::prender() {
 
 	// si el puerto esta ocupado no prende el server
 	if (!socket->estaEnlazado()) {
-		std::cout << "\tServer: error en enlazado, puerto ocupado" << std::endl;
+		LOG_INFO("error en enlazado, puerto ocupado")
 		return false;
 	}
 
@@ -181,7 +182,7 @@ void* Server::run() {
 		if (socket == NULL)
 			continue;
 
-		std::cout << "\tServer: Se conecto un cliente..." << std::endl;
+		LOG_INFO("Se conecto un cliente...")
 
 		ThreadCliente* cliente = new ThreadCliente(*this, socket);
 		this->clientesConectados.push_back(cliente);
