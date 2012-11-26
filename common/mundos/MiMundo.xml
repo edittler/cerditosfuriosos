@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Mundo>
+    <Nombre>MiMundo</Nombre>
+    <Jugadores>2</Jugadores>
+    <Niveles>
+        <Nivel>
+            <Ruta>MiMundo-level1.xml</Ruta>
+        </Nivel>
+    </Niveles>
+</Mundo>
