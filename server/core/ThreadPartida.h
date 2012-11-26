@@ -9,6 +9,7 @@
 
 // Common Project Includes.
 #include "../../common/communication/ColaProtegida.h"
+#include "Mutex.h"
 
 // Server Project Includes.
 #include "DefinicionesServidor.h"
@@ -73,7 +74,7 @@ private:
 	 */
 	bool eliminarJugador(ThreadCliente* cliente);
 
-	// TODO agregar mutex
+	Mutex mPartida;
 	Partida* partida;
 
 	/* Cola de eventos que se va usar para que los clientes carguen eventos.

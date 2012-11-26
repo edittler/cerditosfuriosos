@@ -32,11 +32,6 @@ ThreadCliente::~ThreadCliente() {
 	delete this->socket;
 	delete this->tEnviar;
 	delete this->tRecibir;
-
-//	while (!colaEventos.estaVacia()) {
-//		Evento* e = colaEventos.obtenerFrente();
-//		delete e;
-//	}
 }
 
 void ThreadCliente::setPartida(ThreadPartida* partida) {
@@ -51,9 +46,9 @@ unsigned int ThreadCliente::getJugadorAsignado() {
 	return this->idJugador;
 }
 
-//Evento ThreadCliente::popEvento() {
-//	return this->colaEventos.obtenerFrente();
-//}
+Evento ThreadCliente::popEvento() {
+	return this->colaEventos.obtenerFrente();
+}
 
 void ThreadCliente::enviar(Mensaje* m) {
 	this->tEnviar->agregarMensaje(m);
@@ -67,10 +62,14 @@ void* ThreadCliente::run() {
 	this->tEnviar->start();
 	this->tRecibir->start();
 
+	std::cout << "\tThreadCliente: inicializando..." << std::endl;
+
 	while (conectado) {
 		// valido que el cliente no se haya desconectado
 		if (!this->socket->estaConectado()) {
 			this->conectado = false;
+
+			std::cout << "\tThreadCliente: finalizado por desconexion del cliente..." << std::endl;
 
 			// si esta dentro de una partida lo notifico.
 			if (this->threadPartida != NULL) {
@@ -85,10 +84,12 @@ void* ThreadCliente::run() {
 			m = dynamic_cast<MensajeCliente*>(msj);
 		}
 
+		std::cout << "\tThreadCliente: mensaje recibido..." << std::endl;
+
 		// Obtengo el comando que envio el cliente
 		ComandoCliente comandoCli = m->getComando();
 		// Declaro el puntero a la respuesta a enviar.
-		RespuestaServer* r = NULL;
+		Mensaje* r = NULL;
 		switch (comandoCli) {
 		case MC_VER_RECORDS: {
 			std::cout << "El cliente quiere ver la tabla de records." << std::endl;
@@ -201,8 +202,6 @@ void* ThreadCliente::run() {
 			std::cout << "El cliente envió un comando inválido" << std::endl;
 			break; }
 		}
-		if (r != NULL)
-			delete r;
 
 		delete m;
 	}

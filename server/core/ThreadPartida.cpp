@@ -1,6 +1,7 @@
 #include "ThreadPartida.h"
 #include "MensajeServer.h"
-#include "../../common/communication/ConstantesClientServer.h"
+#include "ConstantesClientServer.h"
+#include "Lock.h"
 
 ThreadPartida::ThreadPartida(Partida* partida, ThreadCliente* cliente) {
 	this->partida = partida;
@@ -13,10 +14,11 @@ ThreadPartida::~ThreadPartida() {
 
 void ThreadPartida::comenzarPartida() {
 	ClientesConectados::iterator it;
-	// TODO crear y enviar MensajeServer para iniciar partida
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-		// TODO enviar XML a clientes, agregar metodos enviar y recibir a ThreadCliente
-//		(*it)->enviar(*m);
+		MensajeServer* m = new MensajeServer(MS_CARGAR_NIVEL);
+		Lock(this->mPartida);
+		m->set(this->partida->getXMLPartida());
+		(*it)->enviar(m);
 	}
 }
 
@@ -29,7 +31,9 @@ bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 	}
 
 	if (partida->getEstado() == ESPERANDO_JUGADOR) {  // esperando a nuevo jugador
-		// TODO Enviar XML actual del nivel.
+		MensajeServer* m = new MensajeServer(MS_CARGAR_NIVEL);
+		Lock(this->mPartida);
+		m->set(this->partida->getXMLPartida());
 		return this->agregarJugador(cliente);
 	}
 	return false;
@@ -38,14 +42,17 @@ bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 void ThreadPartida::abandonarPartida(ThreadCliente* cliente) {
 	this->eliminarJugador(cliente);
 
-	if (partida->getEstado() ==  EJECUTANDO)
+	if (partida->getEstado() ==  EJECUTANDO) {
+		Lock(this->mPartida);
 		partida->setEstado(PAUSADO);
+	}
 }
 
 void ThreadPartida::pausarPartida() {
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-		// TODO crear y enviar MensajeServer para pausar
+		MensajeServer* m = new MensajeServer(MS_PAUSAR_PARTIDA);
+		(*it)->enviar(m);
 	}
 }
 
@@ -61,6 +68,7 @@ void* ThreadPartida::run() {
 		switch (partida->getEstado()) {
 			case CREANDO: {
 				std::cout << "ThreadPartida, estado = CREANDO" << std::endl;
+				Lock(this->mPartida);
 				if (partida->comienzo()) {
 					this->comenzarPartida();
 					partida->setEstado(EJECUTANDO);
@@ -105,6 +113,7 @@ void* ThreadPartida::run() {
 			case ESPERANDO_JUGADOR: {
 				std::cout << "ThreadPartida, estado = ESPERANDO_JUGADOR" << std::endl;
 				// TODO esperar jugador faltante y renaudar partida.
+				Lock(this->mPartida);
 				this->partida->setEstado(EJECUTANDO);
 				break;}
 
@@ -114,6 +123,7 @@ void* ThreadPartida::run() {
 				this->pausarPartida();
 				// TODO solo se pausaria una partida si falta un jugador se pasa al estado
 				// correspondiente
+				Lock(this->mPartida);
 				this->partida->setEstado(ESPERANDO_JUGADOR);
 				break; }
 
@@ -133,15 +143,18 @@ void* ThreadPartida::run() {
 }
 
 unsigned int ThreadPartida::getId() {
+	Lock(this->mPartida);
 	return this->partida->getId();
 }
 
 std::string ThreadPartida::getNombrePartida() const {
+//	Lock(this->mPartida);
 	return this->partida->getNombre();
 }
 
 bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 	// obtengo id de jugador que no es manejado por ningun cliente
+	Lock(this->mPartida);
 	unsigned int id = this->partida->getIdJugadorNoConectado();
 	if (id != 0) {
 		// asigno el id del jugador al cliente
@@ -158,6 +171,7 @@ bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
 		unsigned int idADesconectar = cliente->getJugadorAsignado();
 		if ((*it)->getJugadorAsignado() == idADesconectar) {
 			jugadores.remove(cliente);
+			Lock(this->mPartida);
 			this->partida->setIdJugadorNoConectado(idADesconectar);
 		}
 	}

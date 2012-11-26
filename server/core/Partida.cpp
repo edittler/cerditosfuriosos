@@ -31,6 +31,20 @@ void Partida::cargarSiguienteNivel() {
 	this->nivel->cargarXML(idNiveles[contadorNiveles]);
 }
 
+std::string Partida::getXMLPartida() {
+	XMLDocument doc;
+	bool cargoArchivo = doc.LoadFile(idNiveles[contadorNiveles]);
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+		return std::string();
+	}
+	TiXmlPrinter printer;
+	printer.SetIndent("");
+	printer.SetLineBreak("");
+	doc.Accept(&printer);
+	return printer.CStr();
+}
+
 unsigned int Partida::getIdJugadorNoConectado() {
 	return this->nivel->getEscenario()->getIdJugadorNoConectado();
 }
