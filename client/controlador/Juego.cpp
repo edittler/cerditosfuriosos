@@ -16,7 +16,8 @@ Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-	this->inicialSenialesBotones();
+	this->cliente = new Client(ventana, "192.168.0.102", 5555);
+	this->iniciarSenialesBotones();
 }
 
 Juego::~Juego() { }
@@ -48,7 +49,7 @@ void* Juego::run() {
 			int i = 0;
 			while (!nivel->finalizoPartida() && this->ejecutando) {
 				// Verifico si el cliente está conectado y corriendo la partida
-				if ((cliente.conectado()) && !(cliente.corriendoPartida()))
+				if ((cliente->conectado()) && (cliente->partidaPausada()))
 					this->estado = GAMEPAUSE;
 				this->nivel->tick(TIEMPO_TICK_MSEG);
 				std::cout << "tick " << i++ << std::endl;
@@ -71,9 +72,9 @@ void* Juego::run() {
 		}
 		case GAMEPAUSE: {
 			// Si el cliente está conectado, consulto si se reanudó la partida.
-			if (cliente.conectado()) {
+			if (cliente->conectado()) {
 				// Consultar si se reanudo la partida.
-				if (cliente.corriendoPartida()) {
+				if (cliente->corriendoPartida()) {
 					/* Si la partida está corriendo, retorno al estado GAMEPLAY
 					 * para seguir procesando evento
 					 */
@@ -112,14 +113,27 @@ void* Juego::run() {
 	return NULL;
 }
 
-void Juego::inicialSenialesBotones() {
+void Juego::iniciarSenialesBotones() {
+	// Botones del menú principal
+	ventana.panelInicial->botonMultijugador->signal_clicked().connect(
+			sigc::mem_fun(*this, &Juego::botonMultijugador));
+	ventana.panelInicial->botonSalir->signal_clicked().connect(
+			sigc::mem_fun(*this, &Juego::botonSalir));
+	// Botones del menú modo Un Jugador
 	ventana.panelUnJugador->botonSeleccionar->signal_clicked().connect(
 			sigc::mem_fun(*this, &Juego::botonUnJugador));
+	// Botones del menú modo Multijugador
+	ventana.panelMultijugador->botonCrearPartida->signal_clicked().connect(
+			sigc::mem_fun(*cliente, &Client::botonCrearPartida));
+	ventana.panelMultijugador->botonUnirsePartida->signal_clicked().connect(
+			sigc::mem_fun(*cliente, &Client::botonUnirsePartida));
+	ventana.panelMultijugador->botonVolver->signal_clicked().connect(
+			sigc::mem_fun(*this, &Juego::botonSalirModoMultijugador));
 }
 
 void Juego::iniciarPartida() {
 	// Si el cliente no está conectado, instancio un nivel local
-	if (!cliente.conectado()) {
+	if (!cliente->conectado()) {
 		// Instancio un nivel local
 		this->nivel = new NivelLocal();
 
@@ -139,8 +153,8 @@ void Juego::iniciarPartida() {
 		ventana.setMouseListener(mListener);
 	} else {
 		// Instancio un nivel proxy
-		this->nivel = new NivelProxy(cliente.getIDJugdor(),
-				cliente.getSocket(), cliente.getColaEvento());
+		this->nivel = new NivelProxy(cliente->getIDJugdor(),
+				cliente->getSocket(), cliente->getColaEvento());
 
 		// Creo la vistaEscenario y le asocio el escenario del modelo
 		this->vista = new VistaEscenario(nivel->getEscenario());
@@ -150,7 +164,7 @@ void Juego::iniciarPartida() {
 				getRutaNivelSeleccionado());
 
 		std::cout << "Obtengo la posicion de la catapulta\n";
-		Punto2D p = nivel->getPosicionCatapulta(cliente.getIDJugdor());
+		Punto2D p = nivel->getPosicionCatapulta(cliente->getIDJugdor());
 		std::cout << "Seteo la posicion en el mouseListener\n";
 		mListener = new MouseListener(*nivel, p.x, p.y + 0.4);
 		// Inicio la vista
@@ -175,17 +189,22 @@ void Juego::botonMultijugador() {
 	// Establezco el estado del juego como Multijugador
 	this->local = false;
 	// Conecta el cliente y verifico si se pudo conectar.
-	bool conecto = cliente.conectar();
+	bool conecto = cliente->conectar();
 	/* Si el cliente se conecto, muestro el panel multijugador.
 	 */
 	if (conecto) {
-		// TODO mostrar panel multijugador
+		this->ventana.modoMultijugador();
 	} else {
 		/* Si el cliente no se pudo conectar, muestro un mensaje que lo indique
 		 * y regreso al menu principal.
 		 */
 		// TODO mostrar mensaje y regresar al menu principal.
 	}
+}
+
+void Juego::botonSalirModoMultijugador() {
+	this->cliente->desconectar();
+	this->ventana.volverAMenuPrincipal();
 }
 
 void Juego::botonSalir() {

@@ -59,7 +59,7 @@
 #define ESCALA_IMAGENES 100.0f
 #define AJUSTE_ESCALA_IMAGENES (ESCALA_IMAGENES / AJUSTE_ESCALA_VISTA)
 #define DELTA_LOOP 30000
-#define WAIT 5  // en segundos
+#define WAIT 1  // en segundos
 
 // VENTANA
 #define VENTANA_WIDTH 600

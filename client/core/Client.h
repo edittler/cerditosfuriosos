@@ -8,6 +8,9 @@
 #include "../../common/thread/Thread.h"
 #include "../../common/thread/Mutex.h"
 
+// Client Project Includes.
+#include "../vista/menues/VentanaPrincipal.h"
+
 /**
  * Cliente
  * Clase que implementa la logica de comunicaciones con el servidor en el modo
@@ -20,14 +23,14 @@ public:
 	 * Se conecta al servidor mediante la dirección IP de loopback (localhost)
 	 * y el puerto por default establecido por el server desarrollado.
 	 */
-	Client();
+	Client(VentanaPrincipal& ventana);
 
 	/**
 	 * Constructor con parámetros
 	 * @param ip Dirección IP del server a conectarse.
 	 * @param port Puerto que desea usarse para conectarse.
 	 */
-	Client(std::string ip, Puerto port);
+	Client(VentanaPrincipal& ventana, std::string ip, Puerto port);
 
 	/**
 	 * Destructor
@@ -48,12 +51,6 @@ public:
 	void desconectar();
 
 	/**
-	 * Muestra las pantallas correspondientes al modo multijugador e intercambia
-	 * mensajes con el servidor para obtener las informaciones solicitadas.
-	 */
-	void ejecutar();
-
-	/**
 	 * Retorna un puntero del socket
 	 * @return puntero del socket usado para conexiones.
 	 */
@@ -65,6 +62,9 @@ public:
 	 */
 	unsigned int getIDJugdor() const;
 
+	/**
+	 * Retorna la cola de eventos.
+	 */
 	ColaProtegida<Evento>& getColaEvento();
 
 	/**
@@ -79,8 +79,16 @@ public:
 	 */
 	bool corriendoPartida();
 
+	/**
+	 * Retorna el estado de pausa de la partida, si es que se inició una.
+	 * @return true si la partida está pausada, false en caso contrario.
+	 */
 	bool partidaPausada();
 
+	/**
+	 * Retorna el estado finalizacion de la partida, si es que se inició una.
+	 * @return true si la partida finalizó, false en caso contrario.
+	 */
 	bool partidaFinalizada();
 
 	/**
@@ -140,13 +148,14 @@ private:
 	 */
 	void guardarXML(std::string datosXMLNivel) const;
 
-//	void correrJuego();  // FIXME Provisorio, no va aca.
-
 	// Socket mediante el cual se realizan las comunicaciones con el server.
 	Socket* socket;
 
 	// Puerto mendiante el cual se realizan las comunicaciones.
 	Puerto port;
+
+	// Referencia de la ventana donde se muestra la info recibida
+	VentanaPrincipal& ventana;
 
 	// Dirección IP del server.
 	std::string serverIp;
@@ -168,6 +177,7 @@ private:
 	 */
 	Mutex mBoolsPartida;
 
+	// Ruta de archivo XML donde se almacena el nivel recibido desde el server.
 	std::string rutaNivelRecibido;
 };
 

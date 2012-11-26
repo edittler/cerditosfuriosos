@@ -26,51 +26,51 @@
  * una ya existente, o de ver los records.
  */
 class PanelMultijugador : public PanelImagenFondo {
-	public:
+public:
+
+	/**
+	 * Constructor.
+	 */
+	PanelMultijugador(int ancho, int alto, string ruta,
+			InterfazSelectora* interfaz);
+
+	virtual ~PanelMultijugador();
+
+	Gtk::Button* botonCrearPartida;
+	Gtk::Button* botonUnirsePartida;
+	Gtk::Button* botonRecords;
+	Gtk::Button* botonVolver;
+
+protected:
+
+	/**
+	 * El usuario ha indicado que quiere crear una partida.
+	 */
+	void botonCrearPartidaClickeado();
+
+	/**
+	 * El usuario ha indicado que quiere unirse a una partida existente.
+	 */
+	void botonUnirsePartidaClickeado();
+
+	/**
+	 * El usuario ha indicado que quiere ver los records.
+	 */
+	void botonRecordsClickeado();
+
+	/**
+	 * El usuario ha indicado que quiere volver al menu inicial.
+	 */
+	void botonVolverClickeado();
 	
-		/**
-		 * Constructor.
-		 */
-		PanelMultijugador(int ancho, int alto, string ruta,
-												InterfazSelectora* interfaz);
-		
-		virtual ~PanelMultijugador();
-		
-	protected:
-	
-		/**
-		 * El usuario ha indicado que quiere crear una partida.
-		 */
-		void botonCrearPartidaClickeado();
-		
-		/**
-		 * El usuario ha indicado que quiere unirse a una partida existente.
-		 */
-		void botonUnirsePartidaClickeado();
-		
-		/**
-		 * El usuario ha indicado que quiere ver los records.
-		 */
-		void botonRecordsClickeado();
-		
-		/**
-		 * El usuario ha indicado que quiere volver al menu inicial.
-		 */
-		void botonVolverClickeado();
-		
-	private:
-		
-		/**
-		 * Agrega los botones al panel
-		 */
-		void agregarBotones();
-		
-		InterfazSelectora* interfaz;
-	
-		Gtk::Button* botonCrearPartida;
-		Gtk::Button* botonUnirsePartida;
-		Gtk::Button* botonRecords;
-		Gtk::Button* botonVolver;
+private:
+
+	/**
+	 * Agrega los botones al panel
+	 */
+	void agregarBotones();
+
+	InterfazSelectora* interfaz;
 };
 
 #endif

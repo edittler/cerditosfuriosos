@@ -46,7 +46,7 @@ protected:
 	void* run();
 
 private:
-	void inicialSenialesBotones();
+	void iniciarSenialesBotones();
 
 	void iniciarPartida();
 
@@ -84,7 +84,7 @@ private:
 	VistaEscenario* vista;
 
 	// Cliente mediante el cual se conecta al servidor
-	Client cliente;
+	Client* cliente;
 
 	// Estado del juego.
 	EstadosJuego estado;
