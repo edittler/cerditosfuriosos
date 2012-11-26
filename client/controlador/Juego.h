@@ -13,7 +13,9 @@
 enum EstadosJuego {
 	SPLASH,
 	MENU,
+	GAMEINIT,
 	GAMEPLAY,
+	GAMEPAUSE,
 	GANO,
 	PERDIO,
 	EXIT
@@ -46,9 +48,18 @@ protected:
 private:
 	void inicialSenialesBotones();
 
+	void iniciarPartida();
+
 	void botonUnJugador();
 
 	void botonMultijugador();
+
+	/**
+	 * Método que se llama cuando se selecciona el botón para salir del modo
+	 * multijugador.
+	 * Desconecta el cliente del servidor.
+	 */
+	void botonSalirModoMultijugador();
 
 	void botonSalir();
 
@@ -63,11 +74,17 @@ private:
 	// Ventana que tiene asociado el juego.
 	VentanaPrincipal& ventana;
 
+	// Mouse Listener que se asociará a la ventana para detectar los clicks
+	MouseListener* mListener;
+
 	// Nivel que está ejecutando el juego.
 	Nivel* nivel;
 
 	// Vista del escenario asociado al nivel que está corriendo el juego.
 	VistaEscenario* vista;
+
+	// Cliente mediante el cual se conecta al servidor
+	Client cliente;
 
 	// Estado del juego.
 	EstadosJuego estado;
