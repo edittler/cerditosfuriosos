@@ -33,7 +33,18 @@ public:
 
 	void setRutaMundo(std::string path);
 
+	/*
+	 * @brief carga el siguiente nivel correspondiente al mundo
+	 * utilizado
+	 */
 	void cargarSiguienteNivel();
+
+	/*
+	 * @brief devuelve el XML correspondiente a la partida en formato
+	 * de string
+	 * @return string
+	 */
+	std::string getXMLPartida();
 
 	/*
 	 * @brief devuelve el id del primer jugador que se encuentro

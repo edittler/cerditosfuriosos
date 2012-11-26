@@ -41,7 +41,7 @@ public:
 	 * @brief desencola un evento recibido del cliente
 	 * @return evento
 	 */
-//	Evento popEvento();
+	Evento popEvento();
 
 	/*
 	 * @brief encola mensajes para ser enviados asincronicamente
@@ -77,7 +77,7 @@ private:
 	// Referencia del servidor
 	Server& server;
 
-//	ColaProtegida<Evento*> colaEventos;
+	ColaProtegida<Evento> colaEventos;
 
 	// threads para envio y recibo de mensajes
 	ThreadEnviar* tEnviar;

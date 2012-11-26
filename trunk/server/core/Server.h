@@ -42,10 +42,11 @@ public:
 	virtual ~Server();
 
 	/**
-	 * Enciende el servidor, habilitando el puerto para escuchar conexiones,
+	 * @brief Enciende el servidor, habilitando el puerto para escuchar conexiones,
 	 * aceptar conexiones entrantes y atender a los clientes.
+	 * @return true si prendio correctamente, false caso contrario.
 	 */
-	void prender();
+	bool prender();
 	void apagar();
 
 	/**

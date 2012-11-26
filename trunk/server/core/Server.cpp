@@ -36,21 +36,26 @@ Server::~Server() {
 	delete socket;
 }
 
-void Server::prender() {
+bool Server::prender() {
 	// Habilito el socket para conectarse y escuchar conexiones.
 	socket->enlazar();
 	socket->escucharConexiones(MAX_CONEXION_ESPERA);
 
 	// si el puerto esta ocupado no prende el server
 	if (!socket->estaEnlazado()) {
-		return;
+		std::cout << "\tServer: error en enlazado, puerto ocupado" << std::endl;
+		return false;
 	}
 
 	// Establezco que el servidor está encendido.
 	encendido = true;
 
+	// carga paths de xmls de mundos diponibles
+	cargarInformacionMundos();
+
 	// Comienzo el thread para aceptar clientes
 	this->start();
+	return true;
 }
 
 void Server::apagar() {
@@ -176,7 +181,7 @@ void* Server::run() {
 		if (socket == NULL)
 			continue;
 
-		std::cout << "\tSe conecto un cliente..." << std::endl;
+		std::cout << "\tServer: Se conecto un cliente..." << std::endl;
 
 		ThreadCliente* cliente = new ThreadCliente(*this, socket);
 		this->clientesConectados.push_back(cliente);
