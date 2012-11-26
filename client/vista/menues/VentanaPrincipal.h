@@ -46,14 +46,13 @@ public:
 	 */
 	void setMouseListener(MouseListener* listener);
 
-	PanelUnJugador* panelUnJugador;
-
-private:
-
 	PanelInicial* panelInicial;
+	PanelUnJugador* panelUnJugador;
 	PanelMultijugador* panelMultijugador;
 	PanelUnirsePartida* panelUnirsePartida;
 	PanelRecords* panelRecords;
+
+private:
 
 	// Contenedor que permite manejar eventos de hijos.
 	Gtk::EventBox* contenedor;
