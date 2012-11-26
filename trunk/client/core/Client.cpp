@@ -20,7 +20,7 @@
 // Constantes del Client
 #define RUTA_XML_NIVEL_TEMPORAL "xmlniveltemporal.xml"
 
-Client::Client() {
+Client::Client(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->serverIp = SERVER_IP_DEFAULT;
 	this->port = PUERTO_DEFAULT;
 	this->socket = new Socket(this->port);
@@ -29,7 +29,8 @@ Client::Client() {
 	this->rutaNivelRecibido = RUTA_XML_NIVEL_TEMPORAL;
 }
 
-Client::Client(std::string ip, Puerto port) {
+Client::Client(VentanaPrincipal& ventana, std::string ip, Puerto port) :
+		ventana(ventana) {
 	this->serverIp = ip;
 	this->socket = new Socket(port);
 	this->port = port;
@@ -51,48 +52,6 @@ void Client::desconectar() {
 	socket->desconectar();
 	this->_partidaFinalizada = true;
 }
-
-//void Client::ejecutar() {
-	/* En modo multijugador se debe crear una ventana con 3 opciones:
-	 * CREAR PARTIDA, UNIRSE A PARTIDA, VER RECORDS, REGRESAR AL MENU PRINCIPAL.
-	 * Regresar al menú principal, implica desconectarse del servidor.
-	 */
-
-	/* Inicializo el comando que se establecerá segun los botones que pulse
-	 * el cliente.
-	 */
-//	ComandoCliente comando = MC_INDEFINIDO;
-
-	/* Mientras el comando sea distinto de DESCONECTAR, repito la secuencia del
-	 * modo multijugador.
-	 */
-//	while (comando != MC_DESCONECTAR) {
-		/* Dibujo la pantalla de selección de opciones y espero la selección
-		 */
-		// FIXME Provisoriamente, establezco que voy a unirme a la partida.
-//		comando = MC_UNIRSE_PARTIDA;
-
-/*		switch (comando) {
-		case MC_CREAR_PARTIDA:
-			this->crearPartida();
-			break;
-		case MC_UNIRSE_PARTIDA:
-			this->unirsePartida();
-			// FIXME Como no hay menues, provisoriamente establezco desconectar
-			comando = MC_DESCONECTAR;
-			break;
-		case MC_VER_RECORDS:
-			this->verRecords();
-			break;
-		case MC_DESCONECTAR:
-			comando = MC_DESCONECTAR;
-			break;
-		default:
-			// No realizo nada
-			break;
-		}
-	}
-}*/
 
 Socket& Client::getSocket() const {
 	return (*socket);
@@ -236,28 +195,3 @@ void Client::guardarXML(std::string datosXMLNivel) const {
 	doc.Parse(datosXMLNivel.c_str(), 0, TIXML_ENCODING_UTF8);
 	doc.SaveFile(this->rutaNivelRecibido);
 }
-
-/*
-void Client::correrJuego() {
-	Escenario escenario;
-	NivelProxy nivel(1);
-	nivel.cargarXML("../common/MiMundo-level1.xml");
-
-	MensajeServer* msjServer;
-	int i = 0;
-	while (!nivel.finalizoPartida()) {
-		msjServer = new MensajeServer();
-		this->socket->recibir(*msjServer);
-		if (msjServer->getComando() == MS_EVENTO) {
-			nivel.procesarEvento(msjServer->getEvento());
-		}
-		if (msjServer->getComando() == MS_FINALIZAR_PARTIDA) {
-			std::cout << "Fin nivel " << i++ << std::endl;
-			break;
-		}
-	}
-
-	MensajeCliente m(MC_DESCONECTAR);
-	socket->enviar(m);
-	std::cout << "Mensajes enviado: Desconectar" << std::endl;
-} */

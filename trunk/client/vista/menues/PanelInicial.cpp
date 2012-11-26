@@ -41,8 +41,8 @@ void PanelInicial::agregarBotones() {
 	// Seniales
 	botonUnJugador->signal_clicked().connect(sigc::mem_fun(*this,
 									&PanelInicial::botonUnJugadorClickeado));
-	botonMultijugador->signal_clicked().connect(sigc::mem_fun(*this,
-									&PanelInicial::botonMultijugadorClickeado));
-	botonSalir->signal_clicked().connect(sigc::mem_fun(*this,
-										&PanelInicial::botonSalirClickeado));
+//	botonMultijugador->signal_clicked().connect(sigc::mem_fun(*this,
+//									&PanelInicial::botonMultijugadorClickeado));
+//	botonSalir->signal_clicked().connect(sigc::mem_fun(*this,
+//										&PanelInicial::botonSalirClickeado));
 }
