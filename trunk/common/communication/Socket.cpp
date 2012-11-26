@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <netdb.h>  // Para poder usar la funcion "gethostbyname"
+#include "../log/Log.h"
 
 #define MAX_LENGTH_MESSAGE 1024
 
