@@ -2,6 +2,9 @@
 #define NIVELSERVER_H_
 
 #include "../../common/model/Nivel.h"
+#include "communication/Evento.h"
+#include "Simulador.h"
+#include "ColaProtegida.h"
 
 class NivelServer: public Nivel {
 public:
@@ -14,6 +17,13 @@ public:
 	 */
 	void tick(int milisegundos);
 
+	/*
+	 * @brief lanza huevo en el escenario
+	 * @param informacion necesaria para lanzar disparo.
+	 */
+	void lanzarHuevo(TipoDisparo tDisparo, Punto2D p, Velocidad2D v,
+			unsigned int idJugador);
+
 	void lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j);
 
 	bool comienzoPartida();
@@ -24,8 +34,20 @@ public:
 	 */
 	bool finalizoPartida() const;
 
-	// TODO Provisorio
-	void lanzarPajaroVerde(Punto2D punto, Velocidad2D velocidad);
+	/*
+	 * @brief genera un pajaro segun las probabilidades establecidas,
+	 * ubicandolo dentro de la zona de generacion de pajaros y lo lanza
+	 * en el escenario con una velocidad aleatoria.
+	 */
+	void generarPajaro();
+
+private:
+	int tiempoGeneracionMinimo;
+	int tiempoAcumulado;
+
+	Simulador* simulador;
+
+	ColaProtegida<Evento> colaMensajes;
 };
 
 #endif /* NIVELSERVER_H_ */
