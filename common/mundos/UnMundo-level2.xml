@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Nivel duracion="32">
+    <Escenario ancho="13" alto="10">
+        <ImagenFondo>/home/tomas/Escritorio/CerditosFuriosos/common/images/background/Isla.png</ImagenFondo>
+        <ImagenSuelo />
+        <Jugadores>2</Jugadores>
+        <Suelo />
+        <Cerditos>
+            <Cerdito>
+                <Punto2D x="3.4" y="2.55714" />
+                <Catapulta>
+                    <Punto2D x="2.34286" y="4.38571" />
+                </Catapulta>
+            </Cerdito>
+            <Cerdito>
+                <Punto2D x="7.5" y="2.72857" />
+                <Catapulta>
+                    <Punto2D x="5.32857" y="4.42857" />
+                </Catapulta>
+            </Cerdito>
+        </Cerditos>
+        <MonticuloHuevos>
+            <Punto2D x="5.82143" y="2.12143" />
+        </MonticuloHuevos>
+        <Superficies>
+            <CajaVidrio>
+                <Punto2D x="8.57143" y="6.4" />
+            </CajaVidrio>
+        </Superficies>
+        <Frutas>
+            <Banana>
+                <Punto2D x="6.42143" y="7.25" />
+            </Banana>
+            <Manzana>
+                <Punto2D x="5.23571" y="7.09286" />
+            </Manzana>
+            <Cereza>
+                <Punto2D x="7.07857" y="8.67857" />
+            </Cereza>
+        </Frutas>
+    </Escenario>
+    <LineaEntradaDerecha tiempoGeneracion="450" probabilidad="50">
+        <Posicion x="13" yInicial="1" yFinal="9" />
+        <ProbabilidadesPajaros>
+            <PajaroRojo probabilidad="50" />
+            <PajaroVerde probabilidad="30" />
+            <PajaroAzul probabilidad="20" />
+        </ProbabilidadesPajaros>
+    </LineaEntradaDerecha>
+</Nivel>
