@@ -40,6 +40,7 @@ bool Client::conectar() {
 
 void Client::desconectar() {
 	socket->desconectar();
+	this->_partidaFinalizada = true;
 }
 
 //void Client::ejecutar() {
@@ -84,20 +85,35 @@ void Client::desconectar() {
 	}
 }*/
 
-Socket* Client::getSocket() const {
-	return this->socket;
+Socket& Client::getSocket() const {
+	return (*socket);
 }
 
 unsigned int Client::getIDJugdor() const {
 	return this->idJugador;
 }
 
+ColaProtegida<Evento>& Client::getColaEvento() {
+	return this->colaEventos;
+}
+
 bool Client::conectado() const {
 	return this->socket->estaConectado();
 }
 
-bool Client::corriendoPartida() const {
-	return this->_corriendoPartida;
+bool Client::corriendoPartida() {
+	if (_corriendoPartida && !_partidaFinalizada)
+		return true;
+	else
+		return false;
+}
+
+bool Client::partidaPausada() {
+	return !_corriendoPartida;
+}
+
+bool Client::partidaFinalizada() {
+	return _partidaFinalizada;
 }
 
 void Client::botonCrearPartida() {
@@ -160,11 +176,12 @@ void Client::botonVerRecords() {
 	 */
 }
 
+void* Client::run() {
+	return NULL;
+}
+
+/*
 void Client::correrJuego() {
-	// TODO Cargo el XML del nivel que debería recibir del server
-	/* TODO Se podria hacer que el Nivel base ya contenga un escenario y que
-	 * lo cree al hidratarse.
-	 */
 	Escenario escenario;
 	NivelProxy nivel(1);
 	nivel.cargarXML("../common/MiMundo-level1.xml");
@@ -186,4 +203,4 @@ void Client::correrJuego() {
 	MensajeCliente m(MC_DESCONECTAR);
 	socket->enviar(m);
 	std::cout << "Mensajes enviado: Desconectar" << std::endl;
-}
+} */

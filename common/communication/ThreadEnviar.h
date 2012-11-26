@@ -9,7 +9,7 @@
 
 class ThreadEnviar: public Thread {
 public:
-	ThreadEnviar(Socket* socket);
+	ThreadEnviar(Socket& socket);
 	virtual ~ThreadEnviar();
 
 	void agregarMensaje(Mensaje* mensaje);
@@ -24,7 +24,7 @@ private:
 	// cola de mensajes a enviar.
 	ColaProtegida<Mensaje*> mensajes;
 
-	Socket* socket;
+	Socket& socket;
 };
 
 #endif /* THREADENVIAR_H_ */

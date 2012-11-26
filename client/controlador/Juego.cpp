@@ -52,7 +52,7 @@ void* Juego::run() {
 					this->estado = GAMEPAUSE;
 				this->nivel->tick(TIEMPO_TICK_MSEG);
 				std::cout << "tick " << i++ << std::endl;
-				usleep(DELTA_LOOP);
+//				usleep(DELTA_LOOP);
 			}
 
 			/* FIXME por ahora se puede correr un solo nivel.
@@ -139,7 +139,8 @@ void Juego::iniciarPartida() {
 		ventana.setMouseListener(mListener);
 	} else {
 		// Instancio un nivel proxy
-		this->nivel = new NivelProxy(cliente.getIDJugdor());
+		this->nivel = new NivelProxy(cliente.getIDJugdor(),
+				cliente.getSocket(), cliente.getColaEvento());
 
 		// Creo la vistaEscenario y le asocio el escenario del modelo
 		this->vista = new VistaEscenario(nivel->getEscenario());

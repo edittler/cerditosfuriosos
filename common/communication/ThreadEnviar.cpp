@@ -1,7 +1,6 @@
 #include "ThreadEnviar.h"
 
-ThreadEnviar::ThreadEnviar(Socket* socket) {
-	this->socket = socket;
+ThreadEnviar::ThreadEnviar(Socket& socket) : socket(socket) {
 	this->terminado = false;
 }
 
@@ -21,11 +20,10 @@ void* ThreadEnviar::run() {
 	while (!terminado) {
 		if (!mensajes.estaVacia()) {
 			Mensaje* m = mensajes.obtenerFrente();
-			this->socket->enviar(*m);
+			this->socket.enviar(*m);
 			delete m;
 		}
 	}
 
 	return NULL;
 }
-

@@ -5,11 +5,16 @@
 #include "Nivel.h"
 
 // Common Project Includes.
+#include "../../common/communication/ColaProtegida.h"
 #include "../../common/communication/Evento.h"
+#include "../../common/communication/Socket.h"
+#include "../../common/communication/ThreadEnviar.h"
 
 class NivelProxy: public Nivel {
 public:
-	NivelProxy(unsigned int idJugador);
+	NivelProxy(unsigned int idJugador, Socket& socket,
+			ColaProtegida<Evento>& colaEventos);
+
 	virtual ~NivelProxy();
 
 	void tick(int milisegundos);
@@ -26,6 +31,12 @@ private:
 
 	void lanzarHuevo(TipoDisparo tDisparo, Punto2D posInicial,
 			Velocidad2D velInicial);
+
+	Socket& socket;
+
+	ThreadEnviar* tEnviar;
+
+	ColaProtegida<Evento>& colaEventos;
 
 	unsigned int idJugador;
 
