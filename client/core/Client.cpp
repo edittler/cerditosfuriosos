@@ -5,19 +5,28 @@
 #include <iostream>
 
 // Common Project Includes.
+#include "../../communication/MensajeCliente.h"
+#include "../../communication/RespuestaServer.h"
+#include "../../communication/MensajeServer.h"
+#include "../../communication/ThreadRecibir.h"
 #include "../../common/model/Escenario.h"
-#include "MensajeCliente.h"
-#include "RespuestaServer.h"
-#include "MensajeServer.h"
-#include "ConstantesClientServer.h"
+#include "../../common/parser/XMLTypes.h"
+#include "../../common/thread/Lock.h"
 
 // Client Project Includes.
 #include "../modelo/NivelProxy.h"
+#include "ConstantesClientServer.h"
+
+// Constantes del Client
+#define RUTA_XML_NIVEL_TEMPORAL "xmlniveltemporal.xml"
 
 Client::Client() {
 	this->serverIp = SERVER_IP_DEFAULT;
 	this->port = PUERTO_DEFAULT;
 	this->socket = new Socket(this->port);
+	this->_corriendoPartida = false;
+	this->_partidaFinalizada = false;
+	this->rutaNivelRecibido = RUTA_XML_NIVEL_TEMPORAL;
 }
 
 Client::Client(std::string ip, Puerto port) {
@@ -102,6 +111,7 @@ bool Client::conectado() const {
 }
 
 bool Client::corriendoPartida() {
+	Lock(this->mBoolsPartida);
 	if (_corriendoPartida && !_partidaFinalizada)
 		return true;
 	else
@@ -109,10 +119,12 @@ bool Client::corriendoPartida() {
 }
 
 bool Client::partidaPausada() {
+	Lock(this->mBoolsPartida);
 	return !_corriendoPartida;
 }
 
 bool Client::partidaFinalizada() {
+	Lock(this->mBoolsPartida);
 	return _partidaFinalizada;
 }
 
@@ -177,7 +189,52 @@ void Client::botonVerRecords() {
 }
 
 void* Client::run() {
+	// Creo un thread receptor
+	ThreadRecibir tReceptor(*socket);
+	tReceptor.start();
+	while (socket->estaConectado()) {
+		Mensaje* m = tReceptor.getMensaje();
+		if (m != NULL) {
+			MensajeServer* ms = static_cast<MensajeServer*>(m);
+			// Si la conversión resulto existosa, interpreto el mensaje
+			if (ms != NULL) {
+				ComandoServer comando = ms->getComando();
+				switch (comando) {
+				case MS_CARGAR_NIVEL:
+					// Almaceno el xml que contiene el xml
+					this->guardarXML(ms->getXMLNivel());
+					// Establezco que la partida está corriendo
+					Lock(this->mBoolsPartida);
+					this->_corriendoPartida = true;
+					break;
+				case MS_EVENTO:
+					colaEventos.encolar(ms->getEvento());
+					Lock(this->mBoolsPartida);
+					// Si la partida estaba pausada, la marco como corriendo
+					if (this->_corriendoPartida == false)
+						this->_corriendoPartida = true;
+					break;
+				case MS_PAUSAR_PARTIDA:
+					Lock(this->mBoolsPartida);
+					this->_corriendoPartida = false;
+					break;
+				case MS_FINALIZAR_PARTIDA:
+					Lock(this->mBoolsPartida);
+					this->_partidaFinalizada = true;
+					break;
+				default:
+					break;
+				}  // Fin switch
+			}  // Fin if (ms != NULL)
+		}  // Fin if (m != NULL)
+	}  // Fin while socket conectado.
 	return NULL;
+}
+
+void Client::guardarXML(std::string datosXMLNivel) const {
+	XMLDocument doc;
+	doc.Parse(datosXMLNivel.c_str(), 0, TIXML_ENCODING_UTF8);
+	doc.SaveFile(this->rutaNivelRecibido);
 }
 
 /*

@@ -1,7 +1,6 @@
 #include "ThreadRecibir.h"
 
-ThreadRecibir::ThreadRecibir(Socket* socket) {
-	this->socket = socket;
+ThreadRecibir::ThreadRecibir(Socket& socket) : socket(socket) {
 	this->terminado = false;
 }
 
@@ -22,19 +21,14 @@ Mensaje* ThreadRecibir::getMensaje() {
 void* ThreadRecibir::run() {
 	while (!terminado) {
 		Mensaje* m = new MensajeCliente();
-		this->socket->recibir(*m);
+		this->socket.recibir(*m);
 
 		// valido que no se haya cerrado la conexion
-		if (this->socket->estaConectado()) {
+		if (this->socket.estaConectado()) {
 			this->terminado = true;
 			break;
 		}
-
 		mensajes.encolar(m);
 	}
-
 	return NULL;
 }
-
-
-
