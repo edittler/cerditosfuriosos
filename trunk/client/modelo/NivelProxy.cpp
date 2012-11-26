@@ -58,7 +58,7 @@ void NivelProxy::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
 			evento.set(T_HUEVO_RELOJ, p, v);
 			break;
 		default:
-			this->lanzarHuevo(p, v, j);
+			evento.set(T_HUEVO_BLANCO, p, v);
 			break;
 		}
 	// Creo el mensaje del cliente
