@@ -24,7 +24,7 @@ void* ThreadRecibir::run() {
 		this->socket.recibir(*m);
 
 		// valido que no se haya cerrado la conexion
-		if (this->socket.estaConectado()) {
+		if (!this->socket.estaConectado()) {
 			this->terminado = true;
 			break;
 		}
