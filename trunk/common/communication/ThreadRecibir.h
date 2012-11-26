@@ -9,7 +9,7 @@
 
 class ThreadRecibir: public Thread {
 public:
-	ThreadRecibir(Socket* socket);
+	ThreadRecibir(Socket& socket);
 	virtual ~ThreadRecibir();
 
 	Mensaje* getMensaje();
@@ -24,7 +24,7 @@ private:
 	// cola de mensajes recibidos.
 	ColaProtegida<Mensaje*> mensajes;
 
-	Socket* socket;
+	Socket& socket;
 
 };
 

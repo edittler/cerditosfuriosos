@@ -116,6 +116,10 @@ public:
 
 	/**
 	 * Método que se llama al haber seleccionado una partida a la cual unirse.
+	 * Envía al servidor el pedido de unirse a la partida. En caso de que se
+	 * confirme su incorporación, corre en un thread la recepción de mensajes
+	 * del servidor. Si fallo su incorporación, retorna a la pantalla
+	 * multijugador.
 	 * Se debe pasar por parámetro el id de la partida. TODO, o bien,
 	 * si el cliente controla la vista, el panel de creacion de partida debe
 	 * proveer métodos de consulta de este atributo requerido.
@@ -130,6 +134,12 @@ protected:
 	void* run();
 
 private:
+	/**
+	 * Almacena los datos XML del nivel en un archivo temporal.
+	 * @param string con el xml serializado
+	 */
+	void guardarXML(std::string datosXMLNivel) const;
+
 //	void correrJuego();  // FIXME Provisorio, no va aca.
 
 	// Socket mediante el cual se realizan las comunicaciones con el server.
@@ -157,6 +167,8 @@ private:
 	 * partida.
 	 */
 	Mutex mBoolsPartida;
+
+	std::string rutaNivelRecibido;
 };
 
 #endif /* CLIENT_H_ */
