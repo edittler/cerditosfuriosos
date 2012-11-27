@@ -59,6 +59,7 @@ class PanelUnirsePartida : public PanelImagenFondo {
 		string getPartidaElegida();
 		
 		Gtk::Button* botonSeleccionar;
+		SeleccionadorMultiple* selectorPartidas;
 	
 	private:
 	
@@ -73,7 +74,6 @@ class PanelUnirsePartida : public PanelImagenFondo {
 		void agregarComponentes();
 	
 		InterfazSelectora* interfaz;
-		SeleccionadorMultiple* selectorPartidas;
 		Gtk::Button* botonVolver;
 	
 		std::map<string, string> partidas;

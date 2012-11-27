@@ -130,7 +130,7 @@ public:
 	 * si el cliente controla la vista, el panel de creacion de partida debe
 	 * proveer métodos de consulta de este atributo requerido.
 	 */
-	void botonPartidaSeleccionada(const std::string idPartida);
+	void botonPartidaSeleccionada();
 
 	/**
 	 * Método que se llama al seleccional el botón para ver los records.

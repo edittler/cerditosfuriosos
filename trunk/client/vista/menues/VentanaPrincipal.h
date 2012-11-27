@@ -33,7 +33,6 @@ public:
 	virtual void modoUnJugador();
 	virtual void volverAMenuPrincipal();
 	virtual void modoMultijugador();
-	virtual void unirseAPartida();
 	virtual void verRecords();
 	virtual void modoCrearPartida(std::string nombreMundos);
 	virtual void modoUnirsePartida(std::string nombrePartidas);
