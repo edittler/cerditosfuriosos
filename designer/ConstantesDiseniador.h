@@ -17,7 +17,7 @@
 #define MAXIMA_DURACION_NIVEL 60.0
 
 // Ruta de la carpeta donde se almacenan los archivos del mundo
-#define RUTA_CARPETA_MUNDOS "mundos/"
+#define RUTA_CARPETA_MUNDOS "../common/mundos/"
 
 // Ruta de las imagenes que se colocaran en los botones
 #define RUTA_ITEM_CAJA_MADERA "items/ItemCajaMadera.png"
