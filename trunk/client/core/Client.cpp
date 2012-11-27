@@ -8,12 +8,13 @@
 #include "../../communication/MensajeCliente.h"
 #include "../../communication/RespuestaServer.h"
 #include "../../communication/MensajeServer.h"
-#include "../../communication/ThreadRecibir.h"
+
 #include "../../common/model/Escenario.h"
 #include "../../common/parser/XMLTypes.h"
 #include "../../common/thread/Lock.h"
 
 // Client Project Includes.
+#include "ThreadRecibirCliente.h"
 #include "../modelo/NivelProxy.h"
 #include "ConstantesClientServer.h"
 
@@ -34,6 +35,9 @@ Client::Client(VentanaPrincipal& ventana, std::string ip, Puerto port) :
 	this->serverIp = ip;
 	this->socket = new Socket(port);
 	this->port = port;
+	this->_corriendoPartida = false;
+	this->_partidaFinalizada = false;
+	this->rutaNivelRecibido = RUTA_XML_NIVEL_TEMPORAL;
 }
 
 Client::~Client() {
@@ -187,12 +191,13 @@ void Client::botonVerRecords() {
 
 void* Client::run() {
 	// Creo un thread receptor
-	ThreadRecibir tReceptor(*socket);
+	ThreadRecibirCliente tReceptor(*socket);
 	tReceptor.start();
 	while (socket->estaConectado()) {
 		Mensaje* m = tReceptor.getMensaje();
 		if (m != NULL) {
-			MensajeServer* ms = static_cast<MensajeServer*>(m);
+			std::cout << m->serealizar() << std::endl;
+			MensajeServer* ms = dynamic_cast<MensajeServer*>(m);
 			// Si la conversión resulto existosa, interpreto el mensaje
 			if (ms != NULL) {
 				ComandoServer comando = ms->getComando();
@@ -231,5 +236,8 @@ void* Client::run() {
 void Client::guardarXML(std::string datosXMLNivel) const {
 	XMLDocument doc;
 	doc.Parse(datosXMLNivel.c_str(), 0, TIXML_ENCODING_UTF8);
-	doc.SaveFile(this->rutaNivelRecibido);
+	bool seGuardo = doc.SaveFile(this->rutaNivelRecibido);
+	if (seGuardo) {
+		std::cout << "se guardo el archivo.\n";
+	}
 }
