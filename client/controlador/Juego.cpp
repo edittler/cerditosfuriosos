@@ -24,6 +24,8 @@ Juego::~Juego() { }
 
 void Juego::finalizarJuego() {
 	this->ejecutando = false;
+	if (cliente->conectado())
+		this->cliente->desconectar();
 }
 
 void* Juego::run() {
@@ -57,7 +59,7 @@ void* Juego::run() {
 				if ((cliente->conectado()) && (cliente->partidaPausada()))
 					this->estado = GAMEPAUSE;
 				this->nivel->tick(TIEMPO_TICK_MSEG);
-				std::cout << "tick " << i++ << std::endl;
+//				std::cout << "tick " << i++ << std::endl;
 //				usleep(DELTA_LOOP);
 			}
 

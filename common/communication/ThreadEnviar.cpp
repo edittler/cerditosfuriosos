@@ -18,12 +18,16 @@ void ThreadEnviar::agregarMensaje(Mensaje* mensaje) {
 
 void* ThreadEnviar::run() {
 	while (!terminado) {
+		// Si el socket está desconectado, activo flag terminado
+		if (!socket.estaConectado()) {
+			terminado = false;
+			break;
+		}
 		if (!mensajes.estaVacia()) {
 			Mensaje* m = mensajes.obtenerFrente();
 			this->socket.enviar(*m);
 			delete m;
 		}
 	}
-
 	return NULL;
 }

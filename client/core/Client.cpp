@@ -55,6 +55,8 @@ bool Client::conectar() {
 void Client::desconectar() {
 	socket->desconectar();
 	this->_partidaFinalizada = true;
+	// Como el cliente puede estar corriendo en un thread a parte, hago un join.
+	this->join();
 }
 
 Socket& Client::getSocket() const {
@@ -230,6 +232,10 @@ void* Client::run() {
 			}  // Fin if (ms != NULL)
 		}  // Fin if (m != NULL)
 	}  // Fin while socket conectado.
+	/* Si finalizo el while, es porque se desconecto el socket, hago un join
+	 * al thread receptor de mensajes
+	 */
+	tReceptor.join();
 	return NULL;
 }
 
