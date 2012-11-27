@@ -19,6 +19,7 @@ NivelProxy::NivelProxy(unsigned int idJugador, Socket& socket,
 		socket(socket), colaEventos(colaEventos) {
 	escenario = new Escenario();
 	tEnviar = new ThreadEnviar(socket);
+	tEnviar->start();
 	this->idJugador = idJugador;
 	this->finalizo = false;
 	this->_tick = 0;
@@ -26,6 +27,7 @@ NivelProxy::NivelProxy(unsigned int idJugador, Socket& socket,
 
 NivelProxy::~NivelProxy() {
 	delete escenario;
+	tEnviar->join();
 	delete tEnviar;
 }
 
