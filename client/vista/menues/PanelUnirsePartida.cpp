@@ -7,14 +7,14 @@ PanelUnirsePartida::PanelUnirsePartida(int ancho,
 	PanelImagenFondo(ancho, alto, ruta)
 {
 	this->interfaz = interfaz;
-	selectorPartidas = new SeleccionadorMultiple(ANCHO_SELECTOR_PARTIDAS,
-											ALTO_SELECTOR_PARTIDAS,	partidas);
+	selectorPartidas = NULL;
 	botonSeleccionar = new Gtk::Button("Seleccionar");
 	botonVolver = new Gtk::Button("Volver a menu multijugador");
 }
 
 PanelUnirsePartida::~PanelUnirsePartida() {
-	delete selectorPartidas;
+	if (selectorPartidas == NULL)
+		delete selectorPartidas;
 	delete botonSeleccionar;
 	delete botonVolver;
 }
@@ -27,18 +27,24 @@ void PanelUnirsePartida::botonVolverClickeado() {
 	interfaz->modoMultijugador();
 }
 
-void PanelUnirsePartida::cargarPartidas(std::list<string> nombrePartidas) {
-	/* Aca se cargan las partidas en el contenedor atributo de este objeto
-	 * llamado "partidas". */
-	std::list<string>::iterator iterador = nombrePartidas.begin();
-	while (iterador != nombrePartidas.end()) {
-		partidas[*iterador] = *iterador;
-		++iterador;	
+void PanelUnirsePartida::cargarPartidas(std::string nombrePartidas) {
+	unsigned int contador = 0;
+	std::string nombre;
+	while (contador < nombrePartidas.length()) {
+		std::string nombre("");
+		while (nombrePartidas[contador] != '%') {
+			nombre += nombrePartidas[contador];
+			++contador;
+		}
+		++contador;
+		partidas[nombre] = nombre;
 	}
 	agregarComponentes();
 }
 
 void PanelUnirsePartida::agregarComponentes() {
+	selectorPartidas = new SeleccionadorMultiple(ANCHO_SELECTOR_PARTIDAS,
+											ALTO_SELECTOR_PARTIDAS,	partidas);
 	botonSeleccionar->set_size_request(ANCHO_BOTON_SELECCIONAR_PARTIDA,
 												ALTO_BOTON_SELECCIONAR_PARTIDA);
 	put(*selectorPartidas, X_SELECTOR_PARTIDAS, Y_SELECTOR_PARTIDAS);

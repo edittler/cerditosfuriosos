@@ -36,6 +36,7 @@ public:
 	virtual void unirseAPartida();
 	virtual void verRecords();
 	virtual void modoCrearPartida(std::string nombreMundos);
+	virtual void modoUnirsePartida(std::string nombrePartidas);
 
 	void mostrarDialogo(std::string mensaje);
 

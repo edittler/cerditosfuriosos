@@ -35,8 +35,10 @@ VentanaPrincipal::~VentanaPrincipal() {
 		delete panelUnirsePartida;
 	if (panelRecords != NULL)
 		delete panelRecords;
-	if (panelRecords != NULL)
+	if (panelCrearPartida != NULL)
 		delete panelCrearPartida;
+	if (panelUnirsePartida != NULL)
+		delete panelUnirsePartida;
 	delete panelUnJugador;
 	delete contenedor;
 }
@@ -110,6 +112,18 @@ void VentanaPrincipal::modoCrearPartida(std::string nombreMundos) {
 										ALTO_VENTANA, RUTA_FONDO_MENU, this);
 		panelCrearPartida->cargarMundos(nombreMundos);
 		add(*panelCrearPartida);
+		show_all_children();
+	}
+}
+
+void VentanaPrincipal::modoUnirsePartida(std::string nombrePartidas) {
+	if (get_child() != panelUnirsePartida) {
+		remove();
+		if (panelUnirsePartida == NULL)
+			panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA,
+					ALTO_VENTANA, RUTA_FONDO_MENU, this);
+		panelUnirsePartida->cargarPartidas(nombrePartidas);
+		add(*panelUnirsePartida);
 		show_all_children();
 	}
 }

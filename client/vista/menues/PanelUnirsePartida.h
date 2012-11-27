@@ -51,7 +51,7 @@ class PanelUnirsePartida : public PanelImagenFondo {
 		/**
 		 * Carga las partidas existentes en una lista para poder mostrarlas.
 		 */
-		void cargarPartidas(std::list<string> nombrePartidas);
+		void cargarPartidas(std::string nombrePartidas);
 		
 		/**
 		 * @return nombre de la partida elegida por el usuario

@@ -154,8 +154,8 @@ void Client::botonUnirsePartida() {
 	socket->recibir(r);
 	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
-	/* FIXME Hacer que la vista muestre la lista de partidas disponibles.
-	 */
+	ventana.modoUnirsePartida(r.getDatos());
+
 }
 
 void Client::botonPartidaSeleccionada(const std::string idPartida) {
