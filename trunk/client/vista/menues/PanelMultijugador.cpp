@@ -47,8 +47,8 @@ void PanelMultijugador::agregarBotones() {
 	put(*botonRecords, X_BOTON_RECORDS, Y_BOTON_RECORDS);
 	put(*botonVolver, X_BOTON_VOLVER, Y_BOTON_VOLVER);
 	// Seniales
-	botonCrearPartida->signal_clicked().connect(sigc::mem_fun(*this,
-							&PanelMultijugador::botonCrearPartidaClickeado));
+//	botonCrearPartida->signal_clicked().connect(sigc::mem_fun(*this,
+//							&PanelMultijugador::botonCrearPartidaClickeado));
 	botonUnirsePartida->signal_clicked().connect(sigc::mem_fun(*this,
 							&PanelMultijugador::botonUnirsePartidaClickeado));
 	botonRecords->signal_clicked().connect(sigc::mem_fun(*this,
