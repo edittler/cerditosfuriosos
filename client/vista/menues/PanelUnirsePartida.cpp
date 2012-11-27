@@ -7,7 +7,10 @@ PanelUnirsePartida::PanelUnirsePartida(int ancho,
 	PanelImagenFondo(ancho, alto, ruta)
 {
 	this->interfaz = interfaz;
+	selectorPartidas = new SeleccionadorMultiple(ANCHO_SELECTOR_PARTIDAS,
+											ALTO_SELECTOR_PARTIDAS,	partidas);
 	botonSeleccionar = new Gtk::Button("Seleccionar");
+	botonVolver = new Gtk::Button("Volver a menu multijugador");
 }
 
 PanelUnirsePartida::~PanelUnirsePartida() {
@@ -36,11 +39,8 @@ void PanelUnirsePartida::cargarPartidas(std::list<string> nombrePartidas) {
 }
 
 void PanelUnirsePartida::agregarComponentes() {
-	selectorPartidas = new SeleccionadorMultiple(ANCHO_SELECTOR_PARTIDAS,
-											ALTO_SELECTOR_PARTIDAS,	partidas);
 	botonSeleccionar->set_size_request(ANCHO_BOTON_SELECCIONAR_PARTIDA,
 												ALTO_BOTON_SELECCIONAR_PARTIDA);
-	botonVolver = new Gtk::Button("Volver a menu multijugador");
 	put(*selectorPartidas, X_SELECTOR_PARTIDAS, Y_SELECTOR_PARTIDAS);
 	put(*botonSeleccionar, X_BOTON_SELECCIONAR_PARTIDA,
 												Y_BOTON_SELECCIONAR_PARTIDA);

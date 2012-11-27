@@ -16,7 +16,7 @@ Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-	this->cliente = new Client(ventana, "192.168.0.102", 5555);
+	this->cliente = new Client(ventana, "192.168.1.5", 5555);
 	this->iniciarSenialesBotones();
 }
 
@@ -53,13 +53,11 @@ void* Juego::run() {
 			break;
 		}
 		case GAMEPLAY: {
-			int i = 0;
 			while (!nivel->finalizoPartida() && this->ejecutando) {
 				// Verifico si el cliente está conectado y corriendo la partida
 				if ((cliente->conectado()) && (cliente->partidaPausada()))
 					this->estado = GAMEPAUSE;
 				this->nivel->tick(TIEMPO_TICK_MSEG);
-//				std::cout << "tick " << i++ << std::endl;
 //				usleep(DELTA_LOOP);
 			}
 

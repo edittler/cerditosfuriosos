@@ -44,7 +44,7 @@ void NivelProxy::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
 	Evento evento;
 	// Generar mediante el simulador, que tipo de huevo se quiere lanzar
 	// FIXME el huevo tiene que ser generado por el simulador.
-	int huevo = 1; // simulador->generarHuevo();
+	int huevo = simulador.generarHuevo();
 	// Según el tipo de evento que se genero aleatoriamente, seteo el evento.
 	switch (huevo) {
 		case HUEVO_BLANCO:
@@ -63,6 +63,7 @@ void NivelProxy::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
 			evento.set(T_HUEVO_BLANCO, p, v);
 			break;
 		}
+	evento.set(E_PEDIDO_LANZAR_DISPARO);
 	// Creo el mensaje del cliente
 	Mensaje* mensaje = new MensajeCliente(evento);
 	// Agrego al thread que envía mensajes

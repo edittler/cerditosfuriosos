@@ -3,6 +3,7 @@
 
 class Simulador {
 public:
+	Simulador();
 	Simulador(int pAzul, int pRojo, int pVerde);
 	virtual ~Simulador();
 

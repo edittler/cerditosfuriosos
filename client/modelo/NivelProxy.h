@@ -9,6 +9,7 @@
 #include "../../common/communication/Evento.h"
 #include "../../common/communication/Socket.h"
 #include "../../common/communication/ThreadEnviar.h"
+#include "../../common/model/Simulador.h"
 
 class NivelProxy: public Nivel {
 public:
@@ -31,6 +32,8 @@ private:
 
 	void lanzarHuevo(TipoDisparo tDisparo, Punto2D posInicial,
 			Velocidad2D velInicial);
+
+	Simulador simulador;
 
 	Socket& socket;
 
