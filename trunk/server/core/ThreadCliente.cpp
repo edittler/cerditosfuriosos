@@ -51,7 +51,7 @@ bool ThreadCliente::hayEventos() {
 	return !this->colaEventos.estaVacia();
 }
 
-Evento ThreadCliente::popEvento() {
+Evento ThreadCliente::desencolarEvento() {
 	return this->colaEventos.obtenerFrente();
 }
 

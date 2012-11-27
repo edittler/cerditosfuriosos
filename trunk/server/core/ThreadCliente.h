@@ -46,7 +46,7 @@ public:
 	 * @brief desencola un evento recibido del cliente
 	 * @return evento
 	 */
-	Evento popEvento();
+	Evento desencolarEvento();
 
 	/*
 	 * @brief encola mensajes para ser enviados asincronicamente

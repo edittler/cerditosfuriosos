@@ -59,8 +59,8 @@ void ThreadPartida::abandonarPartida(ThreadCliente* cliente) {
 void ThreadPartida::pausarPartida() {
 	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
+	MensajeServer* m = new MensajeServer(MS_PAUSAR_PARTIDA);
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-		MensajeServer* m = new MensajeServer(MS_PAUSAR_PARTIDA);
 		(*it)->enviar(m);
 	}
 }
@@ -68,8 +68,9 @@ void ThreadPartida::pausarPartida() {
 void ThreadPartida::finalizarPartida() {
 	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
+	MensajeServer* m = new MensajeServer(MS_FINALIZAR_PARTIDA);
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-		// TODO crear y enviar MensajeServer para finalizar partida.
+		(*it)->enviar(m);
 	}
 }
 
@@ -107,17 +108,15 @@ void* ThreadPartida::run() {
 
 			case ESPERANDO_JUGADOR: {
 				LOG_INFO("estado = ESPERANDO_JUGADOR")
-				// TODO esperar jugador faltante y renaudar partida.
 				Lock(this->mPartida);
-				this->partida->setEstado(EJECUTANDO);
+				if (partida->comienzo()) {
+					partida->setEstado(EJECUTANDO);
+				}
 				break; }
 
 			case PAUSADO: {
 				LOG_INFO("estado = PAUSADO")
-				// TODO enviar notificacion de pausado a todos los clientes.
 				this->pausarPartida();
-				// TODO solo se pausaria una partida si falta un jugador se pasa al estado
-				// correspondiente
 				Lock(this->mPartida);
 				this->partida->setEstado(ESPERANDO_JUGADOR);
 				break; }
@@ -182,12 +181,15 @@ void ThreadPartida::procesarMensajesClientes() {
 		// procesa hasta un maximo de mensajes por cliente
 		for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
 			// si no hay eventos continuo con proximo cliente
+			LOG_INFO("\tchequea evento hayEventos")
 			if (!(*it)->hayEventos())
 				break;
 
+			LOG_INFO("\tprocesa evento de cola")
+
 			// solo procesa el comando EVENTO, los demas tipos de comandos
 			// son procesados en ThreadCliente.
-			Evento e = (*it)->popEvento();
+			Evento e = (*it)->desencolarEvento();
 			switch (e.getTipoEvento()) {
 				case E_PEDIDO_LANZAR_DISPARO: {
 					// instancia disparo en escenario

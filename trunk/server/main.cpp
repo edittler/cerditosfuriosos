@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 	// puede hacerse igual que tp4 al ingresar 'q' se cierra el server.
 	while (getchar() != 'q') { }
 
+	server.apagar();
 	LOG_INFO("Server apagado.")
 
 	return 0;
