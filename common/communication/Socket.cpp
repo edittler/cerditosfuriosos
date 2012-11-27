@@ -133,7 +133,7 @@ void Socket::desconectar() {
 bool Socket::enviar(const Mensaje& mensaje) {
 	std::string s_datos = mensaje.serealizar();
 
-	LOG_INFO(s_datos)
+	LOG_INFO("enviado: " + s_datos)
 
 	size_t parcial = 0;
 	size_t enviado = 0;
@@ -173,6 +173,9 @@ void Socket::recibir(Mensaje& mensaje) {
 		if (s.at(s.length() - 1) == '\n')
 			finalizado = true;
 	}
+
+	LOG_INFO("recibido:" + s)
+
 	delete[] buffer;
 	mensaje.deserealizar(s);
 }
