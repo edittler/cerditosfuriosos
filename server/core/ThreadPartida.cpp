@@ -1,9 +1,14 @@
+// Header Includes
 #include "ThreadPartida.h"
+
+// Common Project Includes.
 #include "MensajeServer.h"
 #include "ConstantesClientServer.h"
-#include "../modelo/ConstantesServer.h"
 #include "Lock.h"
-#include "log/Log.h"
+#include "Log.h"
+
+// Server Project Includes.
+#include "../modelo/ConstantesServer.h"
 
 ThreadPartida::ThreadPartida(Partida* partida, ThreadCliente* cliente) {
 	this->partida = partida;

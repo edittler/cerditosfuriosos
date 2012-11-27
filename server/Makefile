@@ -25,7 +25,7 @@ endif
 SUBDIRS = ../common/communication ../common/model ../common/parser ../common/thread core modelo
 
 # Subdirectorio de inclusiones externas a agregar
-SUBDIRSINCLUDE = ../common/Box2D/include ../common/communication ../common/model ../common/parser ../common/thread core modelo
+SUBDIRSINCLUDE = ../common/Box2D/include ../common/communication ../common/log ../common/model ../common/parser ../common/thread core modelo
 
 # Declaracion de objetos externos
 EXTERNOBJS = $(foreach dir, $(SUBDIRS), $(addsuffix .o, $(basename  $(wildcard $(dir)/*.cpp))))

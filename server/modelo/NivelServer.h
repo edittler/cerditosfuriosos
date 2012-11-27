@@ -1,9 +1,12 @@
 #ifndef NIVELSERVER_H_
 #define NIVELSERVER_H_
 
-#include "../../common/model/Nivel.h"
-#include "communication/Evento.h"
+// Hierarchy Include.
+#include "Nivel.h"
+
+// Common Project Includes.
 #include "Simulador.h"
+#include "Evento.h"
 #include "ColaProtegida.h"
 
 class NivelServer: public Nivel {

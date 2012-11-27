@@ -1,11 +1,15 @@
-// Libraries Includes
-#include <stdexcept>
-
 // Header Include.
 #include "Server.h"
+
+// C++ Library Includes.
+#include <stdexcept>
+
+// Common Project Includes.
+#include "CFTools.h"
+#include "Log.h"
+
+// Server Project Includes.
 #include "../modelo/ConstantesServer.h"
-#include "../../common/communication/CFTools.h"
-#include "log/Log.h"
 
 Server::Server() {
 	this->encendido = false;

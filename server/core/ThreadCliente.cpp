@@ -6,12 +6,12 @@
 #include <unistd.h>
 
 // Common Project Includes.
-#include "../../common/model/Escenario.h"
+#include "Escenario.h"
 #include "MensajeServer.h"
 #include "RespuestaServer.h"
 #include "MensajeCliente.h"
 #include "CFTools.h"
-#include "log/Log.h"
+#include "Log.h"
 
 // Server Project Includes.
 #include "Server.h"
