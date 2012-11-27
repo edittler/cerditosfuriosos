@@ -15,6 +15,7 @@ ThreadPartida::~ThreadPartida() {
 }
 
 void ThreadPartida::comenzarPartida() {
+	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		MensajeServer* m = new MensajeServer(MS_CARGAR_NIVEL);
@@ -25,6 +26,7 @@ void ThreadPartida::comenzarPartida() {
 }
 
 bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
+	Lock(this->mPartida);
 	if (partida->comienzo())  // ya hay la cantidad de jugadores necesarios
 		return false;
 
@@ -34,7 +36,6 @@ bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 
 	if (partida->getEstado() == ESPERANDO_JUGADOR) {  // esperando a nuevo jugador
 		MensajeServer* m = new MensajeServer(MS_CARGAR_NIVEL);
-		Lock(this->mPartida);
 		m->set(this->partida->getXMLNivel());
 		return this->agregarJugador(cliente);
 	}
@@ -51,6 +52,7 @@ void ThreadPartida::abandonarPartida(ThreadCliente* cliente) {
 }
 
 void ThreadPartida::pausarPartida() {
+	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		MensajeServer* m = new MensajeServer(MS_PAUSAR_PARTIDA);
@@ -59,6 +61,7 @@ void ThreadPartida::pausarPartida() {
 }
 
 void ThreadPartida::finalizarPartida() {
+	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		// TODO crear y enviar MensajeServer para finalizar partida.
@@ -86,10 +89,12 @@ void* ThreadPartida::run() {
 				this->partida->getNivel()->tick(SERVER_TICK_MSEG);
 				ClientesConectados::iterator it;
 				Evento e(E_CORRER_TICK);
+				this->mJugadores.lock();
 				MensajeServer* m = new MensajeServer(e);
 				for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 					(*it)->enviar(m);
 				}
+				this->mJugadores.unlock();
 
 				// procesa mensajes posteriores a ticks (Lanzamiento Pajaro, fin de partida)
 				this->procesarMensajesParaClientes();
@@ -144,6 +149,7 @@ bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 	if (id != 0) {
 		// asigno el id del jugador al cliente
 		cliente->asignarJugador(id);
+		Lock(this->mJugadores);
 		jugadores.push_back(cliente);
 		return true;
 	}
@@ -151,6 +157,7 @@ bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 }
 
 bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
+	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		unsigned int idADesconectar = cliente->getJugadorAsignado();
@@ -165,9 +172,14 @@ bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
 
 void ThreadPartida::procesarMensajesClientes() {
 	ClientesConectados::iterator it;
+	Lock(this->mJugadores);
 	for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
 		// procesa hasta un maximo de mensajes por cliente
 		for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
+			// si no hay eventos continuo con proximo cliente
+			if (!(*it)->hayEventos())
+				break;
+
 			// solo procesa el comando EVENTO, los demas tipos de comandos
 			// son procesados en ThreadCliente.
 			Evento e = (*it)->popEvento();
@@ -199,6 +211,7 @@ void ThreadPartida::procesarMensajesClientes() {
 void ThreadPartida::procesarMensajesParaClientes() {
 	for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
 		// valido que haya eventos para procesar.
+		Lock(this->mPartida);
 		if (!this->partida->hayEventos())
 			break;
 
@@ -206,6 +219,7 @@ void ThreadPartida::procesarMensajesParaClientes() {
 
 		// informo del evento a todos los clientes conectados
 		MensajeServer* m = new MensajeServer(e);
+		Lock(this->mJugadores);
 		ClientesConectados::iterator it;
 		for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 			(*it)->enviar(m);

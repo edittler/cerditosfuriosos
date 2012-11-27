@@ -38,6 +38,11 @@ public:
 	unsigned int getJugadorAsignado();
 
 	/*
+	 * @brief valida que haya eventos enviado por el cliente
+	 */
+	bool hayEventos();
+
+	/*
 	 * @brief desencola un evento recibido del cliente
 	 * @return evento
 	 */

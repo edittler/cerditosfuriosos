@@ -1,11 +1,12 @@
 // Header Include.
 #include "NivelServer.h"
+#include "ConstantesServer.h"
 
 // C++ Library Project
 #include <unistd.h>
 
 NivelServer::NivelServer() {
-	this->tiempoGeneracionMinimo = 250;
+	this->tiempoGeneracionMinimo = 50;
 	this->tiempoAcumulado = 0;
 	escenario = new Escenario();
 	simulador = new Simulador(20, 50, 10);
@@ -27,7 +28,7 @@ void NivelServer::tick(int milisegundos) {
 
 	// TODO validar si hay que enviar E_FIN_NIVEL
 	// FIXME manejar sleep igual que en NivelLocal????
-//	usleep(DELTA_LOOP);
+	usleep(SERVER_DELTA_LOOP);
 }
 
 void NivelServer::lanzarHuevo(TipoDisparo tDisparo, Punto2D posInicial,
@@ -98,4 +99,12 @@ void NivelServer::generarPajaro() {
 			break; }
 		}
 	}
+}
+
+bool NivelServer::hayEventos() {
+	return !this->colaMensajes.estaVacia();
+}
+
+Evento NivelServer::obtenerEvento() {
+	return this->colaMensajes.obtenerFrente();
 }

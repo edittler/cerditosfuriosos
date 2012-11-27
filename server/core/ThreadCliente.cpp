@@ -47,6 +47,10 @@ unsigned int ThreadCliente::getJugadorAsignado() {
 	return this->idJugador;
 }
 
+bool ThreadCliente::hayEventos() {
+	return !this->colaEventos.estaVacia();
+}
+
 Evento ThreadCliente::popEvento() {
 	return this->colaEventos.obtenerFrente();
 }
@@ -66,6 +70,12 @@ void* ThreadCliente::run() {
 	LOG_INFO("inicializando...")
 
 	while (conectado) {
+		MensajeCliente* m = NULL;
+		while (m == NULL) {
+			Mensaje* msj = tRecibir->getMensaje();
+			m = dynamic_cast<MensajeCliente*>(msj);
+		}
+
 		// valido que el cliente no se haya desconectado
 		if (!this->socket->estaConectado()) {
 			this->conectado = false;
@@ -78,13 +88,6 @@ void* ThreadCliente::run() {
 			}
 			break;
 		}
-
-		MensajeCliente* m = NULL;
-		while (m == NULL) {
-			Mensaje* msj = tRecibir->getMensaje();
-			m = dynamic_cast<MensajeCliente*>(msj);
-		}
-
 		LOG_INFO("mensaje recibido...")
 
 		// Obtengo el comando que envio el cliente

@@ -8,8 +8,6 @@
 
 
 int main(int argc, char *argv[]) {
-
-
 	// Creo y configuro servidor.
 	Server server(5555);
 	if (!server.prender()) {

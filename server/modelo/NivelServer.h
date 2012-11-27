@@ -41,6 +41,18 @@ public:
 	 */
 	void generarPajaro();
 
+	/*
+	 * @brief
+	 * @return
+	 */
+	bool hayEventos();
+
+	/*
+	 * @brief
+	 * @return
+	 */
+	Evento obtenerEvento();
+
 private:
 	int tiempoGeneracionMinimo;
 	int tiempoAcumulado;

@@ -81,11 +81,11 @@ NivelServer* Partida::getNivel() const {
 }
 
 bool Partida::hayEventos() {
-	return !this->colaEventos.estaVacia();
+	return this->getNivel()->hayEventos();
 }
 
 Evento Partida::obtenerEvento() {
-	return this->colaEventos.obtenerFrente();
+	return this->getNivel()->obtenerEvento();
 }
 
 void Partida::cargarNiveles() {
