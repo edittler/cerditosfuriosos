@@ -1,15 +1,13 @@
 #include "PanelRecords.h"
 
-PanelRecords::PanelRecords(int ancho,
-						int alto,
-						string ruta,
-						InterfazSelectora* interfaz) :
-	PanelImagenFondo(ancho, alto, ruta)
-{
+PanelRecords::PanelRecords(int ancho, int alto, string ruta,
+		InterfazSelectora* interfaz) : PanelImagenFondo(ancho, alto, ruta) {
 	this->interfaz = interfaz;
+	ventana = new Gtk::ScrolledWindow();
+	botonVolver = new Gtk::Button("Volver a menu multijugador");
 	cargarRecords();
 	cargarVentana();
-	agregarComponentes();
+	inicializarComponentes();
 }
 
 PanelRecords::~PanelRecords() {
@@ -55,7 +53,6 @@ void PanelRecords::cargarRecords() {
 }
 
 void PanelRecords::cargarVentana() {
-	ventana = new Gtk::ScrolledWindow();
 	Gtk::Table* tabla = manage(new Gtk::Table(records.size(), 3, true));
 	tabla->set_row_spacings(10);
 	unsigned int contador = 0;
@@ -77,10 +74,9 @@ void PanelRecords::cargarVentana() {
 	ventana->add(*tabla);
 }
 
-void PanelRecords::agregarComponentes() {
+void PanelRecords::inicializarComponentes() {
 	ventana->set_size_request(ANCHO_VENTANA_RECORDS, ALTO_VENTANA_RECORDS);
 	ventana->set_policy(Gtk::POLICY_AUTOMATIC , Gtk::POLICY_ALWAYS);
-	botonVolver = new Gtk::Button("Volver a menu multijugador");
 	put(*ventana, X_VENTANA_RECORDS, Y_VENTANA_RECORDS);
 	put(*botonVolver, X_BOTON_VOLVER_RECORDS, Y_BOTON_VOLVER_RECORDS);
 	// Seniales

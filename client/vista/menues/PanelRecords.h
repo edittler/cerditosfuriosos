@@ -1,16 +1,18 @@
 #ifndef _PANEL_RECORDS_H_
 #define _PANEL_RECORDS_H_
 
+// C++ Library Includes.
+#include <cstdlib>
+#include <sstream>
+#include <list>
+
+// GTK+ Library Includes.
 #include <gtkmm/scrolledwindow.h>
 #include <gtkmm/button.h>
 #include <gtkmm/table.h>
 #include <gtkmm/label.h>
 
-#include <cstdlib>
-#include <sstream>
-
-#include <list>
-
+// Client Project Includes.
 #include "PanelImagenFondo.h"
 #include "InterfazSelectora.h"
 
@@ -30,46 +32,44 @@ using std::pair;
  * Muestra una lista con los mejores puntajes en una ventaja desplazable.
  */
 class PanelRecords : public PanelImagenFondo {
-	public:
+public:
+	/**
+	 * Constructor.
+	 */
+	PanelRecords(int ancho, int alto, string ruta,
+			InterfazSelectora* interfaz);
+
+	/**
+	 * Destructor.
+	 */
+	~PanelRecords();
+
+private:
+	/**
+	 * El usuario indico que desea volver al menu multijugador.
+	 */
+	void botonVolverClickeado();
+
+	/**
+	 * Carga los records en una lista, ordenados de mayor a menor.
+	 */
+	void cargarRecords();
+
+	/**
+	 * Carga los records en la ventana desplazable.
+	 */
+	void cargarVentana();
 	
-		/**
-		 * Constructor.
-		 */
-		PanelRecords(int ancho, int alto, string ruta,
-												InterfazSelectora* interfaz);
-												
-		/**
-		 * Destructor.
-		 */
-		~PanelRecords();
-		
-	private:
-	
-		/**
-		 * El usuario indico que desea volver al menu multijugador.
-		 */
-		void botonVolverClickeado();
-		
-		/**
-		 * Carga los records en una lista, ordenados de mayor a menor.
-		 */
-		void cargarRecords();
-		
-		/**
-		 * Agrega la ventana con los records al contenedor.
-		 */
-		void agregarComponentes();
-		
-		/**
-		 * Carga los records en la ventana desplazable.
-		 */
-		void cargarVentana();
-	
-		InterfazSelectora* interfaz;	
-		Gtk::ScrolledWindow* ventana;
-		Gtk::Button* botonVolver;
-	
-		list< pair<string, int> > records;
+	/**
+	 * Agrega la ventana con los records al contenedor.
+	 */
+	void inicializarComponentes();
+
+	InterfazSelectora* interfaz;
+	Gtk::ScrolledWindow* ventana;
+	Gtk::Button* botonVolver;
+
+	list< pair<string, int> > records;
 };
 
 #endif
