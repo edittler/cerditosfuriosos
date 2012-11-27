@@ -2,7 +2,7 @@
 <Nivel duracion="50">
     <Escenario ancho="13" alto="10">
         <ImagenFondo>../common/images/background/Bosque.png</ImagenFondo>
-        <ImagenSuelo />
+        <ImagenSuelo>../common/images/background/SueloBosque.png</ImagenSuelo>
         <Jugadores>2</Jugadores>
         <Suelo />
         <Cerditos>
