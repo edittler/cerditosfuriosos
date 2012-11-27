@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Nivel duracion="15">
+    <Escenario ancho="12" alto="9">
+        <ImagenFondo>/home/ezequiel/cf/common/images/background/Bosque.png</ImagenFondo>
+        <ImagenSuelo />
+        <Jugadores>1</Jugadores>
+        <Suelo />
+        <Cerditos>
+            <Cerdito>
+                <Punto2D x="5.78571" y="1.52857" />
+                <Catapulta>
+                    <Punto2D x="7.32857" y="1.34286" />
+                </Catapulta>
+            </Cerdito>
+        </Cerditos>
+        <MonticuloHuevos>
+            <Punto2D x="4.02143" y="0.678571" />
+        </MonticuloHuevos>
+        <Superficies>
+            <CajaVidrio>
+                <Punto2D x="1.34286" y="1.17143" />
+            </CajaVidrio>
+            <CajaMetal>
+                <Punto2D x="1.34286" y="2.55714" />
+            </CajaMetal>
+            <CajaMadera>
+                <Punto2D x="1.44286" y="3.84286" />
+            </CajaMadera>
+        </Superficies>
+        <Frutas>
+            <Banana>
+                <Punto2D x="5.12143" y="2.75" />
+            </Banana>
+        </Frutas>
+    </Escenario>
+    <LineaEntradaDerecha tiempoGeneracion="450" probabilidad="50">
+        <Posicion x="12" yInicial="1" yFinal="8" />
+        <ProbabilidadesPajaros>
+            <PajaroRojo probabilidad="50" />
+            <PajaroVerde probabilidad="30" />
+            <PajaroAzul probabilidad="20" />
+        </ProbabilidadesPajaros>
+    </LineaEntradaDerecha>
+</Nivel>

@@ -125,8 +125,8 @@ void PanelEscenario::guardarCaracteristicasEscenario() const {
 	// Creo el nodo de la imagen del suelo.
 	XMLNode* imageSueloNode = new XMLNode("ImagenSuelo");
 	// FIXME(eze) Esperar a que Tomás agrege el suelo para serializarlo en el XML.
-//	XMLText* imageSueloText = new XMLText();
-//	imageSueloNode->LinkEndChild(imageSueloText);
+	XMLText* imageSueloText = new XMLText("../common/images/background/SueloBosque.png");
+	imageSueloNode->LinkEndChild(imageSueloText);
 
 	// Creo el nodo con la cantidad de jugadores.
 	XMLNode* jugadoresNode = new XMLNode("Jugadores");

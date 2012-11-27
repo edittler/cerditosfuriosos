@@ -116,7 +116,9 @@ void PanelMundo::cargarNombreMundos() {
 	 * Ese archivo se llamará "mundos.xml"
 	 */
 	XMLDocument doc;
-	bool seAbrio = doc.LoadFile(RUTA_MUNDOS);
+	std::string archivoMundos = RUTA_CARPETA_MUNDOS;
+	archivoMundos += "mundos.xml";
+	bool seAbrio = doc.LoadFile(archivoMundos);
 	// Si el archivo no existe, lo creo y salgo sin cargar mundos
 	if (!seAbrio) {
 		this->crearArchivoMundos();
