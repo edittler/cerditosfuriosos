@@ -5,5 +5,6 @@
 #include <cstdio>
 
 #define LOG_INFO(mensaje) std::cout << "INFO - \t" << __FILE__ << ": " << mensaje << std::endl;
+#define LOG_ERROR(mensaje) std::cout << "ERROR - \t" << __FILE__ << ": " << mensaje << std::endl;
 
 #endif /* LOG_H_ */
