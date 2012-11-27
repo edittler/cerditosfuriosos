@@ -26,7 +26,6 @@ void NivelServer::tick(int milisegundos) {
 
 	escenario->correrTick();
 
-	// TODO validar si hay que enviar E_FIN_NIVEL
 	// FIXME manejar sleep igual que en NivelLocal????
 	usleep(SERVER_DELTA_LOOP);
 }
