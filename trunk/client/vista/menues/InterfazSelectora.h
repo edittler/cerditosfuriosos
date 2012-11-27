@@ -39,6 +39,13 @@ class InterfazSelectora {
 		 * seleccionar el usuario para crear una partida
 		 */
 		virtual void modoCrearPartida(std::string nombreMundos) = 0;
+
+		/**
+		 * El usuario selecciono que desea ver las partidas existentes.
+		 * @param nombrePartidas lista con las partidas entre las que puede
+		 * seleccionar el usuario para unirse
+		 */
+		virtual void modoUnirsePartida(std::string nombrePartidas) = 0;
 };
 
 #endif
