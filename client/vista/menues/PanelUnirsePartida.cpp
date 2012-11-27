@@ -13,7 +13,7 @@ PanelUnirsePartida::PanelUnirsePartida(int ancho,
 }
 
 PanelUnirsePartida::~PanelUnirsePartida() {
-	if (selectorPartidas == NULL)
+	if (selectorPartidas != NULL)
 		delete selectorPartidas;
 	delete botonSeleccionar;
 	delete botonVolver;
