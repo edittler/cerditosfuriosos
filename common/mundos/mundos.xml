@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Mundos>
+    <Mundo cantJugadores="1">
+        <Nombre>MiMundo</Nombre>
+        <Ruta>../common/mundos/MiMundo.xml</Ruta>
+    </Mundo>
     <Mundo cantJugadores="2">
         <Nombre>UnMundo</Nombre>
-        <Ruta>mundos/UnMundo.xml</Ruta>
+        <Ruta>../common/mundos/UnMundo.xml</Ruta>
     </Mundo>
 </Mundos>

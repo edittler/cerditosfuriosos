@@ -4,7 +4,7 @@
     <Jugadores>2</Jugadores>
     <Niveles>
         <Nivel>
-            <Ruta>MiMundo-level1.xml</Ruta>
+            <Ruta>../common/MiMundo-level1.xml</Ruta>
         </Nivel>
     </Niveles>
 </Mundo>
