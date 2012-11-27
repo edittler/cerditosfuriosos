@@ -95,6 +95,7 @@ private:
 	 */
 	ColaProtegida<Evento*> eventos;
 
+	Mutex mJugadores;
 	ClientesConectados jugadores;
 
 };

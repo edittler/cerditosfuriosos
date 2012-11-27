@@ -104,9 +104,6 @@ private:
 
 	// contador de niveles
 	unsigned int contadorNiveles;
-
-	// cola de eventos
-	ColaProtegida<Evento> colaEventos;
 };
 
 #endif /* PARTIDA_H_ */
