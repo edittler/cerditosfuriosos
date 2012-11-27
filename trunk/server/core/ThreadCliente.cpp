@@ -208,5 +208,8 @@ void* ThreadCliente::run() {
 	// FIXME Una vez terminado el loop el cliente se desconecto de la aplicacion
 	// deberia eliminarse de la lista de ClientesConectados del server.
 
+	this->tEnviar->join();
+	this->tRecibir->join();
+
 	return NULL;
 }
