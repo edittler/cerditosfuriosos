@@ -1,4 +1,7 @@
 #include "VentanaPrincipal.h"
+
+#include <gtkmm/messagedialog.h>
+
 #include "../modelo/ConstantesVistaModelo.h"
 
 VentanaPrincipal::VentanaPrincipal() {
@@ -109,4 +112,9 @@ void VentanaPrincipal::modoCrearPartida(std::string nombreMundos) {
 		add(*panelCrearPartida);
 		show_all_children();
 	}
+}
+
+void VentanaPrincipal::mostrarDialogo(std::string mensaje) {
+	Gtk::MessageDialog dialogo(*this, mensaje);
+	dialogo.run();
 }

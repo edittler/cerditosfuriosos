@@ -37,6 +37,8 @@ public:
 	virtual void verRecords();
 	virtual void modoCrearPartida(std::string nombreMundos);
 
+	void mostrarDialogo(std::string mensaje);
+
 	/**
 	 * El usuario va a jugar a un nivel, carga la vista del escenario.
 	 */

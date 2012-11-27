@@ -88,6 +88,8 @@ public:
 
 	RespuestaServidor getTipoRespuesta() const;
 
+	unsigned int getIDJugador() const;
+
 	std::string getDatos() const;
 
 private:

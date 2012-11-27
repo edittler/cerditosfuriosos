@@ -202,6 +202,8 @@ void Juego::botonMultijugador() {
 		 * y regreso al menu principal.
 		 */
 		// TODO mostrar mensaje y regresar al menu principal.
+		ventana.mostrarDialogo("No es posible establecer una conexión con "
+				"el servidor");
 	}
 }
 

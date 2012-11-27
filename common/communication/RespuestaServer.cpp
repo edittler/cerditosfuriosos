@@ -126,6 +126,10 @@ RespuestaServidor RespuestaServer::getTipoRespuesta() const {
 	return tipo;
 }
 
+unsigned int RespuestaServer::getIDJugador() const {
+	return idJugador;
+}
+
 std::string RespuestaServer::getDatos() const {
 	return datos;
 }
