@@ -4,10 +4,10 @@
     <Jugadores>2</Jugadores>
     <Niveles>
         <Nivel>
-            <Ruta>mundos/UnMundo-level1.xml</Ruta>
+            <Ruta>../common/mundos/UnMundo-level1.xml</Ruta>
         </Nivel>
         <Nivel>
-            <Ruta>mundos/UnMundo-level2.xml</Ruta>
+            <Ruta>../common/mundos/UnMundo-level2.xml</Ruta>
         </Nivel>
     </Niveles>
 </Mundo>
