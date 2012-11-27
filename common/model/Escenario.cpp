@@ -1310,7 +1310,12 @@ Jugador* Escenario::getJugador(unsigned int id) {
 }
 
 bool Escenario::jugadoresCompletos() {
-	return (this->jugadores.size() == this->cantJugadores);
+	std::vector<Jugador*>::iterator it;
+	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+		if (!(*it)->estaConectado())
+			return false;
+	}
+	return true;
 }
 
 unsigned int Escenario::proximoId = 0;
