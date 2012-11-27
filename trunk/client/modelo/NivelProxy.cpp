@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 // Common Project Includes.
-#include "../../common/communication/MensajeCliente.h"
+#include "MensajeCliente.h"
 
 // Client Project Includes.
 #include "../vista/modelo/ConstantesVistaModelo.h"
