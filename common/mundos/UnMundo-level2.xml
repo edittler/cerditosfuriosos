@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Nivel duracion="32">
     <Escenario ancho="13" alto="10">
-        <ImagenFondo>/home/tomas/Escritorio/CerditosFuriosos/common/images/background/Isla.png</ImagenFondo>
+        <ImagenFondo>../common/images/background/Isla.png</ImagenFondo>
         <ImagenSuelo />
         <Jugadores>2</Jugadores>
         <Suelo />
