@@ -38,6 +38,11 @@ void* Juego::run() {
 			break;
 		}
 		case MENU: {
+			// Consulto al cliente si hay alguna partida corriendo
+			if (cliente->corriendoPartida()) {
+				// Si hay una partida corriendo, paso a modo GAMEINIT
+				this->estado = GAMEINIT;
+			}
 			break;
 		}
 		case GAMEINIT: {
@@ -125,6 +130,8 @@ void Juego::iniciarSenialesBotones() {
 	// Botones del menú modo Multijugador
 	ventana.panelMultijugador->botonCrearPartida->signal_clicked().connect(
 			sigc::mem_fun(*cliente, &Client::botonCrearPartida));
+	ventana.panelCrearPartida->botonCrear->signal_clicked().connect(
+			sigc::mem_fun(*cliente, &Client::botonMundoSeleccionado));
 	ventana.panelMultijugador->botonUnirsePartida->signal_clicked().connect(
 			sigc::mem_fun(*cliente, &Client::botonUnirsePartida));
 	ventana.panelMultijugador->botonVolver->signal_clicked().connect(
@@ -160,8 +167,7 @@ void Juego::iniciarPartida() {
 		this->vista = new VistaEscenario(nivel->getEscenario());
 
 		// hidrato escenario
-		this->nivel->cargarXML(ventana.panelUnJugador->
-				getRutaNivelSeleccionado());
+		this->nivel->cargarXML(cliente->getRutaNivel());
 
 		std::cout << "Obtengo la posicion de la catapulta\n";
 		Punto2D p = nivel->getPosicionCatapulta(cliente->getIDJugdor());
@@ -174,14 +180,11 @@ void Juego::iniciarPartida() {
 }
 
 void Juego::botonUnJugador() {
-	/* FIXME se debe poder seleccionar el mundo elegido y el numero de nivel.
-	 */
-	//	std::string rutaNivelSeleccionado = ventana->panelUnJugador->
-	//													getRutaNivelSeleccionado();
 	estado = GAMEINIT;
 
-	/* TODO Cargo un mapa de los niveles que posee el mundo y almaceno el numero
-	 * de nivel elegido para que el gameloop ejecute el correcto.
+	/* FIXME Debo cargar un mapa de los niveles que posee el mundo y almacenar
+	 * el numero de nivel elegido para que el gameloop ejecute el correcto.
+	 * O la vista debe proveer métodos de consulta.
 	 */
 }
 

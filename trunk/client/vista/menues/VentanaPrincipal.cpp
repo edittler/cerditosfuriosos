@@ -17,6 +17,8 @@ VentanaPrincipal::VentanaPrincipal() {
 														RUTA_FONDO_MENU, this);
 	panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
+	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
+														RUTA_FONDO_MENU, this);
 	panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
 			RUTA_FONDO_MENU, this);
 }
