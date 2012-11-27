@@ -53,6 +53,9 @@ bool Client::conectar() {
 }
 
 void Client::desconectar() {
+	// Envío el mensaje de desconectar
+	Mensaje* mensaje = new MensajeCliente(MC_DESCONECTAR);
+	socket->enviar(*mensaje);
 	socket->desconectar();
 	this->_partidaFinalizada = true;
 	// Como el cliente puede estar corriendo en un thread a parte, hago un join.

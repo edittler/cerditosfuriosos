@@ -155,10 +155,6 @@ void Evento::deserealizar(const std::string& mensaje) {
 
 void Evento::set(TipoEvento evento) {
 	this->evento = evento;
-	this->pajaro = T_PAJARO_INDEFINIDO;
-	this->disparo = T_DISPARO_INDEFINIDO;
-	this->punto = Punto2D(0,0);
-	this->velocidad = Velocidad2D(0,0);
 }
 
 void Evento::set(TipoPajaro tPajaro, Punto2D puntoInicial, Velocidad2D velInicial) {

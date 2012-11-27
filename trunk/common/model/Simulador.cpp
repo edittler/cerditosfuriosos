@@ -3,6 +3,12 @@
 #include "cstdlib"
 #include "Constantes.h"
 
+Simulador::Simulador() {
+	this->probabilidadPajaroAzul = 20;
+	this->probabilidadPajaroRojo = 50;
+	this->probabilidadPajaroVerde = 30;
+}
+
 Simulador::Simulador(int pAzul, int pRojo, int pVerde) {
 	this->probabilidadPajaroAzul = pAzul;
 	this->probabilidadPajaroRojo = pRojo;
