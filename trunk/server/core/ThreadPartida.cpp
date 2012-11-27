@@ -110,7 +110,7 @@ void* ThreadPartida::run() {
 				// TODO esperar jugador faltante y renaudar partida.
 				Lock(this->mPartida);
 				this->partida->setEstado(EJECUTANDO);
-				break;}
+				break; }
 
 			case PAUSADO: {
 				LOG_INFO("estado = PAUSADO")
@@ -167,7 +167,7 @@ bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		unsigned int idADesconectar = cliente->getJugadorAsignado();
 		if ((*it)->getJugadorAsignado() == idADesconectar) {
-			jugadores.remove(cliente);
+			it = jugadores.erase(it);
 			Lock(this->mPartida);
 			this->partida->setIdJugadorNoConectado(idADesconectar);
 		}
@@ -214,6 +214,19 @@ void ThreadPartida::procesarMensajesClientes() {
 }
 
 void ThreadPartida::procesarMensajesParaClientes() {
+	// valida finalizacion de partida
+	if (this->partida->getNivel()->finalizoPartida()) {
+		Evento e(E_FIN_NIVEL);
+
+		// informo del evento a todos los clientes conectados
+		MensajeServer* m = new MensajeServer(e);
+		Lock(this->mJugadores);
+		ClientesConectados::iterator it;
+		for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+			(*it)->enviar(m);
+		}
+	}
+
 	for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
 		// valido que haya eventos para procesar.
 		Lock(this->mPartida);
