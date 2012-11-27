@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 NivelServer::NivelServer() {
-	this->tiempoGeneracionMinimo = 50;
+	this->tiempoGeneracionMinimo = 250;
 	this->tiempoAcumulado = 0;
 	escenario = new Escenario();
 	simulador = new Simulador(20, 50, 10);
