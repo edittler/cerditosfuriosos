@@ -49,11 +49,6 @@ protected:
 	void botonCrearPartidaClickeado();
 
 	/**
-	 * El usuario ha indicado que quiere unirse a una partida existente.
-	 */
-	void botonUnirsePartidaClickeado();
-
-	/**
 	 * El usuario ha indicado que quiere ver los records.
 	 */
 	void botonRecordsClickeado();

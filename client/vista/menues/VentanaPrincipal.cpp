@@ -70,15 +70,6 @@ void VentanaPrincipal::volverAMenuPrincipal() {
 	show_all_children();
 }
 
-void VentanaPrincipal::unirseAPartida() {
-	remove();
-	if (panelUnirsePartida == NULL)
-		panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
-				RUTA_FONDO_MENU, this);
-	add(*panelUnirsePartida);
-	show_all_children();
-}
-
 void VentanaPrincipal::verRecords() {
 	remove();
 	if (panelRecords == NULL)

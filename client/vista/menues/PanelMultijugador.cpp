@@ -19,10 +19,6 @@ void PanelMultijugador::botonCrearPartidaClickeado() {
 	
 }
 
-void PanelMultijugador::botonUnirsePartidaClickeado() {
-	interfaz->unirseAPartida();
-}
-
 void PanelMultijugador::botonRecordsClickeado() {
 	interfaz->verRecords();
 }
@@ -49,8 +45,8 @@ void PanelMultijugador::agregarBotones() {
 	// Seniales
 //	botonCrearPartida->signal_clicked().connect(sigc::mem_fun(*this,
 //							&PanelMultijugador::botonCrearPartidaClickeado));
-	botonUnirsePartida->signal_clicked().connect(sigc::mem_fun(*this,
-							&PanelMultijugador::botonUnirsePartidaClickeado));
+//	botonUnirsePartida->signal_clicked().connect(sigc::mem_fun(*this,
+//							&PanelMultijugador::botonUnirsePartidaClickeado));
 	botonRecords->signal_clicked().connect(sigc::mem_fun(*this,
 									&PanelMultijugador::botonRecordsClickeado));
 //	botonVolver->signal_clicked().connect(sigc::mem_fun(*this,

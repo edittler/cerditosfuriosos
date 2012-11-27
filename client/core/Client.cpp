@@ -158,7 +158,9 @@ void Client::botonUnirsePartida() {
 
 }
 
-void Client::botonPartidaSeleccionada(const std::string idPartida) {
+void Client::botonPartidaSeleccionada() {
+	std::string idPartida = ventana.panelUnirsePartida->selectorPartidas->
+													getOpcionSeleccionada();
 	/* Envío un mensaje que solicita unirse a la partida deseada.
 	 */
 	MensajeCliente m(idPartida);

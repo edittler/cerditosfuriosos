@@ -17,11 +17,6 @@ class InterfazSelectora {
 		 * El usuario selecciono que desea jugar en modo multijugador.
 		 */
 		virtual void modoMultijugador() = 0;
-		
-		/**
-		 * El usuario selecciono que quiere unirse a una partida ya creada.
-		 */
-		virtual void unirseAPartida() = 0;
 
 		/**
 		 * El usuario selecciono que quiere ver los records.
