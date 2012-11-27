@@ -1,12 +1,15 @@
 #ifndef _PANEL_CREAR_PARTIDA_H_
 #define _PANEL_CREAR_PARTIDA_H_
 
-#include <gtkmm/label.h>
-#include <gtkmm/entry.h>
-
+// C++ Library Includes.
 #include <map>
 #include <string>
 
+// GTK+ Library Includes.
+#include <gtkmm/label.h>
+#include <gtkmm/entry.h>
+
+// Client Project Includes.
 #include "PanelImagenFondo.h"
 #include "SeleccionadorMultiple.h"
 #include "InterfazSelectora.h"
@@ -45,13 +48,10 @@
  */
 class PanelCrearPartida : public PanelImagenFondo {
 public:
-
 	/**
 	 * Constructor.
 	 */
-	PanelCrearPartida(int ancho,
-			int alto,
-			string ruta,
+	PanelCrearPartida(int ancho, int alto, string ruta,
 			InterfazSelectora* interfaz);
 
 	/**
@@ -71,7 +71,6 @@ public:
 	Gtk::Button* botonCrear;
 
 private:
-
 	/**
 	 * El usuario indico que desea crear una partida.
 	 */
@@ -83,9 +82,9 @@ private:
 	void botonVolverClickeado();
 
 	/**
-	 * Agrega los componentes a este contenedor.
+	 * Inicializa los componentes de este contenedor.
 	 */
-	void agregarComponentes();
+	void inicializarComponentes();
 
 	InterfazSelectora* interfaz;
 	SeleccionadorMultiple* selectorMundos;

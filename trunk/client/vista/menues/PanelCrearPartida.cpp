@@ -1,14 +1,13 @@
 #include "PanelCrearPartida.h"
 
-PanelCrearPartida::PanelCrearPartida(int ancho,
-						int alto,
-						string ruta,
-						InterfazSelectora* interfaz) :
-	PanelImagenFondo(ancho, alto, ruta)
-{
+PanelCrearPartida::PanelCrearPartida(int ancho, int alto, string ruta,
+		InterfazSelectora* interfaz) : PanelImagenFondo(ancho, alto, ruta) {
 	this->interfaz = interfaz;
+	selectorMundos = new SeleccionadorMultiple(ANCHO_SELECTOR_MUNDOS_PARTIDAS,
+										ALTO_SELECTOR_MUNDOS_PARTIDAS, mundos);
+	nombre = new Gtk::Entry();
 	botonCrear = new Gtk::Button("Crear");
-//	agregarComponentes();
+	botonVolver = new Gtk::Button("Volver a menu multijugador");
 }
 
 PanelCrearPartida::~PanelCrearPartida() {
@@ -34,7 +33,7 @@ void PanelCrearPartida::cargarMundos(std::string nombreMundos) {
 		 ++contador;
 		 mundos[nombre] = nombre;
 	 }
-	 agregarComponentes();
+	 inicializarComponentes();
 }
 
 std::string PanelCrearPartida::getMundoElegido() {
@@ -45,13 +44,9 @@ std::string PanelCrearPartida::getNombreElegido() const {
 	return nombre->get_text();
 }
 
-void PanelCrearPartida::agregarComponentes() {
-	selectorMundos = new SeleccionadorMultiple(ANCHO_SELECTOR_MUNDOS_PARTIDAS,
-										ALTO_SELECTOR_MUNDOS_PARTIDAS, mundos);
+void PanelCrearPartida::inicializarComponentes() {
 	botonCrear->set_size_request(ANCHO_BOTON_CREACION_PARTIDA,
 												ALTO_BOTON_CREACION_PARTIDA);
-	botonVolver = new Gtk::Button("Volver a menu multijugador");
-	nombre = new Gtk::Entry();
 	nombre->set_size_request(ANCHO_NOMBRE_PARTIDA, ALTO_NOMBRE_PARTIDA);
 	put(*selectorMundos, X_SELECTOR_MUNDOS_PARTIDAS,
 													Y_SELECTOR_MUNDOS_PARTIDAS);
