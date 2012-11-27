@@ -176,7 +176,9 @@ void PanelMundo::crearArchivoMundos() const {
 void PanelMundo::actualizarArchivoMundos(const std::string rutaMundo) const {
 	// Abro el archivo de los mundos
 	XMLDocument doc;
-	bool seAbrio = doc.LoadFile(RUTA_MUNDOS);
+	std::string archivoMundos = RUTA_CARPETA_MUNDOS;
+	archivoMundos += "mundos.xml";
+	bool seAbrio = doc.LoadFile(archivoMundos);
 	// Si el archivo no existe, salgo
 	if (!seAbrio)
 		return;
