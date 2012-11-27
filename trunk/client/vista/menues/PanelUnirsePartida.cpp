@@ -7,8 +7,7 @@ PanelUnirsePartida::PanelUnirsePartida(int ancho,
 	PanelImagenFondo(ancho, alto, ruta)
 {
 	this->interfaz = interfaz;
-	cargarPartidas();
-	agregarComponentes();
+	botonSeleccionar = new Gtk::Button("Seleccionar");
 }
 
 PanelUnirsePartida::~PanelUnirsePartida() {
@@ -17,28 +16,28 @@ PanelUnirsePartida::~PanelUnirsePartida() {
 	delete botonVolver;
 }
 
-void PanelUnirsePartida::botonSeleccionarClickeado() {
-
+string PanelUnirsePartida::getPartidaElegida() {
+	return selectorPartidas->getOpcionSeleccionada();
 }
 		
 void PanelUnirsePartida::botonVolverClickeado() {
 	interfaz->modoMultijugador();
 }
 
-void PanelUnirsePartida::cargarPartidas() {
+void PanelUnirsePartida::cargarPartidas(std::list<string> nombrePartidas) {
 	/* Aca se cargan las partidas en el contenedor atributo de este objeto
 	 * llamado "partidas". */
-	 partidas["Partida uno"] = "Partida uno"; 
-	 partidas["Partida dos"] = "Partida dos";
-	 partidas["Partida tres"] = "Partida tres";
-	 partidas["Partida cuatro"] = "Partida cuatro";
-	 partidas["Partida cinco"] = "Partida cinco";
+	std::list<string>::iterator iterador = nombrePartidas.begin();
+	while (iterador != nombrePartidas.end()) {
+		partidas[*iterador] = *iterador;
+		++iterador;	
+	}
+	agregarComponentes();
 }
 
 void PanelUnirsePartida::agregarComponentes() {
 	selectorPartidas = new SeleccionadorMultiple(ANCHO_SELECTOR_PARTIDAS,
 											ALTO_SELECTOR_PARTIDAS,	partidas);
-	botonSeleccionar = new Gtk::Button("Seleccionar");
 	botonSeleccionar->set_size_request(ANCHO_BOTON_SELECCIONAR_PARTIDA,
 												ALTO_BOTON_SELECCIONAR_PARTIDA);
 	botonVolver = new Gtk::Button("Volver a menu multijugador");
@@ -49,8 +48,6 @@ void PanelUnirsePartida::agregarComponentes() {
 	Gtk::Label* etiqueta = manage(new Gtk::Label("Seleccione una partida"));
 	put(*etiqueta, X_ETIQUETA_PARTIDAS, Y_ETIQUETA_PARTIDAS);
 	// Seniales
-	botonSeleccionar->signal_clicked().connect(sigc::mem_fun(*this,
-							&PanelUnirsePartida::botonSeleccionarClickeado));
 	botonVolver->signal_clicked().connect(sigc::mem_fun(*this,
 									&PanelUnirsePartida::botonVolverClickeado));
 }
