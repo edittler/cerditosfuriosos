@@ -4,6 +4,8 @@
 #include <gtkmm/label.h>
 
 #include <map>
+#include <list>
+#include <string>
 
 #include "PanelImagenFondo.h"
 #include "SeleccionadorMultiple.h"
@@ -45,23 +47,25 @@ class PanelUnirsePartida : public PanelImagenFondo {
 		 * Destructor.
 		 */
 		virtual ~PanelUnirsePartida();
+		
+		/**
+		 * Carga las partidas existentes en una lista para poder mostrarlas.
+		 */
+		void cargarPartidas(std::list<string> nombrePartidas);
+		
+		/**
+		 * @return nombre de la partida elegida por el usuario
+		 */
+		string getPartidaElegida();
+		
+		Gtk::Button* botonSeleccionar;
 	
 	private:
 	
 		/**
 		 * El usuario indico que desea volver al menu multijugador.
 		 */
-		void botonSeleccionarClickeado();
-		
-		/**
-		 * El usuario indico que desea volver al menu multijugador.
-		 */
 		void botonVolverClickeado();
-		
-		/**
-		 * Carga las partidas existentes en una lista para poder mostrarlas.
-		 */
-		void cargarPartidas();
 		
 		/**
 		 * Agrega los componentes a este contenedor.
@@ -70,7 +74,6 @@ class PanelUnirsePartida : public PanelImagenFondo {
 	
 		InterfazSelectora* interfaz;
 		SeleccionadorMultiple* selectorPartidas;
-		Gtk::Button* botonSeleccionar;
 		Gtk::Button* botonVolver;
 	
 		std::map<string, string> partidas;
