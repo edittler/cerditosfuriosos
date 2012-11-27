@@ -68,6 +68,11 @@ public:
 	ColaProtegida<Evento>& getColaEvento();
 
 	/**
+	 * Retorna la ruta donde está almacenados los datos del nivel
+	 */
+	std::string getRutaNivel() const;
+
+	/**
 	 * Retorna el estado de conexion del cliente.
 	 * @return true si el cliente está conectado, false en caso contrario.
 	 */
@@ -99,20 +104,6 @@ public:
 	void botonCrearPartida();
 
 	/**
-	 * Método que se llama al seleccionar el botón para unirse a una partida.
-	 * Envía un mensaje al servidor solicitando las partidas disponibles para
-	 * unirse y los lista por pantalla.
-	 */
-	void botonUnirsePartida();
-
-	/**
-	 * Método que se llama al seleccional el botón para ver los records.
-	 * Evía un mensaje al servidor solicitando los records y
-	 * los lista por pantalla.
-	 */
-	void botonVerRecords();
-
-	/**
 	 * Método que se llama al haber seleccionado un mundo para crear la partida.
 	 * Se debe pasar por parametro el id del mundo elegido y el nombre elegido
 	 * para la partida. TODO, o bien, si el cliente controla la vista, el panel
@@ -120,7 +111,14 @@ public:
 	 * estos atributos requeridos.
 	 *
 	 */
-	void botonMundoSeleccionado(std::string idMundo, std::string nombrePartida);
+	void botonMundoSeleccionado();
+
+	/**
+	 * Método que se llama al seleccionar el botón para unirse a una partida.
+	 * Envía un mensaje al servidor solicitando las partidas disponibles para
+	 * unirse y los lista por pantalla.
+	 */
+	void botonUnirsePartida();
 
 	/**
 	 * Método que se llama al haber seleccionado una partida a la cual unirse.
@@ -133,6 +131,13 @@ public:
 	 * proveer métodos de consulta de este atributo requerido.
 	 */
 	void botonPartidaSeleccionada(const std::string idPartida);
+
+	/**
+	 * Método que se llama al seleccional el botón para ver los records.
+	 * Evía un mensaje al servidor solicitando los records y
+	 * los lista por pantalla.
+	 */
+	void botonVerRecords();
 
 protected:
 	/**

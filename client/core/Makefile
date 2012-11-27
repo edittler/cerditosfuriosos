@@ -9,7 +9,7 @@ CXXFLAGS = -Wall -pedantic -pedantic-errors -std=c++98
 #CXXFLAGS += -pthread -lpthread
 
 # Flag de inclusion de las librerias de gtkmm
-#GTKFLAGS = `pkg-config gtkmm-2.4 --cflags --libs`
+GTKFLAGS = `pkg-config gtkmm-2.4 --cflags --libs`
 
 # Si la compilacion se ejecuta en modo DEBUG, agrego los flags correspondientes
 ifdef DEBUG

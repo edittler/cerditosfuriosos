@@ -44,50 +44,56 @@
  * correspondiente, dado que si no no se vera nada.
  */
 class PanelCrearPartida : public PanelImagenFondo {
-	public:
+public:
+
+	/**
+	 * Constructor.
+	 */
+	PanelCrearPartida(int ancho,
+			int alto,
+			string ruta,
+			InterfazSelectora* interfaz);
+
+	/**
+	 * Destructor.
+	 */
+	virtual ~PanelCrearPartida();
+
+	/**
+	 * Carga los mundos existentes en una lista para poder mostrarlos.
+	 */
+	void cargarMundos(std::string nombreMundos);
+
+	std::string getMundoElegido();
+
+	std::string getNombreElegido() const;
 	
-		/**
-		 * Constructor.
-		 */
-		PanelCrearPartida(int ancho,
-						int alto,
-						string ruta,
-						InterfazSelectora* interfaz);
-						
-		/**
-		 * Destructor.
-		 */
-		virtual ~PanelCrearPartida();
-		
-		/**
-		 * Carga los mundos existentes en una lista para poder mostrarlos.
-		 */
-		void cargarMundos(std::string nombreMundos);
+	Gtk::Button* botonCrear;
+
+private:
+
+	/**
+	 * El usuario indico que desea crear una partida.
+	 */
+	void botonCrearClickeado();
+
+	/**
+	 * El usuario indico que desea volver al menu multijugador.
+	 */
+	void botonVolverClickeado();
+
+	/**
+	 * Agrega los componentes a este contenedor.
+	 */
+	void agregarComponentes();
+
+	InterfazSelectora* interfaz;
+	SeleccionadorMultiple* selectorMundos;
 	
-	private:
-	
-		/**
-		 * El usuario indico que desea crear una partida.
-		 */
-		void botonCrearClickeado();
-		
-		/**
-		 * El usuario indico que desea volver al menu multijugador.
-		 */
-		void botonVolverClickeado();
-		
-		/**
-		 * Agrega los componentes a este contenedor.
-		 */
-		void agregarComponentes();
-	
-		InterfazSelectora* interfaz;
-		SeleccionadorMultiple* selectorMundos;
-		Gtk::Button* botonCrear;
-		Gtk::Button* botonVolver;
-		Gtk::Entry* nombre;
-	
-		std::map<string, string> mundos;
+	Gtk::Button* botonVolver;
+	Gtk::Entry* nombre;
+
+	std::map<string, string> mundos;
 };
 
 #endif

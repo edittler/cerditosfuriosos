@@ -65,6 +65,10 @@ ColaProtegida<Evento>& Client::getColaEvento() {
 	return this->colaEventos;
 }
 
+std::string Client::getRutaNivel() const {
+	return this->rutaNivelRecibido;
+}
+
 bool Client::conectado() const {
 	return this->socket->estaConectado();
 }
@@ -100,36 +104,72 @@ void Client::botonCrearPartida() {
 	socket->recibir(r);
 	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
-	/* TODO debo decodificar la lista de mundos, crear una pantalla donde
-	 * cada mundo disponible tenga un botón y luego de la seleccion debo enviar
-	 * nuevamente el mensaje CREAR_PARTIDA especificando el mundo seleccionado.
+	/* Hago que la ventana muestre la lista de mundos
 	 */
+	ventana.modoCrearPartida(r.getDatos());
+//	ventana.modoCrearPartida("El Mundo%");
+}
 
+void Client::botonMundoSeleccionado() {
+	/* Envío un mensaje al servidor solicitando la creación de una nueva partida
+	 * con el mundo seleccionado y el nombre elegido.
+	 */
+	std::string idMundo = ventana.panelCrearPartida->getMundoElegido();
+	std::string nombrePartida = ventana.panelCrearPartida->getNombreElegido();
+	MensajeCliente m(idMundo, nombrePartida);
+	socket->enviar(m);
+	std::cout << "Mensajes enviado:\n\tMundo Seleccionado: " << idMundo << std::endl;
+	std::cout << "\tNombre Elegido: " << nombrePartida << std::endl;
+
+	/* Como este cliente es el que está creando la partida, se autoasigna el
+	 * idJugador con el valor 1.
+	 */
+	idJugador = 1;
+
+	/* Ahora corro el thread del cliente para que éste comience a recibir
+	 * mensajes del server y ejecutar la simulacion.
+	 */
+	this->start();
 }
 
 void Client::botonUnirsePartida() {
-		/* Envío un mensaje que solicita la lista de partidas a para poder
-		 * unirse.
-		 */
-		MensajeCliente m(MC_VER_PARTIDAS);
-		socket->enviar(m);
-		std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
+	/* Envío un mensaje que solicita la lista de partidas a para poder
+	 * unirse.
+	 */
+	MensajeCliente m(MC_VER_PARTIDAS);
+	socket->enviar(m);
+	std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
 
-		// Espero una respuesta del server con una lista de partidas disponibles.
-		RespuestaServer r;
-		socket->recibir(r);
-		std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
-		 /* Decodifico la lista de partidas. Se debe crear una pantalla donde
-		 * cada partida tiene asociada un botón y además se encuenta el botón
-		 * de regresar a la pantalla de menu multijugador.
-		 * Cuando el usuario selecciona una partida, envia nuevamente al server
-		 * UNIRSE_PARTIDA adjuntando el ID de la partida.
-		 * Si el usuario selecciona regresar, establezco como true el booleano.
-		 */
-		// TODO implementar del lado der servidor esta lógica.
-		/* FIXME provisoriamente ejecuto correrJuego que contiene un demo.
-		 * y establezco como true regresar.
-		 */
+	// Espero una respuesta del server con una lista de partidas disponibles.
+	RespuestaServer r;
+	socket->recibir(r);
+	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
+
+	/* FIXME Hacer que la vista muestre la lista de partidas disponibles.
+	 */
+}
+
+void Client::botonPartidaSeleccionada(const std::string idPartida) {
+	/* Envío un mensaje que solicita unirse a la partida deseada.
+	 */
+	MensajeCliente m(idPartida);
+	socket->enviar(m);
+
+	/* Espero respuesta del server con la confirmación del pedido de unión a
+	 * la partida
+	 */
+	RespuestaServer r;
+	socket->recibir(r);
+	RespuestaServidor comando = r.getTipoRespuesta();
+	/* Si la respuesta es afirmativa, obtengo el ID del jugador y corro el
+	 * thread que espera mensajes del server.
+	 */
+	if (comando == RS_UNIRSE_PARTIDA_OK) {
+		idJugador = r.getIDJugador();
+		this->start();
+	} else {
+		ventana.modoMultijugador();
+	}
 }
 
 void Client::botonVerRecords() {
@@ -141,9 +181,7 @@ void Client::botonVerRecords() {
 	socket->recibir(r);
 	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
-	/* TODO debo decodificar la tabla de records, crear una pantalla donde
-	 * se muestre dicha tabla y mostrar un botón para regresar a la pantalla
-	 * de menu multijugador.
+	/* TODO Hacer que la vista muestre la tabla de records
 	 */
 }
 
