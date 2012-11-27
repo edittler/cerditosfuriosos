@@ -2,10 +2,11 @@
 #include <iostream>
 #include <cstdio>
 
+// Common Project Includes.
+#include "Log.h"
+
 // Server Project Includes.
 #include "core/Server.h"
-#include "log/Log.h"
-
 
 int main(int argc, char *argv[]) {
 	// Creo y configuro servidor.
