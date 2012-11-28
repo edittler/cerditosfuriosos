@@ -66,6 +66,8 @@ private:
 	Gtk::Button* botonEditar;
 	Gtk::Button* botonCrear;
 
+	std::string pathFileMundos;
+
 	std::map<std::string, std::string> nombreMundos;
 };
 

@@ -12,6 +12,8 @@
 #define RUTA_MUNDOS "mundos.xml"
 
 PanelMundo::PanelMundo() {
+	pathFileMundos = RUTA_CARPETA_MUNDOS;
+	pathFileMundos += "mundos.xml";
 	set_size_request(600, 400);
 	cargarNombreMundos();
 	// Widgets con funcionalidad
@@ -116,9 +118,7 @@ void PanelMundo::cargarNombreMundos() {
 	 * Ese archivo se llamará "mundos.xml"
 	 */
 	XMLDocument doc;
-	std::string archivoMundos = RUTA_CARPETA_MUNDOS;
-	archivoMundos += "mundos.xml";
-	bool seAbrio = doc.LoadFile(archivoMundos);
+	bool seAbrio = doc.LoadFile(pathFileMundos);
 	// Si el archivo no existe, lo creo y salgo sin cargar mundos
 	if (!seAbrio) {
 		this->crearArchivoMundos();
@@ -170,15 +170,13 @@ void PanelMundo::crearArchivoMundos() const {
 	XMLDeclaration* decl = new XMLDeclaration("1.0", "UTF-8", "");
 	doc.LinkEndChild(decl);
 	doc.LinkEndChild(nodoMundos);
-	doc.SaveFile(RUTA_MUNDOS);
+	doc.SaveFile(pathFileMundos);
 }
 
 void PanelMundo::actualizarArchivoMundos(const std::string rutaMundo) const {
 	// Abro el archivo de los mundos
 	XMLDocument doc;
-	std::string archivoMundos = RUTA_CARPETA_MUNDOS;
-	archivoMundos += "mundos.xml";
-	bool seAbrio = doc.LoadFile(archivoMundos);
+	bool seAbrio = doc.LoadFile(pathFileMundos);
 	// Si el archivo no existe, salgo
 	if (!seAbrio)
 		return;
