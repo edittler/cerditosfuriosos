@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Mundo>
     <Nombre>MiMundo</Nombre>
-    <Jugadores>2</Jugadores>
+    <Jugadores>1</Jugadores>
     <Niveles>
         <Nivel>
             <Ruta>../common/MiMundo-level1.xml</Ruta>
