@@ -179,6 +179,7 @@ void Client::botonPartidaSeleccionada() {
 		idJugador = r.getIDJugador();
 		this->start();
 	} else {
+		ventana.mostrarDialogo("No fue posible unirse a la partida.");
 		ventana.modoMultijugador();
 	}
 }

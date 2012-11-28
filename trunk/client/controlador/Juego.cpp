@@ -13,14 +13,19 @@
 Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->ejecutando = true;
 	this->local = true;
+	this->mListener = NULL;
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-	this->cliente = new Client(ventana, "192.168.1.5", 5555);
+	this->cliente = new Client(ventana, "127.0.0.1", 5555);
 	this->iniciarSenialesBotones();
 }
 
-Juego::~Juego() { }
+Juego::~Juego() {
+	if (cliente->conectado())
+		cliente->desconectar();
+	delete cliente;
+}
 
 void Juego::finalizarJuego() {
 	this->ejecutando = false;
