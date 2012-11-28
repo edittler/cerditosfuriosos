@@ -105,11 +105,9 @@ public:
 
 	/**
 	 * Método que se llama al haber seleccionado un mundo para crear la partida.
-	 * Se debe pasar por parametro el id del mundo elegido y el nombre elegido
-	 * para la partida. TODO, o bien, si el cliente controla la vista, el panel
-	 * de creacion de partida debe proveer métodos de consultas de
-	 * estos atributos requeridos.
-	 *
+	 * Consulta a la vista cual es el mundo seleccionado y el nombre elegido.
+	 * Envía un mensaje al servidor solicitando la creación de la partida
+	 * con las caracteristicas deseadas por el usuario.
 	 */
 	void botonMundoSeleccionado();
 
@@ -126,9 +124,6 @@ public:
 	 * confirme su incorporación, corre en un thread la recepción de mensajes
 	 * del servidor. Si fallo su incorporación, retorna a la pantalla
 	 * multijugador.
-	 * Se debe pasar por parámetro el id de la partida. TODO, o bien,
-	 * si el cliente controla la vista, el panel de creacion de partida debe
-	 * proveer métodos de consulta de este atributo requerido.
 	 */
 	void botonPartidaSeleccionada();
 

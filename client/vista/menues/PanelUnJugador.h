@@ -104,6 +104,8 @@ private:
 	SeleccionadorMultiple* selectorNiveles;
 	Gtk::Button* botonVolver;
 
+	string pathFileMundos;
+
 	std::map<string, string> mundos;
 	std::map<int, string> niveles;
 };

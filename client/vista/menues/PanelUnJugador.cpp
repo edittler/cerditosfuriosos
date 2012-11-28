@@ -1,11 +1,14 @@
 #include "PanelUnJugador.h"
 
+#include "XMLTypes.h"
+
 PanelUnJugador::PanelUnJugador(int ancho,
 								int alto,
 								string ruta,
 								InterfazSelectora* interfaz):
 	PanelImagenFondo(ancho, alto, ruta)
 {
+	pathFileMundos = "../common/mundos/mundos.xml";
 	interfazSelectora = interfaz;
 	cargarMundos();
 	selectorMundos = new SeleccionadorMultiple(ANCHO_SELECTORES,
@@ -32,48 +35,77 @@ PanelUnJugador::~PanelUnJugador() {
 }
 
 void PanelUnJugador::cargarMundos() {
-	/*
-	 * Aca deben cargarse en el mapa "mundos" las rutas de los archivos de los
-	 * mundos, para poder accederlas a partir del nombre de los mismos.
-	 * 
-	 * Por ejemplo:
-	 */
-	mundos["Mundo 1"] = "mundo_1.xml";
-	mundos["Mundo 2"] = "mundo_2.xml";
-	mundos["Mundo 3"] = "mundo_3.xml";
-	mundos["Mundo 4"] = "mundo_4.xml";
+	XMLDocument doc;
+	bool seAbrio = doc.LoadFile(pathFileMundos);
+	// Si el archivo no existe, salgo sin cargar mundos
+	if (!seAbrio) {
+		return;
+	}
+
+	// Obtengo el nodo raiz
+	XMLNode* root = doc.RootElement();
+	// Si es nulo, salgo sin realizar nada
+	if (root == 0)
+		return;
+
+	// Obtengo el primer nodo del mundo
+	const XMLNode* nodoMundo = root->FirstChildElement("Mundo");
+	// Mientras el nodo de mundo no es nulo, cargo los mundos.
+	while (nodoMundo != 0) {
+		// Obtengo el atributo de la cantidad de jugadores
+		int cantJugadores = 0;
+		const char* aCJ = nodoMundo->Attribute("cantJugadores", &cantJugadores);
+		/* Si la cadena de caracteres no es nulo (es decir, existe el atributo)
+		 * y la cantidad de jugadores es 1, agrego el mundo en el mapa.
+		 */
+		if ((aCJ != 0) && (cantJugadores == 1)) {
+			// Obtengo el nodo con el nombre del Mundo.
+			const XMLNode* nodoNombre = nodoMundo->FirstChildElement("Nombre");
+			std::string nombreMundo = nodoNombre->GetText();
+			// Obtengo el nodo con la ruta de archivo del mundo.
+			const XMLNode* nodoRuta = nodoMundo->FirstChildElement("Ruta");
+			// Si los nodos no son nulos, cargo el mundo a la tabla
+			if ((nodoNombre != 0) && (nodoRuta != 0)) {
+				mundos[nombreMundo] = nodoRuta->GetText();
+			}
+		}
+		// Obtengo el siguiente nodo Mundo
+		nodoMundo = nodoMundo->NextSiblingElement("Mundo");
+	}
 }
 
 void PanelUnJugador::cargarNiveles(string ruta) {
 	// Se vacia el mapa de niveles para introducir los de otro mundo.
 	vaciarMapaNiveles();
-	/*
-	 * Aca deben cargarse en el mapa "niveles" las rutas de los archivos de los
-	 * niveles pertenecientes al nivel cuya ruta es pasada al metodo, para poder
-	 * accederlas a partir del id de los mismos.
+	/* Cargo los niveles del mundo cuya ruta donde están almacenados los niveles
+	 * es el recibido por parametro.
 	 */
-	if (ruta.compare("mundo_1.xml") == 0) {
-		niveles[1] = "../common/MiMundo-level1.xml";
-		niveles[2] = "../common/MiMundo-level1.xml";
-		
+	XMLDocument doc;
+	bool seAbrio = doc.LoadFile(ruta);
+	// Si el archivo no existe, salgo sin cargar mundos
+	if (!seAbrio) {
+		return;
 	}
-	if (ruta.compare("mundo_2.xml") == 0) {
-		niveles[1] = "../common/MiMundo-level1.xml";
-		niveles[2] = "../common/MiMundo-level1.xml";
-		niveles[3] = "../common/MiMundo-level1.xml";
-		niveles[4] = "../common/MiMundo-level1.xml";
+	const XMLNode* root = doc.RootElement();
+	// Obtengo el nodo de niveles
+	const XMLNode* nodoNiveles = root->FirstChildElement("Niveles");
+	if (nodoNiveles == 0) {
+		return;
 	}
-	if (ruta.compare("mundo_3.xml") == 0) {
-		niveles[1] = "../common/MiMundo-level1.xml";
-		niveles[2] = "../common/MiMundo-level1.xml";
-		niveles[3] = "../common/MiMundo-level1.xml";
-	}
-	if (ruta.compare("mundo_4.xml") == 0) {
-		niveles[1] = "../common/MiMundo-level1.xml";
-		niveles[2] = "../common/MiMundo-level1.xml";
-		niveles[3] = "../common/MiMundo-level1.xml";
-		niveles[4] = "../common/MiMundo-level1.xml";
-		niveles[5] = "../common/MiMundo-level1.xml";
+	// Inicializo el contador de niveles
+	int i = 1;
+	// Cargo el primer nodo de nivel
+	const XMLNode* nodoNivel = nodoNiveles->FirstChildElement("Nivel");
+	// Mientras el nodo de nivel no es nulo, cargo los niveles.
+	while (nodoNivel != 0) {
+		// Obtengo el nodo con la ruta de archivo del nivel.
+		const XMLNode* nodoRuta = nodoNivel->FirstChildElement("Ruta");
+		// Si el nodo ruta no es nulo, cargo el nivel en la tabla
+		if (nodoRuta != 0) {
+			niveles[i] = nodoRuta->GetText();
+			i++;  // Incremento el contador de niveles cargados
+		}
+		nodoNivel = nodoNivel->NextSiblingElement("Nivel");
 	}
 }
 
