@@ -49,8 +49,13 @@ bool Socket::enlazar() {
 	// Enlazo la dirección al socket
 	int r = bind(this->fd, (struct sockaddr*)&(this->direccion),
 			(socklen_t)sizeof(struct sockaddr));
-	if (r == -1)
-		return false;
+	if (r == -1) {
+		// Intento reutilizar el puerto
+		int opt = 1;
+		r = setsockopt(this->fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(int));
+		if (r == -1)
+			return false;
+	}
 	this->enlazado = true;
 	this->conectado = true;
 	return true;
