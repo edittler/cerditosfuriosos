@@ -63,6 +63,10 @@ Mensaje* ThreadCliente::recibir() {
 	return this->tRecibir->getMensaje();
 }
 
+void ThreadCliente::finalizar() {
+	this->conectado = false;
+}
+
 void* ThreadCliente::run() {
 	this->tEnviar->start();
 	this->tRecibir->start();
@@ -194,6 +198,7 @@ void* ThreadCliente::run() {
 		case MC_DESCONECTAR: {
 			LOG_INFO("El cliente se va a desconectar.")
 			this->threadPartida->abandonarPartida(this);
+			this->socket->desconectar();
 			this->conectado = false;
 			break; }
 
@@ -205,9 +210,12 @@ void* ThreadCliente::run() {
 		delete m;
 	}
 
-	// FIXME Una vez terminado el loop el cliente se desconecto de la aplicacion
-	// deberia eliminarse de la lista de ClientesConectados del server.
+	LOG_INFO("finalizado...")
 
+	// elimina de lista ClientesConectados del server
+	this->server.eliminarClienteConectado(this);
+
+	// finaliza threads enviar y recibir
 	this->tEnviar->join();
 	this->tRecibir->join();
 

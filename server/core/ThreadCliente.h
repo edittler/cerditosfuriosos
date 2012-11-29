@@ -60,6 +60,11 @@ public:
 	 */
 	Mensaje* recibir();
 
+	/*
+	 * @brief finaliza ejecucion
+	 */
+	void finalizar();
+
 protected:
 	void* run();
 

@@ -88,6 +88,12 @@ public:
 	 */
 	ListaRecords getTablaRecords(std::string nivel);
 
+	/*
+	 * @brief elimina cliente de la lista de ClientesConectados
+	 * @return true si pudo eliminarlo, false caso contrario.
+	 */
+	bool eliminarClienteConectado(ThreadCliente* cliente);
+
 private:
 
 	/*
