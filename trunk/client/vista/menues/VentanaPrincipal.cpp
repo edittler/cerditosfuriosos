@@ -31,8 +31,6 @@ VentanaPrincipal::~VentanaPrincipal() {
 		delete panelInicial;
 	if (panelMultijugador!= NULL)
 		delete panelMultijugador;
-	if (panelUnirsePartida != NULL)
-		delete panelUnirsePartida;
 	if (panelRecords != NULL)
 		delete panelRecords;
 	if (panelCrearPartida != NULL)
