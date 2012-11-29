@@ -47,12 +47,6 @@ VistaEscenario::~VistaEscenario() {
 	}
 }
 
-void VistaEscenario::cargarEscenario() {
-	// inicio las imagenes de fondo
-	this->iniciarImagenFondo();
-	this->iniciarImagenSuelo();
-}
-
 void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
 	gdk_threads_enter();
 		this->move(*cuerpo, x, y);
@@ -120,8 +114,6 @@ void VistaEscenario::seAgregoCajaVidrio(CajaVidrio* caja) {
 }
 
 void VistaEscenario::seAgregoCajaMadera(CajaMadera* caja) {
-	// FIXME usar manage para crear asi libera memoria automaticamente??
-	// idem con todos los metodos.
 	gdk_threads_enter();
 	VistaCajaMadera* vCaja = new VistaCajaMadera(this, caja);
 	this->vCuerpos.push_back(vCaja);
@@ -213,8 +205,6 @@ void VistaEscenario::monticuloDestruido() {
 	// TODO(alguien) : implementar
 }
 
-/* Metodo que será usado en el caso de que el escenario tenga un único cerdito.
- */
 void VistaEscenario::cerditoMatado() {
 	// TODO(alguien) : implementar
 }

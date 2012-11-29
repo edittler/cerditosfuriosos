@@ -178,11 +178,11 @@ public:
 	 */
 	bool jugadoresCompletos();
 
-	/*
-	 * @brief genero id usado para asignarselo al jugador.
+	/**
+	 * Genero id usado para asignarselo al jugador.
 	 * @return id generado
 	 */
-	static unsigned int generarId();
+	unsigned int generarId();
 
 	/***********************
 	 * GETTERS AND SETTERS *
@@ -262,7 +262,7 @@ private:
 	 * ATTRIBUTES *
 	 **************/
 	// contador de ids para jugadores
-	static unsigned int proximoId;
+	unsigned int proximoId;
 
 	/* Aunque no afecta al modelo y el comportamiento de los cuerpos que se
 	 * incluyen en el escenario, se almacenan el ancho y alto del mismo

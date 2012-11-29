@@ -44,6 +44,8 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 	this->alto = 0;
 	// Inicializo la cantidad de jugadores que va a tener el escenario
 	this->cantJugadores = cantidadJugadores;
+	// Inicializo la variable que genera ID para jugadores
+	this->proximoId = 0;
 	// Defino que la simulacion no comenzo
 	this->simulacionHabilitada = false;
 	// Establezco el observadro, suelo y monticulo como NULL.
@@ -1095,7 +1097,7 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	std::cout << "\tCatapulta\tx= " << puntoCatapulta.x << "\ty= " <<
 			puntoCatapulta.y << std::endl;
 	// Cargo el cerdito
-	unsigned int id = Escenario::generarId();
+	unsigned int id = generarId();
 	this->agregarCerdito(puntoCerdito, puntoCatapulta, id);
 }
 
@@ -1306,7 +1308,7 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 
 Jugador* Escenario::getJugador(unsigned int id) {
 	Lock(this->mJugadores);
-	std::vector<Jugador*>::iterator it;
+	std::vector<Jugador*>::const_iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		if ((*it)->getId() == id)
 			return (*it);
@@ -1323,11 +1325,9 @@ bool Escenario::jugadoresCompletos() {
 	return true;
 }
 
-unsigned int Escenario::proximoId = 0;
-
 unsigned int Escenario::generarId() {
-	++Escenario::proximoId;
-	return Escenario::proximoId;
+	++proximoId;
+	return proximoId;
 }
 
 bool Escenario::validarCerditosVivos() {
