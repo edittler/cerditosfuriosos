@@ -2,7 +2,9 @@
 #define CONSTANTESCLIENTSERVER_H_
 
 // Server
-#define PUERTO_DEFAULT (unsigned short int) 5555
+typedef unsigned short int Puerto;
+
+#define PUERTO_DEFAULT (Puerto) 5555
 #define MAX_CONEXION_ESPERA 10
 
 #define MAX_MSJ_PROCESADOS 10
