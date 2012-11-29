@@ -26,6 +26,11 @@ public:
 	virtual ~ThreadPartida();
 
 	/*
+	 * @brief finaliza ejecucion de la partida.
+	 */
+	void finalizar();
+
+	/*
 	 * @brief comienza la partida
 	 */
 	void comenzarPartida();
@@ -68,7 +73,9 @@ private:
 	bool agregarJugador(ThreadCliente* cliente);
 
 	/*
-	 * @brief elimina a un jugador de la partida
+	 * @brief elimina a un jugador de la partida, liberando el id
+	 * del jugador en el escenario y eliminandolo de la lista de
+	 * clientes conectados a la partida.
 	 * @param cliente a eliminar
 	 * @return true si puedo eliminar, false caso contrario.
 	 */
@@ -87,17 +94,14 @@ private:
 	 */
 	void procesarMensajesParaClientes();
 
+	// Flag para indicar si el ThreadPartida sigue conectado.
+	bool conectado;
+
 	Mutex mPartida;
 	Partida* partida;
 
-	/* Cola de eventos que se va usar para que los clientes carguen eventos.
-	 * Su implementación ya contempla un mutex para protegerlo.
-	 */
-	ColaProtegida<Evento*> eventos;
-
 	Mutex mJugadores;
 	ClientesConectados jugadores;
-
 };
 
 #endif /* THREADPARTIDA_H_ */

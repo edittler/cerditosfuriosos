@@ -25,19 +25,6 @@ Server::~Server() {
 	// Si el servidor aún está encendido, lo apago
 	if (this->encendido)
 		this->apagar();
-
-	ClientesConectados::iterator itCl;
-	for (itCl = clientesConectados.begin(); itCl != clientesConectados.end(); ++itCl) {
-		(*itCl)->join();
-		delete (*itCl);
-	}
-
-	PartidasDisponibles::iterator itPa;
-	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
-		itPa->second->join();
-		delete itPa->second;
-	}
-
 	delete socket;
 }
 
@@ -68,6 +55,22 @@ void Server::apagar() {
 	encendido = false;
 	// Desconecto el socket del servidor
 	socket->desconectar();
+
+	// Finalizo thread clientes
+	ClientesConectados::iterator itCl;
+	for (itCl = clientesConectados.begin(); itCl != clientesConectados.end(); ++itCl) {
+		(*itCl)->finalizar();
+		(*itCl)->join();
+		delete (*itCl);
+	}
+
+	// Finalizo thread partidas
+	PartidasDisponibles::iterator itPa;
+	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
+		itPa->second->join();
+		delete itPa->second;
+	}
+
 	this->join();
 }
 
@@ -116,6 +119,18 @@ std::list<std::string> Server::getPartidasDisponibles() const {
 
 ListaRecords Server::getTablaRecords(std::string nivel) {
 	return this->records->at(nivel);
+}
+
+bool Server::eliminarClienteConectado(ThreadCliente* cliente) {
+	ClientesConectados::iterator it;
+	for (it = clientesConectados.begin(); it != clientesConectados.end(); ++it) {
+		if ((*it) == cliente) {  // FIXME funciona correctamente si comparo punteros?
+			clientesConectados.remove(cliente);
+			delete cliente;
+			return true;
+		}
+	}
+	return false;
 }
 
 void Server::cargarInformacionMundos() {

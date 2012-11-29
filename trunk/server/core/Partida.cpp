@@ -49,6 +49,10 @@ unsigned int Partida::getIdJugadorNoConectado() {
 	return this->nivel->getEscenario()->getIdJugadorNoConectado();
 }
 
+void Partida::setIdJugadorConectado(unsigned int id) {
+	this->nivel->getEscenario()->setJugadorConectado(id);
+}
+
 void Partida::setIdJugadorNoConectado(unsigned int id) {
 	this->nivel->getEscenario()->setJugadorNoConectado(id);
 }

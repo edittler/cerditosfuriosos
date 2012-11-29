@@ -11,12 +11,15 @@
 #include "../modelo/ConstantesServer.h"
 
 ThreadPartida::ThreadPartida(Partida* partida, ThreadCliente* cliente) {
+	this->conectado = true;
 	this->partida = partida;
 	this->agregarJugador(cliente);
 }
 
-ThreadPartida::~ThreadPartida() {
-	// TODO Auto-generated destructor stub
+ThreadPartida::~ThreadPartida() { }
+
+void ThreadPartida::finalizar() {
+	this->conectado = false;
 }
 
 void ThreadPartida::comenzarPartida() {
@@ -75,7 +78,7 @@ void ThreadPartida::finalizarPartida() {
 }
 
 void* ThreadPartida::run() {
-	while (!partida->finalizo()) {
+	while (!partida->finalizo() && this->conectado) {
 		switch (partida->getEstado()) {
 			case CREANDO: {
 				LOG_INFO("estado = CREANDO")
@@ -124,13 +127,20 @@ void* ThreadPartida::run() {
 			case FINALIZADO: {
 				LOG_INFO("estado = FINALIZADO")
 				// TODO actualizar records
-				// TODO enviar notificacion de finalizado a todos los clientes
-				// en caso de que se necesario.
+				this->finalizarPartida();
 				break; }
 
 			default:
 				break;
 		}
+	}
+
+	LOG_INFO("finalizando...")
+
+	// si se desconecto la partida avisa a los clientes
+	// que finalizo sin actualizar records.
+	if (!this->conectado) {
+		this->finalizarPartida();
 	}
 
 	return NULL;
@@ -153,6 +163,7 @@ bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 	if (id != 0) {
 		// asigno el id del jugador al cliente
 		cliente->asignarJugador(id);
+		this->partida->setIdJugadorConectado(id);
 		Lock(this->mJugadores);
 		jugadores.push_back(cliente);
 		return true;
@@ -169,6 +180,7 @@ bool ThreadPartida::eliminarJugador(ThreadCliente* cliente) {
 			it = jugadores.erase(it);
 			Lock(this->mPartida);
 			this->partida->setIdJugadorNoConectado(idADesconectar);
+			return true;
 		}
 	}
 	return false;
