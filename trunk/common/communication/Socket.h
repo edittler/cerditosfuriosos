@@ -4,8 +4,7 @@
 #include <netinet/in.h>
 
 #include "Mensaje.h"
-
-typedef unsigned short int Puerto;
+#include "ConstantesClientServer.h"
 
 class Socket {
 public:

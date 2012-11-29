@@ -16,7 +16,7 @@
 
 int main(int argc, char *argv[]) {
 	if (argc != TOTAL_PARAM) {
-		LOG_ERROR("Indicar puerto.")
+		LOG_INFO("Indicar puerto.")
 		return ERROR;
 	}
 
