@@ -886,6 +886,11 @@ unsigned int Escenario::getIdJugadorNoConectado() {
 	return 0;
 }
 
+void Escenario::setJugadorConectado(unsigned int id) {
+	Jugador* j = getJugador(id);
+	j->setConectado(true);
+}
+
 void Escenario::setJugadorNoConectado(unsigned int id) {
 	Jugador* j = getJugador(id);
 	j->setConectado(false);
