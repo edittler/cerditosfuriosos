@@ -7,13 +7,24 @@
 
 // Server Project Includes.
 #include "core/Server.h"
+#include "CFTools.h"
+
+// Defines
+#define OK 0
+#define ERROR 1
+#define TOTAL_PARAM 2
 
 int main(int argc, char *argv[]) {
+	if (argc != TOTAL_PARAM) {
+		LOG_ERROR("Indicar puerto.")
+		return ERROR;
+	}
+
 	// Creo y configuro servidor.
-	Server server(5555);
+	Server server(cft::stringToInt(argv[1]));
 	if (!server.prender()) {
 		LOG_INFO("Error al prender Server.")
-		return 1;
+		return ERROR;
 	}
 
 	LOG_INFO("Server prendido.")
@@ -25,7 +36,5 @@ int main(int argc, char *argv[]) {
 	server.apagar();
 	LOG_INFO("Server apagado.")
 
-	return 0;
+	return OK;
 }
-
-
