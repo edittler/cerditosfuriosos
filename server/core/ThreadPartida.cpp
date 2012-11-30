@@ -20,6 +20,10 @@ ThreadPartida::~ThreadPartida() {
 	delete this->partida;
 }
 
+bool ThreadPartida::estaActivo() {
+	return this->conectado;
+}
+
 void ThreadPartida::finalizarEjecucion() {
 	this->conectado = false;
 }
@@ -45,6 +49,7 @@ bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 
 	if (partida->getEstado() == ESPERANDO_JUGADOR) {  // esperando a nuevo jugador
 		Mensaje* m = new MensajeServer(this->partida->getXMLNivel());
+		cliente->enviar(m);
 		return this->agregarJugador(cliente);
 	}
 	return false;

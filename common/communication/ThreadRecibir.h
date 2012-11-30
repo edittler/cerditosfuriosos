@@ -14,6 +14,8 @@ public:
 
 	Mensaje* getMensaje();
 
+	void finalizar();
+
 	void* run();
 
 private:

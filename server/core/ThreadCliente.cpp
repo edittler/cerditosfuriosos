@@ -74,11 +74,12 @@ void* ThreadCliente::run() {
 	LOG_INFO("inicializando...")
 
 	while (conectado) {
+		Mensaje* msj = tRecibir->getMensaje();
+		if (msj ==  NULL)  // espero hasta recibir un mensaje
+			continue;
+
 		MensajeCliente* m = NULL;
-		while (m == NULL) {
-			Mensaje* msj = tRecibir->getMensaje();
-			m = dynamic_cast<MensajeCliente*>(msj);
-		}
+		m = dynamic_cast<MensajeCliente*>(msj);
 
 		// valido que el cliente no se haya desconectado
 		if (!this->socket->estaConectado()) {
@@ -216,7 +217,9 @@ void* ThreadCliente::run() {
 	this->server.eliminarClienteConectado(this);
 
 	// finaliza threads enviar y recibir
+	this->tEnviar->finalizar();
 	this->tEnviar->join();
+	this->tRecibir->finalizar();
 	this->tRecibir->join();
 
 	return NULL;
