@@ -18,6 +18,10 @@ Mensaje* ThreadRecibirCliente::getMensaje() {
 	return NULL;
 }
 
+void ThreadRecibirCliente::finalizar() {
+	this->terminado = true;
+}
+
 void* ThreadRecibirCliente::run() {
 	while (!terminado) {
 		Mensaje* m = new MensajeServer();

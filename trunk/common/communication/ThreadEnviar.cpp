@@ -16,6 +16,10 @@ void ThreadEnviar::agregarMensaje(Mensaje* mensaje) {
 	this->mensajes.encolar(mensaje);
 }
 
+void ThreadEnviar::finalizar() {
+	this->terminado = true;
+}
+
 void* ThreadEnviar::run() {
 	while (!terminado) {
 		// Si el socket está desconectado, activo flag terminado

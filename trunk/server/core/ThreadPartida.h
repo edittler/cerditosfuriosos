@@ -25,6 +25,12 @@ public:
 	ThreadPartida(Partida* partida, ThreadCliente* cliente);
 	virtual ~ThreadPartida();
 
+	/**
+	 * Indica si la partida se esta ejecutando.
+	 * @return true si se esta ejecutando la partida, false caso contrario
+	 */
+	bool estaActivo();
+
 	/*
 	 * @brief finaliza ejecucion de la partida.
 	 */

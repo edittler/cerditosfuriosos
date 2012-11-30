@@ -14,6 +14,8 @@ public:
 
 	void agregarMensaje(Mensaje* mensaje);
 
+	void finalizar();
+
 	void* run();
 
 private:
