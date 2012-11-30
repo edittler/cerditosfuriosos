@@ -4,6 +4,7 @@
 #include <gtkmm/window.h>
 #include <gtkmm/eventbox.h>
 
+#include "PanelImagenFondo.h"
 #include "PanelInicial.h"
 #include "PanelUnJugador.h"
 #include "PanelMultijugador.h"
@@ -36,6 +37,7 @@ public:
 	void verRecords();
 	void modoCrearPartida(std::string nombreMundos);
 	void modoUnirsePartida(std::string nombrePartidas);
+	void modoEsperandoJugadores();
 
 	void mostrarMenuPrincipal();
 
@@ -60,6 +62,7 @@ public:
 	PanelUnirsePartida* panelUnirsePartida;
 	PanelRecords* panelRecords;
 	PanelCrearPartida* panelCrearPartida;
+	PanelImagenFondo* panelEsperandoJugadores;
 
 private:
 	// Contenedor que permite manejar eventos de hijos.
