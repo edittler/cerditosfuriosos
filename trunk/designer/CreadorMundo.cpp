@@ -35,7 +35,10 @@ bool CreadorMundo::nombreExistente() {
 	std::string nombreSeleccionado = nombre->get_text();
 	std::map<std::string, std::string>::iterator iterador = nombreMundos.begin();
 	while (iterador != nombreMundos.end()) {
-		if (nombreSeleccionado.compare(iterador->first) == 0)
+		std::string nombreParcial = iterador->first;
+		int posicion = nombreParcial.find('(');
+		nombreParcial = nombreParcial.substr(0, posicion-1);
+		if (nombreSeleccionado.compare(nombreParcial) == 0)
 			return true;
 		++iterador;
 	}
