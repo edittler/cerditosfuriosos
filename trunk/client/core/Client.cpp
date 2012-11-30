@@ -152,25 +152,26 @@ void Client::botonMundoSeleccionado() {
 }
 
 void Client::botonUnirsePartida() {
-	/* Envío un mensaje que solicita la lista de partidas a para poder
-	 * unirse.
-	 */
-	MensajeCliente m(MC_VER_PARTIDAS);
-	socket->enviar(m);
-	std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
+	if (ventana.panelUnirsePartida->selectorPartidas->hayOpcionesSeleccionables()) {
+		/* Envío un mensaje que solicita la lista de partidas a para poder
+		 * unirse.
+		 */
+		MensajeCliente m(MC_VER_PARTIDAS);
+		socket->enviar(m);
+		std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
 
-	// Espero una respuesta del server con una lista de partidas disponibles.
-	RespuestaServer r;
-	socket->recibir(r);
-	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
+		// Espero una respuesta del server con una lista de partidas disponibles.
+		RespuestaServer r;
+		socket->recibir(r);
+		std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
-	if(socket->estaConectado()) {
-		ventana.modoUnirsePartida(r.getDatos());
-	} else {
-		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("Se perdió la conexión con el servidor");
+		if(socket->estaConectado()) {
+			ventana.modoUnirsePartida(r.getDatos());
+		} else {
+			ventana.volverAMenuPrincipal();
+			ventana.mostrarDialogo("Se perdió la conexión con el servidor");
+		}
 	}
-
 }
 
 void Client::botonPartidaSeleccionada() {
