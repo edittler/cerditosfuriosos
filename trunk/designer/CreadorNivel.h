@@ -56,6 +56,11 @@ class CreadorNivel : public Gtk::Paned {
 		std::string getRutaImagenFondo();
 		
 		/**
+		 * @return string con la ruta de la imagen del suelo del escenario
+		 */
+		std::string getRutaImagenSuelo();
+
+		/**
 		 * @return true si el usuario ha seleccionado una imagen y false en el
 		 * caso contrario
 		 */

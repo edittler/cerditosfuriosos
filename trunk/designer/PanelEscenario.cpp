@@ -18,7 +18,7 @@ PanelEscenario::PanelEscenario(string rutaNivel,
 	int ancho = (int)(anchoFlotante * PIXELES_SOBRE_METRO);
 	int alto = (int)(altoFlotante * PIXELES_SOBRE_METRO);
 	// Inicializacion de los widgets propios
-	lienzo = new Lienzo(ancho, alto, cantidadJugadores, rutaFondo, informable);
+	lienzo = new Lienzo(ancho, alto, cantidadJugadores, rutaFondo, rutaSuelo, informable);
 	paletaEscenario = new PaletaEscenario();
 	eliminador = new EliminadorPosicionables(lienzo);
 	entrada = new EntradaPajaros(anchoFlotante, altoFlotante);
@@ -53,11 +53,13 @@ PanelEscenario::PanelEscenario(string rutaNivel,
 	cajaHorizontalUno->pack_start(*cajaAuxiliarUno);
 	Gtk::VBox* cajaVerticalDos = manage(new Gtk::VBox(false, 20));
 	cajaVerticalDos->pack_start(*entrada);
-	cajaVerticalDos->pack_start(*cajaHorizontalUno);
-	cajaVerticalDos->pack_start(*cajaAuxiliarDos);
+	cajaVerticalDos->pack_start(*cajaHorizontalUno, Gtk::PACK_SHRINK);
+	cajaVerticalDos->pack_start(*cajaAuxiliarDos, Gtk::PACK_SHRINK);
 	Gtk::HBox* cajaHorizontal = manage(new Gtk::HBox(false, 20));
+	Gtk::VBox* cajaVerticalLienzo = manage(new Gtk::VBox(false, 0));
+	cajaVerticalLienzo->pack_start(*lienzo, Gtk::PACK_SHRINK);
 	cajaHorizontal->pack_start(*cajaVerticalUno);
-	cajaHorizontal->pack_start(*lienzo);
+	cajaHorizontal->pack_start(*cajaVerticalLienzo, Gtk::PACK_SHRINK);
 	cajaHorizontal->pack_start(*cajaVerticalDos);
 	add(*cajaHorizontal);
 	// Seniales
@@ -194,6 +196,11 @@ void PanelEscenario::cargarCaracteristicasNivel() {
 	const XMLNode* imageFondoNode = escenarioNode->
 			FirstChildElement("ImagenFondo");
 	rutaFondo = imageFondoNode->GetText();
+
+	// Obtengo el nodo de la imagen de suelo
+	const XMLNode* imageSueloNode = escenarioNode->
+			FirstChildElement("ImagenSuelo");
+	rutaSuelo = imageSueloNode->GetText();
 }
 
 void PanelEscenario::limpiarNodoNivel(XMLNode* nodo) const {

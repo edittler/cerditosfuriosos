@@ -62,13 +62,43 @@ void ImagenPosicionable::setFondo(const Glib::RefPtr< Gdk::Pixbuf >& fondo) {
 	Gtk::Image* imagenConFondo = manage(new Gtk::Image(fondo));
 	std::vector<Widget*> hijos = contenedorFondo->get_children();
 	if (hijos.size() == 2) {
-		contenedorFondo->remove(*hijos[0]);
 		contenedorFondo->remove(*hijos[1]);
+		contenedorFondo->remove(*hijos[0]);
+	} else {
+		if (hijos.size() == 3) {
+			contenedorFondo->remove(*hijos[2]);
+			contenedorFondo->remove(*hijos[1]);
+			contenedorFondo->remove(*hijos[0]);
+		}
 	}
 	contenedorFondo->put(*imagenConFondo, 0, 0);
 	contenedorFondo->put(*imagenFija, 0, 0);
 	contenedorFondo->show_all();
 }
+
+void ImagenPosicionable::setFondoConSuelo(
+									const Glib::RefPtr< Gdk::Pixbuf >& fondo,
+									const Glib::RefPtr< Gdk::Pixbuf >& suelo,
+									int altoSuelo) {
+	Gtk::Image* imagenFondo = manage(new Gtk::Image(fondo));
+	Gtk::Image* imagenSuelo = manage(new Gtk::Image(suelo));
+	std::vector<Widget*> hijos = contenedorFondo->get_children();
+	if (hijos.size() == 2) {
+		contenedorFondo->remove(*hijos[1]);
+		contenedorFondo->remove(*hijos[0]);
+	} else {
+		if (hijos.size() == 3) {
+			contenedorFondo->remove(*hijos[2]);
+			contenedorFondo->remove(*hijos[1]);
+			contenedorFondo->remove(*hijos[0]);
+		}
+	}
+	contenedorFondo->put(*imagenFondo, 0, 0);
+	contenedorFondo->put(*imagenSuelo, 0, alto-altoSuelo);
+	contenedorFondo->put(*imagenFija, 0, 0);
+	contenedorFondo->show_all();
+}
+
 
 float ImagenPosicionable::getXFlotante() const {
 	float posXCentrada = ((float)x) + (((float)ancho) / 2);

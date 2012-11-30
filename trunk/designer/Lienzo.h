@@ -43,6 +43,7 @@ public:
 			int alto,
 			int cantidadJugadores,
 			string rutaFondo,
+			string rutaSuelo,
 			InformableSeleccion* informable);
 
 	/**
@@ -99,6 +100,11 @@ private:
 	 * Se le pasa la ruta de una imagen y la escala para ponerla de fondo.
 	 */
 	void agregarFondo(const string rutaImagen);
+
+	/**
+	 * Se le pasa la ruta de una imagen y la escala para ponerla de suelo.
+	 */
+	void agregarSuelo(const string rutaSuelo);
 
 	/**
 	 * Le copia el fondo a una imagen posicionable.
@@ -244,6 +250,7 @@ private:
 	InformableSeleccion* informable;
 
 	Gtk::Image* imagenFondo;
+	Gtk::Image* imagenSuelo;
 	list<Gtk::TargetEntry> listaObjetivos;
 
 	list<ImagenCerdo*> cerdos;

@@ -3,11 +3,12 @@
 
 // Designer Projet Includes.
 #include "CFDTools.h"
-
+#include <iostream>
 Lienzo::Lienzo(int ancho,
 				int alto,
 				int cantidadJugadores,
 				string rutaFondo,
+				string rutaSuelo,
 				InformableSeleccion* informable) {
 	this->cantidadJugadores = cantidadJugadores;
 	this->ancho = ancho;
@@ -15,6 +16,7 @@ Lienzo::Lienzo(int ancho,
 	this->informable = informable;
 	monticulo = NULL;
 	agregarFondo(rutaFondo);
+	agregarSuelo(rutaSuelo);
 	set_size_request(ancho, alto);
 	listaObjetivos.push_back(Gtk::TargetEntry("POSICIONABLE"));
 	drag_dest_set(listaObjetivos);
@@ -242,11 +244,28 @@ void Lienzo::agregarFondo(const string rutaImagen) {
 	put(*imagenFondo, 0, 0);
 }
 
+void Lienzo::agregarSuelo(const string rutaSuelo) {
+	Glib::RefPtr<Gdk::Pixbuf> buffer;
+	buffer = Gdk::Pixbuf::create_from_file(rutaSuelo);
+	buffer = buffer->scale_simple(ancho, ALTO_SUELO, Gdk::INTERP_BILINEAR);
+	imagenSuelo = manage(new Gtk::Image(buffer));
+	put(*imagenSuelo, 0, alto-ALTO_SUELO);
+}
+
 void Lienzo::copiarFondo(int x, int y, ImagenPosicionable* imagen) {
 	Glib::RefPtr<Gdk::Pixbuf> buffer = imagenFondo->get_pixbuf();
 	Glib::RefPtr<Gdk::Pixbuf> fondo = Gdk::Pixbuf::create_subpixbuf(buffer,
-			x, y, imagen->ancho, imagen->alto);
-	imagen->setFondo(fondo);
+					x, y, imagen->ancho, imagen->alto);
+	if ((y + imagen->alto - 1) < (alto-ALTO_SUELO))
+		imagen->setFondo(fondo);
+	else {
+		Glib::RefPtr<Gdk::Pixbuf> bufferDos = imagenSuelo->get_pixbuf();
+		Glib::RefPtr<Gdk::Pixbuf> suelo = Gdk::Pixbuf::create_subpixbuf(
+					bufferDos, x, 0, imagen->ancho,
+							(y + imagen->alto)-(alto-ALTO_SUELO));
+		imagen->setFondoConSuelo(fondo, suelo,
+				(y + imagen->alto)-(alto-ALTO_SUELO));
+	}
 }
 
 void Lienzo::eliminarPosicionable(string id) {

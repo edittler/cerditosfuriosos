@@ -14,7 +14,7 @@
 PanelMundo::PanelMundo() {
 	pathFileMundos = RUTA_CARPETA_MUNDOS;
 	pathFileMundos += "mundos.xml";
-	set_size_request(600, 400);
+	set_size_request(ANCHO_WIZARD, ALTO_WIZARD);
 	cargarNombreMundos();
 	// Widgets con funcionalidad
 	botonEditar = new Gtk::Button("Editar mundo seleccionado");

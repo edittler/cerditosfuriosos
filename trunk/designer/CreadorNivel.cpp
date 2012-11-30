@@ -82,6 +82,10 @@ std::string CreadorNivel::getRutaImagenFondo() {
 	return archivoImagen->get_text();
 }
 
+std::string getRutaImagenSuelo() {
+	return "../common/images/background/SueloBosque.png";
+}
+
 bool CreadorNivel::imagenSeleccionada() {
 	return (archivoImagen->get_text().size() != 0);
 }
