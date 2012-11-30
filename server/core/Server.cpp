@@ -118,7 +118,7 @@ std::list<std::string> Server::getPartidasDisponibles() const {
 }
 
 ListaRecords Server::getTablaRecords(std::string nivel) {
-	return this->records->at(nivel);
+	return this->records.at(nivel);
 }
 
 bool Server::eliminarClienteConectado(ThreadCliente* cliente) {

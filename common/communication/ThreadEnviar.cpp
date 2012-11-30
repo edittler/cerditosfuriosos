@@ -20,7 +20,7 @@ void* ThreadEnviar::run() {
 	while (!terminado) {
 		// Si el socket está desconectado, activo flag terminado
 		if (!socket.estaConectado()) {
-			terminado = false;
+			terminado = true;
 			break;
 		}
 		if (!mensajes.estaVacia()) {
