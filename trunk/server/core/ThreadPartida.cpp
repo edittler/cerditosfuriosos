@@ -77,7 +77,7 @@ void ThreadPartida::finalizarPartida() {
 }
 
 void* ThreadPartida::run() {
-	while (!partida->finalizo() && this->conectado) {
+	while (this->conectado) {
 		switch (partida->getEstado()) {
 			case CREANDO: {
 //				LOG_INFO("estado = CREANDO")
@@ -126,9 +126,10 @@ void* ThreadPartida::run() {
 				break; }
 
 			case FINALIZADO: {
-//				LOG_INFO("estado = FINALIZADO")
+				LOG_INFO("estado = FINALIZADO")
 				// TODO actualizar records
 				this->finalizarPartida();
+				this->conectado = false;
 				break; }
 
 			default:
@@ -138,11 +139,7 @@ void* ThreadPartida::run() {
 
 	LOG_INFO("finalizando...")
 
-	// si se desconecto la partida avisa a los clientes
-	// que finalizo sin actualizar records.
-	if (!this->conectado) {
-		this->finalizarPartida();
-	}
+	// TODO avisar al server que se termino de ejecutarThreadPartida.
 
 	return NULL;
 }
@@ -232,9 +229,12 @@ void ThreadPartida::procesarMensajesClientes() {
 
 void ThreadPartida::procesarMensajesParaClientes() {
 	Lock(this->mPartida);
-	// valida finalizacion de partida
-	if (this->partida->getNivel()->finalizoPartida()) {
-		Evento e(E_FIN_NIVEL);
+	for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
+		// valido que haya eventos para procesar.
+		if (!this->partida->hayEventos())
+			break;
+
+		Evento e = this->partida->obtenerEvento();
 
 		// informo del evento a todos los clientes conectados
 		Lock(this->mJugadores);
@@ -245,12 +245,10 @@ void ThreadPartida::procesarMensajesParaClientes() {
 		}
 	}
 
-	for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
-		// valido que haya eventos para procesar.
-		if (!this->partida->hayEventos())
-			break;
-
-		Evento e = this->partida->obtenerEvento();
+	// valida finalizacion de partida
+	if (this->partida->getNivel()->finalizoPartida()) {
+		Evento e(E_FIN_NIVEL);
+		this->partida->setEstado(FINALIZADO);
 
 		// informo del evento a todos los clientes conectados
 		Lock(this->mJugadores);
