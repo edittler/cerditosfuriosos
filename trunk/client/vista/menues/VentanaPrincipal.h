@@ -46,6 +46,8 @@ public:
 	 */
 	void agregarContenedor(Gtk::Widget& widget);
 
+	void vaciarContenedot();
+
 	/**
 	 * Asigna handler de eventos del mouse al contenedor actual
 	 * @param implementacion MouseListener de handlers.
