@@ -27,6 +27,8 @@ class VentanaDiseniador : public Gtk::Window, public InformableSeleccion {
 		 */
 		virtual ~VentanaDiseniador();
 		
+		virtual void volverAPanelMundos();
+		
 		virtual void editarMundo(std::string rutaMundo);
 		
 		virtual void nombreSeleccionadoVacio();

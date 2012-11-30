@@ -33,16 +33,28 @@ PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
 	cajaHorizontalDos->pack_start(*cajaAuxiliarDos, Gtk::PACK_SHRINK);
 	Gtk::Frame* cuadroCrear = manage(new Gtk::Frame("Cree un nuevo nivel"));
 	cuadroCrear->add(*cajaHorizontalDos);
+	// Inicializacion del boton para volver a la seleccion de mundos
+	botonVolver = new Gtk::Button();
+	Gtk::Image* imagenVolver = manage(new Gtk::Image(
+			Gtk::StockID("gtk-go-back"), Gtk::IconSize(Gtk::ICON_SIZE_BUTTON)));
+	botonVolver->set_image(*imagenVolver);
+	botonVolver->set_tooltip_text("Volver al panel de mundos");
+	Gtk::VButtonBox* cajaAuxiliarTres = manage(new Gtk::VButtonBox());
+	cajaAuxiliarTres->set_layout(Gtk::BUTTONBOX_CENTER);
+	cajaAuxiliarTres->pack_start(*botonVolver, Gtk::PACK_SHRINK);
 	// Cargo en el contenedor
 	Gtk::VBox* cajaVertical = manage(new Gtk::VBox(false, 30));
 	cajaVertical->pack_start(*cuadroEditar);
 	cajaVertical->pack_start(*cuadroCrear);
+	cajaVertical->pack_start(*cajaAuxiliarTres);
 	add(*cajaVertical);
 	// Seniales
 	botonCrear->signal_clicked().connect(sigc::mem_fun(*this,
 											&PanelNivel::botonCrearClickeado));
 	botonEditar->signal_clicked().connect(sigc::mem_fun(*this,
 											&PanelNivel::botonEditarClickeado));
+	botonVolver->signal_clicked().connect(sigc::mem_fun(*this,
+											&PanelNivel::volverAPanelMundos));
 }
 
 PanelNivel::~PanelNivel() {
@@ -50,6 +62,10 @@ PanelNivel::~PanelNivel() {
 	delete creador;
 	delete botonEditar;
 	delete botonCrear;
+}
+
+void PanelNivel::volverAPanelMundos() {
+	informable->volverAPanelMundos();
 }
 
 int PanelNivel::getCantidadJugadores() const {

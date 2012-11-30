@@ -42,6 +42,12 @@ public:
 	void botonGuardarClickeado();
 
 private:
+	
+	/**
+	 * El usuario informa que desea volver al panel de seleccion de mundos.
+	 */
+	void volverAPanelMundos();
+
 	/**
 	 * Guardar las caracteristicas del Escenario.
 	 */
@@ -62,6 +68,7 @@ private:
 	Lienzo* lienzo;
 	EntradaPajaros* entrada;
 	Gtk::Button* botonGuardar;
+	Gtk::Button* botonVolver;
 
 	InformableSeleccion* informable;
 

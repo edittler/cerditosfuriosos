@@ -32,19 +32,29 @@ PanelEscenario::PanelEscenario(string rutaNivel,
 			Gtk::StockID("gtk-floppy"), Gtk::IconSize(Gtk::ICON_SIZE_BUTTON)));
 	botonGuardar->set_image(*imagenGuardar);
 	Gtk::Label* etiquetaGuardar = manage(new Gtk::Label("Guardar nivel: "));
+	// Inicializacion del boton para volver a la seleccion de niveles
+	botonVolver = new Gtk::Button();
+	Gtk::Image* imagenVolver = manage(new Gtk::Image(
+			Gtk::StockID("gtk-go-back"), Gtk::IconSize(Gtk::ICON_SIZE_BUTTON)));
+	botonVolver->set_image(*imagenVolver);
+	botonVolver->set_tooltip_text("Volver al panel de mundos");
 	// Contenedores
 	Gtk::VBox* cajaVerticalUno = manage(new Gtk::VBox(false, 20));
 	cajaVerticalUno->pack_start(*paletaEscenario);
 	cajaVerticalUno->pack_start(*eliminador);
-	Gtk::HButtonBox* cajaAuxiliarUno = manage(new Gtk::HButtonBox());
+	Gtk::VButtonBox* cajaAuxiliarUno = manage(new Gtk::VButtonBox());
 	cajaAuxiliarUno->set_layout(Gtk::BUTTONBOX_CENTER);
 	cajaAuxiliarUno->pack_start(*botonGuardar, Gtk::PACK_SHRINK);
+	Gtk::VButtonBox* cajaAuxiliarDos = manage(new Gtk::VButtonBox());
+	cajaAuxiliarDos->set_layout(Gtk::BUTTONBOX_CENTER);
+	cajaAuxiliarDos->pack_start(*botonVolver, Gtk::PACK_SHRINK);
 	Gtk::HBox* cajaHorizontalUno = manage(new Gtk::HBox(false, 20));
 	cajaHorizontalUno->pack_start(*etiquetaGuardar);
 	cajaHorizontalUno->pack_start(*cajaAuxiliarUno);
 	Gtk::VBox* cajaVerticalDos = manage(new Gtk::VBox(false, 20));
 	cajaVerticalDos->pack_start(*entrada);
 	cajaVerticalDos->pack_start(*cajaHorizontalUno);
+	cajaVerticalDos->pack_start(*cajaAuxiliarDos);
 	Gtk::HBox* cajaHorizontal = manage(new Gtk::HBox(false, 20));
 	cajaHorizontal->pack_start(*cajaVerticalUno);
 	cajaHorizontal->pack_start(*lienzo);
@@ -53,6 +63,8 @@ PanelEscenario::PanelEscenario(string rutaNivel,
 	// Seniales
 	botonGuardar->signal_clicked().connect(sigc::mem_fun(*this,
 									&PanelEscenario::botonGuardarClickeado));
+	botonVolver->signal_clicked().connect(sigc::mem_fun(*this,
+										&PanelEscenario::volverAPanelMundos));
 }
 
 PanelEscenario::~PanelEscenario() {
@@ -61,6 +73,11 @@ PanelEscenario::~PanelEscenario() {
 	delete eliminador;
 	delete entrada;
 	delete botonGuardar;
+	delete botonVolver;
+}
+
+void PanelEscenario::volverAPanelMundos() {
+	informable->volverAPanelMundos();
 }
 
 void PanelEscenario::botonGuardarClickeado() {
