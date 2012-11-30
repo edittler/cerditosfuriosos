@@ -74,6 +74,6 @@ void Punto2D::operator *= (float a) {
 	y *= a;
 }
 
-bool Punto2D::operator == (const Punto2D& p) {
+bool Punto2D::operator == (const Punto2D& p) const {
 	return (x == p.x && y == p.y);
 }
