@@ -26,13 +26,13 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.optimization.level.1014175621" name="Optimization Level" superClass="gnu.cpp.compiler.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.377822128" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.772724940" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/log}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/thread}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/Box2D/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/communication}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/model}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/parser}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/log}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2144730824" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -146,5 +146,7 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileCPP"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/server"/>
+	</storageModule>
 </cproject>
