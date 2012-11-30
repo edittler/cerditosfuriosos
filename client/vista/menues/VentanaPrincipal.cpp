@@ -87,6 +87,12 @@ void VentanaPrincipal::agregarContenedor(Gtk::Widget& widget) {
 	gdk_threads_leave();
 }
 
+void VentanaPrincipal::vaciarContenedot() {
+	gdk_threads_enter();
+	contenedor->remove();
+	gdk_threads_leave();
+}
+
 void VentanaPrincipal::setMouseListener(MouseListener* listener) {
 	gdk_threads_enter();
 		listener->cargarEventos(contenedor);
