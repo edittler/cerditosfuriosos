@@ -20,7 +20,7 @@ ThreadPartida::~ThreadPartida() {
 	delete this->partida;
 }
 
-void ThreadPartida::finalizar() {
+void ThreadPartida::finalizarEjecucion() {
 	this->conectado = false;
 }
 
@@ -129,7 +129,7 @@ void* ThreadPartida::run() {
 				LOG_INFO("estado = FINALIZADO")
 				// TODO actualizar records
 				this->finalizarPartida();
-				this->conectado = false;
+				this->finalizarEjecucion();
 				break; }
 
 			default:
@@ -138,6 +138,12 @@ void* ThreadPartida::run() {
 	}
 
 	LOG_INFO("finalizando...")
+
+	// si se finalizo la partida imprevistamente avisa a
+	// los clientes conectados
+	if (!this->partida->finalizo()) {
+		this->finalizarPartida();
+	}
 
 	// TODO avisar al server que se termino de ejecutarThreadPartida.
 

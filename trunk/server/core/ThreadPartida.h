@@ -28,7 +28,7 @@ public:
 	/*
 	 * @brief finaliza ejecucion de la partida.
 	 */
-	void finalizar();
+	void finalizarEjecucion();
 
 	/*
 	 * @brief comienza la partida
@@ -52,8 +52,9 @@ public:
 	 */
 	void pausarPartida();
 
-	/*
-	 * @brief finaliza partida.
+	/**
+	 * brief envia mensajes a todos los clientes conectados indicando
+	 * que se finalizo la partida
 	 */
 	void finalizarPartida();
 
