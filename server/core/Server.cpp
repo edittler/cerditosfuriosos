@@ -56,19 +56,20 @@ void Server::apagar() {
 	// Desconecto el socket del servidor
 	socket->desconectar();
 
+	// Finalizo thread partidas
+	PartidasDisponibles::iterator itPa;
+	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
+		itPa->second->finalizarEjecucion();
+		itPa->second->join();
+		delete itPa->second;
+	}
+
 	// Finalizo thread clientes
 	ClientesConectados::iterator itCl;
 	for (itCl = clientesConectados.begin(); itCl != clientesConectados.end(); ++itCl) {
 		(*itCl)->finalizar();
 		(*itCl)->join();
 		delete (*itCl);
-	}
-
-	// Finalizo thread partidas
-	PartidasDisponibles::iterator itPa;
-	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
-		itPa->second->join();
-		delete itPa->second;
 	}
 
 	this->join();
