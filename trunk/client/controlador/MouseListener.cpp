@@ -13,8 +13,13 @@ void MouseListener::cargarEventos(Gtk::Widget* container) {
 	container->add_events(Gdk::BUTTON_PRESS_MASK);
 
 	// conecta cada evento con su metodo handler
-	container->signal_button_press_event().connect(sigc::mem_fun(*this,
+	senial = container->signal_button_press_event().connect(sigc::mem_fun(*this,
 		&MouseListener::onClick));
+}
+
+void MouseListener::borrarEventos() {
+	if (senial.connected())
+		senial.disconnect();
 }
 
 bool MouseListener::onClick(GdkEventButton* event) {
