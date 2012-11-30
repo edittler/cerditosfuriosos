@@ -122,7 +122,7 @@ private:
 	MundosDisponibles mundosDiponibles;
 
 	/* Tabla de records */
-	TablaRecords* records;
+	TablaRecords records;
 
 	/* Partidas creadas */
 	PartidasDisponibles partidasDisponibles;
