@@ -69,7 +69,13 @@ class SeleccionadorMultiple : public Gtk::ScrolledWindow {
 		 * miembro se corresponde con el boton de radio activo.
 		 */
 		string getOpcionSeleccionada();
-		
+
+		/**
+		 * @return true si hay opciones para que el usuario seleccione y false
+		 * en el caso contrario
+		 */
+		bool hayOpcionesSeleccionables();
+
 		/**
 		 * Los siguientes metodos estan pensados para cuando se desean cambiar
 		 * los botones que contiene este objeto.

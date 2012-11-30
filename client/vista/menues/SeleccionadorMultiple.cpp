@@ -39,6 +39,10 @@ string SeleccionadorMultiple::getOpcionSeleccionada() {
 	return mapa.find(botones[contadorBotones]->get_label())->second;
 }
 
+bool SeleccionadorMultiple::hayOpcionesSeleccionables() {
+	return (!mapa.empty());
+}
+
 void SeleccionadorMultiple::crearBotones(std::map<string, string> mapa) {
 	this->mapa = mapa;
 	botones = new Gtk::RadioButton*[mapa.size()];
