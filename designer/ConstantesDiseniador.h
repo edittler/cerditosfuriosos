@@ -7,12 +7,12 @@
  */
 #define MAXIMA_CANTIDAD_JUGADORES 5.0
 // Las siguientes constantes estan en unidades del modelo
-#define ANCHO_ESCENARIO_CHICO 12
-#define ALTO_ESCENARIO_CHICO 9
-#define ANCHO_ESCENARIO_MEDIANO 13
-#define ALTO_ESCENARIO_MEDIANO 10
-#define ANCHO_ESCENARIO_GRANDE 14
-#define ALTO_ESCENARIO_GRANDE 11
+#define ANCHO_ESCENARIO_CHICO 10
+#define ALTO_ESCENARIO_CHICO 8
+#define ANCHO_ESCENARIO_MEDIANO 11
+#define ALTO_ESCENARIO_MEDIANO 9
+#define ANCHO_ESCENARIO_GRANDE 12
+#define ALTO_ESCENARIO_GRANDE 10
 
 #define MAXIMA_DURACION_NIVEL 60.0
 
@@ -39,6 +39,9 @@
 #define RUTA_CEREZA "../common/images/scene/Cereza.png"
 #define RUTA_MANZANA "../common/images/scene/Manzana.png"
 #define RUTA_CATAPULTA "../common/images/scene/Catapulta.png"
+// Dimensiones de los paneles del wizard en pixeles
+#define ANCHO_WIZARD 600
+#define ALTO_WIZARD 400
 // Dimensiones de los objetos del lienzo en pixeles
 #define ANCHO_BANANA 21
 #define ALTO_BANANA 21
@@ -48,8 +51,8 @@
 #define ALTO_CAJA_METAL 42
 #define ALTO_CAJA_VIDRIO 42
 #define ANCHO_CAJA_VIDRIO 42
-#define ANCHO_CATAPULTA 100
-#define ALTO_CATAPULTA 100
+#define ANCHO_CATAPULTA 42
+#define ALTO_CATAPULTA 42
 #define ALTO_CERDO 42
 #define ANCHO_CERDO 42
 #define ANCHO_CEREZA 21
@@ -58,6 +61,7 @@
 #define ANCHO_HUEVOS 39
 #define ANCHO_MANZANA 21
 #define ALTO_MANZANA 21
+#define ALTO_SUELO 28
 // Pajaros
 #define TIEMPO_GENERACION_MINIMO 100.0
 #define TIEMPO_GENERACION_MAXIMO 1000.0

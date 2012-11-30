@@ -76,6 +76,7 @@ private:
 	float anchoFlotante;
 	float altoFlotante;
 	std::string rutaFondo;
+	std::string rutaSuelo;
 	int cantidadJugadores;
 };
 

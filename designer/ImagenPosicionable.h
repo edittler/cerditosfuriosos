@@ -64,6 +64,16 @@ public:
 	void setFondo(const Glib::RefPtr< Gdk::Pixbuf >& fondo);
 
 	/**
+	 * Agrega un fondo y un suelo a la imagen que sera mostrada.
+	 * @param fondo pixeles del fondo
+	 * @param suelo pixeles del suelo
+	 * @param altoSuelo alto del suelo en pixeles
+	 */
+	void setFondoConSuelo(const Glib::RefPtr< Gdk::Pixbuf >& fondo,
+								const Glib::RefPtr< Gdk::Pixbuf >& suelo,
+								int altoSuelo);
+
+	/**
 	 * @return coordenada x del objeto mostrado por esta imagen dentro del
 	 * modelo
 	 */

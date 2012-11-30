@@ -6,7 +6,7 @@
 #include "CFDTools.h"
 
 PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
-	set_size_request(600, 400);
+	set_size_request(ANCHO_WIZARD, ALTO_WIZARD);
 	this->rutaMundo = rutaMundo;
 	this->informable = informable;
 	// Una vez seteada la ruta del mundo, cargo sus caracteristicas
@@ -46,7 +46,7 @@ PanelNivel::PanelNivel(std::string rutaMundo, InformableSeleccion* informable) {
 	Gtk::VBox* cajaVertical = manage(new Gtk::VBox(false, 30));
 	cajaVertical->pack_start(*cuadroEditar);
 	cajaVertical->pack_start(*cuadroCrear);
-	cajaVertical->pack_start(*cajaAuxiliarTres);
+	cajaVertical->pack_start(*cajaAuxiliarTres, Gtk::PACK_SHRINK);
 	add(*cajaVertical);
 	// Seniales
 	botonCrear->signal_clicked().connect(sigc::mem_fun(*this,
