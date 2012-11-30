@@ -74,6 +74,7 @@ void* Juego::run() {
 			else
 				this->estado = PERDIO;
 
+			this->mListener->borrarEventos();
 			delete this->vista;
 			delete this->mListener;
 			delete this->nivel;
