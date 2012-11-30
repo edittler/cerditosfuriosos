@@ -40,7 +40,7 @@ public:
 	void operator *= (float a);
 
 	// Compara dos Velocidad2D.
-	bool operator == (const Velocidad2D& v);
+	bool operator == (const Velocidad2D& v) const;
 
 	// Velocidad en el eje X.
 	float x;

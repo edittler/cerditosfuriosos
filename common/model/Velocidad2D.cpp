@@ -74,6 +74,6 @@ void Velocidad2D::operator *= (float a) {
 	y *= a;
 }
 
-bool Velocidad2D::operator == (const Velocidad2D& v) {
+bool Velocidad2D::operator == (const Velocidad2D& v) const {
 	return (x == v.x && y == v.y);
 }

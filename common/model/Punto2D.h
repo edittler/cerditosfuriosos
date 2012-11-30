@@ -40,7 +40,7 @@ public:
 	void operator *= (float a);
 
 	// Compara dos Puntos2D.
-	bool operator == (const Punto2D& p);
+	bool operator == (const Punto2D& p) const;
 
 	// Coordenada X.
 	float x;
