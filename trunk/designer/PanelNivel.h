@@ -16,6 +16,7 @@
 
 class PanelNivel : public Gtk::Paned {
 public:
+
 	/**
 	 * Constructor.
 	 * @param rutaMundo ruta del archivo del mundo a quien le queremos
@@ -47,6 +48,12 @@ protected:
 	void botonEditarClickeado();
 
 private:
+
+	/**
+	 * El usuario informa que desea volver al panel de seleccion de mundos.
+	 */
+	void volverAPanelMundos();
+	
 	/**
 	 * Carga el nombre del mundo, la cantidad de jugadores que permite y
 	 * los niveles que posee.
@@ -75,6 +82,7 @@ private:
 	CreadorNivel* creador;
 	Gtk::Button* botonEditar;
 	Gtk::Button* botonCrear;
+	Gtk::Button* botonVolver;
 
 	std::map<int, std::string> idNiveles;
 	std::string rutaMundo;

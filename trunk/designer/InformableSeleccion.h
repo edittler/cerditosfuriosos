@@ -11,6 +11,12 @@ class InformableSeleccion {
 	public:
 	
 		/**
+		 * El usuario ha informado que desea volver al menu inicial del
+		 * diseniador.
+		 */
+		virtual void volverAPanelMundos() = 0;
+		
+		/**
 		 * El usuario ha informado que desea editar un mundo.
 		 * @param rutaMundo ruta del archivo del mundo seleccionado
 		 */

@@ -4,6 +4,7 @@ VentanaDiseniador::VentanaDiseniador() {
 	set_title("Creador de niveles");
 	set_border_width(10);
 	set_resizable(false);
+	set_position(Gtk::WIN_POS_CENTER_ALWAYS);
 	panelMundo = new PanelMundo();
 	add(*panelMundo);
 	panelMundo->setInformable(this);
@@ -18,6 +19,19 @@ VentanaDiseniador::~VentanaDiseniador() {
 		delete panelNivel;
 	if (panelEscenario != NULL)
 		delete panelEscenario;
+}
+
+void VentanaDiseniador::volverAPanelMundos() {
+	delete panelMundo;
+	delete panelNivel;
+	if (panelEscenario != NULL)
+		delete panelEscenario;
+	panelMundo = new PanelMundo();
+	add(*panelMundo);
+	panelMundo->setInformable(this);
+	panelNivel = NULL;
+	panelEscenario = NULL;
+	show_all_children();
 }
 
 void VentanaDiseniador::editarMundo(std::string rutaMundo) {
