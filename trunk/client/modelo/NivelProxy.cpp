@@ -100,6 +100,10 @@ void NivelProxy::procesarEvento(Evento evento) {
 	}
 }
 
+void NivelProxy::cargarSimulador(const XMLNode* nodo) {
+
+}
+
 void NivelProxy::lanzarPajaro(TipoPajaro tPajaro, Punto2D posInicial,
 		Velocidad2D velInicial) {
 	switch (tPajaro) {

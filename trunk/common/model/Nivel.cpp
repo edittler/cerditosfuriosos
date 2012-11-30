@@ -14,15 +14,18 @@ void Nivel::cargarXML(std::string path) {
 		std::cout << "\tError al abrir el archivo XML." << std::endl;
 	} else {
 		// Obtengo el elemento raiz, que debe ser <Nivel>, pero no valido.
-		const XMLNode* nodo = doc.RootElement();
+		const XMLNode* root = doc.RootElement();
 		// Obtengo el primer elemento hijo que debe ser <Escenario>
-		nodo = nodo->FirstChildElement("Escenario");
+		const XMLNode* nodo = root->FirstChildElement("Escenario");
 		// Si el nodo no es nulo, cargo el escenario a partir del mismo.
 		if (nodo != 0) {
 			this->escenario->hydrate(nodo);
 		} else {
 			throw std::exception();
 		}
+		// Obtengo  el nodo de linea de entradas de pájaros
+		nodo = root->FirstChildElement("LineaEntradaDerecha");
+		this->cargarSimulador(nodo);
 	}
 }
 

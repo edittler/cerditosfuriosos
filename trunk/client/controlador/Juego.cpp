@@ -17,8 +17,8 @@ Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-//	this->cliente = new Client(ventana, "127.0.0.1", 5556);
-	this->cliente = new Client(ventana, "192.168.1.6", 5555);
+	this->cliente = new Client(ventana, "127.0.0.1", 5558);
+//	this->cliente = new Client(ventana, "192.168.1.6", 5555);
 	this->iniciarSenialesBotones();
 }
 
