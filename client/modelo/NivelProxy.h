@@ -26,6 +26,9 @@ public:
 
 	void procesarEvento(Evento evento);
 
+protected:
+	void cargarSimulador(const XMLNode* nodo);
+
 private:
 	void lanzarPajaro(TipoPajaro tPajaro, Punto2D posInicial,
 			Velocidad2D velInicial);

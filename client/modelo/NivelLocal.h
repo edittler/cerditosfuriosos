@@ -7,12 +7,16 @@
 class NivelLocal: public Nivel {
 public:
 
-	/*
-	 * @brief Constructor
+	/**
+	 * Constructor
 	 * @param escenario en el cual se correran ticks.
 	 * @param tiempo minimo de generacion de pajaros.
 	 */
 	NivelLocal();
+
+	/**
+	 * Destructor
+	 */
 	virtual ~NivelLocal();
 
 	void tick(int milisegundos);
@@ -21,6 +25,10 @@ public:
 
 	bool finalizoPartida() const;
 
+protected:
+	void cargarSimulador(const XMLNode* nodo);
+
+private:
 	/*
 	 * @brief genera un pajaro segun las probabilidades establecidas,
 	 * ubicandolo dentro de la zona de generacion de pajaros y lo lanza
@@ -28,7 +36,9 @@ public:
 	 */
 	void generarPajaro();
 
-private:
+	void XMLCargarProbabilidadesPajaros(const XMLNode* nodoPajaros, int& pRojo,
+			int& pVerde, int& pAzul);
+
 	int tiempoGeneracionMinimo;
 	int tiempoAcumulado;
 

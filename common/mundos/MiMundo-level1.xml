@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Nivel duracion="23">
-    <Escenario ancho="16.3" alto="8.6">
+    <Escenario ancho="12" alto="10">
         <ImagenFondo>../common/images/background/Bosque.png</ImagenFondo>
         <ImagenSuelo>../common/images/background/SueloBosque.png</ImagenSuelo>
         <Jugadores>1</Jugadores>
@@ -70,11 +70,11 @@
         </Frutas>
     </Escenario>
     <LineaEntradaDerecha tiempoGeneracion="250" probabilidad="80">
-        <Posicion x="11" yInicial="1" yFinal="7"></Posicion>
+        <Posicion x="12" yInicial="3" yFinal="9"></Posicion>
         <ProbabilidadesPajaros>
-            <PajaroRojo probabilidad="50"></PajaroRojo>
-            <PajaroVerde probabilidad="30"></PajaroVerde>
-            <PajaroAzul probabilidad="15"></PajaroAzul>
+            <PajaroRojo probabilidad="46"></PajaroRojo>
+            <PajaroVerde probabilidad="32"></PajaroVerde>
+            <PajaroAzul probabilidad="22"></PajaroAzul>
         </ProbabilidadesPajaros>
     </LineaEntradaDerecha>
 </Nivel>

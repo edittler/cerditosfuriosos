@@ -56,7 +56,13 @@ public:
 	 */
 	Evento obtenerEvento();
 
+protected:
+	void cargarSimulador(const XMLNode* nodo);
+
 private:
+	void XMLCargarProbabilidadesPajaros(const XMLNode* nodoPajaros, int& pRojo,
+			int& pVerde, int& pAzul);
+
 	int tiempoGeneracionMinimo;
 	int tiempoAcumulado;
 
