@@ -66,7 +66,8 @@
 #define VENTANA_HEIGHT 400
 
 // MENU
-#define RUTA_FONDO_MENU PATH_IMAGENES "background/Menu.png"
+#define RUTA_FONDO_MENU PATH_IMAGENES "varias/Menu.png"
+#define RUTA_ESPERANDO_JUGADORES PATH_IMAGENES "varias/EsperandoJugadores.png"
 #define ANCHO_VENTANA 600
 #define ALTO_VENTANA 600
 
