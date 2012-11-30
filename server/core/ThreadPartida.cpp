@@ -52,9 +52,8 @@ bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 
 void ThreadPartida::abandonarPartida(ThreadCliente* cliente) {
 	this->eliminarJugador(cliente);
-
+	Lock(this->mPartida);
 	if (partida->getEstado() ==  EJECUTANDO) {
-		Lock(this->mPartida);
 		partida->setEstado(PAUSADO);
 	}
 }
@@ -95,7 +94,9 @@ void* ThreadPartida::run() {
 				this->procesarMensajesClientes();
 
 				// Corre tick del escenario y envia mensaje E_CORRER_TICK
+				mPartida.lock();
 				this->partida->getNivel()->tick(SERVER_TICK_MSEG);
+				mPartida.unlock();
 				ClientesConectados::iterator it;
 				Evento e(E_CORRER_TICK);
 				this->mJugadores.lock();
@@ -151,8 +152,8 @@ unsigned int ThreadPartida::getId() {
 	return this->partida->getId();
 }
 
-std::string ThreadPartida::getNombrePartida() const {
-//	Lock(this->mPartida);
+std::string ThreadPartida::getNombrePartida() {
+	Lock(this->mPartida);
 	return this->partida->getNombre();
 }
 
@@ -204,6 +205,7 @@ void ThreadPartida::procesarMensajesClientes() {
 			Evento e = (*it)->desencolarEvento();
 			switch (e.getTipoEvento()) {
 				case E_PEDIDO_LANZAR_DISPARO: {
+					Lock(this->mPartida);
 					// instancia disparo en escenario
 					this->partida->getNivel()->lanzarHuevo(e.getTipoDisparo(),
 							e.getPunto(), e.getVelocidad(), (*it)->getJugadorAsignado());
@@ -212,8 +214,9 @@ void ThreadPartida::procesarMensajesClientes() {
 					// (incluyendose a el mismo)
 					Evento nuevoEvento(e.getTipoDisparo(), e.getPunto(), e.getVelocidad());
 					MensajeServer* r = new MensajeServer(nuevoEvento);
-					for (it = this->jugadores.begin(); it != jugadores.end(); ++it) {
-						(*it)->enviar(r);
+					ClientesConectados::iterator it2;
+					for (it2 = this->jugadores.begin(); it2 != jugadores.end(); ++it2) {
+						(*it2)->enviar(r);
 					}
 
 					break; }
@@ -228,6 +231,7 @@ void ThreadPartida::procesarMensajesClientes() {
 }
 
 void ThreadPartida::procesarMensajesParaClientes() {
+	Lock(this->mPartida);
 	// valida finalizacion de partida
 	if (this->partida->getNivel()->finalizoPartida()) {
 		Evento e(E_FIN_NIVEL);
@@ -243,7 +247,6 @@ void ThreadPartida::procesarMensajesParaClientes() {
 
 	for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
 		// valido que haya eventos para procesar.
-		Lock(this->mPartida);
 		if (!this->partida->hayEventos())
 			break;
 

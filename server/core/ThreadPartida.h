@@ -61,7 +61,7 @@ public:
 	void* run();
 
 	unsigned int getId();
-	std::string getNombrePartida() const;
+	std::string getNombrePartida();
 
 private:
 	/*
