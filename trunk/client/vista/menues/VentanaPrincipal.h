@@ -30,12 +30,14 @@ public:
 	 */
 	virtual ~VentanaPrincipal();
 
-	virtual void modoUnJugador();
-	virtual void volverAMenuPrincipal();
-	virtual void modoMultijugador();
-	virtual void verRecords();
-	virtual void modoCrearPartida(std::string nombreMundos);
-	virtual void modoUnirsePartida(std::string nombrePartidas);
+	void modoUnJugador();
+	void volverAMenuPrincipal();
+	void modoMultijugador();
+	void verRecords();
+	void modoCrearPartida(std::string nombreMundos);
+	void modoUnirsePartida(std::string nombrePartidas);
+
+	void mostrarMenuPrincipal();
 
 	void mostrarDialogo(std::string mensaje);
 
@@ -58,7 +60,6 @@ public:
 	PanelCrearPartida* panelCrearPartida;
 
 private:
-
 	// Contenedor que permite manejar eventos de hijos.
 	Gtk::EventBox* contenedor;
 
