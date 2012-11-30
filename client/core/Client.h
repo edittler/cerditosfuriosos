@@ -2,9 +2,9 @@
 #define CLIENT_H_
 
 // Common Project Includes.
-#include <Socket.h>
-#include "ColaProtegida.h"
-#include "Evento.h"
+#include "../../common/communication/Socket.h"
+#include "../../common/communication/ColaProtegida.h"
+#include "../../common/communication/Evento.h"
 #include "../../common/thread/Thread.h"
 #include "../../common/thread/Mutex.h"
 
