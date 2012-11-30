@@ -23,7 +23,9 @@ VentanaPrincipal::VentanaPrincipal() {
 	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
 	panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
-			RUTA_FONDO_MENU, this);
+														RUTA_FONDO_MENU, this);
+	panelEsperandoJugadores = new PanelImagenFondo(ANCHO_VENTANA, ALTO_VENTANA,
+													RUTA_ESPERANDO_JUGADORES);
 }
 
 VentanaPrincipal::~VentanaPrincipal() {
@@ -37,6 +39,8 @@ VentanaPrincipal::~VentanaPrincipal() {
 		delete panelCrearPartida;
 	if (panelUnirsePartida != NULL)
 		delete panelUnirsePartida;
+	if (panelEsperandoJugadores != NULL)
+		delete panelEsperandoJugadores;
 	delete panelUnJugador;
 	delete contenedor;
 }
@@ -132,6 +136,17 @@ void VentanaPrincipal::mostrarMenuPrincipal() {
 	add(*panelInicial);
 	show_all_children();
 	gdk_threads_leave();
+}
+
+void VentanaPrincipal::modoEsperandoJugadores() {
+	if (get_child() != panelEsperandoJugadores) {
+		remove();
+		if (panelEsperandoJugadores == NULL)
+			panelEsperandoJugadores = new PanelImagenFondo(ANCHO_VENTANA,
+									ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES);
+		add(*panelEsperandoJugadores);
+		show_all_children();
+	}
 }
 
 void VentanaPrincipal::mostrarDialogo(std::string mensaje) {
