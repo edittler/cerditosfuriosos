@@ -117,6 +117,17 @@ void VentanaPrincipal::modoUnirsePartida(std::string nombrePartidas) {
 	}
 }
 
+void VentanaPrincipal::mostrarMenuPrincipal() {
+	gdk_threads_enter();
+	remove();
+	if (panelInicial == NULL)
+		panelInicial = new PanelInicial(ANCHO_VENTANA, ALTO_VENTANA,
+				RUTA_FONDO_MENU, this);
+	add(*panelInicial);
+	show_all_children();
+	gdk_threads_leave();
+}
+
 void VentanaPrincipal::mostrarDialogo(std::string mensaje) {
 	Gtk::MessageDialog dialogo(*this, mensaje);
 	dialogo.run();

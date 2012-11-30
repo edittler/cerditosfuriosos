@@ -17,7 +17,8 @@ Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-	this->cliente = new Client(ventana, "127.0.0.1", 5555);
+//	this->cliente = new Client(ventana, "127.0.0.1", 5556);
+	this->cliente = new Client(ventana, "192.168.1.6", 5555);
 	this->iniciarSenialesBotones();
 }
 
@@ -40,13 +41,13 @@ void* Juego::run() {
 			Gtk::Image imagen(SPLASH_IMAGEN);
 			ventana.agregarContenedor(imagen);
 			sleep(WAIT);
-			ventana.volverAMenuPrincipal();
+			ventana.mostrarMenuPrincipal();
 			this->estado = MENU;
 			break;
 		}
 		case MENU: {
 			// Consulto al cliente si hay alguna partida corriendo
-			if (cliente->corriendoPartida()) {
+			if ((cliente->conectado()) && (cliente->corriendoPartida())) {
 				// Si hay una partida corriendo, paso a modo GAMEINIT
 				this->estado = GAMEINIT;
 			}
@@ -100,7 +101,7 @@ void* Juego::run() {
 			Gtk::Image imagen(WIN_IMAGEN);
 			ventana.agregarContenedor(imagen);
 			sleep(WAIT);
-			ventana.volverAMenuPrincipal();
+			ventana.mostrarMenuPrincipal();
 			this->estado = MENU;
 			break;
 		}
@@ -108,7 +109,7 @@ void* Juego::run() {
 			Gtk::Image imagen(GAME_OVER_IMAGEN);
 			ventana.agregarContenedor(imagen);
 			sleep(WAIT);
-			ventana.volverAMenuPrincipal();
+			ventana.mostrarMenuPrincipal();
 			this->estado = MENU;
 			break;
 		}
