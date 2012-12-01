@@ -172,6 +172,7 @@ bool ThreadPartida::agregarJugador(ThreadCliente* cliente) {
 	if (id != 0) {
 		// asigno el id del jugador al cliente
 		cliente->asignarJugador(id);
+		cliente->setPartida(this);
 		this->partida->setIdJugadorConectado(id);
 		Lock(this->mJugadores);
 		jugadores.push_back(cliente);

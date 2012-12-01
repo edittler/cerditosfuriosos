@@ -80,7 +80,7 @@ public:
 	 * @brief devuelve un string de la forma: idPartida + ":" + nombrePartida
 	 * @return lista.
 	 */
-	std::list<std::string> getPartidasDisponibles() const;
+	std::list<std::string> getPartidasDisponibles();
 
 	/*
 	 * @brief devuelve la tabla de records asociada al @nivel
@@ -88,13 +88,17 @@ public:
 	 */
 	ListaRecords getTablaRecords(std::string nivel);
 
-	/*
-	 * @brief elimina cliente de la lista de ClientesConectados
-	 * @return true si pudo eliminarlo, false caso contrario.
-	 */
-	bool eliminarClienteConectado(ThreadCliente* cliente);
-
 private:
+
+	/**
+	 * Elimina referencias a clientes desconectados.
+	 */
+	void limpiarThreadClientes();
+
+	/**
+	 * Elimina referencias a partidas ya finalizadas
+	 */
+	void limpiarThreadPartidas();
 
 	/*
 	 * @brief carga nombres y paths de mapas disponibles
@@ -125,9 +129,11 @@ private:
 	TablaRecords records;
 
 	/* Partidas creadas */
+	Mutex mPartidas;
 	PartidasDisponibles partidasDisponibles;
 
 	/* Clientes conectados */
+	Mutex mClientes;
 	ClientesConectados clientesConectados;
 };
 
