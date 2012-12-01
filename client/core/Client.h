@@ -128,11 +128,18 @@ public:
 	void botonPartidaSeleccionada();
 
 	/**
-	 * Método que se llama al seleccional el botón para ver los records.
-	 * Evía un mensaje al servidor solicitando los records y
+	 * Método que se llama al seleccionar el botón para ver los records.
+	 * Envía un mensaje al servidor solicitando los records y
 	 * los lista por pantalla.
 	 */
 	void botonVerRecords();
+
+	/**
+	 * Método que se llama al seleccionar la opción de Abandonar Partida.
+	 * Envía un mensaje al servidor avisando que abandona la partida y regresa
+	 * a la pantalla multijugador.
+	 */
+	void botonAbandonarPartida();
 
 protected:
 	/**
