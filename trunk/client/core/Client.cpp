@@ -144,6 +144,7 @@ void Client::botonMundoSeleccionado() {
 		/* Ahora corro el thread del cliente para que éste comience a recibir
 		 * mensajes del server y ejecutar la simulacion.
 		 */
+		ventana.modoEsperandoJugadores();
 		this->start();
 	} else {
 		ventana.volverAMenuPrincipal();
@@ -152,57 +153,58 @@ void Client::botonMundoSeleccionado() {
 }
 
 void Client::botonUnirsePartida() {
-	if (ventana.panelUnirsePartida->selectorPartidas->hayOpcionesSeleccionables()) {
-		/* Envío un mensaje que solicita la lista de partidas a para poder
-		 * unirse.
-		 */
-		MensajeCliente m(MC_VER_PARTIDAS);
-		socket->enviar(m);
-		std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
+	/* Envío un mensaje que solicita la lista de partidas a para poder
+	 * unirse.
+	 */
+	MensajeCliente m(MC_VER_PARTIDAS);
+	socket->enviar(m);
+	std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
 
-		// Espero una respuesta del server con una lista de partidas disponibles.
-		RespuestaServer r;
-		socket->recibir(r);
-		std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
+	// Espero una respuesta del server con una lista de partidas disponibles.
+	RespuestaServer r;
+	socket->recibir(r);
+	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
-		if(socket->estaConectado()) {
-			ventana.modoUnirsePartida(r.getDatos());
-		} else {
-			ventana.volverAMenuPrincipal();
-			ventana.mostrarDialogo("Se perdió la conexión con el servidor");
-		}
+	if(socket->estaConectado()) {
+		ventana.modoUnirsePartida(r.getDatos());
+	} else {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("Se perdió la conexión con el servidor");
 	}
 }
 
 void Client::botonPartidaSeleccionada() {
-	std::string idPartida = ventana.panelUnirsePartida->selectorPartidas->
-													getOpcionSeleccionada();
-	/* Envío un mensaje que solicita unirse a la partida deseada.
-	 */
-	MensajeCliente m(idPartida);
-	socket->enviar(m);
-
-	/* Espero respuesta del server con la confirmación del pedido de unión a
-	 * la partida
-	 */
-	RespuestaServer r;
-	socket->recibir(r);
-
-	if (socket->estaConectado()) {
-		RespuestaServidor comando = r.getTipoRespuesta();
-		/* Si la respuesta es afirmativa, obtengo el ID del jugador y corro el
-		 * thread que espera mensajes del server.
+	if (ventana.panelUnirsePartida->selectorPartidas->hayOpcionesSeleccionables()) {
+		std::string idPartida = ventana.panelUnirsePartida->selectorPartidas->
+														getOpcionSeleccionada();
+		/* Envío un mensaje que solicita unirse a la partida deseada.
 		 */
-		if (comando == RS_UNIRSE_PARTIDA_OK) {
-			idJugador = r.getIDJugador();
-			this->start();
+		MensajeCliente m(idPartida);
+		socket->enviar(m);
+
+		/* Espero respuesta del server con la confirmación del pedido de unión a
+		 * la partida
+		 */
+		RespuestaServer r;
+		socket->recibir(r);
+
+		if (socket->estaConectado()) {
+			RespuestaServidor comando = r.getTipoRespuesta();
+			/* Si la respuesta es afirmativa, obtengo el ID del jugador y corro el
+			 * thread que espera mensajes del server.
+			 */
+			if (comando == RS_UNIRSE_PARTIDA_OK) {
+				idJugador = r.getIDJugador();
+				ventana.modoEsperandoJugadores();
+				this->start();
+			} else {
+				ventana.mostrarDialogo("No fue posible unirse a la partida.");
+				ventana.modoMultijugador();
+			}
 		} else {
-			ventana.mostrarDialogo("No fue posible unirse a la partida.");
-			ventana.modoMultijugador();
+			ventana.volverAMenuPrincipal();
+			ventana.mostrarDialogo("Se perdió la conexión con el servidor");
 		}
-	} else {
-		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("Se perdió la conexión con el servidor");
 	}
 }
 
