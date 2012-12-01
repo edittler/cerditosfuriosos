@@ -17,8 +17,8 @@ Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-//	this->cliente = new Client(ventana, "127.0.0.1", 5558);
-	this->cliente = new Client(ventana, "192.168.1.6", 5555);
+	this->cliente = new Client(ventana, "127.0.0.1", 5558);
+//	this->cliente = new Client(ventana, "192.168.1.6", 5555);
 	this->iniciarSenialesBotones();
 }
 
@@ -64,7 +64,6 @@ void* Juego::run() {
 				if ((cliente->conectado()) && (cliente->partidaPausada()))
 					this->estado = GAMEPAUSE;
 				this->nivel->tick(TIEMPO_TICK_MSEG);
-//				usleep(DELTA_LOOP);
 			}
 
 			/* FIXME por ahora se puede correr un solo nivel.
@@ -211,7 +210,6 @@ void Juego::botonMultijugador() {
 		/* Si el cliente no se pudo conectar, muestro un mensaje que lo indique
 		 * y regreso al menu principal.
 		 */
-		// TODO mostrar mensaje y regresar al menu principal.
 		ventana.mostrarDialogo("No es posible establecer una conexión con "
 				"el servidor");
 	}

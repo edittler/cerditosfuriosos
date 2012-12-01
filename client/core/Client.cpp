@@ -1,14 +1,10 @@
 // Header Include.
 #include "Client.h"
 
-// C++ Library Includes.
-#include <iostream>
-
 // Common Project Includes.
 #include "../../communication/MensajeCliente.h"
 #include "../../communication/RespuestaServer.h"
 #include "../../communication/MensajeServer.h"
-
 #include "../../common/model/Escenario.h"
 #include "../../common/parser/XMLTypes.h"
 #include "../../common/thread/Lock.h"
@@ -106,12 +102,10 @@ void Client::botonCrearPartida() {
 	 */
 	MensajeCliente m(MC_VER_MUNDOS);
 	socket->enviar(m);
-	std::cout << "Mensajes enviado: Ver Mundos" << std::endl;
 
 	// Espero respuesta del servidor con la lista de mundos.
 	RespuestaServer r;
 	socket->recibir(r);
-	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
 	if (socket->estaConectado()) {
 		/* Hago que la ventana muestre la lista de mundos
@@ -132,8 +126,6 @@ void Client::botonMundoSeleccionado() {
 	std::string nombrePartida = ventana.panelCrearPartida->getNombreElegido();
 	MensajeCliente m(idMundo, nombrePartida);
 	socket->enviar(m);
-	std::cout << "Mensajes enviado:\n\tMundo Seleccionado: " << idMundo << std::endl;
-	std::cout << "\tNombre Elegido: " << nombrePartida << std::endl;
 
 	/* Como este cliente es el que está creando la partida, se autoasigna el
 	 * idJugador con el valor 1.
@@ -158,12 +150,10 @@ void Client::botonUnirsePartida() {
 	 */
 	MensajeCliente m(MC_VER_PARTIDAS);
 	socket->enviar(m);
-	std::cout << "Mensajes enviado: Ver Partidas" << std::endl;
 
 	// Espero una respuesta del server con una lista de partidas disponibles.
 	RespuestaServer r;
 	socket->recibir(r);
-	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
 	if(socket->estaConectado()) {
 		ventana.modoUnirsePartida(r.getDatos());
@@ -211,11 +201,9 @@ void Client::botonPartidaSeleccionada() {
 void Client::botonVerRecords() {
 	MensajeCliente m(MC_VER_RECORDS);
 	socket->enviar(m);
-	std::cout << "Mensajes enviado: Ver Records" << std::endl;
 
 	RespuestaServer r;
 	socket->recibir(r);
-	std::cout << "Mensajes recibido: " << r.getDatos() << std::endl;
 
 	if (socket->estaConectado()) {
 		/* TODO Hacer que la vista muestre la tabla de records
@@ -233,8 +221,7 @@ void* Client::run() {
 	while (socket->estaConectado()) {
 		Mensaje* m = tReceptor.getMensaje();
 		if (m != NULL) {
-			std::cout << m->serealizar() << std::endl;
-			MensajeServer* ms = dynamic_cast<MensajeServer*>(m);
+			MensajeServer* ms = static_cast<MensajeServer*>(m);
 			// Si la conversión resulto existosa, interpreto el mensaje
 			if (ms != NULL) {
 				ComandoServer comando = ms->getComando();
@@ -277,8 +264,5 @@ void* Client::run() {
 void Client::guardarXML(std::string datosXMLNivel) const {
 	XMLDocument doc;
 	doc.Parse(datosXMLNivel.c_str(), 0, TIXML_ENCODING_UTF8);
-	bool seGuardo = doc.SaveFile(this->rutaNivelRecibido);
-	if (seGuardo) {
-		std::cout << "se guardo el archivo.\n";
-	}
+	doc.SaveFile(this->rutaNivelRecibido);
 }
