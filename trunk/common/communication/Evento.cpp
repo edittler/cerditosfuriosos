@@ -3,7 +3,6 @@
 
 // C++ Library Includes.
 #include <sstream>
-#include <iostream>  // TODO PROVISORIO
 
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL TIPO DE EVENTO.
 #define TE_PEDIDO_LANZAR_DIS	'D'

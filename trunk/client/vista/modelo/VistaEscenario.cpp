@@ -178,27 +178,35 @@ void VistaEscenario::seLanzoPajaroAzul(PajaroAzul* pajaro) {
 }
 
 void VistaEscenario::seLanzoHuevoBlanco(HuevoBlanco* huevo) {
+	gdk_threads_enter();
 	VistaHuevoBlanco* vHuevo = new VistaHuevoBlanco(this, huevo);
 	this->vCuerpos.push_back(vHuevo);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoHuevoCodorniz(HuevoCodorniz* huevo) {
+	gdk_threads_enter();
 	VistaHuevoCodorniz* vHuevo = new VistaHuevoCodorniz(this, huevo);
 	this->vCuerpos.push_back(vHuevo);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoHuevoPoche(HuevoPoche* huevo) {
-        VistaHuevoPoche* vHuevo = new VistaHuevoPoche(this, huevo);
+	gdk_threads_enter();
+	VistaHuevoPoche* vHuevo = new VistaHuevoPoche(this, huevo);
 	this->vCuerpos.push_back(vHuevo);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::seLanzoHuevoReloj(HuevoReloj* huevo) {
+	gdk_threads_enter();
 	VistaHuevoReloj* vHuevo = new VistaHuevoReloj(this, huevo);
 	this->vCuerpos.push_back(vHuevo);
 	show_all();
+	gdk_threads_leave();
 }
 
 void VistaEscenario::monticuloDestruido() {
@@ -209,10 +217,6 @@ void VistaEscenario::cerditoMatado() {
 	// TODO(alguien) : implementar
 }
 
-/* Método que será usado en el caso multijugador, donde el escenario tiene
- * varios cerditos.
- * El parámetro es el nombre del jugador al que corresponde el cerdito matado.
- */
 void VistaEscenario::cerditoMatado(unsigned int idJugador) {
 	// TODO(alguien) : implementar
 }

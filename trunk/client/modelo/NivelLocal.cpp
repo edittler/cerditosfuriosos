@@ -8,6 +8,8 @@
 #include "Constantes.h"
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
+#define MAX_DISPAROS 2
+
 NivelLocal::NivelLocal() {
 	this->tiempoGeneracionMinimo = 250;
 	this->tiempoAcumulado = 0;
@@ -20,37 +22,50 @@ NivelLocal::~NivelLocal() {
 	delete simulador;
 }
 
-void NivelLocal::tick(int milisegundos) {	
+void NivelLocal::tick(int milisegundos) {
+	// Incremento en la cantidad de milisegundos el tiempo acumulado
 	tiempoAcumulado += milisegundos;
-
+	/* Si el tiempo acumulado es mayor a tiempo mínimo de generación de pájaro,
+	 * reestablezco el tiempo acumulado y genero un pájaro.
+	 */
 	if (tiempoAcumulado >= tiempoGeneracionMinimo) {
 		tiempoAcumulado -= tiempoGeneracionMinimo;
 		this->generarPajaro();
 	}
-
+	// Proceso la cola de disparos.
+	this->procesarDisparos();
+	// Corro un tick en el escenario.
 	escenario->correrTick();
+	// Pauso la simulación en un tiempo breve.
 	usleep(DELTA_LOOP);
 }
 
 void NivelLocal::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
-	int huevo = simulador->generarHuevo();
-
-	switch (huevo) {
-	case HUEVO_BLANCO:
-		this->escenario->lanzarHuevoBlanco(p, v, j);
-		break;
-	case HUEVO_CODORNIZ:
-		this->escenario->lanzarHuevosCodorniz(p, v, j);
-		break;
-	case HUEVO_POCHE:
-		this->escenario->lanzarHuevoPoche(p, v, j);
-		break;
-	case HUEVO_RELOJ:
-		this->escenario->lanzarHuevoReloj(p, v, j);
-		break;
-	default:
-		this->lanzarHuevo(p, v, j);
-		break;
+	// Si la cola tiene menos eventos que el máximo permitido, genero el huevo.
+	if (this->colaDisparos.tamanio() < MAX_DISPAROS) {
+		int huevo = simulador->generarHuevo();
+		// Declaro el evento que contendrá el disparo
+		Evento evento;
+		// Según el tipo de evento que se genero aleatoriamente, seteo el evento.
+		switch (huevo) {
+		case HUEVO_BLANCO:
+			evento.set(T_HUEVO_BLANCO, p, v);
+			break;
+		case HUEVO_CODORNIZ:
+			evento.set(T_HUEVO_CODORNIZ, p, v);
+			break;
+		case HUEVO_POCHE:
+			evento.set(T_HUEVO_POCHE, p, v);
+			break;
+		case HUEVO_RELOJ:
+			evento.set(T_HUEVO_RELOJ, p, v);
+			break;
+		default:
+			evento.set(T_HUEVO_BLANCO, p, v);
+			break;
+		}
+		// Encolo el disparo
+		this->colaDisparos.encolar(evento);
 	}
 }
 
@@ -110,26 +125,6 @@ void NivelLocal::cargarSimulador(const XMLNode* nodo) {
 			posYInicial, posYFinal);
 }
 
-void NivelLocal::generarPajaro() {
-	Punto2D punto;
-	Velocidad2D velocidad;
-	int tipoPajaro = simulador->generarPajaro(punto, velocidad);
-
-	if (tipoPajaro != NO_PAJARO) {
-		switch (tipoPajaro) {
-		case PAJARO_AZUL:
-			escenario->lanzarPajaroAzul(punto, velocidad);
-			break;
-		case PAJARO_ROJO:
-			escenario->lanzarPajaroRojo(punto, velocidad);
-			break;
-		case PAJARO_VERDE:
-			escenario->lanzarPajaroVerde(punto, velocidad);
-			break;
-		}
-	}
-}
-
 void NivelLocal::XMLCargarProbabilidadesPajaros(const XMLNode* nodoPajaros,
 		int& pRojo, int& pVerde, int& pAzul) {
 	// Obtengo el nodo del pajaro rojo.
@@ -152,4 +147,54 @@ void NivelLocal::XMLCargarProbabilidadesPajaros(const XMLNode* nodoPajaros,
 	if (nodoPajaro != 0) {
 		nodoPajaro->Attribute("probabilidad", &pAzul);
 	}
+}
+
+void NivelLocal::generarPajaro() {
+	Punto2D punto;
+	Velocidad2D velocidad;
+	int tipoPajaro = simulador->generarPajaro(punto, velocidad);
+
+	if (tipoPajaro != NO_PAJARO) {
+		switch (tipoPajaro) {
+		case PAJARO_AZUL:
+			escenario->lanzarPajaroAzul(punto, velocidad);
+			break;
+		case PAJARO_ROJO:
+			escenario->lanzarPajaroRojo(punto, velocidad);
+			break;
+		case PAJARO_VERDE:
+			escenario->lanzarPajaroVerde(punto, velocidad);
+			break;
+		}
+	}
+}
+
+void NivelLocal::procesarDisparos() {
+	// Mientras la cola no esté vacía, cargo disparos al escenario
+	while (!colaDisparos.estaVacia()) {
+		// Obtengo el frente de la cola
+		Evento evento = colaDisparos.obtenerFrente();
+		// Obtengo los atributos del disparo
+		TipoDisparo tDisparo = evento.getTipoDisparo();
+		Punto2D posInicial = evento.getPunto();
+		Velocidad2D velInicial = evento.getVelocidad();
+		unsigned int idJugador = 1;
+		switch (tDisparo) {
+		case T_HUEVO_BLANCO:
+			escenario->lanzarHuevoBlanco(posInicial, velInicial, idJugador);
+			break;
+		case T_HUEVO_CODORNIZ:
+			escenario->lanzarHuevosCodorniz(posInicial, velInicial, idJugador);
+			break;
+		case T_HUEVO_POCHE:
+			escenario->lanzarHuevoPoche(posInicial, velInicial, idJugador);
+			break;
+		case T_HUEVO_RELOJ:
+			escenario->lanzarHuevoReloj(posInicial, velInicial, idJugador);
+			break;
+		default:
+			// No realizo nada.
+			break;
+		}  // Fin switch
+	}  // Fin while
 }
