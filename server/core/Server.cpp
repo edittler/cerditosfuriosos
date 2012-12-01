@@ -7,6 +7,7 @@
 // Common Project Includes.
 #include "CFTools.h"
 #include "Log.h"
+#include "Lock.h"
 
 // Server Project Includes.
 #include "../modelo/ConstantesServer.h"
@@ -57,20 +58,24 @@ void Server::apagar() {
 	socket->desconectar();
 
 	// Finalizo thread partidas
+	Lock(this->mPartidas);
 	PartidasDisponibles::iterator itPa;
-	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++ itPa) {
+	for (itPa = partidasDisponibles.begin(); itPa != partidasDisponibles.end(); ++itPa) {
 		itPa->second->finalizarEjecucion();
 		itPa->second->join();
 		delete itPa->second;
 	}
+	partidasDisponibles.clear();
 
 	// Finalizo thread clientes
+	Lock(this->mClientes);
 	ClientesConectados::iterator itCl;
 	for (itCl = clientesConectados.begin(); itCl != clientesConectados.end(); ++itCl) {
 		(*itCl)->finalizar();
 		(*itCl)->join();
 		delete (*itCl);
 	}
+	clientesConectados.clear();
 
 	this->join();
 }
@@ -79,15 +84,24 @@ void Server::crearPartida(Partida* partida, ThreadCliente* cliente) {
 	ThreadPartida* tPartida = new ThreadPartida(partida, cliente);
 
 	std::pair<unsigned int, ThreadPartida*> p(partida->getId(), tPartida);
+
+	this->mPartidas.lock();
 	this->partidasDisponibles.insert(p);
-	cliente->setPartida(tPartida);
+	this->mPartidas.unlock();
 
 	tPartida->start();
+
+	// limpio threads invalidos.
+	limpiarThreadPartidas();
 }
 
 bool Server::unirseAPartida(unsigned int idPartida, ThreadCliente* cliente) {
+	// limpio threads invalidos.
+	limpiarThreadPartidas();
+
 	ThreadPartida* partida = NULL;
 	try {  // valido que sea un idPartida valido
+		Lock(this->mPartidas);
 		partida = this->partidasDisponibles.at(idPartida);
 	} catch (std::out_of_range& e) {
 		return false;
@@ -108,8 +122,9 @@ std::string Server::getPathXMLMundo(std::string id) const {
 	return this->mundosDiponibles.at(id);
 }
 
-std::list<std::string> Server::getPartidasDisponibles() const {
+std::list<std::string> Server::getPartidasDisponibles() {
 	std::list<std::string> list;
+	Lock(this->mPartidas);
 	PartidasDisponibles::const_iterator it;
 	for (it = partidasDisponibles.begin(); it != partidasDisponibles.end(); ++it) {
 		std::string nombre = cft::intToString(it->first) + ": " + it->second->getNombrePartida();
@@ -122,16 +137,36 @@ ListaRecords Server::getTablaRecords(std::string nivel) {
 	return this->records.at(nivel);
 }
 
-bool Server::eliminarClienteConectado(ThreadCliente* cliente) {
+void Server::limpiarThreadClientes() {
+	Lock(this->mClientes);
 	ClientesConectados::iterator it;
-	for (it = clientesConectados.begin(); it != clientesConectados.end(); ++it) {
-		if ((*it) == cliente) {  // FIXME funciona correctamente si comparo punteros?
-			clientesConectados.remove(cliente);
-			delete cliente;
-			return true;
+	it = clientesConectados.begin();
+	while (it != clientesConectados.end()) {
+		if (!(*it)->estaActivo()) {
+			delete (*it);
+			it = clientesConectados.erase(it);
+		} else {
+			++it;
 		}
 	}
-	return false;
+}
+
+void Server::limpiarThreadPartidas() {
+	PartidasDisponibles::iterator it;
+	Lock(this->mPartidas);
+	it = partidasDisponibles.begin();
+	while (it != partidasDisponibles.end()) {
+		if (!it->second->estaActivo()) {
+			it->second->join();
+			unsigned int id = it->first;
+			delete (it->second);
+			++it;
+			// elimino par del mapa.
+			partidasDisponibles.erase(partidasDisponibles.find(id));
+		} else {
+			++it;
+		}
+	}
 }
 
 void Server::cargarInformacionMundos() {
@@ -197,14 +232,17 @@ void Server::crearArchivoMundos() {
 
 void* Server::run() {
 	while (this->encendido) {
-		Socket* socket = this->socket->aceptarConexion();
+		// elimina de la lista a clientes desconectados
+		limpiarThreadClientes();
 
+		Socket* socket = this->socket->aceptarConexion();
 		if (socket == NULL)
 			continue;
 
 		LOG_INFO("Se conecto un cliente...")
 
 		ThreadCliente* cliente = new ThreadCliente(*this, socket);
+		Lock(this->mClientes);
 		this->clientesConectados.push_back(cliente);
 		cliente->start();
 	}

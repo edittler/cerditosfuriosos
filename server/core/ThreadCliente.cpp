@@ -29,10 +29,13 @@ ThreadCliente::ThreadCliente(Server& servidor, Socket* socket) :
 }
 
 ThreadCliente::~ThreadCliente() {
-	this->socket->desconectar();
 	delete this->socket;
 	delete this->tEnviar;
 	delete this->tRecibir;
+}
+
+bool ThreadCliente::estaActivo() {
+	return this->conectado;
 }
 
 void ThreadCliente::setPartida(ThreadPartida* partida) {
@@ -213,10 +216,8 @@ void* ThreadCliente::run() {
 
 	LOG_INFO("finalizado...")
 
-	// elimina de lista ClientesConectados del server
-	this->server.eliminarClienteConectado(this);
-
 	// finaliza threads enviar y recibir
+	this->socket->desconectar();
 	this->tEnviar->finalizar();
 	this->tEnviar->join();
 	this->tRecibir->finalizar();

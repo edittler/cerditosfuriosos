@@ -22,6 +22,11 @@ public:
 
 	virtual ~ThreadCliente();
 
+	/**
+	 * Indica si el cliente esta conectado
+	 */
+	bool estaActivo();
+
 	void setPartida(ThreadPartida* partida);
 
 	/*
