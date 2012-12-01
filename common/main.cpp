@@ -5,6 +5,7 @@
 #include "communication/MensajeServer.h"
 #include "communication/RespuestaServer.h"
 #include "communication/Evento.h"
+#include "tools/ArchivoConfiguracion.h"
 
 void probarEscenario() {
 	Escenario escena;
@@ -434,6 +435,20 @@ void probarXMLString() {
 	doc.SaveFile("xmlstring.xml");
 }
 
+void probarArchivoConfiguracion() {
+	ArchivoConfiguracion file1("conf1.config");
+	file1.setAtributo("puerto", "5555");
+	file1.setAtributo("direccionIP", "127.0.0.1");
+	bool seGuardo = file1.guardar();
+	if (seGuardo)
+		std::cout << "se guardo el archivo de configuracion" << std::endl;
+	else
+		std::cout << "NO se guardo el archivo de configuracion" << std::endl;
+
+	ArchivoConfiguracion file2("conf1.config");
+	file2.guardar("conf2.config");
+}
+
 int main(int argc, char *argv[]) {
 //	probarEscenario();
 //	probarParseoPunto2D();
@@ -444,7 +459,8 @@ int main(int argc, char *argv[]) {
 //	probarSerializarEvento();
 //	probarSerializarMensajeCliente();
 //	probarSerializarRespuestaServer();
-	probarSerializarMensajeServer();
+//	probarSerializarMensajeServer();
 //	probarXMLString();
+	probarArchivoConfiguracion();
 	return 0;
 }
