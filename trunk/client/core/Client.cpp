@@ -214,6 +214,18 @@ void Client::botonVerRecords() {
 	}
 }
 
+void Client::botonAbandonarPartida() {
+	MensajeCliente m(MC_ABANDONAR_PARTIDA);
+	socket->enviar(m);
+
+	if (socket->estaConectado()) {
+		ventana.modoMultijugador();
+	} else {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("Se perdió la conexión con el servidor");
+	}
+}
+
 void* Client::run() {
 	// Creo un thread receptor
 	ThreadRecibirCliente tReceptor(*socket);
