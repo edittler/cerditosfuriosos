@@ -91,7 +91,7 @@ void VentanaPrincipal::agregarContenedor(Gtk::Widget& widget) {
 	gdk_threads_leave();
 }
 
-void VentanaPrincipal::vaciarContenedot() {
+void VentanaPrincipal::vaciarContenedor() {
 	gdk_threads_enter();
 	contenedor->remove();
 	gdk_threads_leave();
