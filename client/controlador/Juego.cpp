@@ -17,8 +17,7 @@ Juego::Juego(VentanaPrincipal& ventana) : ventana(ventana) {
 	this->nivel = NULL;
 	this->vista = NULL;
 	this->estado = SPLASH;
-	this->cliente = new Client(ventana, "127.0.0.1", 5558);
-//	this->cliente = new Client(ventana, "192.168.1.6", 5555);
+	this->cliente = new Client(ventana);
 	this->iniciarSenialesBotones();
 }
 
@@ -129,6 +128,8 @@ void Juego::iniciarSenialesBotones() {
 	// Botones del menú principal
 	ventana.panelInicial->botonMultijugador->signal_clicked().connect(
 			sigc::mem_fun(*this, &Juego::botonMultijugador));
+	ventana.panelInicial->botonConfiguracion->signal_clicked().connect(
+			sigc::mem_fun(*cliente, &Client::botonConfiguracion));
 	ventana.panelInicial->botonSalir->signal_clicked().connect(
 			sigc::mem_fun(*this, &Juego::botonSalir));
 	// Botones del menú modo Un Jugador
@@ -145,6 +146,9 @@ void Juego::iniciarSenialesBotones() {
 			sigc::mem_fun(*cliente, &Client::botonPartidaSeleccionada));
 	ventana.panelMultijugador->botonVolver->signal_clicked().connect(
 			sigc::mem_fun(*this, &Juego::botonSalirModoMultijugador));
+	// Botones del menú modo Configuracion
+	ventana.panelConfiguracion->botonGuardar->signal_clicked().connect(
+			sigc::mem_fun(*cliente, &Client::botonGuardarConfiguracion));
 }
 
 void Juego::iniciarPartida() {

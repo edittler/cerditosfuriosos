@@ -26,13 +26,6 @@ public:
 	Client(VentanaPrincipal& ventana);
 
 	/**
-	 * Constructor con parámetros
-	 * @param ip Dirección IP del server a conectarse.
-	 * @param port Puerto que desea usarse para conectarse.
-	 */
-	Client(VentanaPrincipal& ventana, std::string ip, Puerto port);
-
-	/**
 	 * Destructor
 	 */
 	virtual ~Client();
@@ -97,6 +90,17 @@ public:
 	bool partidaFinalizada();
 
 	/**
+	 * Metodo que se llama al seleccionar el botón para editar la configuracion.
+	 */
+	void botonConfiguracion();
+
+	/**
+	 * Metodo que se llama al seleccionar el botón para guardar la
+	 * configuracion.
+	 */
+	void botonGuardarConfiguracion();
+
+	/**
 	 * Metodo que se llama al seleccionar el botón para crear una partida.
 	 * Envía un mensaje al servidor solicitando los mundos disponibles y los
 	 * lista por pantalla.
@@ -149,6 +153,11 @@ protected:
 	void* run();
 
 private:
+	/**
+	 * Carga la configuracion a partid de un archivo de configuracion
+	 */
+	void cargarConfiguracion();
+
 	/**
 	 * Almacena los datos XML del nivel en un archivo temporal.
 	 * @param string con el xml serializado

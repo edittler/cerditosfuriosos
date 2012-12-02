@@ -5,35 +5,31 @@
 #include "../../communication/MensajeCliente.h"
 #include "../../communication/RespuestaServer.h"
 #include "../../communication/MensajeServer.h"
+#include "../../communication/CFTools.h"
 #include "../../common/model/Escenario.h"
 #include "../../common/parser/XMLTypes.h"
 #include "../../common/thread/Lock.h"
+#include "../../common/tools/ArchivoConfiguracion.h"
 
 // Client Project Includes.
 #include "ThreadRecibirCliente.h"
 #include "../modelo/NivelProxy.h"
 #include "ConstantesClientServer.h"
 
-// Constantes del Client
+// Constantes de configuracion
+#define RUTA_CONFIGURACION "client.config"
+#define ATRIBUTO_DIRECCION "direccion"
+#define ATRIBUTO_PUERTO "puerto"
+
+// Constante de la ruta de archivo xml temporal
 #define RUTA_XML_NIVEL_TEMPORAL "xmlniveltemporal.xml"
 
 Client::Client(VentanaPrincipal& ventana) : ventana(ventana) {
-	this->serverIp = SERVER_IP_DEFAULT;
-	this->port = PUERTO_DEFAULT;
-	this->socket = new Socket(this->port);
+	this->socket = NULL;
 	this->_corriendoPartida = false;
 	this->_partidaFinalizada = false;
 	this->rutaNivelRecibido = RUTA_XML_NIVEL_TEMPORAL;
-}
-
-Client::Client(VentanaPrincipal& ventana, std::string ip, Puerto port) :
-		ventana(ventana) {
-	this->serverIp = ip;
-	this->socket = new Socket(port);
-	this->port = port;
-	this->_corriendoPartida = false;
-	this->_partidaFinalizada = false;
-	this->rutaNivelRecibido = RUTA_XML_NIVEL_TEMPORAL;
+	this->cargarConfiguracion();
 }
 
 Client::~Client() {
@@ -94,6 +90,31 @@ bool Client::partidaPausada() {
 bool Client::partidaFinalizada() {
 	Lock(this->mBoolsPartida);
 	return _partidaFinalizada;
+}
+
+void Client::botonConfiguracion() {
+	this->ventana.modoConfiguracion(this->serverIp, this->port);
+}
+
+void Client::botonGuardarConfiguracion() {
+	// Si el socket está conectado, lo desconecto.
+	if (socket->estaConectado()) {
+		socket->desconectar();
+	}
+	// Elimino el socket
+	delete socket;
+	// Cargo los nuevos datos cargados por el usuario.
+	this->serverIp = this->ventana.panelConfiguracion->getDireccion();
+	this->port = this->ventana.panelConfiguracion->getPuerto();
+	// Guardo los datos en el archivo de configuracion
+	ArchivoConfiguracion archivo;
+	archivo.setAtributo(ATRIBUTO_DIRECCION, this->serverIp);
+	archivo.setAtributo(ATRIBUTO_PUERTO, cft::uintToString(this->port));
+	archivo.guardar(RUTA_CONFIGURACION);
+	// Creo el socket con la nueva configuracion
+	socket = new Socket(port);
+	// Regreso al menú principal
+	ventana.volverAMenuPrincipal();
 }
 
 void Client::botonCrearPartida() {
@@ -271,6 +292,32 @@ void* Client::run() {
 	 */
 	tReceptor.join();
 	return NULL;
+}
+
+void Client::cargarConfiguracion() {
+	ArchivoConfiguracion archivo;
+	bool seCargo = archivo.cargar(RUTA_CONFIGURACION);
+	/* Si el archivo no se cargó, creo uno nuevo y guardo configuracion por
+	 * default.
+	 */
+	if (!seCargo) {
+		archivo.setAtributo(ATRIBUTO_DIRECCION, SERVER_IP_DEFAULT);
+		archivo.setAtributo(ATRIBUTO_PUERTO, cft::uintToString(PUERTO_DEFAULT));
+		archivo.guardar();
+		this->serverIp = SERVER_IP_DEFAULT;
+		this->port = PUERTO_DEFAULT;
+	} else {
+		std::string direccion = archivo.getAtributo(ATRIBUTO_DIRECCION);
+		std::string puerto = archivo.getAtributo(ATRIBUTO_PUERTO);
+		if (!direccion.empty() && !puerto.empty()) {
+			this->serverIp = direccion;
+			this->port = cft::stringToUint(puerto);
+		} else {
+			this->serverIp = SERVER_IP_DEFAULT;
+			this->port = PUERTO_DEFAULT;
+		}
+	}
+	this->socket = new Socket(this->port);
 }
 
 void Client::guardarXML(std::string datosXMLNivel) const {
