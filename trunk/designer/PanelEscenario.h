@@ -31,8 +31,20 @@ public:
 	 * Destructor.
 	 */
 	~PanelEscenario();
+	
+	/**
+	 * Valida que todos los datos ingresados por el usuario sean validos, y si
+	 * no lo son le indica cuales modificaciones deben hacerse.
+	 * @return true si el escenario es valido y false en el caso contrario
+	 */
+	bool escenarioValido() const;
+	
+	/**
+	 * Guarda todas las caracteristicas del nivel.
+	 */
+	void guardarNivel();
 
-	protected:
+protected:
 
 	/**
 	 * Metodo invocado cuando se clickea al boton que guarda el nivel.

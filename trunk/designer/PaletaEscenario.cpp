@@ -1,4 +1,3 @@
-// Header Includes.
 #include "PaletaEscenario.h"
 
 PaletaEscenario::PaletaEscenario():

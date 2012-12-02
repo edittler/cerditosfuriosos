@@ -76,10 +76,16 @@ public:
 	bool cantidadJugadoresValida() const;
 	
 	/**
-	 * @return true si por cada cerdo hay una catapulta y un monticulo y
-	 * false en el caso contrario
+	 * @return true si por cada cerdo hay una catapulta y false en el caso
+	 * contrario
 	 */
-	bool objetosJugadoresCorrectos() const;
+	bool cantidadCatapultasValida() const;
+	
+	/**
+	 * @return true si hay un monticulo en el escenario y false en el caso
+	 * contrario
+	 */
+	bool hayMonticulo() const;
 
 protected:
 	/**
