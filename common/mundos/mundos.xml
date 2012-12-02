@@ -8,4 +8,8 @@
         <Nombre>UnMundo</Nombre>
         <Ruta>../common/mundos/UnMundo.xml</Ruta>
     </Mundo>
+    <Mundo cantJugadores="1">
+        <Nombre>Otro Mundo</Nombre>
+        <Ruta>../common/mundos/Otro Mundo.xml</Ruta>
+    </Mundo>
 </Mundos>
