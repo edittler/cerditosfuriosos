@@ -26,7 +26,6 @@ NivelProxy::NivelProxy(unsigned int idJugador, Socket& socket,
 
 NivelProxy::~NivelProxy() {
 	delete escenario;
-	tEnviar->join();
 	delete tEnviar;
 }
 
@@ -89,6 +88,8 @@ void NivelProxy::procesarEvento(Evento evento) {
 		break;
 	case E_FIN_NIVEL:
 		this->finalizo = true;
+		this->tEnviar->finalizar();
+		this->tEnviar->join();
 		break;
 	default:
 		// No realizo nada.
@@ -96,9 +97,7 @@ void NivelProxy::procesarEvento(Evento evento) {
 	}
 }
 
-void NivelProxy::cargarSimulador(const XMLNode* nodo) {
-
-}
+void NivelProxy::cargarSimulador(const XMLNode* nodo) { }
 
 void NivelProxy::lanzarPajaro(TipoPajaro tPajaro, Punto2D posInicial,
 		Velocidad2D velInicial) {

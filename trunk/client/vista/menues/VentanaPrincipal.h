@@ -33,6 +33,11 @@ public:
 	 */
 	virtual ~VentanaPrincipal();
 
+	/**
+	 * Métodos que cambian panel que se muestra en la ventana.
+	 * No poseen proteccion para threads porque se usan cuando son llamados por
+	 * señales de botones, que ya disponen de proteccion.
+	 */
 	void modoUnJugador();
 	void modoMultijugador();
 	void modoConfiguracion(std::string direccion, unsigned short int puerto);
@@ -42,7 +47,12 @@ public:
 	void modoUnirsePartida(std::string nombrePartidas);
 	void modoEsperandoJugadores();
 
+	/**
+	 * Métodos que cambian panel que se muestra en la ventana.
+	 * Poseen proteccion para threads.
+	 */
 	void mostrarMenuPrincipal();
+	void mostrarMenuMultijugador();
 
 	void mostrarDialogo(std::string mensaje);
 

@@ -50,6 +50,8 @@ private:
 
 	void iniciarPartida();
 
+	void finalizarPartida();
+
 	void botonUnJugador();
 
 	void botonMultijugador();
