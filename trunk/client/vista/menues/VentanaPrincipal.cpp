@@ -20,14 +20,14 @@ VentanaPrincipal::VentanaPrincipal() {
 														RUTA_FONDO_MENU, this);
 	panelConfiguracion = new PanelConfiguracion(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
+	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
+													RUTA_FONDO_MENU, *this);
 	panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
-	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+	panelEsperandoJugadores = new PanelEsperandoJugadores(ANCHO_VENTANA,
+								ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES, *this);
 	panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
-	panelEsperandoJugadores = new PanelImagenFondo(ANCHO_VENTANA, ALTO_VENTANA,
-													RUTA_ESPERANDO_JUGADORES);
 }
 
 VentanaPrincipal::~VentanaPrincipal() {
@@ -124,7 +124,7 @@ void VentanaPrincipal::modoCrearPartida(std::string nombreMundos) {
 		remove();
 		if (panelCrearPartida == NULL)
 			panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA,
-										ALTO_VENTANA, RUTA_FONDO_MENU, this);
+										ALTO_VENTANA, RUTA_FONDO_MENU, *this);
 		panelCrearPartida->cargarMundos(nombreMundos);
 		add(*panelCrearPartida);
 		show_all_children();
@@ -158,8 +158,8 @@ void VentanaPrincipal::modoEsperandoJugadores() {
 	if (get_child() != panelEsperandoJugadores) {
 		remove();
 		if (panelEsperandoJugadores == NULL)
-			panelEsperandoJugadores = new PanelImagenFondo(ANCHO_VENTANA,
-									ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES);
+			panelEsperandoJugadores = new PanelEsperandoJugadores(ANCHO_VENTANA,
+									ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES, *this);
 		add(*panelEsperandoJugadores);
 		show_all_children();
 	}

@@ -144,6 +144,8 @@ void Juego::iniciarSenialesBotones() {
 			sigc::mem_fun(*cliente, &Client::botonUnirsePartida));
 	ventana.panelUnirsePartida->botonSeleccionar->signal_clicked().connect(
 			sigc::mem_fun(*cliente, &Client::botonPartidaSeleccionada));
+	ventana.panelEsperandoJugadores->botonCancelar->signal_clicked().connect(
+			sigc::mem_fun(*cliente, &Client::botonAbandonarPartida));
 	ventana.panelMultijugador->botonVolver->signal_clicked().connect(
 			sigc::mem_fun(*this, &Juego::botonSalirModoMultijugador));
 	// Botones del menú modo Configuracion
