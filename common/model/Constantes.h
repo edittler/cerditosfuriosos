@@ -19,7 +19,7 @@
 #define POSICION_ITERACIONES 8
 #define GRAVEDAD_X 0.0f
 #define GRAVEDAD_Y -10.0f
-#define TIEMPO_TICK_SEG 1.0f / 50.0f  // 20 milisegundos
+#define TIEMPO_TICK_SEG 0.02f  // 20 milisegundos
 #define TIEMPO_TICK_MSEG TIEMPO_TICK_SEG * 1000  // 20 milisegundos
 #define TIEMPO_DURACION_JUEGO_DEFAULT 10  // 10 segundos
 
@@ -40,6 +40,10 @@
 #define CME_PUNTOS 30
 
 // CONSTANTES DE PAJAROS
+#define VEL_MAX_X 2.0f
+#define VEL_MIN_X 10.0f
+#define VEL_MAX_Y 0.0f
+#define VEL_MIN_Y 5.0f
 // PAJARO ROJO
 #define PR_VIDA 0.5f
 #define PR_RADIO 0.2f
@@ -61,7 +65,7 @@
 
 // CONSTANTES DE DISPAROS
 #define DISPARO_VIDA 1.0f
-#define DISPARO_TIEMPO 0.5f
+#define DISPARO_TIEMPO 0.8f
 // HUEVO BLANCO
 #define HB_RADIO 0.12f
 #define HB_DANIO_PAJARO 1.0f
