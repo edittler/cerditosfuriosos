@@ -3,13 +3,11 @@
 
 #include <gtkmm/window.h>
 #include <gtkmm/messagedialog.h>
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/filefilter.h>
 
 #include "PanelNivel.h"
 #include "PanelMundo.h"
 #include "PanelEscenario.h"
+#include "SelectorImagenFondo.h"
 
 /**
  * Ventana principal de la aplicacion diseniador.
