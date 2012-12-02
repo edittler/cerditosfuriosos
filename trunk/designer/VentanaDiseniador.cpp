@@ -62,8 +62,9 @@ void VentanaDiseniador::editarNivel(std::string rutaNivel, bool nivelNuevo) {
 	show_all_children();
 }
 
+
 std::string VentanaDiseniador::seleccionarImagen() {
-	Gtk::FileChooserDialog dialogo("Seleccione una imagen", 
+	/*Gtk::FileChooserDialog dialogo("Seleccione una imagen", 
 												Gtk::FILE_CHOOSER_ACTION_OPEN);
 	dialogo.set_transient_for(*this);
 	dialogo.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -71,7 +72,7 @@ std::string VentanaDiseniador::seleccionarImagen() {
 	dialogo.set_current_folder(RUTA_FONDOS);
 	Gtk::FileFilter filtroImagenes;
 	filtroImagenes.set_name("Imagenes");
-	filtroImagenes.add_mime_type("image/*");
+	filtroImagenes.add_mime_type("image/     *");
 	dialogo.add_filter(filtroImagenes);
 	int resultado = dialogo.run();
 	std::string seleccion("");
@@ -80,7 +81,14 @@ std::string VentanaDiseniador::seleccionarImagen() {
 		seleccion = seleccion.substr(seleccion.find_last_of('/')+1,
 				seleccion.size()-seleccion.find_last_of('/')-1);
 	}
-	return seleccion;
+	return seleccion;*/
+	SelectorImagenFondo dialogo;
+	dialogo.set_transient_for(*this);
+	dialogo.cargarComponentes();
+	int resultado = dialogo.run();
+	if (resultado == Gtk::RESPONSE_OK)
+		return dialogo.getNombreArchivo();
+	return "";
 }
 
 void VentanaDiseniador::mostrarDialogo(std::string mensaje) {
