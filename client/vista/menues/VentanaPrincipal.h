@@ -4,15 +4,16 @@
 #include <gtkmm/window.h>
 #include <gtkmm/eventbox.h>
 
+#include "InterfazSelectora.h"
 #include "PanelImagenFondo.h"
 #include "PanelInicial.h"
 #include "PanelUnJugador.h"
 #include "PanelMultijugador.h"
 #include "PanelConfiguracion.h"
-#include "PanelUnirsePartida.h"
-#include "PanelRecords.h"
 #include "PanelCrearPartida.h"
-#include "InterfazSelectora.h"
+#include "PanelUnirsePartida.h"
+#include "PanelEsperandoJugadores.h"
+#include "PanelRecords.h"
 #include "../modelo/VistaEscenario.h"
 #include "../../controlador/MouseListener.h"
 
@@ -62,10 +63,10 @@ public:
 	PanelUnJugador* panelUnJugador;
 	PanelMultijugador* panelMultijugador;
 	PanelConfiguracion* panelConfiguracion;
+	PanelCrearPartida* panelCrearPartida;
 	PanelUnirsePartida* panelUnirsePartida;
 	PanelRecords* panelRecords;
-	PanelCrearPartida* panelCrearPartida;
-	PanelImagenFondo* panelEsperandoJugadores;
+	PanelEsperandoJugadores* panelEsperandoJugadores;
 
 private:
 	// Contenedor que permite manejar eventos de hijos.
