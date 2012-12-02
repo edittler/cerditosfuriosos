@@ -142,7 +142,7 @@ void Juego::iniciarSenialesBotones() {
 			sigc::mem_fun(*cliente, &Client::botonMundoSeleccionado));
 	ventana.panelMultijugador->botonUnirsePartida->signal_clicked().connect(
 			sigc::mem_fun(*cliente, &Client::botonUnirsePartida));
-	ventana.panelUnirsePartida->botonSeleccionar->signal_clicked().connect(
+	ventana.panelUnirsePartida->botonUnirse->signal_clicked().connect(
 			sigc::mem_fun(*cliente, &Client::botonPartidaSeleccionada));
 	ventana.panelEsperandoJugadores->botonCancelar->signal_clicked().connect(
 			sigc::mem_fun(*cliente, &Client::botonAbandonarPartida));
