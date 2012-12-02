@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Nivel duracion="20">
+    <Escenario ancho="10" alto="8">
+        <ImagenFondo>/home/matias_2/workspace/common/images/background/Bosque.png</ImagenFondo>
+        <ImagenSuelo>../common/images/background/SueloBosque.png</ImagenSuelo>
+        <Jugadores>1</Jugadores>
+        <Suelo />
+        <Cerditos>
+            <Cerdito>
+                <Punto2D x="4.04286" y="0.685714" />
+                <Catapulta>
+                    <Punto2D x="4.64286" y="0.728571" />
+                </Catapulta>
+            </Cerdito>
+        </Cerditos>
+        <MonticuloHuevos>
+            <Punto2D x="4.69286" y="2.83571" />
+        </MonticuloHuevos>
+        <Superficies>
+            <CajaMetal>
+                <Punto2D x="4.7" y="2.22857" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="4.67143" y="3.45714" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="4.67143" y="4.05714" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="4.07143" y="4.05714" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="5.3" y="4.05714" />
+            </CajaMetal>
+            <CajaVidrio>
+                <Punto2D x="5.27143" y="4.65714" />
+            </CajaVidrio>
+            <CajaVidrio>
+                <Punto2D x="4.67143" y="4.65714" />
+            </CajaVidrio>
+            <CajaVidrio>
+                <Punto2D x="4.07143" y="4.65714" />
+            </CajaVidrio>
+            <CajaMadera>
+                <Punto2D x="5.27143" y="5.25714" />
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="4.67143" y="5.25714" />
+            </CajaMadera>
+            <CajaMadera>
+                <Punto2D x="4.07143" y="5.25714" />
+            </CajaMadera>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="4.6" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="4" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="3.4" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="7" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="6.4" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="5.8" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="5.2" />
+            </CajaMetal>
+            <CajaMetal>
+                <Punto2D x="0.371429" y="2.8" />
+            </CajaMetal>
+        </Superficies>
+        <Frutas>
+            <Cereza>
+                <Punto2D x="1.56429" y="0.992857" />
+            </Cereza>
+            <Cereza>
+                <Punto2D x="1.95" y="1.39286" />
+            </Cereza>
+            <Cereza>
+                <Punto2D x="2.39286" y="1.09286" />
+            </Cereza>
+            <Cereza>
+                <Punto2D x="1.97857" y="0.764286" />
+            </Cereza>
+        </Frutas>
+    </Escenario>
+    <LineaEntradaDerecha tiempoGeneracion="300" probabilidad="70">
+        <Posicion x="10" yInicial="5" yFinal="7" />
+        <ProbabilidadesPajaros>
+            <PajaroRojo probabilidad="15" />
+            <PajaroVerde probabilidad="15" />
+            <PajaroAzul probabilidad="70" />
+        </ProbabilidadesPajaros>
+    </LineaEntradaDerecha>
+</Nivel>
