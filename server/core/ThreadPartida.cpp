@@ -91,6 +91,11 @@ void* ThreadPartida::run() {
 					this->comenzarPartida();
 					partida->setEstado(EJECUTANDO);
 				}
+
+				// valida que queden jugadores conectados, sino termina la partida
+				if (partida->getNivel()->partidaSinJugadores()) {
+					this->conectado = false;
+				}
 				break; }
 
 			case EJECUTANDO: {
@@ -121,6 +126,12 @@ void* ThreadPartida::run() {
 				if (partida->comienzo()) {
 					partida->setEstado(EJECUTANDO);
 				}
+
+				// valida que queden jugadores conectados, sino termina la partida
+				if (partida->getNivel()->partidaSinJugadores()) {
+					this->conectado = false;
+				}
+
 				break; }
 
 			case PAUSADO: {
@@ -203,11 +214,8 @@ void ThreadPartida::procesarMensajesClientes() {
 		// procesa hasta un maximo de mensajes por cliente
 		for (int i = 0; i < MAX_MSJ_PROCESADOS; ++i) {
 			// si no hay eventos continuo con proximo cliente
-			LOG_INFO("\tchequea evento hayEventos")
 			if (!(*it)->hayEventos())
 				break;
-
-			LOG_INFO("\tprocesa evento de cola")
 
 			// solo procesa el comando EVENTO, los demas tipos de comandos
 			// son procesados en ThreadCliente.

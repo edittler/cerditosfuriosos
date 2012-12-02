@@ -1325,6 +1325,15 @@ bool Escenario::jugadoresCompletos() {
 	return true;
 }
 
+bool Escenario::jugadoresVacios() {
+	std::vector<Jugador*>::iterator it;
+	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+		if ((*it)->estaConectado())
+			return false;
+	}
+	return true;
+}
+
 unsigned int Escenario::generarId() {
 	++proximoId;
 	return proximoId;

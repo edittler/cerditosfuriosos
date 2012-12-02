@@ -31,6 +31,12 @@ public:
 
 	bool comienzoPartida();
 
+	/**
+	 * Indica si hay jugadores conectados a la partida
+	 * @return true si hay jugadores, false caso contrario
+	 */
+	bool partidaSinJugadores();
+
 	/*
 	 * @brief valida que el modelo sigue ejecutandose.
 	 * @return ture si finalizo partida, false caso contrario.
