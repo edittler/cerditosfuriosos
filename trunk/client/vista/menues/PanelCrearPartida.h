@@ -16,27 +16,27 @@
 
 // Constantes del layout y tamanio del selector de mundos
 #define X_SELECTOR_MUNDOS_PARTIDAS 75
-#define Y_SELECTOR_MUNDOS_PARTIDAS 100
+#define Y_SELECTOR_MUNDOS_PARTIDAS 190
 #define ANCHO_SELECTOR_MUNDOS_PARTIDAS 275
 #define ALTO_SELECTOR_MUNDOS_PARTIDAS 250
 // Constantes de layout y tamanio del boton crear
 #define X_BOTON_CREACION_PARTIDA 425
-#define Y_BOTON_CREACION_PARTIDA 300
+#define Y_BOTON_CREACION_PARTIDA 350
 #define ANCHO_BOTON_CREACION_PARTIDA 100
 #define ALTO_BOTON_CREACION_PARTIDA 50
 // Constantes de layout y tamanio del selector de nombre
 #define X_NOMBRE_PARTIDA 75
-#define Y_NOMBRE_PARTIDA 420
+#define Y_NOMBRE_PARTIDA 100
 #define ANCHO_NOMBRE_PARTIDA 275
 #define ALTO_NOMBRE_PARTIDA 30
 // Constantes de layout del boton crear
 #define X_BOTON_VOLVER_CREAR_PARTIDA 25
 #define Y_BOTON_VOLVER_CREAR_PARTIDA 550
 // Constantes de layout y tamanio de las etiquetas
-#define X_ETIQUETA_MUNDOS_PARTIDAS 75
-#define Y_ETIQUETA_MUNDOS_PARTIDAS 50
 #define X_ETIQUETA_NOMBRE_PARTIDA 75
-#define Y_ETIQUETA_NOMBRE_PARTIDA 370
+#define Y_ETIQUETA_NOMBRE_PARTIDA 75
+#define X_ETIQUETA_MUNDOS_PARTIDAS 75
+#define Y_ETIQUETA_MUNDOS_PARTIDAS 160
 
 /**
  * Muestra al usuario una lista de los mundos existentes para que cree una

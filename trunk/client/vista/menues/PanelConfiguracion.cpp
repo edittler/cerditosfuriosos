@@ -8,7 +8,6 @@ PanelConfiguracion::PanelConfiguracion(int ancho, int alto, string ruta,
 
 	// Inicializo el campo de Direccion IP
 	direccion = new Gtk::Entry();
-//	Glib::ustring usDireccion();
 	direccion->set_text(DIRECCION_DEFAULT);
 	direccion->set_size_request(ANCHO_DIRECCION, ALTO_DIRECCION);
 	Gtk::Label* etiquetaDireccion = manage(new Gtk::Label("Direccion IP"));
