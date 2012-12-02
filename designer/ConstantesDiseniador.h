@@ -21,7 +21,7 @@
 
 // Ruta relativa al ejecutable que carga los escenarios de los fondos
 #define RUTA_FONDOS "../common/images/background/"
-#define RUTA_SUELO "../common/images/floor/SueloBosque.png"
+#define RUTA_SUELO "../common/images/background/SueloBosque.png"
 
 // Ruta de las imagenes que se colocaran en los botones
 #define RUTA_ITEM_CAJA_MADERA "items/ItemCajaMadera.png"
