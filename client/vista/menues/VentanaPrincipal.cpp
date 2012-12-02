@@ -23,7 +23,7 @@ VentanaPrincipal::VentanaPrincipal() {
 	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
 													RUTA_FONDO_MENU, *this);
 	panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+														RUTA_FONDO_MENU, *this);
 	panelEsperandoJugadores = new PanelEsperandoJugadores(ANCHO_VENTANA,
 								ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES, *this);
 	panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
@@ -31,39 +31,25 @@ VentanaPrincipal::VentanaPrincipal() {
 }
 
 VentanaPrincipal::~VentanaPrincipal() {
-	if (panelInicial != NULL)
-		delete panelInicial;
-	if (panelUnJugador != NULL)
-		delete panelUnJugador;
-	if (panelMultijugador != NULL)
-		delete panelMultijugador;
-	if (panelConfiguracion != NULL)
-		delete panelConfiguracion;
-	if (panelRecords != NULL)
-		delete panelRecords;
-	if (panelCrearPartida != NULL)
-		delete panelCrearPartida;
-	if (panelUnirsePartida != NULL)
-		delete panelUnirsePartida;
-	if (panelEsperandoJugadores != NULL)
-		delete panelEsperandoJugadores;
+	delete panelInicial;
+	delete panelUnJugador;
+	delete panelMultijugador;
+	delete panelConfiguracion;
+	delete panelCrearPartida;
+	delete panelUnirsePartida;
+	delete panelEsperandoJugadores;
+	delete panelRecords;
 	delete contenedor;
 }
 
 void VentanaPrincipal::modoUnJugador() {
 	remove();
-	if (panelUnJugador == NULL)
-		panelUnJugador = new PanelUnJugador(ANCHO_VENTANA, ALTO_VENTANA,
-				RUTA_FONDO_MENU, this);
 	add(*panelUnJugador);
 	show_all_children();
 }
 
 void VentanaPrincipal::modoMultijugador() {
 	remove();
-	if (panelMultijugador == NULL)
-		panelMultijugador = new PanelMultijugador(ANCHO_VENTANA, ALTO_VENTANA,
-				RUTA_FONDO_MENU, this);
 	add(*panelMultijugador);
 	show_all_children();
 }
@@ -71,9 +57,6 @@ void VentanaPrincipal::modoMultijugador() {
 void VentanaPrincipal::modoConfiguracion(std::string direccion,
 		unsigned short int puerto) {
 	remove();
-	if (panelConfiguracion == NULL)
-		panelConfiguracion = new PanelConfiguracion(ANCHO_VENTANA, ALTO_VENTANA,
-				RUTA_FONDO_MENU, this);
 	panelConfiguracion->setearValores(direccion, puerto);
 	add(*panelConfiguracion);
 	show_all_children();
@@ -81,18 +64,12 @@ void VentanaPrincipal::modoConfiguracion(std::string direccion,
 
 void VentanaPrincipal::volverAMenuPrincipal() {
 	remove();
-	if (panelInicial == NULL)
-		panelInicial = new PanelInicial(ANCHO_VENTANA, ALTO_VENTANA,
-				RUTA_FONDO_MENU, this);
 	add(*panelInicial);
 	show_all_children();
 }
 
 void VentanaPrincipal::verRecords() {
 	remove();
-	if (panelRecords == NULL)
-		panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
-					RUTA_FONDO_MENU, this);
 	add(*panelRecords);
 	show_all_children();
 }
@@ -122,9 +99,6 @@ void VentanaPrincipal::setMouseListener(MouseListener* listener) {
 void VentanaPrincipal::modoCrearPartida(std::string nombreMundos) {
 	if (get_child() != panelCrearPartida) {
 		remove();
-		if (panelCrearPartida == NULL)
-			panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA,
-										ALTO_VENTANA, RUTA_FONDO_MENU, *this);
 		panelCrearPartida->cargarMundos(nombreMundos);
 		add(*panelCrearPartida);
 		show_all_children();
@@ -134,9 +108,6 @@ void VentanaPrincipal::modoCrearPartida(std::string nombreMundos) {
 void VentanaPrincipal::modoUnirsePartida(std::string nombrePartidas) {
 	if (get_child() != panelUnirsePartida) {
 		remove();
-		if (panelUnirsePartida == NULL)
-			panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA,
-					ALTO_VENTANA, RUTA_FONDO_MENU, this);
 		panelUnirsePartida->cargarPartidas(nombrePartidas);
 		add(*panelUnirsePartida);
 		show_all_children();
@@ -146,9 +117,6 @@ void VentanaPrincipal::modoUnirsePartida(std::string nombrePartidas) {
 void VentanaPrincipal::mostrarMenuPrincipal() {
 	gdk_threads_enter();
 	remove();
-	if (panelInicial == NULL)
-		panelInicial = new PanelInicial(ANCHO_VENTANA, ALTO_VENTANA,
-				RUTA_FONDO_MENU, this);
 	add(*panelInicial);
 	show_all_children();
 	gdk_threads_leave();
@@ -157,9 +125,6 @@ void VentanaPrincipal::mostrarMenuPrincipal() {
 void VentanaPrincipal::modoEsperandoJugadores() {
 	if (get_child() != panelEsperandoJugadores) {
 		remove();
-		if (panelEsperandoJugadores == NULL)
-			panelEsperandoJugadores = new PanelEsperandoJugadores(ANCHO_VENTANA,
-									ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES, *this);
 		add(*panelEsperandoJugadores);
 		show_all_children();
 	}
