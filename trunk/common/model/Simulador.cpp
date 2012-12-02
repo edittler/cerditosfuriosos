@@ -103,7 +103,7 @@ Punto2D Simulador::generarPosicion() {
 Velocidad2D Simulador::generarVelocidad() {
 	Velocidad2D v;
 	int direccion = -1;
-	v.x = direccion * (this->randomFloat(5.0f, 15.0f));
-	v.y = this->randomFloat(0.0f, 5.0f);
+	v.x = direccion * (this->randomFloat(VEL_MIN_X, VEL_MAX_X));
+	v.y = this->randomFloat(VEL_MIN_Y, VEL_MAX_Y);
 	return v;
 }
