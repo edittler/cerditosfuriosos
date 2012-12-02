@@ -18,6 +18,8 @@ VentanaPrincipal::VentanaPrincipal() {
 														RUTA_FONDO_MENU, this);
 	panelMultijugador = new PanelMultijugador(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
+	panelConfiguracion = new PanelConfiguracion(ANCHO_VENTANA, ALTO_VENTANA,
+														RUTA_FONDO_MENU, this);
 	panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
 														RUTA_FONDO_MENU, this);
 	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
@@ -31,8 +33,12 @@ VentanaPrincipal::VentanaPrincipal() {
 VentanaPrincipal::~VentanaPrincipal() {
 	if (panelInicial != NULL)
 		delete panelInicial;
-	if (panelMultijugador!= NULL)
+	if (panelUnJugador != NULL)
+		delete panelUnJugador;
+	if (panelMultijugador != NULL)
 		delete panelMultijugador;
+	if (panelConfiguracion != NULL)
+		delete panelConfiguracion;
 	if (panelRecords != NULL)
 		delete panelRecords;
 	if (panelCrearPartida != NULL)
@@ -41,7 +47,6 @@ VentanaPrincipal::~VentanaPrincipal() {
 		delete panelUnirsePartida;
 	if (panelEsperandoJugadores != NULL)
 		delete panelEsperandoJugadores;
-	delete panelUnJugador;
 	delete contenedor;
 }
 
@@ -60,6 +65,17 @@ void VentanaPrincipal::modoMultijugador() {
 		panelMultijugador = new PanelMultijugador(ANCHO_VENTANA, ALTO_VENTANA,
 				RUTA_FONDO_MENU, this);
 	add(*panelMultijugador);
+	show_all_children();
+}
+
+void VentanaPrincipal::modoConfiguracion(std::string direccion,
+		unsigned short int puerto) {
+	remove();
+	if (panelConfiguracion == NULL)
+		panelConfiguracion = new PanelConfiguracion(ANCHO_VENTANA, ALTO_VENTANA,
+				RUTA_FONDO_MENU, this);
+	panelConfiguracion->setearValores(direccion, puerto);
+	add(*panelConfiguracion);
 	show_all_children();
 }
 

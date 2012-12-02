@@ -8,6 +8,7 @@
 #include "PanelInicial.h"
 #include "PanelUnJugador.h"
 #include "PanelMultijugador.h"
+#include "PanelConfiguracion.h"
 #include "PanelUnirsePartida.h"
 #include "PanelRecords.h"
 #include "PanelCrearPartida.h"
@@ -32,9 +33,10 @@ public:
 	virtual ~VentanaPrincipal();
 
 	void modoUnJugador();
-	void volverAMenuPrincipal();
 	void modoMultijugador();
+	void modoConfiguracion(std::string direccion, unsigned short int puerto);
 	void verRecords();
+	void volverAMenuPrincipal();
 	void modoCrearPartida(std::string nombreMundos);
 	void modoUnirsePartida(std::string nombrePartidas);
 	void modoEsperandoJugadores();
@@ -59,6 +61,7 @@ public:
 	PanelInicial* panelInicial;
 	PanelUnJugador* panelUnJugador;
 	PanelMultijugador* panelMultijugador;
+	PanelConfiguracion* panelConfiguracion;
 	PanelUnirsePartida* panelUnirsePartida;
 	PanelRecords* panelRecords;
 	PanelCrearPartida* panelCrearPartida;

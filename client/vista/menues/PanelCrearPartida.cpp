@@ -45,6 +45,9 @@ std::string PanelCrearPartida::getNombreElegido() const {
 }
 
 void PanelCrearPartida::inicializarComponentes() {
+	/* FIXME se debe liberar la memoria de selector de mundos si ya fue
+	 * creado anteriormente.
+	 */
 	selectorMundos = new SeleccionadorMultiple(ANCHO_SELECTOR_MUNDOS_PARTIDAS,
 										ALTO_SELECTOR_MUNDOS_PARTIDAS, mundos);
 	botonCrear->set_size_request(ANCHO_BOTON_CREACION_PARTIDA,
