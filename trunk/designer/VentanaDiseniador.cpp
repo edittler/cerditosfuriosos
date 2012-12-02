@@ -66,15 +66,19 @@ std::string VentanaDiseniador::seleccionarImagen() {
 	dialogo.set_transient_for(*this);
 	dialogo.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	dialogo.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+	dialogo.set_current_folder(RUTA_FONDOS);
 	Gtk::FileFilter filtroImagenes;
 	filtroImagenes.set_name("Imagenes");
 	filtroImagenes.add_mime_type("image/*");
 	dialogo.add_filter(filtroImagenes);
 	int resultado = dialogo.run();
-	if (resultado == Gtk::RESPONSE_OK)
-		return dialogo.get_filename();
-	std::string noSeleccion("");
-	return noSeleccion;
+	std::string seleccion("");
+	if (resultado == Gtk::RESPONSE_OK) {
+		seleccion = dialogo.get_filename();
+		seleccion = seleccion.substr(seleccion.find_last_of('/')+1,
+				seleccion.size()-seleccion.find_last_of('/')-1);
+	}
+	return seleccion;
 }
 
 void VentanaDiseniador::mostrarDialogo(std::string mensaje) {

@@ -79,11 +79,11 @@ int CreadorNivel::getDuracion() {
 }
 		
 std::string CreadorNivel::getRutaImagenFondo() {
-	return archivoImagen->get_text();
+	return (std::string(RUTA_FONDOS)+=archivoImagen->get_text());
 }
 
-std::string getRutaImagenSuelo() {
-	return "../common/images/background/SueloBosque.png";
+std::string CreadorNivel::getRutaImagenSuelo() {
+	return RUTA_SUELO;
 }
 
 bool CreadorNivel::imagenSeleccionada() {
