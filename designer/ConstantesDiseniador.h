@@ -19,6 +19,10 @@
 // Ruta de la carpeta donde se almacenan los archivos del mundo
 #define RUTA_CARPETA_MUNDOS "../common/mundos/"
 
+// Ruta relativa al ejecutable que carga los escenarios de los fondos
+#define RUTA_FONDOS "../common/images/background/"
+#define RUTA_SUELO "../common/images/floor/SueloBosque.png"
+
 // Ruta de las imagenes que se colocaran en los botones
 #define RUTA_ITEM_CAJA_MADERA "items/ItemCajaMadera.png"
 #define RUTA_ITEM_CAJA_METAL "items/ItemCajaMetal.png"
