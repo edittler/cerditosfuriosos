@@ -62,6 +62,10 @@ bool NivelServer::comienzoPartida() {
 	return this->escenario->jugadoresCompletos();
 }
 
+bool NivelServer::partidaSinJugadores() {
+	return this->escenario->jugadoresVacios();
+}
+
 bool NivelServer::finalizoPartida() const {
 	return this->escenario->finalizoPartida();
 }

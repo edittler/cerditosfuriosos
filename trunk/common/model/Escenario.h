@@ -179,6 +179,12 @@ public:
 	bool jugadoresCompletos();
 
 	/**
+	 * Indica si hay jugadores conectados a la partida
+	 * @return true si hay jugadores, false caso constrario
+	 */
+	bool jugadoresVacios();
+
+	/**
 	 * Genero id usado para asignarselo al jugador.
 	 * @return id generado
 	 */
