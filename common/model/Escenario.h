@@ -204,6 +204,9 @@ public:
 	std::string getRutaImagenSuelo() const;
 	void setRutaImagenSuelo(std::string rutaArchivo);
 
+	void setDuracionJuego(unsigned int durarionEnSegundos);
+	unsigned int getDuracionJuego() const;
+
 	unsigned int getCantidadJugadores() const;
 
 	Punto2D getPosicionCatapulta(unsigned int idJugador);

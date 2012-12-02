@@ -63,7 +63,7 @@ Escenario::Escenario(unsigned int cantidadJugadores) {
 
 	this->finalizo = false;
 	this->tiempoDeJuego = 0;
-	this->duracionDeJuego = 10 * 1000;  // FIXME cargar desde XML, se cuenta en milisegundos.
+	this->duracionDeJuego = TIEMPO_DURACION_JUEGO_DEFAULT;
 }
 
 Escenario::~Escenario() {
@@ -863,6 +863,20 @@ void Escenario::setRutaImagenSuelo(std::string rutaArchivo) {
 	if (this->observador != NULL) {
 		this->observador->seEstablecioSuelo();
 	}
+}
+
+void Escenario::setDuracionJuego(unsigned int duracionEnSegundos) {
+	/* Verifico si la simulacion ya está habilitada.
+	 * Caso contrario, lanzo una excepción.
+	 */
+	if (this->simulacionHabilitada) {
+		throw SimulacionException("La simulación está habilitada,"
+				"no se puede editar la duración del juego.");
+	}
+	this->duracionDeJuego = duracionEnSegundos;
+}
+unsigned int Escenario::getDuracionJuego() const {
+	return this->duracionDeJuego;
 }
 
 unsigned int Escenario::getCantidadJugadores() const {

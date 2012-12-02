@@ -34,7 +34,7 @@ VentanaPrincipal::~VentanaPrincipal() {
 	delete panelInicial;
 	delete panelUnJugador;
 	delete panelMultijugador;
-	delete panelConfiguracion;
+	delete panelConfiguracion;void mostrarMenuMultijugador();
 	delete panelCrearPartida;
 	delete panelUnirsePartida;
 	delete panelEsperandoJugadores;
@@ -118,6 +118,14 @@ void VentanaPrincipal::mostrarMenuPrincipal() {
 	gdk_threads_enter();
 	remove();
 	add(*panelInicial);
+	show_all_children();
+	gdk_threads_leave();
+}
+
+void VentanaPrincipal::mostrarMenuMultijugador() {
+	gdk_threads_enter();
+	remove();
+	add(*panelMultijugador);
 	show_all_children();
 	gdk_threads_leave();
 }

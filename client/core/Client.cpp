@@ -251,7 +251,7 @@ void* Client::run() {
 	// Creo un thread receptor
 	ThreadRecibirCliente tReceptor(*socket);
 	tReceptor.start();
-	while (socket->estaConectado()) {
+	while ((socket->estaConectado()) && !_partidaFinalizada) {
 		Mensaje* m = tReceptor.getMensaje();
 		if (m != NULL) {
 			MensajeServer* ms = static_cast<MensajeServer*>(m);
@@ -270,7 +270,7 @@ void* Client::run() {
 					colaEventos.encolar(ms->getEvento());
 					Lock(this->mBoolsPartida);
 					// Si la partida estaba pausada, la marco como corriendo
-					if (this->_corriendoPartida == false)
+					if (!_corriendoPartida)
 						this->_corriendoPartida = true;
 					break;
 				case MS_PAUSAR_PARTIDA:
@@ -280,6 +280,7 @@ void* Client::run() {
 				case MS_FINALIZAR_PARTIDA:
 					Lock(this->mBoolsPartida);
 					this->_partidaFinalizada = true;
+					this->_corriendoPartida = false;
 					break;
 				default:
 					break;
@@ -290,6 +291,7 @@ void* Client::run() {
 	/* Si finalizo el while, es porque se desconecto el socket, hago un join
 	 * al thread receptor de mensajes
 	 */
+	tReceptor.finalizar();
 	tReceptor.join();
 	return NULL;
 }

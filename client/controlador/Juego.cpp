@@ -100,16 +100,14 @@ void* Juego::run() {
 			Gtk::Image imagen(WIN_IMAGEN);
 			ventana.agregarContenedor(imagen);
 			sleep(WAIT);
-			ventana.mostrarMenuPrincipal();
-			this->estado = MENU;
+			this->finalizarPartida();
 			break;
 		}
 		case PERDIO: {
 			Gtk::Image imagen(GAME_OVER_IMAGEN);
 			ventana.agregarContenedor(imagen);
 			sleep(WAIT);
-			ventana.mostrarMenuPrincipal();
-			this->estado = MENU;
+			this->finalizarPartida();
 			break;
 		}
 		case EXIT: {
@@ -192,6 +190,17 @@ void Juego::iniciarPartida() {
 		ventana.agregarContenedor(*vista);
 		ventana.setMouseListener(mListener);
 	}
+}
+
+void Juego::finalizarPartida() {
+	/* Si el cliente no está conectado, regreso al menú principal
+	 */
+	if (!cliente->conectado()) {
+		ventana.mostrarMenuPrincipal();
+	} else {
+		ventana.mostrarMenuMultijugador();
+	}
+	this->estado = MENU;
 }
 
 void Juego::botonUnJugador() {

@@ -15,6 +15,12 @@ void Nivel::cargarXML(std::string path) {
 	} else {
 		// Obtengo el elemento raiz, que debe ser <Nivel>, pero no valido.
 		const XMLNode* root = doc.RootElement();
+		// Obtengo el atributo de duracion
+		int duracion = 0;
+		const char* sD = root->Attribute("duracion", &duracion);
+		if ((sD != 0) && (duracion > 0)) {
+			this->escenario->setDuracionJuego(duracion);
+		}
 		// Obtengo el primer elemento hijo que debe ser <Escenario>
 		const XMLNode* nodo = root->FirstChildElement("Escenario");
 		// Si el nodo no es nulo, cargo el escenario a partir del mismo.
