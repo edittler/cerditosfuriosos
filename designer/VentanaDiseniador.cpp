@@ -10,6 +10,8 @@ VentanaDiseniador::VentanaDiseniador() {
 	panelMundo->setInformable(this);
 	panelNivel = NULL;
 	panelEscenario = NULL;
+	this->signal_delete_event().connect(sigc::mem_fun(*this,
+                                        &VentanaDiseniador::cerrarVentana));
 	show_all_children();
 }
 
@@ -90,4 +92,13 @@ void VentanaDiseniador::imagenNoSeleccionada() {
 	Gtk::MessageDialog dialogo(*this, "Por favor seleccione una imagen para el "
 			"fondo del escenario");
 	dialogo.run();
+}
+
+bool VentanaDiseniador::cerrarVentana(GdkEventAny* event) {
+	if (get_child() == panelEscenario) {
+		if (!panelEscenario->escenarioValido())
+			return true;
+		panelEscenario->guardarNivel();
+	}
+	return on_delete_event(event);
 }

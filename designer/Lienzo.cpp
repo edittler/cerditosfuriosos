@@ -178,12 +178,12 @@ bool Lienzo::cantidadJugadoresValida() const {
 	return (cerdos.size() == cantidadJugadores);
 }
 
-bool Lienzo::objetosJugadoresCorrectos() const {
-	if (cerdos.size() == catapultas.size()) {
-		if (monticulo != NULL)
-			return cantidadJugadoresValida();
-	}
-	return false;
+bool Lienzo::cantidadCatapultasValida() const {
+	return (catapultas.size() == cantidadJugadores);
+}
+
+bool Lienzo::hayMonticulo() const {
+	return (monticulo != NULL);
 }
 
 void Lienzo::recibirInformacion(

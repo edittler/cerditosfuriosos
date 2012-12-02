@@ -82,7 +82,7 @@ void PanelEscenario::volverAPanelMundos() {
 	informable->volverAPanelMundos();
 }
 
-void PanelEscenario::botonGuardarClickeado() {
+bool PanelEscenario::escenarioValido() const {
 	bool escenarioValido = true;
 	std::string mensaje("Antes de poder guardar debe realizar las siguientes "
 			"correciones:\n");
@@ -101,14 +101,28 @@ void PanelEscenario::botonGuardarClickeado() {
 		mensaje += (char)(cantidadJugadores + '0');
 		mensaje += "\n";
 	}
-	if (!(lienzo->objetosJugadoresCorrectos())) {
+	if (!(lienzo->cantidadCatapultasValida())) {
 		escenarioValido = false;
-		mensaje += "- Debe haber una catapulta y un montículo por cada cerdo\n";
+		mensaje += "- El numero de catapultas debe ser ";
+		mensaje += (char)(cantidadJugadores + '0');
+		mensaje += "\n";
 	}
-	if (!escenarioValido) {
+	if (!(lienzo->hayMonticulo())) {
+		escenarioValido = false;
+		mensaje += "- Debe haber un montículo";
+	}
+	if (!escenarioValido)
 		informable->mostrarDialogo(mensaje);
+	return escenarioValido;
+}
+
+void PanelEscenario::botonGuardarClickeado() {
+	if (!escenarioValido())
 		return;
-	}
+	guardarNivel();
+}
+
+void PanelEscenario::guardarNivel() {
 	/* Reestablezco el archivo del nivel, reescribiendo los atributos del
 	 * escenario.
 	 */

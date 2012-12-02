@@ -43,6 +43,13 @@ class VentanaDiseniador : public Gtk::Window, public InformableSeleccion {
 		
 		virtual void mostrarDialogo(std::string mensaje);
 		
+		/**
+		 * Si estamos en el panel de creacion de escenarios y el escenario es
+		 * valido simplemente se cierra la ventana, si no le solicita al usuario
+		 * que lo deje en un estado valido para continuar.
+		 */
+		bool cerrarVentana(GdkEventAny* event);
+		
 	private:
 	
 		PanelMundo* panelMundo;
