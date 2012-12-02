@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Nivel duracion="20">
     <Escenario ancho="10" alto="8">
-        <ImagenFondo>/home/matias_2/workspace/common/images/background/Bosque.png</ImagenFondo>
+        <ImagenFondo>../common/images/background/Bosque.png</ImagenFondo>
         <ImagenSuelo>../common/images/background/SueloBosque.png</ImagenSuelo>
         <Jugadores>1</Jugadores>
         <Suelo />
