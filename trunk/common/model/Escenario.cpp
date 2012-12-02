@@ -873,7 +873,7 @@ void Escenario::setDuracionJuego(unsigned int duracionEnSegundos) {
 		throw SimulacionException("La simulación está habilitada,"
 				"no se puede editar la duración del juego.");
 	}
-	this->duracionDeJuego = duracionEnSegundos;
+	this->duracionDeJuego = duracionEnSegundos * 1000;
 }
 unsigned int Escenario::getDuracionJuego() const {
 	return this->duracionDeJuego;
