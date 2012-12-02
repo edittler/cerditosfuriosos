@@ -28,9 +28,8 @@ bool MouseListener::onClick(GdkEventButton* event) {
 	float yf = nivel.getAlto() - event->y / AJUSTE_ESCALA_VISTA;
 
 	// Calculo velocidades iniciales.
-	int direccion = (x < xf ? 1 : -1);
-	float Vx = direccion * DISPARO_VELOCIDAD_X;
-	float t = (xf - x) / Vx;
+	float t = DISPARO_TIEMPO;
+	float Vx = (xf - x) / t;
 	float Vy = (yf - y) / t - GRAVEDAD_Y * t / 2;
 
 	nivel.lanzarHuevo(Punto2D(x, y), Velocidad2D(Vx, Vy), 1);
