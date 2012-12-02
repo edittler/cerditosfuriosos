@@ -33,52 +33,38 @@ void Colisionador::BeginContact(b2Contact* contact) {
 			int16 sumCat = catA + catB;
 			switch (sumCat) {
 			case SUPERFICIE_AND_PAJARO:
-				std::cout << "\t*** CHOCO PAJARO Y SUPERFICIE ***" << std::endl;
 				this->chocarPajaroConSuperficie(cuerpoA, cuerpoB);
 				break;
 			case FRUTA_AND_PAJARO:
-				std::cout << "\t*** CHOCO PAJARO Y FRUTA ***" << std::endl;
 				this->chocarPajaroConFruta(cuerpoA, cuerpoB);
 				break;
 			case CERDITO_AND_PAJARO:
-				std::cout << "\t*** CHOCO PAJARO Y CERDITO ***" << std::endl;
 				this->chocarPajaroConCerdito(cuerpoA, cuerpoB);
 				break;
 			case MONTICULO_AND_PAJARO:
-				std::cout << "\t*** CHOCO PAJARO Y MONTICULO ***" << std::endl;
 				this->chocarPajaroConMonticulo(cuerpoA, cuerpoB);
 				break;
 			case SUELO_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y SUELO ***" << std::endl;
 				this->chocarDisparoConSuelo(cuerpoA, cuerpoB);
 				break;
 			case SUPERFICIE_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y SUPERFICIE ***" << std::endl;
 				this->chocarDisparoConSuperficie(cuerpoA, cuerpoB);
 				break;
 			case FRUTA_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y FRUTA ***" << std::endl;
 				this->chocarDisparoConFruta(cuerpoA, cuerpoB);
 				break;
 			case CERDITO_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y CERDITO ***" << std::endl;
 				this->chocarDisparoConCerdito(cuerpoA, cuerpoB);
 				break;
 			case MONTICULO_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y MONTICULO ***" << std::endl;
 				this->chocarDisparoConMonticulo(cuerpoA, cuerpoB);
 				break;
 			case PAJARO_AND_DISPARO:
-				std::cout << "\t*** CHOCO DISPARO Y PAJARO ***" << std::endl;
 				this->chocarDisparoConPajaro(cuerpoA, cuerpoB);
 				break;
 			default:
-				std::cout << "\t*** SE PRODUJO UN CHOQUE NO IDENTIFICADO ***"<<
-						std::endl;
 				break;
 			}
-		} else {
-			std::cout << "\t*** CHOCO CONTRA EL PISO ***" << std::endl;
 		}
 	}
 }
