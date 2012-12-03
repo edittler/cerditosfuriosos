@@ -188,7 +188,6 @@ void Escenario::hydrate(const XMLNode* nodo) {
 	 * simulacion.
 	 */
 	this->habilitarSimulacion();
-	std::cout << "\t=== SIMULACION HABILITADA ===" << std::endl;
 	/* Para el caso de recuperación de partida, se deben cargar los nodos de
 	 * pájaros y disparos. Estos nodos no se encuentran obligaroriamente en
 	 * el archivo XML, por lo que no lanzo excepcion en caso de que no se
@@ -531,7 +530,6 @@ void Escenario::correrTick() {
 	// se ha perdido la partida.
 	// Sin embargo si solo ALGUNO de los cerditos ha muerto se continua jugando.
 	if (!monticulo->estaVivo()) {  // el monticulo fue destruido
-		std::cout << "MONTICULO DESTRUIDO" << std::endl;
 		if (this->observador != NULL) {
 			this->observador->monticuloDestruido();
 			this->observador->partidaPerdida();
@@ -913,7 +911,6 @@ void Escenario::setJugadorNoConectado(unsigned int id) {
 }
 
 void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const {
-	std::cout << "\t=== GUARDANDO ATRIBUTOS ===" << std::endl;
 	// Convierto el ancho y alto en string
 	std::ostringstream strAncho, strAlto;
 	strAncho << this->ancho;
@@ -940,7 +937,6 @@ void Escenario::XMLGuardarAtributos(XMLNode* nodoEscenario) const {
 }
 
 XMLNode* Escenario::XMLGetCerditos() {
-	std::cout << "\t=== GUARDANDO CERDITOS ===" << std::endl;
 	// Creo el nodo de cerditos.
 	XMLNode* nodo = new XMLNode("Cerditos");
 	// Serializo los cerditos de los jugadores y los guardo.
@@ -954,7 +950,6 @@ XMLNode* Escenario::XMLGetCerditos() {
 }
 
 XMLNode* Escenario::XMLGetSuperficies() {
-	std::cout << "\t=== GUARDANDO SUPERFICIES ===" << std::endl;
 	// Creo el nodo de superficies.
 	XMLNode* nodo = new XMLNode("Superficies");
 	// Serializo las superficies y las guardo en el nodo.
@@ -968,7 +963,6 @@ XMLNode* Escenario::XMLGetSuperficies() {
 }
 
 XMLNode* Escenario::XMLGetFrutas() {
-	std::cout << "\t=== GUARDANDO FRUTAS ===" << std::endl;
 	// Creo el nodo de las frutas
 	XMLNode* nodo = new XMLNode("Frutas");
 	// Serializo las frutas y las guardo en el nodo.
@@ -982,7 +976,6 @@ XMLNode* Escenario::XMLGetFrutas() {
 }
 
 XMLNode* Escenario::XMLGetPajaros() {
-	std::cout << "\t=== GUARDANDO PAJAROS ===" << std::endl;
 	// Creo el nodo de los pajaros
 	XMLNode* nodo = new XMLNode("Pajaros");
 	// Serializo los pajaros y los guardo en el nodo.
@@ -996,7 +989,6 @@ XMLNode* Escenario::XMLGetPajaros() {
 }
 
 XMLNode* Escenario::XMLGetDisparos() {
-	std::cout << "\t=== GUARDANDO DISPAROS ===" << std::endl;
 	// Creo el nodo de los disparos.
 	XMLNode* nodo = new XMLNode("Disparos");
 	// Serializo los disparos y los guardo en el nodo.
@@ -1010,7 +1002,6 @@ XMLNode* Escenario::XMLGetDisparos() {
 }
 
 void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO ATRIBUTOS ===" << std::endl;
 	// Verifico si contiene el atributo ancho, si no lo posee, lanzo excepcion.
 	if (nodo->Attribute("ancho") == 0) {
 		throw ParserException("El nodo Escenario no contiene el atributo "
@@ -1031,7 +1022,6 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 	atributoAncho >> fAncho;
 	atributoAlto >> fAlto;
 	this->setTamanio(fAncho, fAlto);
-	std::cout << "\tAncho: " << fAncho << "\tAlto: " << fAlto << std::endl;
 
 	// Obtengo el nodo que contiene la ruta de la imagen del fondo.
 	const XMLNode* imagenFondo = nodo->FirstChildElement("ImagenFondo");
@@ -1041,7 +1031,6 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 						"la imagen de fondo.");
 	}
 	this->setRutaImagenFondo(imagenFondo->GetText());
-	std::cout << "\tRuta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
 
 	// Obtengo el nodo que contiene la ruta de la imagen del suelo.
 	const XMLNode* imagenSuelo = nodo->FirstChildElement("ImagenSuelo");
@@ -1051,7 +1040,6 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 						"la imagen de fondo.");
 	}
 	this->setRutaImagenSuelo(imagenSuelo->GetText());
-	std::cout << "\tRuta Imagen de fondo: " << this->rutaImagenFondo << std::endl;
 
 	// Obtengo el nodo que contiene la cantidad de jugadores que puede disponer.
 	const XMLNode* jugadores = nodo->FirstChildElement("Jugadores");
@@ -1061,15 +1049,11 @@ void Escenario::XMLCargarAtributos(const XMLNode* nodo) {
 						"la cantidad de jugadores que puede contener.");
 	}
 	this->cantJugadores = std::atoi(jugadores->GetText());
-	std::cout << "\tCantidad de jugadores: " << this->cantJugadores << std::endl;
 }
 
-void Escenario::XMLCargarSuelo(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO SUELO ===" << std::endl;
-}
+void Escenario::XMLCargarSuelo(const XMLNode* nodo) { }
 
 void Escenario::XMLCargarCerditos(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO CERDITOS ===" << std::endl;
 	// Obtengo el nodo que contiene la ruta de la imagen.
 	const XMLNode* cerdito = nodo->FirstChildElement("Cerdito");
 	// Mientras el nodo del cerdito no sea nulo, cargar el cerdito.
@@ -1080,7 +1064,6 @@ void Escenario::XMLCargarCerditos(const XMLNode* nodo) {
 }
 
 void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO CERDITO ===" << std::endl;
 	// Obtengo la posicion del cerdito.
 	const XMLNode* posCerdito = nodo->FirstChildElement("Punto2D");
 	// Si no existe el nodo Punto2D, lanzo una excepcion
@@ -1090,8 +1073,6 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D del cerdito
 	Punto2D puntoCerdito(posCerdito);
-	std::cout << "\tCerdito\tx= " << puntoCerdito.x << "\ty= " << puntoCerdito.y
-			<< std::endl;
 	// Obtengo el nodo de la catapulta.
 	const XMLNode* catapulta = nodo->FirstChildElement("Catapulta");
 	// Si no existe el nodo Catapulta, lanzo una excepcion
@@ -1108,15 +1089,12 @@ void Escenario::XMLCargarCerdito(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D de la catapulta
 	Punto2D puntoCatapulta(posCatapulta);
-	std::cout << "\tCatapulta\tx= " << puntoCatapulta.x << "\ty= " <<
-			puntoCatapulta.y << std::endl;
 	// Cargo el cerdito
 	unsigned int id = generarId();
 	this->agregarCerdito(puntoCerdito, puntoCatapulta, id);
 }
 
 void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO MONTICULO ===" << std::endl;
 	// Obtengo la posicion del monticulo.
 	const XMLNode* punto = nodo->FirstChildElement("Punto2D");
 	// Si no existe el nodo Punto2D, lanzo una excepcion
@@ -1126,12 +1104,10 @@ void Escenario::XMLCargarMonticulo(const XMLNode* nodo) {
 	}
 	// Hidrato el punto 2D
 	Punto2D p(punto);
-	std::cout << "\tMonticulo\tx= " << p.x << "\ty= " << p.y << std::endl;
 	this->agregarMonticulo(p);
 }
 
 void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO SUPERFICIES ===" << std::endl;
 	// Cargo el primer nodo de superficie
 	const XMLNode* supNode = nodo->FirstChildElement();
 	// Mientras el nodo de superficie no es nulo, la hidrato y agrego
@@ -1146,22 +1122,15 @@ void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
 			std::string supName = supNode->ValueStr();
 			switch (mapSuperficies[supName]) {
 			case supCajaVidrio:
-				std::cout << "\tCajaVidrio\tx= " << p.x << "\ty= " << p.y <<
-				std::endl;
 				this->agregarCajaVidrio(p);
 				break;
 			case supCajaMadera:
-				std::cout << "\tCajaMadera\tx= " << p.x << "\ty= " << p.y <<
-				std::endl;
 				this->agregarCajaMadera(p);
 				break;
 			case supCajaMetal:
-				std::cout << "\tCajaMetal\tx= " << p.x << "\ty= " << p.y <<
-				std::endl;
 				this->agregarCajaMetal(p);
 				break;
 			default:
-				std::cout << "\tNodo de Superficie no válido" << std::endl;
 				break;
 			}  // Fin switch
 		}  // Fin if nodo punto no nulo
@@ -1171,7 +1140,6 @@ void Escenario::XMLCargarSuperficies(const XMLNode* nodo) {
 }
 
 void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO FRUTAS ===" << std::endl;
 	// Cargo el primer nodo de fruta
 	const XMLNode* fruNode = nodo->FirstChildElement();
 	// Mientras el nodo de fruta no es nulo, la hidrato y agrego
@@ -1186,22 +1154,15 @@ void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
 			std::string fruName = fruNode->ValueStr();
 			switch (mapFrutas[fruName]) {
 			case fruManzana:
-				std::cout << "\tManzana\tx= " << p.x << "\ty= " << p.y <<
-				std::endl;
 				this->agregarManzana(p);
 				break;
 			case fruBanana:
-				std::cout << "\tBanana\tx= " << p.x << "\ty= " << p.y <<
-				std::endl;
 				this->agregarBanana(p);
 				break;
 			case fruCereza:
-				std::cout << "\tCereza\tx= " << p.x << "\ty= " << p.y <<
-				std::endl;
 				this->agregarCereza(p);
 				break;
 			default:
-				std::cout << "\tNodo de Fruta no válido" << std::endl;
 				break;
 			}  // Fin switch
 		}  // Fin if nodo punto no nulo
@@ -1211,7 +1172,6 @@ void Escenario::XMLCargarFrutas(const XMLNode* nodo) {
 }
 
 void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO PAJAROS ===" << std::endl;
 	// Cargo el primer nodo de pajaro
 	const XMLNode* pajNode = nodo->FirstChildElement();
 	// Mientras el nodo de pajaro no es nulo, la hidrato y agrego
@@ -1228,28 +1188,15 @@ void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
 			std::string pajName = pajNode->ValueStr();
 			switch (mapPajaros[pajName]) {
 			case pajPajaroRojo:
-				std::cout << "\tPajaroRojo\tPosicion: x= " << p.x << "\ty= " <<
-				p.y << std::endl;
-				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y <<
-						std::endl;
 				this->lanzarPajaroRojo(p, v);
 				break;
 			case pajPajaroVerde:
-				std::cout << "\tPajaroVerde\tPosicion: x= " << p.x << "\ty= " <<
-				p.y << std::endl;
-				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y <<
-						std::endl;
 				this->lanzarPajaroVerde(p, v);
 				break;
 			case pajPajaroAzul:
-				std::cout << "\tPajaroAzul\tPosicion: x= " << p.x << "\ty= " <<
-				p.y << std::endl;
-				std::cout << "\t\t\tVelocidad: x= " << v.x << "\ty= " << v.y <<
-						std::endl;
 				this->lanzarPajaroAzul(p, v);
 				break;
 			default:
-				std::cout << "\tNodo de Pajaro no válido" << std::endl;
 				break;
 			}  // Fin switch
 		}  // Fin if nodos punto y velocidad no nulos
@@ -1259,7 +1206,6 @@ void Escenario::XMLCargarPajaros(const XMLNode* nodo) {
 }
 
 void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
-	std::cout << "\t=== CARGANDO DISPAROS ===" << std::endl;
 	// Cargo el primer nodo de disparo
 	const XMLNode* disNode = nodo->FirstChildElement();
 	// Mientras el nodo de disparo no es nulo, lo hidrato y agrego
@@ -1287,31 +1233,18 @@ void Escenario::XMLCargarDisparos(const XMLNode* nodo) {
 			std::string disName = disNode->ValueStr();
 			switch (mapDisparos[disName]) {
 			case disHuevoBlanco:
-				std::cout << "\tHuevoBlanco\tJugador: " << jugadorID << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevoBlanco(p, v, jugadorID);
 				break;
 			case disHuevoCodorniz:
-				std::cout << "\tHuevoCodorniz\tJugador: " << jugadorID << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevosCodorniz(p, v, jugadorID);
 				break;
 			case disHuevoPoche:
-				std::cout << "\tHuevoPoche\tJugador: " << jugadorID << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevoPoche(p, v, jugadorID);
 				break;
 			case disHuevoReloj:
-				std::cout << "\tHuevoReloj\tJugador: " << jugadorID << std::endl;
-				std::cout << "\t\tPosicion: x= " << p.x << "\ty= " << p.y << std::endl;
-				std::cout << "\t\tVelocidad: x= " << v.x << "\ty= " << v.y << std::endl;
 				this->lanzarHuevoReloj(p, v, jugadorID);
 				break;
 			default:
-				std::cout << "\tNodo de Disparo no válido" << std::endl;
 				break;
 			}  // Fin switch
 		}  // Fin if nodos punto y velocidad no nulos

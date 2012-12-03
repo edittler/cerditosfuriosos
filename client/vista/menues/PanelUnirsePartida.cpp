@@ -58,6 +58,7 @@ void PanelUnirsePartida::botonVolverClickeado() {
 }
 
 void PanelUnirsePartida::cargarPartidas(std::string nombrePartidas) {
+	partidas.clear();
 	unsigned int contador = 0;
 	std::string nombre;
 	while (contador < nombrePartidas.length()) {
