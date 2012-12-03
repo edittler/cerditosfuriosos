@@ -12,6 +12,7 @@
  */
 enum ComandoServer {
 	MS_INDEFINIDO,			// Comando indefinido.
+	MS_IMAGEN,				// Envia imagenes.
 	MS_CARGAR_NIVEL,		// Cargar nivel, junto con los datos del nivel
 	MS_EVENTO,				// Comando server que indica que se envia un evento.
 	MS_PAUSAR_PARTIDA,		// Establece la partida en pausa.
@@ -33,6 +34,14 @@ public:
 	 * @param xmlNivel en un string.
 	 */
 	MensajeServer(const std::string& xmlNivel);
+
+	/**
+	 * Constructor que setea el comando del mensaje en IMAGEN y agrega el
+	 * string conrrespondiente a la imagen y su path
+	 * @param archivo imagen en un string
+	 * @param path del archivo.
+	 */
+	MensajeServer(const std::string& archivo, const std::string& pathArchivo);
 
 	/**
 	 * Constructor que setea el mensaje con el comando evento.
@@ -70,9 +79,16 @@ public:
 
 	std::string getXMLNivel() const;
 
+	std::string getImagen() const;
+
+	std::string getPathImagen() const;
+
 	Evento getEvento() const;
 
 private:
+
+	void deserealizarImagen(const std::string& mensaje);
+
 	void deserealizarXMLNivel(const std::string& mensaje);
 
 	void deserealizarEvento(const std::string& mensaje);
@@ -80,8 +96,11 @@ private:
 	// Comando que contiene el mensaje del servidor.
 	ComandoServer comando;
 
+	// String con el nombre de la imagen.
+	std::string pathArchivo;
+
 	// String con los datos que contiene el mensaje del servidor.
-	std::string xml;
+	std::string archivo;
 
 	// Evento que contiene el mensaje del servidor.
 	Evento evento;

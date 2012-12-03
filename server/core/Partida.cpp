@@ -45,6 +45,32 @@ std::string Partida::getXMLNivel() {
 	return printer.CStr();
 }
 
+std::string Partida::getPathImagenFondo() {
+	XMLDocument doc;
+	bool cargoArchivo = doc.LoadFile(idNiveles[contadorNiveles]);
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+		return std::string();
+	}
+	const XMLNode* nodo = doc.RootElement();
+	const XMLNode* esc = nodo->FirstChildElement("Escenario");
+	const XMLNode* imagenFondo = esc->FirstChildElement("ImagenFondo");
+	return imagenFondo->GetText();
+}
+
+std::string Partida::getPathImagenSuelo() {
+	XMLDocument doc;
+	bool cargoArchivo = doc.LoadFile(idNiveles[contadorNiveles]);
+	if (cargoArchivo == false) {
+		std::cout << "\tError al abrir el archivo XML." << std::endl;
+		return std::string();
+	}
+	const XMLNode* nodo = doc.RootElement();
+	const XMLNode* esc = nodo->FirstChildElement("Escenario");
+	const XMLNode* imagenSuelo = esc->FirstChildElement("ImagenSuelo");
+	return imagenSuelo->GetText();
+}
+
 unsigned int Partida::getIdJugadorNoConectado() {
 	return this->nivel->getEscenario()->getIdJugadorNoConectado();
 }
