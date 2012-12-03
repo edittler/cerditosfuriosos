@@ -68,13 +68,16 @@ void* Juego::run() {
 			/* FIXME por ahora se puede correr un solo nivel.
 			 * completar para que busque el siguiente nivel y lo cargue
 			 */
-			if (nivel->getEscenario()->ganoPartida())
-				this->estado = GANO;
-			else
-				this->estado = PERDIO;
+			if (this->ejecutando) {
+				if (nivel->getEscenario()->ganoPartida())
+					this->estado = GANO;
+				else
+					this->estado = PERDIO;
 
-			this->mListener->borrarEventos();
-			ventana.vaciarContenedor();
+				this->mListener->borrarEventos();
+				ventana.vaciarContenedor();
+			}
+
 			delete this->vista;
 			delete this->mListener;
 			delete this->nivel;
