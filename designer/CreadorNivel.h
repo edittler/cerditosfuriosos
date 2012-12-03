@@ -61,22 +61,31 @@ class CreadorNivel : public Gtk::Paned {
 		std::string getRutaImagenSuelo();
 
 		/**
-		 * @return true si el usuario ha seleccionado una imagen y false en el
-		 * caso contrario
+		 * @return true si el usuario ha seleccionado una imagen de fondo y
+		 * false en el caso contrario
 		 */
-		bool imagenSeleccionada();
+		bool imagenFondoSeleccionada();
+		
+		/**
+		 * @return true si el usuario ha seleccionado una imagen de suelo y
+		 * false en el caso contrario
+		 */
+		bool imagenSueloSeleccionada();
 	
 	protected:
 	
 		void botonExaminarClickeado();
+		void botonExaminarClickeadoSuelo();
 	
 	private:
 	
 		Gtk::ComboBoxText selectorTamanio;
 		Gtk::Adjustment* ajuste;
 		Gtk::SpinButton* selectorDuracion;
-		Gtk::Entry* archivoImagen;
-		Gtk::Button* botonExaminar;
+		Gtk::Entry* archivoImagenFondo;
+		Gtk::Entry* archivoImagenSuelo;
+		Gtk::Button* botonExaminarFondo;
+		Gtk::Button* botonExaminarSuelo;
 		
 		InformableSeleccion* informable;
 		int idProximoNivel;

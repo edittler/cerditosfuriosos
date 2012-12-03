@@ -96,9 +96,15 @@ void VentanaDiseniador::mostrarDialogo(std::string mensaje) {
 	dialogo.run();
 }
 
-void VentanaDiseniador::imagenNoSeleccionada() {
+void VentanaDiseniador::imagenNoSeleccionadaFondo() {
 	Gtk::MessageDialog dialogo(*this, "Por favor seleccione una imagen para el "
 			"fondo del escenario");
+	dialogo.run();
+}
+
+void VentanaDiseniador::imagenNoSeleccionadaSuelo() {
+	Gtk::MessageDialog dialogo(*this, "Por favor seleccione una imagen para el "
+			"suelo del escenario");
 	dialogo.run();
 }
 

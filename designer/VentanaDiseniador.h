@@ -35,7 +35,9 @@ class VentanaDiseniador : public Gtk::Window, public InformableSeleccion {
 		
 		virtual void editarNivel(std::string rutaNivel, bool nivelNuevo);
 		
-		virtual void imagenNoSeleccionada();
+		virtual void imagenNoSeleccionadaFondo();
+		
+		virtual void imagenNoSeleccionadaSuelo();
 		
 		virtual std::string seleccionarImagen();
 		

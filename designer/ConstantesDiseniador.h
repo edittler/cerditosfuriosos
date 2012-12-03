@@ -44,8 +44,8 @@
 #define RUTA_MANZANA "../common/images/scene/Manzana.png"
 #define RUTA_CATAPULTA "../common/images/scene/Catapulta.png"
 // Dimensiones de los paneles del wizard en pixeles
-#define ANCHO_WIZARD 600
-#define ALTO_WIZARD 400
+#define ANCHO_WIZARD 700
+#define ALTO_WIZARD 500
 // Dimensiones de los objetos del lienzo en pixeles
 #define ANCHO_BANANA 21
 #define ALTO_BANANA 21

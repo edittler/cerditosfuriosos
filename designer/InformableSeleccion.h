@@ -49,7 +49,13 @@ class InformableSeleccion {
 		 * Informa que el usuario quiere crear un escenario pero no ha elegido
 		 * ninguna imagen para su fondo.
 		 */
-		virtual void imagenNoSeleccionada() = 0;
+		virtual void imagenNoSeleccionadaFondo() = 0;
+		
+		/**
+		 * Informa que el usuario quiere crear un escenario pero no ha elegido
+		 * ninguna imagen para su suelo.
+		 */
+		virtual void imagenNoSeleccionadaSuelo() = 0;
 
 		/**
 		 * Muestra un dialogo con el mensaje pasado por parametro
