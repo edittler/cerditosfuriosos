@@ -116,7 +116,6 @@ void* ThreadPartida::run() {
 
 
 			if (partida->getNivel()->partidaSinJugadores()) {
-				LOG_INFO("Partida sin jugadores")
 				this->conectado = false;
 			}
 			break; }
@@ -157,7 +156,6 @@ void* ThreadPartida::run() {
 			break; }
 
 		case FINALIZADO: {
-			LOG_INFO("estado = FINALIZADO")
 			// TODO actualizar records
 			this->finalizarPartida();
 			this->finalizarEjecucion();
@@ -167,8 +165,6 @@ void* ThreadPartida::run() {
 			break;
 		}
 	}
-
-	LOG_INFO("finalizando...")
 
 	// si se finalizo la partida imprevistamente avisa a
 	// los clientes conectados
