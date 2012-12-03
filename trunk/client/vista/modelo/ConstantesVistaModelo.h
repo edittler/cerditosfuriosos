@@ -62,8 +62,8 @@
 #define AJUSTE_ESCALA_VISTA 70
 #define ESCALA_IMAGENES 100.0f
 #define AJUSTE_ESCALA_IMAGENES (ESCALA_IMAGENES / AJUSTE_ESCALA_VISTA)
-#define DELTA_LOOP 30000
-#define WAIT 1  // en segundos
+#define WAIT_SPLASH 2  // en segundos
+#define WAIT_FINALIZAR 4  // en segundos
 #define ESCALA_TEXTO 2.5f
 #define COLOR_TEXTO 50000
 

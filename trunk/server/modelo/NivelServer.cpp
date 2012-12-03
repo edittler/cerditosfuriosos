@@ -30,7 +30,7 @@ void NivelServer::tick(int milisegundos) {
 	escenario->correrTick();
 
 	// FIXME manejar sleep igual que en NivelLocal????
-	usleep(SERVER_DELTA_LOOP);
+	usleep(milisegundos * 1000);
 }
 
 void NivelServer::lanzarHuevo(TipoDisparo tDisparo, Punto2D posInicial,

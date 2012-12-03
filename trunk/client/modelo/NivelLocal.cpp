@@ -37,7 +37,7 @@ void NivelLocal::tick(int milisegundos) {
 	// Corro un tick en el escenario.
 	escenario->correrTick();
 	// Pauso la simulación en un tiempo breve.
-	usleep(DELTA_LOOP);
+	usleep(milisegundos * 1000);
 }
 
 void NivelLocal::lanzarHuevo(Punto2D p, Velocidad2D v, unsigned int j) {
