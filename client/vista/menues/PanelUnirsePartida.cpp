@@ -62,13 +62,19 @@ void PanelUnirsePartida::cargarPartidas(std::string nombrePartidas) {
 	unsigned int contador = 0;
 	std::string nombre;
 	while (contador < nombrePartidas.length()) {
-		std::string nombre("");
+		std::string nombre;
+		std::string clave;
+		bool seEncontroDelimitador = false;
 		while (nombrePartidas[contador] != '%') {
 			nombre += nombrePartidas[contador];
+			if (seEncontroDelimitador)
+				clave += nombrePartidas[contador];
+			if (nombrePartidas[contador] == ':')
+				seEncontroDelimitador = true;
 			++contador;
 		}
 		++contador;
-		partidas[nombre] = nombre;
+		partidas[clave] = nombre;
 	}
 	if (selectorPartidas != NULL)
 		delete selectorPartidas;

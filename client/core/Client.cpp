@@ -41,6 +41,7 @@ Client::~Client() {
 }
 
 bool Client::conectar() {
+	Lock(this->mSocket);
 	if (socket != NULL) {
 		socket->desconectar();
 		delete socket;
@@ -57,6 +58,7 @@ bool Client::conectar() {
 }
 
 void Client::desconectar() {
+	Lock(this->mSocket);
 	if (socket == NULL)
 		return;
 	// Envío el mensaje de desconectar
@@ -75,7 +77,8 @@ void Client::desconectar() {
 	socket = NULL;
 }
 
-Socket& Client::getSocket() const {
+Socket& Client::getSocket() {
+	Lock(this->mSocket);
 	return (*socket);
 }
 
@@ -91,7 +94,8 @@ std::string Client::getRutaNivel() const {
 	return this->rutaNivelRecibido;
 }
 
-bool Client::conectado() const {
+bool Client::conectado() {
+	Lock(this->mSocket);
 	if (socket != NULL)
 		return this->socket->estaConectado();
 	else
@@ -121,6 +125,7 @@ void Client::botonConfiguracion() {
 }
 
 void Client::botonGuardarConfiguracion() {
+	Lock(this->mSocket);
 	// Si el socket está conectado, lo desconecto y elimino.
 	if (socket != NULL) {
 		socket->desconectar();
@@ -140,6 +145,7 @@ void Client::botonGuardarConfiguracion() {
 }
 
 void Client::botonCrearPartida() {
+	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
@@ -167,6 +173,7 @@ void Client::botonCrearPartida() {
 }
 
 void Client::botonMundoSeleccionado() {
+	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
@@ -179,6 +186,10 @@ void Client::botonMundoSeleccionado() {
 	std::string nombrePartida = ventana.panelCrearPartida->getNombreElegido();
 	MensajeCliente m(idMundo, nombrePartida);
 	socket->enviar(m);
+
+	// Seteo los booleanos en valores correspondientes
+	this->_corriendoPartida = false;
+	this->_partidaFinalizada = false;
 
 	/* Como este cliente es el que está creando la partida, se autoasigna el
 	 * idJugador con el valor 1.
@@ -198,6 +209,7 @@ void Client::botonMundoSeleccionado() {
 }
 
 void Client::botonUnirsePartida() {
+	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
@@ -222,6 +234,7 @@ void Client::botonUnirsePartida() {
 }
 
 void Client::botonPartidaSeleccionada() {
+	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
@@ -249,6 +262,9 @@ void Client::botonPartidaSeleccionada() {
 			if (comando == RS_UNIRSE_PARTIDA_OK) {
 				idJugador = r.getIDJugador();
 				ventana.modoEsperandoJugadores();
+				// Seteo los booleanos en valores correspondientes
+				this->_corriendoPartida = false;
+				this->_partidaFinalizada = false;
 				this->start();
 			} else {
 				ventana.mostrarDialogo("No fue posible unirse a la partida.");
@@ -262,6 +278,7 @@ void Client::botonPartidaSeleccionada() {
 }
 
 void Client::botonVerRecords() {
+	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
@@ -283,12 +300,21 @@ void Client::botonVerRecords() {
 }
 
 void Client::botonAbandonarPartida() {
+	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
 		return;
 	}
+	// Establezco los booleanos en los flags correspondientes
+	this->_corriendoPartida = false;
+	this->_partidaFinalizada = true;  // Para finalizar el thread
 	MensajeCliente m(MC_ABANDONAR_PARTIDA);
+	socket->enviar(m);
+	/* Envío otro mensaje que requiera respuesta para desbloquear el thread
+	 * receptor
+	 */
+	m.set(MC_VER_MUNDOS);
 	socket->enviar(m);
 
 	if (socket->estaConectado()) {
@@ -303,7 +329,7 @@ void* Client::run() {
 	// Creo un thread receptor
 	ThreadRecibirCliente tReceptor(*socket);
 	tReceptor.start();
-	while ((socket->estaConectado()) && !_partidaFinalizada) {
+	while (!_partidaFinalizada) {
 		Mensaje* m = tReceptor.getMensaje();
 		if (m != NULL) {
 			MensajeServer* ms = static_cast<MensajeServer*>(m);

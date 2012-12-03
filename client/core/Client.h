@@ -47,7 +47,7 @@ public:
 	 * Retorna un puntero del socket
 	 * @return puntero del socket usado para conexiones.
 	 */
-	Socket& getSocket() const;
+	Socket& getSocket();
 
 	/**
 	 * Retorna el ID del jugador que le fue asignado al cliente.
@@ -69,7 +69,7 @@ public:
 	 * Retorna el estado de conexion del cliente.
 	 * @return true si el cliente está conectado, false en caso contrario.
 	 */
-	bool conectado() const;
+	bool conectado();
 
 	/**
 	 * Retorna el estado de la partida, si es que se inició una.
@@ -192,6 +192,11 @@ private:
 	 * partida.
 	 */
 	Mutex mBoolsPartida;
+
+	/* Mutex para protejer los accesos al socket que puede ser accedido desde
+	 * varios threads
+	 */
+	Mutex mSocket;
 
 	// Ruta de archivo XML donde se almacena el nivel recibido desde el server.
 	std::string rutaNivelRecibido;
