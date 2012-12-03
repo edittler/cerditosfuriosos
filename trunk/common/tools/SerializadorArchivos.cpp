@@ -42,13 +42,11 @@ void SerializadorArchivos::deserializar(const std::string& path, std::string& ar
 		return;
 	}
 
-	// TODO realizo intercambio
+	// realizo intercambio
 	size_t pos = 0;
-	size_t tam = DELIMITADOR_TAM;
-	std::string s = "\n";
 	pos = archivo.find(DELIMITADOR, pos);
 	while (pos != std::string::npos) {
-		archivo.replace(pos, tam, s);
+		archivo.replace(pos, DELIMITADOR_TAM, "\n");
 		pos = archivo.find(DELIMITADOR, pos);
 	}
 

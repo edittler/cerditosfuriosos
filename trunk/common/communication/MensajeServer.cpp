@@ -150,35 +150,10 @@ void MensajeServer::deserealizarImagen(const std::string& mensaje) {
 	// cargo nombre de archivo
 	unsigned int pos = 2;
 	pos = mensaje.find_first_of(MS_DELIMITADOR, pos);
-	this->pathArchivo = mensaje.substr(2, pos + 1);
+	this->pathArchivo = mensaje.substr(2, pos - 2);
 
 	// cargo imagen
-	unsigned int newPos;
-	newPos = mensaje.find_first_of(MS_DELIMITADOR, pos + 1);
-	this->archivo = mensaje.substr(pos + 1, newPos);
-
-//	const char* msj = mensaje.c_str();
-//	std::string tmp;
-//	int i = 2;
-//
-//	// cargo path del archivo.
-//	char c = msj[i];
-//	while((c != MS_DELIMITADOR) && (c != '\0')) {
-//		tmp += c;
-//		i++;
-//		c = msj[i];
-//	}
-//	this->pathArchivo = tmp;
-//
-//	// cargo archivo.
-//	tmp.clear();
-//	c = msj[++i];
-//	while((c != MS_DELIMITADOR) && (c != '\0')) {
-//		tmp += c;
-//		i++;
-//		c = msj[i];
-//	}
-//	this->archivo = tmp;
+	this->archivo = mensaje.substr(pos + 1, (mensaje.size() - 2) - (pos + 1));
 }
 
 void MensajeServer::deserealizarXMLNivel(const std::string& mensaje) {

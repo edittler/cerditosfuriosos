@@ -34,20 +34,20 @@ void ThreadPartida::comenzarPartida() {
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
 		Lock(this->mPartida);
-		// Envio imagen de fondo
-		SerializadorArchivos s;
-		std::string pathFondo = this->partida->getPathImagenFondo();
-		std::string archivoFondo;
-		s.serializar(pathFondo, archivoFondo);
-		MensajeServer* mFondo = new MensajeServer(archivoFondo, pathFondo);
-		(*it)->enviar(mFondo);
-
-		// Envio imagen del suelo
-		std::string pathSuelo = this->partida->getPathImagenSuelo();
-		std::string archivoSuelo;
-		s.serializar(pathSuelo, archivoSuelo);
-		MensajeServer* mSuelo = new MensajeServer(archivoSuelo, pathSuelo);
-		(*it)->enviar(mSuelo);
+//		// Envio imagen de fondo
+//		SerializadorArchivos s;
+//		std::string pathFondo = this->partida->getPathImagenFondo();
+//		std::string archivoFondo;
+//		s.serializar(pathFondo, archivoFondo);
+//		MensajeServer* mFondo = new MensajeServer(archivoFondo, pathFondo);
+//		(*it)->enviar(mFondo);
+//
+//		// Envio imagen del suelo
+//		std::string pathSuelo = this->partida->getPathImagenSuelo();
+//		std::string archivoSuelo;
+//		s.serializar(pathSuelo, archivoSuelo);
+//		MensajeServer* mSuelo = new MensajeServer(archivoSuelo, pathSuelo);
+//		(*it)->enviar(mSuelo);
 
 		// Envio XML con el nivel
 		Mensaje* m = new MensajeServer(this->partida->getXMLNivel());
