@@ -40,7 +40,10 @@ void ThreadPartida::comenzarPartida() {
 
 bool ThreadPartida::unirseAPartida(ThreadCliente* cliente) {
 	Lock(this->mPartida);
-	if (partida->comienzo())  // ya hay la cantidad de jugadores necesarios
+	/* Si la partida ya tiene la cantidad de jugadores necesarios o ya no está
+	 * conectada, no puede unirse a la partida.
+	 */
+	if ((partida->comienzo()) || !conectado)
 		return false;
 
 	if (partida->getEstado() == CREANDO) {  // se esta creando.
@@ -61,6 +64,9 @@ void ThreadPartida::abandonarPartida(ThreadCliente* cliente) {
 	if (partida->getEstado() ==  EJECUTANDO) {
 		partida->setEstado(PAUSADO);
 	}
+	// valida que queden jugadores conectados, sino termina la partida
+	if (this->partida->getNivel()->partidaSinJugadores())
+		this->conectado = false;
 }
 
 void ThreadPartida::pausarPartida() {
@@ -84,74 +90,64 @@ void ThreadPartida::finalizarPartida() {
 void* ThreadPartida::run() {
 	while (this->conectado) {
 		switch (partida->getEstado()) {
-			case CREANDO: {
-//				LOG_INFO("estado = CREANDO")
-				Lock(this->mPartida);
-				if (partida->comienzo()) {
-					this->comenzarPartida();
-					partida->setEstado(EJECUTANDO);
-				}
+		case CREANDO: {
+			Lock(this->mPartida);
+			if (partida->comienzo()) {
+				this->comenzarPartida();
+				partida->setEstado(EJECUTANDO);
+			}
 
-				// valida que queden jugadores conectados, sino termina la partida
-				if (partida->getNivel()->partidaSinJugadores()) {
-					LOG_INFO("Partida sin jugadores")
-					this->conectado = false;
-				}
-				break; }
 
-			case EJECUTANDO: {
-//				LOG_INFO("estado = EJECUTANDO")
-				// procesa mensajes de cada cliente conectado
-				this->procesarMensajesClientes();
+			if (partida->getNivel()->partidaSinJugadores()) {
+				LOG_INFO("Partida sin jugadores")
+							this->conectado = false;
+			}
+			break; }
 
-				// Corre tick del escenario y envia mensaje E_CORRER_TICK
-				mPartida.lock();
-				this->partida->getNivel()->tick(SERVER_TICK_MSEG);
-				mPartida.unlock();
-				ClientesConectados::iterator it;
-				Evento e(E_CORRER_TICK);
-				this->mJugadores.lock();
-				for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-					Mensaje* m = new MensajeServer(e);
-					(*it)->enviar(m);
-				}
-				this->mJugadores.unlock();
+		case EJECUTANDO: {
+			// procesa mensajes de cada cliente conectado
+			this->procesarMensajesClientes();
 
-				// procesa mensajes posteriores a ticks (Lanzamiento Pajaro, fin de partida)
-				this->procesarMensajesParaClientes();
-				break; }
+			// Corre tick del escenario y envia mensaje E_CORRER_TICK
+			mPartida.lock();
+			this->partida->getNivel()->tick(SERVER_TICK_MSEG);
+			mPartida.unlock();
+			ClientesConectados::iterator it;
+			Evento e(E_CORRER_TICK);
+			this->mJugadores.lock();
+			for (it = jugadores.begin(); it != jugadores.end(); ++it) {
+				Mensaje* m = new MensajeServer(e);
+				(*it)->enviar(m);
+			}
+			this->mJugadores.unlock();
 
-			case ESPERANDO_JUGADOR: {
-//				LOG_INFO("estado = ESPERANDO_JUGADOR")
-				Lock(this->mPartida);
-				if (partida->comienzo()) {
-					partida->setEstado(EJECUTANDO);
-				}
+			// procesa mensajes posteriores a ticks (Lanzamiento Pajaro, fin de partida)
+			this->procesarMensajesParaClientes();
+			break; }
 
-				// valida que queden jugadores conectados, sino termina la partida
-				if (partida->getNivel()->partidaSinJugadores()) {
-					LOG_INFO("Partida sin jugadores")
-					this->conectado = false;
-				}
+		case ESPERANDO_JUGADOR: {
+			Lock(this->mPartida);
+			if (partida->comienzo()) {
+				partida->setEstado(EJECUTANDO);
+			}
 
-				break; }
+			break; }
 
-			case PAUSADO: {
-//				LOG_INFO("estado = PAUSADO")
-				this->pausarPartida();
-				Lock(this->mPartida);
-				this->partida->setEstado(ESPERANDO_JUGADOR);
-				break; }
+		case PAUSADO: {
+			this->pausarPartida();
+			Lock(this->mPartida);
+			this->partida->setEstado(ESPERANDO_JUGADOR);
+			break; }
 
-			case FINALIZADO: {
-				LOG_INFO("estado = FINALIZADO")
-				// TODO actualizar records
-				this->finalizarPartida();
-				this->finalizarEjecucion();
-				break; }
+		case FINALIZADO: {
+			LOG_INFO("estado = FINALIZADO")
+						// TODO actualizar records
+						this->finalizarPartida();
+			this->finalizarEjecucion();
+			break; }
 
-			default:
-				break;
+		default:
+			break;
 		}
 	}
 

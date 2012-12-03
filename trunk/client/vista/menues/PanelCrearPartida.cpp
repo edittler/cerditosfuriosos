@@ -64,6 +64,9 @@ PanelCrearPartida::~PanelCrearPartida() {
 }
 
 void PanelCrearPartida::cargarMundos(std::string nombreMundos) {
+	// Limpio la entrada donde se almacena el nombre de la partida
+	this->nombre->set_text("");
+	// Limpio el mapa de mundo y cargo los que recibe por parametro.
 	mundos.clear();
 	unsigned int contador = 0;
 	std::string nombre;

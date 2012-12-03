@@ -90,15 +90,9 @@ void Server::crearPartida(Partida* partida, ThreadCliente* cliente) {
 	this->mPartidas.unlock();
 
 	tPartida->start();
-
-	// limpio threads invalidos.
-	limpiarThreadPartidas();
 }
 
 bool Server::unirseAPartida(unsigned int idPartida, ThreadCliente* cliente) {
-	// limpio threads invalidos.
-	limpiarThreadPartidas();
-
 	ThreadPartida* partida = NULL;
 	try {  // valido que sea un idPartida valido
 		Lock(this->mPartidas);
@@ -123,6 +117,11 @@ std::string Server::getPathXMLMundo(std::string id) const {
 }
 
 std::list<std::string> Server::getPartidasDisponibles() {
+	/* Antes de enviar la lista de partidas, limpio los threads de partidas
+	 * invalidos.
+	 */
+	limpiarThreadPartidas();
+
 	std::list<std::string> list;
 	Lock(this->mPartidas);
 	PartidasDisponibles::const_iterator it;
