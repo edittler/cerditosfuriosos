@@ -52,6 +52,10 @@
 #define RUTA_HUEVO_POCHE PATH_IMAGENES "scene/HuevoPoche.png"
 #define RUTA_HUEVO_RELOJ PATH_IMAGENES "scene/HuevoReloj.png"
 
+// TIEMPO
+#define POSICION_TIEMPO_X 8
+#define POSICION_TIEMPO_Y 5
+
 // VISTA
 // Las escalas hacen referencia a cuantos pixeles equivalen a 1 metro
 // medida usada en modelo.
@@ -60,6 +64,8 @@
 #define AJUSTE_ESCALA_IMAGENES (ESCALA_IMAGENES / AJUSTE_ESCALA_VISTA)
 #define DELTA_LOOP 30000
 #define WAIT 1  // en segundos
+#define ESCALA_TEXTO 2.5f
+#define COLOR_TEXTO 50000
 
 // VENTANA
 #define VENTANA_WIDTH 600
