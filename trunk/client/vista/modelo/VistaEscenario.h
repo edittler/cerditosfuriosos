@@ -13,6 +13,7 @@
 
 // Project Includes.
 #include "Escenario.h"
+#include "VistaTiempo.h"
 
 // Forward Declarations.
 class VistaCuerpo;
@@ -93,6 +94,8 @@ public:
 
 	void partidaPerdida();
 
+	void actualizarTiempo(unsigned int miliseg);
+
 	int getAncho() const;
 	int getAlto() const;
 
@@ -122,6 +125,9 @@ private:
 
 	/* Lista de Vista de cuerpos */
 	std::list<VistaCuerpo*> vCuerpos;
+
+	/* Vista para el tiempo */
+	VistaTiempo* vTiempo;
 
 	/* Imagen de fondo */
 	Gtk::Image* fondo;

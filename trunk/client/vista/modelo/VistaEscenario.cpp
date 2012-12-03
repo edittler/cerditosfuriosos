@@ -37,6 +37,8 @@ VistaEscenario::VistaEscenario(Escenario* escenario) {
 	gdk_threads_enter();
 		this->set_size_request(ancho, alto);
 	gdk_threads_leave();
+
+	this->vTiempo = NULL;
 }
 
 VistaEscenario::~VistaEscenario() {
@@ -45,6 +47,9 @@ VistaEscenario::~VistaEscenario() {
 	for(it = this->vCuerpos.begin(); it != this->vCuerpos.end(); ++it) {
 		delete (*it);
 	}
+
+	if (this->vTiempo != NULL)
+		delete this->vTiempo;
 }
 
 void VistaEscenario::mover(VistaCuerpo* cuerpo, int x, int y) {
@@ -227,6 +232,15 @@ void VistaEscenario::partidaGanada() {
 
 void VistaEscenario::partidaPerdida() {
 	// TODO(alguien) : implementar
+}
+
+void VistaEscenario::actualizarTiempo(unsigned int miliseg) {
+	gdk_threads_enter();
+	if (this->vTiempo == NULL)
+		this->vTiempo = new VistaTiempo(this);
+	this->vTiempo->setTiempo(miliseg);
+	show_all();
+	gdk_threads_leave();
 }
 
 int VistaEscenario::getAncho() const {
