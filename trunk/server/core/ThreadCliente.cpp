@@ -23,7 +23,7 @@ ThreadCliente::ThreadCliente(Server& servidor, Socket* socket) :
 	this->conectado = true;
 	this->socket = socket;
 	this->idJugador = -1;
-
+	this->threadPartida = NULL;
 	this->tEnviar = new ThreadEnviar(*socket);
 	this->tRecibir = new ThreadRecibir(*socket);
 }
@@ -93,6 +93,7 @@ void* ThreadCliente::run() {
 			// si esta dentro de una partida lo notifico.
 			if (this->threadPartida != NULL) {
 				this->threadPartida->abandonarPartida(this);
+				this->threadPartida = NULL;
 			}
 			break;
 		}
@@ -197,11 +198,15 @@ void* ThreadCliente::run() {
 		case MC_ABANDONAR_PARTIDA: {
 			LOG_INFO("El cliente quiere abandonar la partida.")
 			this->threadPartida->abandonarPartida(this);
+			this->threadPartida = NULL;
 			break; }
 
 		case MC_DESCONECTAR: {
 			LOG_INFO("El cliente se va a desconectar.")
-			this->threadPartida->abandonarPartida(this);
+			if (threadPartida != NULL) {
+				this->threadPartida->abandonarPartida(this);
+				this->threadPartida = NULL;
+			}
 			this->socket->desconectar();
 			this->conectado = false;
 			break; }

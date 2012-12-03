@@ -157,6 +157,7 @@ void Server::limpiarThreadPartidas() {
 	it = partidasDisponibles.begin();
 	while (it != partidasDisponibles.end()) {
 		if (!it->second->estaActivo()) {
+			LOG_INFO("Limpiando partida sin jugadores")
 			it->second->join();
 			unsigned int id = it->first;
 			delete (it->second);

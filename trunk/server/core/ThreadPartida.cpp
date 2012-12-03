@@ -94,6 +94,7 @@ void* ThreadPartida::run() {
 
 				// valida que queden jugadores conectados, sino termina la partida
 				if (partida->getNivel()->partidaSinJugadores()) {
+					LOG_INFO("Partida sin jugadores")
 					this->conectado = false;
 				}
 				break; }
@@ -129,6 +130,7 @@ void* ThreadPartida::run() {
 
 				// valida que queden jugadores conectados, sino termina la partida
 				if (partida->getNivel()->partidaSinJugadores()) {
+					LOG_INFO("Partida sin jugadores")
 					this->conectado = false;
 				}
 
