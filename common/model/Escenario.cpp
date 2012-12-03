@@ -663,6 +663,10 @@ void Escenario::lanzarHuevoBlanco(Punto2D p, Velocidad2D v,
 		throw NoExisteJugadorException();
 	}
 
+	// valido que el jugador pueda disparar huevos
+	if (!jugador->getCerdito()->estaVivo())
+		return;
+
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -701,6 +705,11 @@ void Escenario::lanzarHuevosCodorniz(Punto2D p, Velocidad2D v,
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
 	}
+
+	// valido que el jugador pueda disparar huevos
+	if (!jugador->getCerdito()->estaVivo())
+		return;
+
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -752,6 +761,11 @@ void Escenario::lanzarHuevoPoche(Punto2D p, Velocidad2D v,
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
 	}
+
+	// valido que el jugador pueda disparar huevos
+	if (!jugador->getCerdito()->estaVivo())
+		return;
+
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */
@@ -789,6 +803,11 @@ void Escenario::lanzarHuevoReloj(Punto2D p, Velocidad2D v,
 	if (jugador == NULL) {
 		throw NoExisteJugadorException();
 	}
+
+	// valido que el jugador pueda disparar huevos
+	if (!jugador->getCerdito()->estaVivo())
+		return;
+
 	/* Defino el cuerpo, seteo el tipo de cuerpo, la posicion, la velocidad
 	 * y luego lo creo.
 	 */

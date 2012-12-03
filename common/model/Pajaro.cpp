@@ -15,6 +15,9 @@ void Pajaro::chocarCon(Superficie* superficie) {
 
 void Pajaro::chocarCon(Cerdito* cerdito) {
 	cerdito->daniar(danioCerdito);
+	if (!cerdito->estaVivo()) {
+		cerdito->getCatapulta()->matar();
+	}
 	matar();
 }
 
