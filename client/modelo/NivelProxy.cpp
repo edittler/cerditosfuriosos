@@ -76,7 +76,7 @@ void NivelProxy::procesarEvento(Evento evento) {
 	switch (tipo) {
 	case E_CORRER_TICK:
 		this->escenario->correrTick();
-		usleep(DELTA_LOOP);
+		usleep(TIEMPO_TICK_MSEG * 1000);
 		break;
 	case E_LANZAR_PAJARO:
 		this->lanzarPajaro(evento.getTipoPajaro(), evento.getPunto(),

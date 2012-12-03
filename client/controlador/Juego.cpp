@@ -39,7 +39,7 @@ void* Juego::run() {
 		case SPLASH: {
 			Gtk::Image imagen(SPLASH_IMAGEN);
 			ventana.agregarContenedor(imagen);
-			sleep(WAIT);
+			sleep(WAIT_SPLASH);
 			ventana.mostrarMenuPrincipal();
 			this->estado = MENU;
 			break;
@@ -99,14 +99,14 @@ void* Juego::run() {
 		case GANO: {
 			Gtk::Image imagen(WIN_IMAGEN);
 			ventana.agregarContenedor(imagen);
-			sleep(WAIT);
+			sleep(WAIT_FINALIZAR);
 			this->finalizarPartida();
 			break;
 		}
 		case PERDIO: {
 			Gtk::Image imagen(GAME_OVER_IMAGEN);
 			ventana.agregarContenedor(imagen);
-			sleep(WAIT);
+			sleep(WAIT_FINALIZAR);
 			this->finalizarPartida();
 			break;
 		}
