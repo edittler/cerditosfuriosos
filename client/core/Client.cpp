@@ -379,12 +379,12 @@ void* Client::run() {
 			if (ms != NULL) {
 				ComandoServer comando = ms->getComando();
 				switch (comando) {
-				case MS_IMAGEN: {
-					SerializadorArchivos s;
-					std::string path = ms->getPathImagen();
-					std::string imagen = ms->getImagen();
-					s.deserializar(path, imagen);
-					break; }
+//				case MS_IMAGEN: {
+//					SerializadorArchivos s;
+//					std::string path = ms->getPathImagen();
+//					std::string imagen = ms->getImagen();
+//					s.deserializar(path, imagen);
+//					break; }
 				case MS_CARGAR_NIVEL:
 					// Almaceno el xml que contiene el xml
 					this->guardarXML(ms->getXMLNivel());
