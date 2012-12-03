@@ -34,24 +34,45 @@ Client::Client(VentanaPrincipal& ventana) : ventana(ventana) {
 
 Client::~Client() {
 	// Si el socket se encuentra conectado, lo desconecto.
-	if (socket->estaConectado())
+	if (socket != NULL) {
 		socket->desconectar();
-	delete socket;
+		delete socket;
+	}
 }
 
 bool Client::conectar() {
+	if (socket != NULL) {
+		socket->desconectar();
+		delete socket;
+	}
+	this->cargarConfiguracion();
+	this->socket = new Socket(this->port);
 	bool seConecto = this->socket->conectar(this->serverIp);
+	// Establezco los flags en valores correspondientes
+	Lock(this->mBoolsPartida);
+	this->_corriendoPartida = false;
+	this->_partidaFinalizada = false;
+	// Conecto el socket
 	return seConecto;
 }
 
 void Client::desconectar() {
+	if (socket == NULL)
+		return;
 	// Envío el mensaje de desconectar
 	Mensaje* mensaje = new MensajeCliente(MC_DESCONECTAR);
 	socket->enviar(*mensaje);
+	// Desconecto el socket
 	socket->desconectar();
-	this->_partidaFinalizada = true;
+	// Establezco los flags en valores correspondientes
+	Lock(this->mBoolsPartida);
+	this->_corriendoPartida = false;
+	this->_partidaFinalizada = true;  // Para finalizar el thread.
 	// Como el cliente puede estar corriendo en un thread a parte, hago un join.
 	this->join();
+	// Una vez finalizado el thread, elimino el socket
+	delete socket;
+	socket = NULL;
 }
 
 Socket& Client::getSocket() const {
@@ -71,7 +92,10 @@ std::string Client::getRutaNivel() const {
 }
 
 bool Client::conectado() const {
-	return this->socket->estaConectado();
+	if (socket != NULL)
+		return this->socket->estaConectado();
+	else
+		return false;
 }
 
 bool Client::corriendoPartida() {
@@ -97,12 +121,12 @@ void Client::botonConfiguracion() {
 }
 
 void Client::botonGuardarConfiguracion() {
-	// Si el socket está conectado, lo desconecto.
-	if (socket->estaConectado()) {
+	// Si el socket está conectado, lo desconecto y elimino.
+	if (socket != NULL) {
 		socket->desconectar();
+		delete socket;
+		socket = NULL;
 	}
-	// Elimino el socket
-	delete socket;
 	// Cargo los nuevos datos cargados por el usuario.
 	this->serverIp = this->ventana.panelConfiguracion->getDireccion();
 	this->port = this->ventana.panelConfiguracion->getPuerto();
@@ -111,13 +135,16 @@ void Client::botonGuardarConfiguracion() {
 	archivo.setAtributo(ATRIBUTO_DIRECCION, this->serverIp);
 	archivo.setAtributo(ATRIBUTO_PUERTO, cft::uintToString(this->port));
 	archivo.guardar(RUTA_CONFIGURACION);
-	// Creo el socket con la nueva configuracion
-	socket = new Socket(port);
 	// Regreso al menú principal
 	ventana.volverAMenuPrincipal();
 }
 
 void Client::botonCrearPartida() {
+	if (socket == NULL) {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		return;
+	}
 	/* Envío un mensaje al servidor solicitando la lista de mundos para poder
 	 * crear una partida.
 	 */
@@ -140,6 +167,11 @@ void Client::botonCrearPartida() {
 }
 
 void Client::botonMundoSeleccionado() {
+	if (socket == NULL) {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		return;
+	}
 	/* Envío un mensaje al servidor solicitando la creación de una nueva partida
 	 * con el mundo seleccionado y el nombre elegido.
 	 */
@@ -166,6 +198,11 @@ void Client::botonMundoSeleccionado() {
 }
 
 void Client::botonUnirsePartida() {
+	if (socket == NULL) {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		return;
+	}
 	/* Envío un mensaje que solicita la lista de partidas a para poder
 	 * unirse.
 	 */
@@ -185,6 +222,11 @@ void Client::botonUnirsePartida() {
 }
 
 void Client::botonPartidaSeleccionada() {
+	if (socket == NULL) {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		return;
+	}
 	if (ventana.panelUnirsePartida->selectorPartidas->hayOpcionesSeleccionables()) {
 		std::string idPartida = ventana.panelUnirsePartida->selectorPartidas->
 														getOpcionSeleccionada();
@@ -220,6 +262,11 @@ void Client::botonPartidaSeleccionada() {
 }
 
 void Client::botonVerRecords() {
+	if (socket == NULL) {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		return;
+	}
 	MensajeCliente m(MC_VER_RECORDS);
 	socket->enviar(m);
 
@@ -236,6 +283,11 @@ void Client::botonVerRecords() {
 }
 
 void Client::botonAbandonarPartida() {
+	if (socket == NULL) {
+		ventana.volverAMenuPrincipal();
+		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		return;
+	}
 	MensajeCliente m(MC_ABANDONAR_PARTIDA);
 	socket->enviar(m);
 
@@ -319,7 +371,6 @@ void Client::cargarConfiguracion() {
 			this->port = PUERTO_DEFAULT;
 		}
 	}
-	this->socket = new Socket(this->port);
 }
 
 void Client::guardarXML(std::string datosXMLNivel) const {
