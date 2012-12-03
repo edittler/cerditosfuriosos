@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?fileVersion 4.0.0?>
-
-<cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.exe.debug.1055069685">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.1055069685" moduleId="org.eclipse.cdt.core.settings" name="Debug">
@@ -27,6 +25,7 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.377822128" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.772724940" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/log}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/tools}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/thread}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/common/Box2D/include}&quot;"/>
@@ -46,7 +45,6 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1928896345" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.libs.1865334415" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="pthread"/>
-									<listOptionValue builtIn="false" value="Box2D"/>
 									<listOptionValue builtIn="false" value="common"/>
 									<listOptionValue builtIn="false" value="Box2D"/>
 								</option>
