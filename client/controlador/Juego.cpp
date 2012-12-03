@@ -167,9 +167,7 @@ void Juego::iniciarPartida() {
 		this->nivel->cargarXML(ventana.panelUnJugador->
 				getRutaNivelSeleccionado());
 
-		std::cout << "Obtengo la posicion de la catapulta\n";
 		Punto2D p = nivel->getPosicionCatapulta(1);
-		std::cout << "Seteo la posicion en el mouseListener\n";
 		mListener = new MouseListener(*nivel, p.x, p.y + 0.4);
 		// Inicio la vista
 		ventana.agregarContenedor(*vista);
@@ -185,9 +183,7 @@ void Juego::iniciarPartida() {
 		// hidrato escenario
 		this->nivel->cargarXML(cliente->getRutaNivel());
 
-		std::cout << "Obtengo la posicion de la catapulta\n";
 		Punto2D p = nivel->getPosicionCatapulta(cliente->getIDJugdor());
-		std::cout << "Seteo la posicion en el mouseListener\n";
 		mListener = new MouseListener(*nivel, p.x, p.y + 0.4);
 		// Inicio la vista
 		ventana.agregarContenedor(*vista);
