@@ -31,7 +31,7 @@ public:
 
 	/* @brief Retorna la catapulta asociada al cerdito.
 	 */
-	const Catapulta* getCatapulta();
+	Catapulta* getCatapulta();
 
 private:
 	// Catapulta del cerdito

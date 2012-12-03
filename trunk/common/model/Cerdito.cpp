@@ -51,6 +51,6 @@ void Cerdito::hydrate(const XMLNode* nodo) {
 	 */
 }
 
-const Catapulta* Cerdito::getCatapulta() {
+Catapulta* Cerdito::getCatapulta() {
 	return this->catapulta;
 }
