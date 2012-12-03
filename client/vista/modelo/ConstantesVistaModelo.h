@@ -6,15 +6,11 @@
 
 // GENERAL
 #define PATH_IMAGENES "../common/images/"
+#define PATH_IMAGENES_LOCAL "imagenes/"
 
 // FONDOS
 #define FONDO_BOSQUE PATH_IMAGENES "background/Bosque.png"
 #define FONDO_ISLA PATH_IMAGENES "background/Isla.png"
-
-// VARIOS
-#define SPLASH_IMAGEN PATH_IMAGENES "varias/Splash.png"
-#define GAME_OVER_IMAGEN PATH_IMAGENES "varias/GameOver.png"
-#define WIN_IMAGEN PATH_IMAGENES "varias/Winner.png"
 
 // SUELOS
 #define SUELO_BOSQUE PATH_IMAGENES "background/SueloBosque.png"
@@ -67,13 +63,21 @@
 #define ESCALA_TEXTO 2.5f
 #define COLOR_TEXTO 50000
 
-// VENTANA
-#define VENTANA_WIDTH 600
-#define VENTANA_HEIGHT 400
-
 // MENU
-#define RUTA_FONDO_MENU PATH_IMAGENES "varias/Menu.png"
-#define RUTA_ESPERANDO_JUGADORES PATH_IMAGENES "varias/EsperandoJugadores.png"
+#define RUTA_FONDO_PANEL_INICIAL PATH_IMAGENES_LOCAL "menues/MenuPrincipal.png"
+#define RUTA_FONDO_PANEL_UN_JUGADOR PATH_IMAGENES_LOCAL "menues/UnJugador.png"
+#define RUTA_FONDO_PANEL_MULTIJUGADOR PATH_IMAGENES_LOCAL "menues/Multijugador.png"
+#define RUTA_FONDO_PANEL_CONFIGURACION PATH_IMAGENES_LOCAL "menues/Configuracion.png"
+#define RUTA_FONDO_PANEL_CREAR_PARTIDA PATH_IMAGENES_LOCAL "menues/CrearPartida.png"
+#define RUTA_FONDO_PANEL_UNIRSE_PARTIDA PATH_IMAGENES_LOCAL "menues/UnirseAPartida.png"
+#define RUTA_FONDO_PANEL_RECORDS PATH_IMAGENES_LOCAL "menues/Records.png"
+#define RUTA_FONDO_PANEL_ESPERANDO_JUGADORES PATH_IMAGENES_LOCAL "menues/EsperandoJugadores.png"
+
+// VARIOS
+#define SPLASH_IMAGEN PATH_IMAGENES_LOCAL "varias/Splash.png"
+#define GAME_OVER_IMAGEN PATH_IMAGENES_LOCAL "varias/GameOver.png"
+#define WIN_IMAGEN PATH_IMAGENES_LOCAL "varias/Winner.png"
+
 #define ANCHO_VENTANA 600
 #define ALTO_VENTANA 600
 

@@ -8,27 +8,13 @@
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
 
-//#include "../core/Client.h"
-
-// Constantes de layout
-#define ANCHO_BOTONES_INICIAL 120
-#define ALTO_BOTONES_INICIAL 50
-#define X_BOTON_UN_JUGADOR 400
-#define Y_BOTON_UN_JUGADOR 150
-#define X_BOTON_MULTIJUGADOR 400
-#define Y_BOTON_MULTIJUGADOR 250
-#define X_BOTON_CONFIGURACION 400
-#define Y_BOTON_CONFIGURACION 350
-#define X_BOTON_SALIR 400
-#define Y_BOTON_SALIR 450
-
 class PanelInicial : public PanelImagenFondo {
 public:
 
 	/**
 	 * Constructor.
 	 */
-	PanelInicial(int ancho, int alto, string ruta, InterfazSelectora* interfaz);
+	PanelInicial(int ancho, int alto, string ruta, InterfazSelectora& interfaz);
 
 	virtual ~PanelInicial();
 
@@ -62,7 +48,7 @@ private:
 	 */
 	void botonSalirClickeado();
 
-	InterfazSelectora* interfazSelectora;
+	InterfazSelectora& interfaz;
 
 	Gtk::Button* botonUnJugador;
 };
