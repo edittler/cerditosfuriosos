@@ -46,6 +46,18 @@ public:
 	 */
 	std::string getXMLNivel();
 
+	/**
+	 * Devuelve el path de la imagen de fondo del nivel actual
+	 * @return path
+	 */
+	std::string getPathImagenFondo();
+
+	/**
+	 * Devuelve el path de la imagen del suelo del nivel actual
+	 * @return path;
+	 */
+	std::string getPathImagenSuelo();
+
 	/*
 	 * @brief devuelve el id del primer jugador que se encuentro
 	 * no conectado hacia un cliente.

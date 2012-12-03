@@ -1,10 +1,14 @@
 // Header Include.
 #include "MensajeServer.h"
 
+// Proeject Includes
+#include "../tools/SerializadorArchivos.h"
+
 // C++ Library Includes.
 #include <sstream>
 
 // DEFINICIONES DE CHAR A ALMACENAR PARA IDENTIFICAR EL COMANDO ENVIADO.
+#define CMS_IMAGEN				'I'
 #define CMS_CARGAR_NIVEL		'C'
 #define CMS_EVENTO				'E'
 #define CMS_PAUSAR_PARTIDA		'P'
@@ -21,6 +25,12 @@ MensajeServer::MensajeServer(const std::string& xmlNivel) {
 	this->set(xmlNivel);
 }
 
+MensajeServer::MensajeServer(const std::string& archivo, const std::string& pathArchivo) {
+	this->set(MS_IMAGEN);
+	this->archivo = archivo;
+	this->pathArchivo = pathArchivo;
+}
+
 MensajeServer::MensajeServer(Evento evento) {
 	this->set(evento);
 }
@@ -31,9 +41,13 @@ std::string MensajeServer::serealizar() const {
 	std::ostringstream msj;
 	// De acuerdo al comando, realizo la serializacion adecuada.
 	switch (this->comando) {
+	case MS_IMAGEN:
+		msj << CMS_IMAGEN << MS_DELIMITADOR << pathArchivo << MS_DELIMITADOR
+				<< archivo << MS_DELIMITADOR;
+		break;
 	case MS_CARGAR_NIVEL:
 		// Cargo el comando con la cadena que contiene el xml del nivel.
-		msj << CMS_CARGAR_NIVEL << MS_DELIMITADOR << xml << MS_DELIMITADOR;
+		msj << CMS_CARGAR_NIVEL << MS_DELIMITADOR << archivo << MS_DELIMITADOR;
 		break;
 	case MS_EVENTO:
 		// Cargo el comando con el evento
@@ -73,6 +87,10 @@ void MensajeServer::deserealizar(const std::string& mensaje) {
 	// Obtengo el primer caracter
 	char c = msj[0];
 	switch (c) {
+	case CMS_IMAGEN:
+		this->comando = MS_IMAGEN;
+		this->deserealizarImagen(mensaje);
+		break;
 	case CMS_CARGAR_NIVEL:
 		this->comando = MS_CARGAR_NIVEL;
 		this->deserealizarXMLNivel(mensaje);
@@ -95,12 +113,12 @@ void MensajeServer::deserealizar(const std::string& mensaje) {
 
 void MensajeServer::set(ComandoServer comando) {
 	this->comando = comando;
-	this->xml.clear();
+	this->archivo.clear();
 }
 
 void MensajeServer::set(const std::string& xmlNivel) {
 	this->comando = MS_CARGAR_NIVEL;
-	this->xml = xmlNivel;
+	this->archivo = xmlNivel;
 }
 
 void MensajeServer::set(Evento evento) {
@@ -112,12 +130,45 @@ ComandoServer MensajeServer::getComando() const {
 	return this->comando;
 }
 
+std::string MensajeServer::getImagen() const {
+	return this->archivo;
+}
+
+std::string MensajeServer::getPathImagen() const {
+	return this->pathArchivo;
+}
+
 std::string MensajeServer::getXMLNivel() const {
-	return this->xml;
+	return this->archivo;
 }
 
 Evento MensajeServer::getEvento() const {
 	return evento;
+}
+
+void MensajeServer::deserealizarImagen(const std::string& mensaje) {
+	const char* msj = mensaje.c_str();
+	std::string tmp;
+	int i = 2;
+
+	// cargo path del archivo.
+	char c = msj[i];
+	while((c != MS_DELIMITADOR) && (c != '\0')) {
+		tmp += c;
+		i++;
+		c = msj[i];
+	}
+	this->pathArchivo = tmp;
+
+	// cargo archivo.
+	tmp.clear();
+	c = msj[++i];
+	while((c != MS_DELIMITADOR) && (c != '\0')) {
+		tmp += c;
+		i++;
+		c = msj[i];
+	}
+	this->archivo = tmp;
 }
 
 void MensajeServer::deserealizarXMLNivel(const std::string& mensaje) {
@@ -130,7 +181,7 @@ void MensajeServer::deserealizarXMLNivel(const std::string& mensaje) {
 		i++;
 		c = msj[i];
 	}
-	this->xml = sXML;
+	this->archivo = sXML;
 }
 
 void MensajeServer::deserealizarEvento(const std::string& mensaje) {

@@ -6,6 +6,7 @@
 #include "ConstantesClientServer.h"
 #include "Lock.h"
 #include "Log.h"
+#include "SerializadorArchivos.h"
 
 // Server Project Includes.
 #include "../modelo/ConstantesServer.h"
@@ -32,9 +33,25 @@ void ThreadPartida::comenzarPartida() {
 	Lock(this->mJugadores);
 	ClientesConectados::iterator it;
 	for (it = jugadores.begin(); it != jugadores.end(); ++it) {
-		Mensaje* m = new MensajeServer(this->partida->getXMLNivel());
 		Lock(this->mPartida);
+		// Envio XML con el nivel
+		Mensaje* m = new MensajeServer(this->partida->getXMLNivel());
 		(*it)->enviar(m);
+
+		// Envio imagen de fondo
+		SerializadorArchivos s;
+		std::string pathFondo = this->partida->getPathImagenFondo();
+		std::string archivoFondo;
+		s.serializar(pathFondo, archivoFondo);
+		MensajeServer* mFondo = new MensajeServer(archivoFondo, pathFondo);
+		(*it)->enviar(mFondo);
+
+		// Envio imagen del suelo
+		std::string pathSuelo = this->partida->getPathImagenFondo();
+		std::string archivoSuelo;
+		s.serializar(pathSuelo, archivoSuelo);
+		MensajeServer* mSuelo = new MensajeServer(archivoSuelo, pathSuelo);
+		(*it)->enviar(mSuelo);
 	}
 }
 

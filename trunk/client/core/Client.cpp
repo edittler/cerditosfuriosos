@@ -10,6 +10,7 @@
 #include "../../common/thread/Lock.h"
 #include "../../common/tools/CFTools.h"
 #include "../../common/tools/ArchivoConfiguracion.h"
+#include "../../common/tools/SerializadorArchivos.h"
 
 // Client Project Includes.
 #include "ThreadRecibirCliente.h"
@@ -378,6 +379,12 @@ void* Client::run() {
 			if (ms != NULL) {
 				ComandoServer comando = ms->getComando();
 				switch (comando) {
+				case MS_IMAGEN: {
+					SerializadorArchivos s;
+					std::string path = ms->getPathImagen();
+					std::string imagen = ms->getImagen();
+					s.deserializar(path, imagen);
+					break; }
 				case MS_CARGAR_NIVEL:
 					// Almaceno el xml que contiene el xml
 					this->guardarXML(ms->getXMLNivel());
