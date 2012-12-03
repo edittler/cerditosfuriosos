@@ -525,6 +525,9 @@ void Escenario::correrTick() {
 
 	// unidades -> tiempoTick (seg), tiempoDeJuego (mseg)
 	this->tiempoDeJuego += round(TIEMPO_TICK_MSEG);
+	if (this->observador != NULL) {
+		this->observador->actualizarTiempo(this->duracionDeJuego - this->tiempoDeJuego);
+	}
 
 	// NOTA: Si el monticulo es destruido o TODOS los cerditos han muerto
 	// se ha perdido la partida.
