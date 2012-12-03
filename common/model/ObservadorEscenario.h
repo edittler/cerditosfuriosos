@@ -95,6 +95,8 @@ public:
 	virtual void partidaGanada() = 0;
 
 	virtual void partidaPerdida() = 0;
+
+	virtual void actualizarTiempo(unsigned int miliseg) = 0;
 };
 
 #endif  /* OBSERVADORESCENARIO_H_ */
