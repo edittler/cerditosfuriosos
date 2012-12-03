@@ -34,6 +34,7 @@ void NivelProxy::tick(int milisegundos) {
 	while ((!colaEventos.estaVacia()) && (i < MAX_EVENTOS)) {
 		Evento evento = this->colaEventos.obtenerFrente();
 		this->procesarEvento(evento);
+		i++;
 	}
 }
 
