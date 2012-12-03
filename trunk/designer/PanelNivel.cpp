@@ -73,8 +73,12 @@ int PanelNivel::getCantidadJugadores() const {
 }
 
 void PanelNivel::botonCrearClickeado() {
-	if (!(creador->imagenSeleccionada())) {
-		informable->imagenNoSeleccionada();
+	if (!(creador->imagenFondoSeleccionada())) {
+		informable->imagenNoSeleccionadaFondo();
+		return;
+	}
+	if (!(creador->imagenSueloSeleccionada())) {
+		informable->imagenNoSeleccionadaSuelo();
 		return;
 	}
 	/////////////////////////////
