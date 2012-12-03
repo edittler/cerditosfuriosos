@@ -147,28 +147,38 @@ Evento MensajeServer::getEvento() const {
 }
 
 void MensajeServer::deserealizarImagen(const std::string& mensaje) {
-	const char* msj = mensaje.c_str();
-	std::string tmp;
-	int i = 2;
+	// cargo nombre de archivo
+	unsigned int pos = 2;
+	pos = mensaje.find_first_of(MS_DELIMITADOR, pos);
+	this->pathArchivo = mensaje.substr(2, pos + 1);
 
-	// cargo path del archivo.
-	char c = msj[i];
-	while((c != MS_DELIMITADOR) && (c != '\0')) {
-		tmp += c;
-		i++;
-		c = msj[i];
-	}
-	this->pathArchivo = tmp;
+	// cargo imagen
+	unsigned int newPos;
+	newPos = mensaje.find_first_of(MS_DELIMITADOR, pos + 1);
+	this->archivo = mensaje.substr(pos + 1, newPos);
 
-	// cargo archivo.
-	tmp.clear();
-	c = msj[++i];
-	while((c != MS_DELIMITADOR) && (c != '\0')) {
-		tmp += c;
-		i++;
-		c = msj[i];
-	}
-	this->archivo = tmp;
+//	const char* msj = mensaje.c_str();
+//	std::string tmp;
+//	int i = 2;
+//
+//	// cargo path del archivo.
+//	char c = msj[i];
+//	while((c != MS_DELIMITADOR) && (c != '\0')) {
+//		tmp += c;
+//		i++;
+//		c = msj[i];
+//	}
+//	this->pathArchivo = tmp;
+//
+//	// cargo archivo.
+//	tmp.clear();
+//	c = msj[++i];
+//	while((c != MS_DELIMITADOR) && (c != '\0')) {
+//		tmp += c;
+//		i++;
+//		c = msj[i];
+//	}
+//	this->archivo = tmp;
 }
 
 void MensajeServer::deserealizarXMLNivel(const std::string& mensaje) {
