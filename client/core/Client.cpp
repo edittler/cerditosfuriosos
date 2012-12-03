@@ -5,10 +5,10 @@
 #include "../../communication/MensajeCliente.h"
 #include "../../communication/RespuestaServer.h"
 #include "../../communication/MensajeServer.h"
-#include "../../communication/CFTools.h"
 #include "../../common/model/Escenario.h"
 #include "../../common/parser/XMLTypes.h"
 #include "../../common/thread/Lock.h"
+#include "../../common/tools/CFTools.h"
 #include "../../common/tools/ArchivoConfiguracion.h"
 
 // Client Project Includes.
@@ -24,7 +24,8 @@
 // Constante de la ruta de archivo xml temporal
 #define RUTA_XML_NIVEL_TEMPORAL "xmlniveltemporal.xml"
 
-Client::Client(VentanaPrincipal& ventana) : ventana(ventana) {
+Client::Client(VentanaPrincipal& ventana) :
+		ventana(ventana) {
 	this->socket = NULL;
 	this->_corriendoPartida = false;
 	this->_partidaFinalizada = false;
@@ -69,7 +70,7 @@ void Client::desconectar() {
 	// Establezco los flags en valores correspondientes
 	Lock(this->mBoolsPartida);
 	this->_corriendoPartida = false;
-	this->_partidaFinalizada = true;  // Para finalizar el thread.
+	this->_partidaFinalizada = true; // Para finalizar el thread.
 	// Como el cliente puede estar corriendo en un thread a parte, hago un join.
 	this->join();
 	// Una vez finalizado el thread, elimino el socket
@@ -148,7 +149,8 @@ void Client::botonCrearPartida() {
 	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		ventana.mostrarDialogo(
+				"No se ha establecido una conexión con el servidor");
 		return;
 	}
 	/* Envío un mensaje al servidor solicitando la lista de mundos para poder
@@ -161,9 +163,19 @@ void Client::botonCrearPartida() {
 	RespuestaServer r;
 	socket->recibir(r);
 
+	/* Verifico si el server mandó un tipo de respuesta RS_LISTA_MUNDOS.
+	 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
+	 * multijugador.
+	 */
+	if (r.getTipoRespuesta() != RS_LISTA_MUNDOS) {
+		ventana.mostrarDialogo("Se recibió información inválida.");
+		return;
+	}
+	/* Si el socket sigue conectado, muestro la lista de mundos.
+	 * Sino, regreso al panel principal e indico que se perdió la conexion con
+	 * el server.
+	 */
 	if (socket->estaConectado()) {
-		/* Hago que la ventana muestre la lista de mundos
-		 */
 		ventana.modoCrearPartida(r.getDatos());
 	} else {
 		ventana.volverAMenuPrincipal();
@@ -176,7 +188,8 @@ void Client::botonMundoSeleccionado() {
 	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		ventana.mostrarDialogo(
+				"No se ha establecido una conexión con el servidor");
 		return;
 	}
 	/* Envío un mensaje al servidor solicitando la creación de una nueva partida
@@ -212,7 +225,8 @@ void Client::botonUnirsePartida() {
 	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		ventana.mostrarDialogo(
+				"No se ha establecido una conexión con el servidor");
 		return;
 	}
 	/* Envío un mensaje que solicita la lista de partidas a para poder
@@ -225,7 +239,19 @@ void Client::botonUnirsePartida() {
 	RespuestaServer r;
 	socket->recibir(r);
 
-	if(socket->estaConectado()) {
+	/* Verifico si el server mandó un tipo de respuesta RS_LISTA_PARTIDAS.
+	 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
+	 * multijugador.
+	 */
+	if (r.getTipoRespuesta() != RS_LISTA_PARTIDAS) {
+		ventana.mostrarDialogo("Se recibió información inválida.");
+		return;
+	}
+	/* Si el socket sigue conectado, muestro la lista de partidas.
+	 * Sino, regreso al panel principal e indico que se perdió la conexion con
+	 * el server.
+	 */
+	if (socket->estaConectado()) {
 		ventana.modoUnirsePartida(r.getDatos());
 	} else {
 		ventana.volverAMenuPrincipal();
@@ -237,12 +263,13 @@ void Client::botonPartidaSeleccionada() {
 	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		ventana.mostrarDialogo(
+				"No se ha establecido una conexión con el servidor");
 		return;
 	}
 	if (ventana.panelUnirsePartida->selectorPartidas->hayOpcionesSeleccionables()) {
-		std::string idPartida = ventana.panelUnirsePartida->selectorPartidas->
-														getOpcionSeleccionada();
+		std::string idPartida =
+				ventana.panelUnirsePartida->selectorPartidas->getOpcionSeleccionada();
 		/* Envío un mensaje que solicita unirse a la partida deseada.
 		 */
 		MensajeCliente m(idPartida);
@@ -281,7 +308,8 @@ void Client::botonVerRecords() {
 	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		ventana.mostrarDialogo(
+				"No se ha establecido una conexión con el servidor");
 		return;
 	}
 	MensajeCliente m(MC_VER_RECORDS);
@@ -290,6 +318,18 @@ void Client::botonVerRecords() {
 	RespuestaServer r;
 	socket->recibir(r);
 
+	/* Verifico si el server mandó un tipo de respuesta RS_TABLA_RECORDS.
+	 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
+	 * multijugador.
+	 */
+	if (r.getTipoRespuesta() != RS_TABLA_RECORDS) {
+		ventana.mostrarDialogo("Se recibió información inválida.");
+		return;
+	}
+	/* Si el socket sigue conectado, muestro la tabla de records.
+	 * Sino, regreso al panel principal e indico que se perdió la conexion con
+	 * el server.
+	 */
 	if (socket->estaConectado()) {
 		/* TODO Hacer que la vista muestre la tabla de records
 		 */
@@ -303,12 +343,13 @@ void Client::botonAbandonarPartida() {
 	Lock(this->mSocket);
 	if (socket == NULL) {
 		ventana.volverAMenuPrincipal();
-		ventana.mostrarDialogo("No se ha establecido una conexión con el servidor");
+		ventana.mostrarDialogo(
+				"No se ha establecido una conexión con el servidor");
 		return;
 	}
 	// Establezco los booleanos en los flags correspondientes
 	this->_corriendoPartida = false;
-	this->_partidaFinalizada = true;  // Para finalizar el thread
+	this->_partidaFinalizada = true; // Para finalizar el thread
 	MensajeCliente m(MC_ABANDONAR_PARTIDA);
 	socket->enviar(m);
 	/* Envío otro mensaje que requiera respuesta para desbloquear el thread
@@ -362,10 +403,10 @@ void* Client::run() {
 					break;
 				default:
 					break;
-				}  // Fin switch
-			}  // Fin if (ms != NULL)
-		}  // Fin if (m != NULL)
-	}  // Fin while socket conectado.
+				} // Fin switch
+			} // Fin if (ms != NULL)
+		} // Fin if (m != NULL)
+	} // Fin while socket conectado.
 	/* Si finalizo el while, es porque se desconecto el socket, hago un join
 	 * al thread receptor de mensajes
 	 */
