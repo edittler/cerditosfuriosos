@@ -100,7 +100,7 @@ void* ThreadPartida::run() {
 
 			if (partida->getNivel()->partidaSinJugadores()) {
 				LOG_INFO("Partida sin jugadores")
-							this->conectado = false;
+				this->conectado = false;
 			}
 			break; }
 
@@ -110,7 +110,7 @@ void* ThreadPartida::run() {
 
 			// Corre tick del escenario y envia mensaje E_CORRER_TICK
 			mPartida.lock();
-			this->partida->getNivel()->tick(SERVER_TICK_MSEG);
+			this->partida->getNivel()->tick(TIEMPO_TICK_MSEG);
 			mPartida.unlock();
 			ClientesConectados::iterator it;
 			Evento e(E_CORRER_TICK);
@@ -141,8 +141,8 @@ void* ThreadPartida::run() {
 
 		case FINALIZADO: {
 			LOG_INFO("estado = FINALIZADO")
-						// TODO actualizar records
-						this->finalizarPartida();
+			// TODO actualizar records
+			this->finalizarPartida();
 			this->finalizarEjecucion();
 			break; }
 
