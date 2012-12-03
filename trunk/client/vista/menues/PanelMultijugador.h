@@ -8,31 +8,17 @@
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
 
-// Constantes de layout
-#define ANCHO_BOTONES_MULTIJUGADOR 150
-#define ALTO_BOTONES_MULTIJUGADOR 50
-#define X_BOTON_CREAR_PARTIDA 400
-#define Y_BOTON_CREAR_PARTIDA 100
-#define X_BOTON_UNIRSE_PARTIDA 400
-#define Y_BOTON_UNIRSE_PARTIDA 200
-#define X_BOTON_RECORDS 400
-#define Y_BOTON_RECORDS 300
-// Constantes de layout del boton volver
-#define X_BOTON_VOLVER 25
-#define Y_BOTON_VOLVER 550
-
 /**
  * Muestra al usuario las opciones de crear una partida multijugador, unirse a
  * una ya existente, o de ver los records.
  */
 class PanelMultijugador : public PanelImagenFondo {
 public:
-
 	/**
 	 * Constructor.
 	 */
 	PanelMultijugador(int ancho, int alto, string ruta,
-			InterfazSelectora* interfaz);
+			InterfazSelectora& interfaz);
 
 	virtual ~PanelMultijugador();
 
@@ -59,13 +45,12 @@ protected:
 	void botonVolverClickeado();
 	
 private:
-
 	/**
 	 * Agrega los botones al panel
 	 */
 	void agregarBotones();
 
-	InterfazSelectora* interfaz;
+	InterfazSelectora& interfaz;
 };
 
 #endif

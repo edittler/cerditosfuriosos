@@ -13,21 +13,21 @@ VentanaPrincipal::VentanaPrincipal() {
 	contenedor = new Gtk::EventBox();
 	add(*contenedor);
 	panelInicial = new PanelInicial(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+											RUTA_FONDO_PANEL_INICIAL, *this);
 	panelUnJugador = new PanelUnJugador(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+											RUTA_FONDO_PANEL_UN_JUGADOR, this);
 	panelMultijugador = new PanelMultijugador(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+										RUTA_FONDO_PANEL_MULTIJUGADOR, *this);
 	panelConfiguracion = new PanelConfiguracion(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+										RUTA_FONDO_PANEL_CONFIGURACION, this);
 	panelCrearPartida = new PanelCrearPartida(ANCHO_VENTANA, ALTO_VENTANA,
-													RUTA_FONDO_MENU, *this);
+										RUTA_FONDO_PANEL_CREAR_PARTIDA, *this);
 	panelUnirsePartida = new PanelUnirsePartida(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, *this);
+									RUTA_FONDO_PANEL_UNIRSE_PARTIDA, *this);
 	panelEsperandoJugadores = new PanelEsperandoJugadores(ANCHO_VENTANA,
-								ALTO_VENTANA, RUTA_ESPERANDO_JUGADORES, *this);
+					ALTO_VENTANA, RUTA_FONDO_PANEL_ESPERANDO_JUGADORES, *this);
 	panelRecords = new PanelRecords(ANCHO_VENTANA, ALTO_VENTANA,
-														RUTA_FONDO_MENU, this);
+											RUTA_FONDO_PANEL_RECORDS, this);
 }
 
 VentanaPrincipal::~VentanaPrincipal() {
