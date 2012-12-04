@@ -2,17 +2,17 @@
 
 // Constantes del layout y tamanio del selector de mundos
 #define X_SELECTOR_MUNDOS_PARTIDAS 75
-#define Y_SELECTOR_MUNDOS_PARTIDAS 190
+#define Y_SELECTOR_MUNDOS_PARTIDAS 210
 #define ANCHO_SELECTOR_MUNDOS_PARTIDAS 275
 #define ALTO_SELECTOR_MUNDOS_PARTIDAS 250
 // Constantes de layout y tamanio del boton crear
 #define X_BOTON_CREACION_PARTIDA 425
-#define Y_BOTON_CREACION_PARTIDA 350
+#define Y_BOTON_CREACION_PARTIDA 175
 #define ANCHO_BOTON_CREACION_PARTIDA 100
 #define ALTO_BOTON_CREACION_PARTIDA 50
 // Constantes de layout y tamanio del selector de nombre
 #define X_NOMBRE_PARTIDA 75
-#define Y_NOMBRE_PARTIDA 100
+#define Y_NOMBRE_PARTIDA 125
 #define ANCHO_NOMBRE_PARTIDA 275
 #define ALTO_NOMBRE_PARTIDA 30
 // Constantes de layout del boton crear
@@ -20,9 +20,9 @@
 #define Y_BOTON_VOLVER_CREAR_PARTIDA 550
 // Constantes de layout y tamanio de las etiquetas
 #define X_ETIQUETA_NOMBRE_PARTIDA 75
-#define Y_ETIQUETA_NOMBRE_PARTIDA 75
+#define Y_ETIQUETA_NOMBRE_PARTIDA 100
 #define X_ETIQUETA_MUNDOS_PARTIDAS 75
-#define Y_ETIQUETA_MUNDOS_PARTIDAS 160
+#define Y_ETIQUETA_MUNDOS_PARTIDAS 180
 
 PanelCrearPartida::PanelCrearPartida(int ancho, int alto, string ruta,
 		InterfazSelectora& interfaz) :
