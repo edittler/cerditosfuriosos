@@ -20,16 +20,18 @@ all: install
 install: uninstall install_designer install_client install_server
 
 install_designer:
-	$(MSJ_DISENADOR);mkdir Diseñador 
+	$(MSJ_DISENADOR);mkdir Diseñador; mkdir Diseñador/items 
 	$(MSJ_ESP);cd designer; make --no-print-directory -s 
 	$(MSJ_ESP);cp -f designer/main Diseñador 
+	$(MSJ_ESP);cp -f designer/items/*.png Diseñador/items 
 
 	
 install_client:
-	$(MSJ_CLIENTE);mkdir Cliente 
+	$(MSJ_CLIENTE);mkdir Cliente; mkdir Cliente/imagenes; mkdir Cliente/imagenes/menues; mkdir Cliente/imagenes/varias
 	$(MSJ_ESP);cd client; make --no-print-directory -s 
 	$(MSJ_ESP);cp -f client/main Cliente 
-	
+	$(MSJ_ESP);cp -f client/imagenes/menues/*.png Cliente/imagenes/menues 
+	$(MSJ_ESP);cp -f client/imagenes/varias/*.png Cliente/imagenes/varias 
 
 install_server:
 	$(MSJ_SERV); mkdir Servidor
