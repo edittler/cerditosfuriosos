@@ -11,7 +11,7 @@
 #include "../vista/modelo/ConstantesVistaModelo.h"
 
 // Constantes del nivel Proxy
-#define MAX_EVENTOS 5
+#define MAX_EVENTOS 10
 
 NivelProxy::NivelProxy(unsigned int idJugador, Socket& socket,
 		ColaProtegida<Evento>& colaEventos) :

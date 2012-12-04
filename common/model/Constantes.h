@@ -19,8 +19,8 @@
 #define POSICION_ITERACIONES 8
 #define GRAVEDAD_X 0.0f
 #define GRAVEDAD_Y -10.0f
-#define TIEMPO_TICK_SEG 0.02f  // 20 milisegundos
-#define TIEMPO_TICK_MSEG TIEMPO_TICK_SEG * 1000  // 20 milisegundos
+#define TIEMPO_TICK_SEG 0.04f  // 40 milisegundos
+#define TIEMPO_TICK_MSEG TIEMPO_TICK_SEG * 1000  // 40 milisegundos
 #define TIEMPO_DURACION_JUEGO_DEFAULT 10  // 10 segundos
 
 // CONSTANTES DE SUELO
