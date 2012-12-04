@@ -1318,7 +1318,9 @@ bool Escenario::validarCerditosVivos() {
 			if (c->getBody() != NULL) {  // valido que no se haya eliminado antes.
 				// elimina cerdito de mundo fisico (Box2D).
 				escenario->DestroyBody(c->getBody());
+				escenario->DestroyBody(c->getCatapulta()->getBody());
 				c->eliminarBody();
+				c->getCatapulta()->eliminarBody();
 			}
 		} else {  // hay cerdito vivo.
 			resultado = true;
