@@ -4,16 +4,16 @@
 #define ANCHO_BOTONES_INICIAL 120
 #define ALTO_BOTONES_INICIAL 50
 // Constantes de posicion de boton "Un jugador"
-#define X_BOTON_UN_JUGADOR 90
+#define X_BOTON_UN_JUGADOR 167
 #define Y_BOTON_UN_JUGADOR 450
 // Constantes de posicion de boton "Multijugador"
-#define X_BOTON_MULTIJUGADOR 390
+#define X_BOTON_MULTIJUGADOR 312
 #define Y_BOTON_MULTIJUGADOR 450
 // Constantes de posicion de boton "Configuracion"
-#define X_BOTON_CONFIGURACION 90
+#define X_BOTON_CONFIGURACION 167
 #define Y_BOTON_CONFIGURACION 525
 // Constantes de posicion de boton "Salir"
-#define X_BOTON_SALIR 390
+#define X_BOTON_SALIR 312
 #define Y_BOTON_SALIR 525
 
 PanelInicial::PanelInicial(int ancho, int alto, string ruta,

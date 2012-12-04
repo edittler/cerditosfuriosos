@@ -417,12 +417,11 @@ void* Client::run() {
 			} // Fin if (ms != NULL)
 		} // Fin if (m != NULL)
 	} // Fin while socket conectado.
-	/* Si finalizo el while, es porque se desconecto el socket, hago un join
-	 * al thread receptor de mensajes
+	/* Si finalizo el while, tengo que finalizar el thread receptor de mensajes.
 	 */
 	tReceptor.finalizar();
-	/* Envío otro mensaje que requiera respuesta para
-	 * desbloquear el thread receptor.
+	/* Si el socket está conectado, mando un mensaje al server para destrabar
+	 * el thread receptor.
 	 */
 	MensajeCliente msj(MC_VER_MUNDOS);
 	Lock(this->mSocket);
