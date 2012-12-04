@@ -4,10 +4,10 @@
 #define ANCHO_BOTONES_MULTIJUGADOR 150
 #define ALTO_BOTONES_MULTIJUGADOR 50
 // Constantes de posicion de boton "Crear partida"
-#define X_BOTON_CREAR_PARTIDA 25
+#define X_BOTON_CREAR_PARTIDA 130
 #define Y_BOTON_CREAR_PARTIDA 450
 // Constantes de posicion de boton "Unirse a partida"
-#define X_BOTON_UNIRSE_PARTIDA 225
+#define X_BOTON_UNIRSE_PARTIDA 320
 #define Y_BOTON_UNIRSE_PARTIDA 450
 // Constantes de posicion de boton "Ver records"
 #define X_BOTON_RECORDS 425
@@ -55,9 +55,9 @@ void PanelMultijugador::agregarBotones() {
 	// Los posiciono en el panel
 	put(*botonCrearPartida, X_BOTON_CREAR_PARTIDA, Y_BOTON_CREAR_PARTIDA);
 	put(*botonUnirsePartida, X_BOTON_UNIRSE_PARTIDA, Y_BOTON_UNIRSE_PARTIDA);
-	put(*botonRecords, X_BOTON_RECORDS, Y_BOTON_RECORDS);
+//	put(*botonRecords, X_BOTON_RECORDS, Y_BOTON_RECORDS);
 	put(*botonVolver, X_BOTON_VOLVER, Y_BOTON_VOLVER);
 	// Inicializo las seniales
-	botonRecords->signal_clicked().connect(sigc::mem_fun(*this,
-									&PanelMultijugador::botonRecordsClickeado));
+//	botonRecords->signal_clicked().connect(sigc::mem_fun(*this,
+//									&PanelMultijugador::botonRecordsClickeado));
 }
