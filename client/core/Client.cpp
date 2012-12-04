@@ -164,20 +164,21 @@ void Client::botonCrearPartida() {
 	RespuestaServer r;
 	socket->recibir(r);
 
-	/* Verifico si el server mandó un tipo de respuesta RS_LISTA_MUNDOS.
-	 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
-	 * multijugador.
-	 */
-	if (r.getTipoRespuesta() != RS_LISTA_MUNDOS) {
-		ventana.mostrarDialogo("Se recibió información inválida.");
-		return;
-	}
 	/* Si el socket sigue conectado, muestro la lista de mundos.
 	 * Sino, regreso al panel principal e indico que se perdió la conexion con
 	 * el server.
 	 */
 	if (socket->estaConectado()) {
-		ventana.modoCrearPartida(r.getDatos());
+		/* Verifico si el server mandó un tipo de respuesta RS_LISTA_MUNDOS.
+		 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
+		 * multijugador.
+		 */
+		if (r.getTipoRespuesta() != RS_LISTA_MUNDOS) {
+			ventana.mostrarDialogo("Se recibió información inválida.");
+			return;
+		} else {
+			ventana.modoCrearPartida(r.getDatos());
+		}
 	} else {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("Se perdió la conexión con el servidor");
@@ -240,20 +241,21 @@ void Client::botonUnirsePartida() {
 	RespuestaServer r;
 	socket->recibir(r);
 
-	/* Verifico si el server mandó un tipo de respuesta RS_LISTA_PARTIDAS.
-	 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
-	 * multijugador.
-	 */
-	if (r.getTipoRespuesta() != RS_LISTA_PARTIDAS) {
-		ventana.mostrarDialogo("Se recibió información inválida.");
-		return;
-	}
 	/* Si el socket sigue conectado, muestro la lista de partidas.
 	 * Sino, regreso al panel principal e indico que se perdió la conexion con
 	 * el server.
 	 */
 	if (socket->estaConectado()) {
-		ventana.modoUnirsePartida(r.getDatos());
+		/* Verifico si el server mandó un tipo de respuesta RS_LISTA_PARTIDAS.
+		 * Si mandó otro tipo de respuesta, muestro un error y vuelvo al panel
+		 * multijugador.
+		 */
+		if (r.getTipoRespuesta() != RS_LISTA_PARTIDAS) {
+			ventana.mostrarDialogo("Se recibió información inválida.");
+			return;
+		} else {
+			ventana.modoUnirsePartida(r.getDatos());
+		}
 	} else {
 		ventana.volverAMenuPrincipal();
 		ventana.mostrarDialogo("Se perdió la conexión con el servidor");
@@ -353,11 +355,6 @@ void Client::botonAbandonarPartida() {
 	this->_partidaFinalizada = true; // Para finalizar el thread
 	MensajeCliente m(MC_ABANDONAR_PARTIDA);
 	socket->enviar(m);
-	/* Envío otro mensaje que requiera respuesta para desbloquear el thread
-	 * receptor
-	 */
-	m.set(MC_VER_MUNDOS);
-	socket->enviar(m);
 
 	if (socket->estaConectado()) {
 		ventana.modoMultijugador();
@@ -392,13 +389,19 @@ void* Client::run() {
 					Lock(this->mBoolsPartida);
 					this->_corriendoPartida = true;
 					break;
-				case MS_EVENTO:
+				case MS_EVENTO: {
+					Evento e = ms->getEvento();
+					if (e.getTipoEvento() == E_FIN_NIVEL) {
+						Lock(this->mBoolsPartida);
+						this->_corriendoPartida = false;
+						this->_partidaFinalizada = true;
+					}
 					colaEventos.encolar(ms->getEvento());
 					Lock(this->mBoolsPartida);
 					// Si la partida estaba pausada, la marco como corriendo
 					if (!_corriendoPartida)
 						this->_corriendoPartida = true;
-					break;
+					break; }
 				case MS_PAUSAR_PARTIDA:
 					Lock(this->mBoolsPartida);
 					this->_corriendoPartida = false;
@@ -418,6 +421,12 @@ void* Client::run() {
 	 * al thread receptor de mensajes
 	 */
 	tReceptor.finalizar();
+	/* Envío otro mensaje que requiera respuesta para
+	 * desbloquear el thread receptor.
+	 */
+	MensajeCliente msj(MC_VER_MUNDOS);
+	Lock(this->mSocket);
+	socket->enviar(msj);
 	tReceptor.join();
 	return NULL;
 }
