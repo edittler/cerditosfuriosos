@@ -79,6 +79,9 @@ PanelEscenario::~PanelEscenario() {
 }
 
 void PanelEscenario::volverAPanelMundos() {
+	if (!escenarioValido())
+		return;
+	guardarNivel();
 	informable->volverAPanelMundos();
 }
 
