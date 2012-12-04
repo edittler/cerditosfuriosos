@@ -75,13 +75,6 @@ void* ThreadCliente::run() {
 	this->tRecibir->start();
 
 	while (conectado) {
-		Mensaje* msj = tRecibir->getMensaje();
-		if (msj ==  NULL)  // espero hasta recibir un mensaje
-			continue;
-
-		MensajeCliente* m = NULL;
-		m = dynamic_cast<MensajeCliente*>(msj);
-
 		// valido que el cliente no se haya desconectado
 		if (!this->socket->estaConectado()) {
 			this->conectado = false;
@@ -93,6 +86,14 @@ void* ThreadCliente::run() {
 			}
 			break;
 		}
+
+		Mensaje* msj = tRecibir->getMensaje();
+		if (msj ==  NULL)  // espero hasta recibir un mensaje
+			continue;
+
+		MensajeCliente* m = NULL;
+		m = dynamic_cast<MensajeCliente*>(msj);
+
 		// Obtengo el comando que envio el cliente
 		ComandoCliente comandoCli = m->getComando();
 		// Declaro el puntero a la respuesta a enviar.

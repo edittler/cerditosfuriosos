@@ -114,7 +114,6 @@ void* ThreadPartida::run() {
 				partida->setEstado(EJECUTANDO);
 			}
 
-
 			if (partida->getNivel()->partidaSinJugadores()) {
 				this->conectado = false;
 			}
