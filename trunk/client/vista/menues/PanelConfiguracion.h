@@ -8,23 +8,23 @@
 
 // Constantes de layout y tamanio del selector de direccion
 #define X_ETIQUETA_DIRECCION 75
-#define Y_ETIQUETA_DIRECCION 150
+#define Y_ETIQUETA_DIRECCION 450
 #define X_DIRECCION 175
-#define Y_DIRECCION 142
-#define ANCHO_DIRECCION 275
+#define Y_DIRECCION 442
+#define ANCHO_DIRECCION 225
 #define ALTO_DIRECCION 30
 #define DIRECCION_DEFAULT "localhost"
 // Constantes del selector de puerto
 #define X_ETIQUETA_PUERTO 75
-#define Y_ETIQUETA_PUERTO 200
-#define X_PUERTO 140
-#define Y_PUERTO 196
+#define Y_ETIQUETA_PUERTO 500
+#define X_PUERTO 175
+#define Y_PUERTO 496
 #define PUERTO_VALOR_DEFAULT 5555
 #define PUERTO_MINIMO 1024
 #define PUERTO_MAXIMO 65535
 // Constantes de layout y tamanio del boton guardar
-#define X_BOTON_GUARGAR_CONFIGURACION 425
-#define Y_BOTON_GUARGAR_CONFIGURACION 300
+#define X_BOTON_GUARGAR_CONFIGURACION 450
+#define Y_BOTON_GUARGAR_CONFIGURACION 470
 #define ANCHO_BOTON_GUARGAR_CONFIGURACION 100
 #define ALTO_BOTON_GUARGAR_CONFIGURACION 50
 // Constantes de layout del boton volver
