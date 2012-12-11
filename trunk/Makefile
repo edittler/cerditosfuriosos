@@ -3,7 +3,7 @@
 
 # MENSAJES
 ##########
-
+MSJ_LIB_BOX2D = @echo "::::::  Generando libreria Box2D  ::::::"
 MSJ_DISENADOR = @echo "::::::  Instalando Diseñador ::::::"
 MSJ_CLIENTE =   @echo "::::::  Instalando Cliente   ::::::"
 MSJ_SERV =      @echo "::::::  Instalando Servidor  ::::::"
@@ -17,7 +17,10 @@ MSJ_DOCS =      @echo "Generando documentación..."
 #########
 all: install
 
-install: uninstall install_designer install_client install_server
+install: uninstall generate_lib_Box2D install_designer install_client install_server
+
+generate_lib_Box2D:
+	$(MSJ_LIB_BOX2D);cd common/Box2D; make --no-print-directory -s 
 
 install_designer:
 	$(MSJ_DISENADOR);mkdir Diseñador; mkdir Diseñador/items 
