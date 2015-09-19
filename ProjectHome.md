@@ -1,0 +1,1 @@
+Juego Cerditos Furiosos, un remake de un famoso juego. Permite jugar en forma individual o en forma colaborativa con otro jugador mediante internet. Su desarrollo forma parte de un trabajo final de la materia Taller de Programación de la Facultad de Ingenieria de la UBA.
